@@ -1,0 +1,4 @@
+$ (cd /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/umf) : bash _tools/od/start-daemon.sh --runner=podman
+start-daemon: --runner=podman ignored: no containers used (native Electron daemon)
+Open Design app not found at: /Applications/Open Design.app/Contents/MacOS/Open Design
+rc=1

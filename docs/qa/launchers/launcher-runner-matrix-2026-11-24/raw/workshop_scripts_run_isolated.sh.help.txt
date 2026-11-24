@@ -1,0 +1,135 @@
+$ (cd /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/umf/workshop) : env WORKSHOP_ISOLATED_VALIDATE_ONLY=1 bash scripts/run-isolated.sh --help
+scripts/run-isolated.sh - boot a THROWAWAY workshop-server for a worktree agent.
+
+PURPOSE
+  Parallel feature streams work in git worktrees and must test an HTTP server
+  without ever touching the live stack (compose project workshop-curriculum,
+  :8087, /var/lib/workshop volumes). This script builds the server from the
+  tree it lives in (so it works from a git worktree), starts it on a free
+  loopback port against a scratch state directory and a COPY of a tiny
+  synthetic fixture registry, waits for GET /api/health to answer 200, prints
+  the URL and pid, and cleans up only what it created.
+
+USAGE
+  scripts/run-isolated.sh [--port N] [--keep] [--root DIR]     start (detached)
+  scripts/run-isolated.sh --exec -- CMD [ARGS...]               start, run CMD
+                                                                 with ISOLATED_URL
+                                                                 exported, then stop
+  scripts/run-isolated.sh --stop [--dir DIR] [--keep]           stop + clean up
+  scripts/run-isolated.sh --help
+
+  --port N     use this loopback port instead of searching from 18200 upward.
+               N must be a CANONICAL decimal in 1024..65535 (digits only, no sign,
+               no leading zero, at most 5 digits). REFUSED (rc 2): 8087,
+               $WORKSHOP_HTTP_PORT (compared numerically, so 09123 equals 9123),
+               an empty or missing value, anything non-canonical, and any port
+               already listening. If the listening check itself cannot run (ss
+               fails) the port is treated as in use - never as free.
+  --root DIR   parent of the scratch directory. Default
+               ${WORKSHOP_ISOLATED_ROOT:-${XDG_CACHE_HOME:-$HOME/.cache}/workshop-isolated}
+               (on disk on purpose: /tmp is RAM-backed on this host).
+               The path is resolved through symlinks BEFORE it is judged and
+               before anything is created, and a symlinked --root is supported.
+               A path that LITERALLY names /proc, /sys or /dev (after lexical
+               normalisation) is refused outright: /proc/<pid>/root and friends are
+               magic links that realpath-style resolution rewrites to another
+               mount namespace's view. If the physical path cannot be established
+               (cd -P / pwd -P fails) the root is refused. The physical path is
+               judged BEFORE any directory is created, and judged again after.
+               REFUSED (rc 2), judged on the resolved path:
+                 - any path that is not absolute;
+                 - the live state: /var/lib/workshop, and ANY path under a
+                   container-storage tree (*/containers/storage/*, which is where
+                   the live podman volume workshop-curriculum_workshop-index
+                   really lives - /var/lib/workshop exists only INSIDE the
+                   container), /var/lib/containers, /var/lib/docker;
+                 - this tree and everything under it (so also curriculum/,
+                   platform/run, platform/bin, platform/web, platform/prebuilt);
+                 - the PRIMARY checkout of this repository (the directory the
+                   live compose project bind-mounts: curriculum, docs, chapters,
+                   platform/run|bin|web|prebuilt) and everything under it. It is
+                   derived at run time from git (the common dir's core.worktree,
+                   else its parent), never hardcoded;
+                 - system directories (/, /usr, /etc, /boot, /proc, /sys, /dev ...).
+               This script never runs podman (see WHAT IT NEVER DOES), so the live
+               volume is recognised by its storage-path shape, not by asking podman;
+               scripts/run-isolated.test.sh derives the real path with podman and
+               proves it is refused.
+  --keep       on stop / exit, keep the scratch directory (logs, db) for forensics.
+  --dir DIR    with --stop: the instance directory printed as ISOLATED_DIR.
+               Without it, EVERY instance recorded for THIS tree is stopped (several
+               may run at once: each start records its own pointer, none overwrites
+               another's). The tree is identified by its PHYSICAL path, so reaching
+               the script through a symlink changes nothing.
+
+OUTPUT (stdout, one per line, machine-readable)
+  ISOLATED_URL=http://127.0.0.1:<port>
+  ISOLATED_PID=<pid>
+  ISOLATED_DIR=<scratch dir>
+
+EXIT  0 ok | 1 failed (build, boot or health) | 2 refused or cannot determine
+
+WHAT IT NEVER DOES (pinned by scripts/run-isolated.test.sh)
+  - run compose or podman, or call restart.sh / start.sh / stop.sh / ingest.sh
+  - bind :8087, or read/write /var/lib/workshop or the live compose volumes
+  - copy the live registry (curriculum/passages.jsonl, tens of MB): it copies
+    platform/backend/testdata/isolated/passages.jsonl, six synthetic rows
+  - enable embeddings, an answering provider or a reranker: no -ollama, no
+    -answer-provider, no -search-*-rerank, so no external service or token is needed
+  - signal a process it did not start: the pid is re-verified (integer > 1, and
+    /proc/<pid>/exe is THIS instance's binary) before every signal, and only that
+    single pid is signalled - never a process group (constitution 11.4.263)
+  - delete a directory that does not carry its own ownership marker, or one that is
+    not (still) a real, non-symlink direct child of the root it created it in
+  - write the instance pointer through a symlink (it is created exclusively)
+  - leave a --exec child running when it is itself signalled: TERM/INT is forwarded
+    to the child's own pid (never a process group) and the instance is then stopped
+
+WORKTREES AND THE go.mod `replace` DIRECTORIES (review F3)
+  platform/backend/go.mod consumes the owned submodules through
+  `replace <module> => ../../../submodules/<name>`. From a checkout at
+  <parent>/<tree> that resolves to <parent>/submodules/<name>. In the primary
+  checkout <parent> is the umbrella, which has submodules/. A git WORKTREE lives
+  elsewhere (this repo's convention: <home>/Projects/vasic-wt/<stream>),
+  so <parent> = vasic-wt must carry a symlink
+      vasic-wt/submodules -> <umbrella>/submodules
+  or `go build` fails with a "replacement directory ... does not exist" error.
+  Before building, this script reads every `replace ... => ../..` target from
+  go.mod, and if one is missing it stops with rc 2 and a message naming the
+  missing directory and this symlink convention. It never creates the symlink.
+
+THE BUILD STAMP (review F7)
+  /api/health reports source_commit / source_dirty / build / built_at. Go's own
+  VCS stamp points at the UMBRELLA repository, not at the tree being built, so
+  this script stamps explicitly (-ldflags -X main.sourceCommit ... exactly like
+  scripts/_common.sh build_server_stage): source_commit = `git -C <tree> rev-parse
+  HEAD`, source_dirty = whether `git -C <tree> status --porcelain` is non-empty.
+  With WORKSHOP_ISOLATED_BUILD (a prebuilt binary) the stamp is whatever that
+  binary carries.
+
+ENVIRONMENT  the server is started with a scrubbed environment (env -i): only
+  PATH, HOME and TMPDIR are passed, so no WORKSHOP_* or provider key leaks in.
+  WORKSHOP_ISOLATED_ROOT   default for --root
+  WORKSHOP_ISOLATED_WAIT   seconds to wait for /api/health (default 90)
+  WORKSHOP_ISOLATED_BUILD  set to a path of a prebuilt server binary to skip go build
+  WORKSHOP_ISOLATED_BUILD_WRAPPER  command prefix for go build (default
+                           "bounded-run -m 6G -T 3600 --" when bounded-run exists)
+  WORKSHOP_ISOLATED_DOCS      a directory COPIED into the scratch state and served as the
+                           server's -docs root (read from the copy, never the original).
+                           Needed by the research Library's e2e (/docs/ and /api/library).
+                           Refused (rc 2, before anything is built) if it is a symlink, resolves
+                           into the live state volume / container storage / a system directory
+                           (the same deny-list --root uses), holds ANY symlink (a link inside it
+                           would let /docs/ serve a host file from the scratch copy), or is larger
+                           than 128 MiB.
+  WORKSHOP_ISOLATED_REGISTRY  a registry file COPIED over the six-row fixture. Refused (rc 2,
+                           before anything is built) if it is larger than 8 MiB (an index build
+                           from a corpus-sized registry takes tens of minutes) or if it IS the
+                           live registry: the same path after symlink resolution, the same
+                           device:inode (a hard link), or a byte-identical file. "The live
+                           registry" is curriculum/passages.jsonl in this tree and in the primary
+                           checkout, and the file $WORKSHOP_REGISTRY names when it is set.
+  WORKSHOP_ISOLATED_VALIDATE_ONLY  =1: validate the arguments and overrides, print "validated"
+                           and exit 0 without building or starting anything (used by the tests).
+
+rc=0

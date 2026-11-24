@@ -1,0 +1,28 @@
+$ status.sh --help
+Usage: status.sh [--runner=NAME]
+
+  --runner=NAME   force the container runner (podman|docker|nerdctl|cri-o|lxd|kubernetes|auto); overrides $CONTAINERS_RUNNER
+rc=0
+$ status.sh --runner=bogus
+runner: unknown container runner "bogus" (from --runner): supported runners are podman, docker, nerdctl, cri-o, lxd, kubernetes, or "auto" for the def
+rc=2
+$ status.sh --runner bogus
+runner: unknown container runner "bogus" (from --runner): supported runners are podman, docker, nerdctl, cri-o, lxd, kubernetes, or "auto" for the def
+rc=2
+$ status.sh --runner=docker
+runner: forced container runner is not available: "docker" (selected via flag) is not installed or not reachable on this host; refusing to fall back t
+rc=2
+$ run-isolated --help
+scripts/run-isolated.sh - boot a THROWAWAY workshop-server for a worktree agent.
+
+rc=0
+$ run-isolated --runner=bogus
+run-isolated: --runner=bogus ignored: no containers used (native server)
+validated
+rc=0
+$ run-isolated --runner=
+run-isolated: REFUSED: --runner needs a value
+rc=2
+$ run-isolated --runner=podman
+run-isolated: --runner=podman ignored: no containers used (native server)
+validated

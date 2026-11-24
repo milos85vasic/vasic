@@ -1,0 +1,15 @@
+$ (cd /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/umf/job_seeker) : bash gates/live_h3.sh --help
+# live_h3.sh — JSK-T032 / FR-040: live HTTP/3 + Brotli gate against the REAL server stack running in a REAL
+# container, driven only through tools/containers (the Containers Submodule). Not part of `make gates`
+# (needs a container runtime); run with `make live-h3`. Evidence is written to evidence/JSK-T032/.
+#   1. full stack (TCP+UDP published): a real HTTP/3 client must see proto HTTP/3.0 and Content-Encoding: br
+#      with a body that Brotli-decodes to the real /healthz JSON.
+#   2. TCP-only stack (UDP really not published): the HTTP/3 attempt must FAIL and the same URL over TCP
+#      must negotiate HTTP/2.0 with Content-Encoding: br. The same stack must also make `check -expect h3`
+#      fail (a h3 assertion that passes without QUIC would be a bluff).
+# Exit: 0 all hold, 1 an assertion failed, 2 could not determine (no runtime, binaries missing): never a pass.
+# --prove-failure: host-only paired mutation: the probe must FAIL against a server with Brotli removed
+#   (-mutate no-brotli) and PASS against the unmodified server (control). No container needed.
+# --runner=NAME (also --runner NAME; env CONTAINERS_RUNNER) FORCES the container runner for every jsstack call
+#   (podman|docker|nerdctl|...|auto). Unknown or not-installed => rc 2, never a fallback (docs/RUNNER.md).
+rc=0

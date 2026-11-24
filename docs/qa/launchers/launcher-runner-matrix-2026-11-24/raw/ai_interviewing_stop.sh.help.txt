@@ -1,0 +1,4 @@
+$ (cd /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/umf/ai_interviewing/platform/scripts) : bash ./stop.sh --help
+Usage: stop.sh [--runner=NAME]
+  --runner=NAME  accepted and validated (no containers are used by this launcher)
+rc=0

@@ -1,0 +1,59 @@
+$ (cd /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/umf) : bash _tools/deploy-langs.sh --help
+Usage: _tools/deploy-langs.sh [--dry-run|-n] [--runner=NAME] [--help|-h]
+       _tools/deploy-langs.sh --prove-buildyear | --prove-build-fatality |
+                              --prove-deploy-scope | --prove-args
+
+Regenerate EN + every COMPLETE language into both site submodules, commit and
+push each site only if something changed, then validate the LIVE sites.
+With NO argument this is a REAL deploy. Unknown arguments exit 2. ALL arguments
+are validated before --help is honoured; at most one --prove-* may be given and
+it may not be combined with --dry-run.
+
+Flags:
+  --dry-run, -n          do everything except git stage/commit/push. It is NOT
+                         read-only: it still REWRITES the working trees (pages,
+                         PDFs, _site, assets) of both site submodules
+  --runner=NAME          force the container runner for the containerised
+                         steps (the jekyll rebuild via site-build): any runner
+                         the Containers Submodule supports (podman, docker,
+                         nerdctl, cri-o, lxd, kubernetes) or `auto`. Also
+                         `--runner NAME`. flag > $CONTAINERS_RUNNER > default
+                         order. An unknown or not-installed runner exits 2
+                         BEFORE anything is built, staged or pushed; there is
+                         no fallback. See docs/RUNNER_FLAG.md
+  --help, -h             print this text and exit 0 (no side effects)
+  --prove-buildyear      self-test: footer year derivation (no deploy)
+  --prove-build-fatality self-test: build-step fatality contract (no deploy)
+  --prove-deploy-scope   self-test: deploy whitelist/branch guard, throwaway repo
+  --prove-args           self-test: this argument parser, in a throwaway repo
+
+Environment variables:
+  DRY_RUN=1                       same as --dry-run
+  CONTAINERS_RUNNER=<name>        same as --runner (the flag wins)
+  DEPLOY_INCLUDE_ADMIN=1          also own the admin/vault surface (admin/,
+                                  assets/js/vault.js, assets/js/vault-console.js,
+                                  _layouts/admin_console.html, downloads/vault/).
+                                  Only the literal 1 enables it; unset = held back
+                                  and a dirty copy aborts pre-flight (exit 3)
+  DEPLOY_ALLOW_UNRELATED=1        proceed despite unstaged/untracked paths this
+                                  deploy does not produce. It NEVER lifts the hard
+                                  blocks (admin/vault surface, nested gitlinks),
+                                  and any staged path outside the whitelist still
+                                  aborts the publish before the commit
+  DEPLOY_PUSH_REMOTES='<names>'   space-separated push allow-list (default: origin)
+  DEPLOY_TOLERATE_BUILD_FAILURE=1 pardon failed required build steps (exit 5)
+  DEPLOY_COAUTHOR='<trailer>'     full trailer line appended to the commit
+                                  message, e.g. 'Co-Authored-By: Name <a@b.c>'.
+                                  Default: NO trailer
+  SOURCE_DATE_EPOCH=<epoch>       pin the footer (c) year
+  SKIP_LIVE_VALIDATE=1            skip post-deploy live validation
+  LIVE_PROBE_TIMEOUT=<s>          origin reachability probe timeout (default 20)
+  LIVE_VALIDATE_GRACE=<s>         wait before live validation (default 120)
+
+Publish guard: each site must be on branch main (symbolic-ref refs/heads/main)
+with no commits unpushed to the allow-listed remotes; the exact commit made is
+pushed as <sha>:refs/heads/main.
+
+Exit codes: 0 ok · 1 live defect · 2 undetermined/usage · 3 refused (unrelated
+dirty paths) · 4 publish failed · 5 required build step failed.
+rc=0

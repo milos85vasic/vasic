@@ -1,0 +1,19 @@
+launcher	flag_eq	flag_sp	env	help_rc0	bogus_rc2	bogus_sp_rc2	envbogus_rc2	absent_rc2	verdict
+umbrella scripts/qa-up.sh (accept: --stop --only vd; refusal: --only workshop)	OK	OK	OK	OK	OK	OK	OK	OK	PASS
+milosvasic.ru/start.sh --dry-run	OK	OK	OK	OK	OK	OK	OK	OK	PASS
+workshop/scripts/status.sh (isolated project: STOPPED rc1 is the answer)	OK	OK	OK	FAIL(1)	FAIL(1)	FAIL(1)	FAIL(1)	FAIL(1)	GAP
+workshop/scripts/restart.sh --dry-run	OK	OK	OK	OK	OK	OK	OK	OK	PASS
+ai_interviewing/status.sh	OK	OK	OK	OK	OK	OK	OK	OK	PASS
+ai_interviewing/stop.sh	OK	OK	OK	OK	OK	OK	OK	OK	PASS
+umbrella _tools/od/start-daemon.sh (native Electron: flag ignored; no Open Design app on Linux so rc1 after the flag is accepted)	OK	OK	OK	OK	OK(ignored)	OK(ignored)	n/a-native	OK	PASS
+workshop/scripts/start.sh (accept: see live.*)	n/a-live	n/a-live	n/a-live	OK	OK	OK	OK	OK	PASS
+workshop/scripts/stop.sh (isolated project)	OK	OK	OK	OK	OK	OK	OK	OK	PASS
+ai_interviewing/start.sh (accept: see live.*)	n/a-live	n/a-live	n/a-live	OK	OK	OK	OK	OK	PASS
+ai_interviewing/restart.sh (accept: see live.*)	n/a-live	n/a-live	n/a-live	OK	OK	OK	OK	OK	PASS
+job_seeker/gates/live_h3.sh (accept: see live.*)	n/a-live	n/a-live	n/a-live	OK	OK	OK	OK	OK	PASS
+job_seeker/bin/jsstack probe	OK	OK	OK	OK	OK	OK	OK	OK	PASS
+workshop/scripts/run-isolated.sh (native server; VALIDATE_ONLY)	FAIL(2)	FAIL(2)	OK	OK	FAIL(not-acknowledged)	FAIL(not-acknowledged)	n/a-native	OK	GAP
+umbrella _tools/hawkscan/run.sh (accept would run a scan: see verify-runner-flag)	n/a-live	n/a-live	n/a-live	OK	OK	OK	OK	OK	PASS
+umbrella _tools/deploy-langs.sh (accept: --dry-run is heavy: see verify-runner-flag --prove-args)	n/a-live	n/a-live	n/a-live	OK	OK	OK	OK	OK	PASS
+umbrella _tools/helixtranslate-local.sh (accept needs the image: see verify-runner-flag)	n/a-live	n/a-live	n/a-live	OK	OK	OK	OK	OK	PASS
+submodules/containers/cmd/boot (accept: boots services, not run)	n/a-live	n/a-live	n/a-live	OK	OK	OK	OK	OK	PASS
