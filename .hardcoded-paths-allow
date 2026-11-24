@@ -531,14 +531,6 @@ workshop/docs/the-platform/ledger/captures/cap_c56a6cfeb46e/body
 # same placeholder and PATTERN-quotation lines and are allowed for exactly that
 # content. Scoped to these eight named files; a new .html export under docs/
 # must earn its own row.
-docs/setup-agents-wizard/README.html
-docs/setup-agents-wizard/SAFETY-AND-ROLLBACK.html
-docs/setup-agents-wizard/TROUBLESHOOTING.html
-docs/setup-agents-wizard/USER_GUIDE.html
-docs/setup-agents-wizard/OPERATIONAL-SCRIPTS.html
-docs/setup-agents-wizard/RESIDUAL-PATHS-AUDIT.html
-docs/SESSION-REPORT.html
-docs/content-boundary-incident-2026-09-01.html
 
 # REASON: SYNTHETIC PLANTED PAYLOAD IN A §1.1 MUTATION PROOF, and its docs_chain
 # export sidecar. workshop/platform/gates/prove-material-metadata-disclosure.sh:132
