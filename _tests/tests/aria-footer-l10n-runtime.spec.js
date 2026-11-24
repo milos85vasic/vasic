@@ -26,7 +26,7 @@ test.describe('runtime language switch re-localizes aria-labels', () => {
     await expect(theme).toHaveAttribute('title', 'Тема');
     // footer suffix re-localized via data-i18n (proper nouns preserved)
     await expect(page.locator('span[data-i18n="footer.text"]')).toHaveText(
-      'Belgrade · Dubna. Создан как статический сайт, развернут на GitHub Pages.');
+      'Белград · Дубна. Создан как статический сайт, размещён на GitHub Pages.');
   });
 
   test('vasic.digital home — switching to RU updates back-to-top aria-label', async ({ page }) => {

@@ -410,13 +410,13 @@ deps:
   # ─── Owned product submodules (flat layout, <root>/<name>/) ─────────────
   - name: vasic.digital
     ssh_url: git@github.com:vasic-digital/vasic-digital.github.io.git
-    ref: "3e86312cc685298d606e6ae8da68d01cce3f563f"   # v1.9.0 tag points at this merge commit (annotated tag peels to it); website-version footer + digital.vasic.dev
+    ref: "006b834edaa76d2daade1a021a0120ca3ad363af"   # i18n review fixes (VSC-423, PR #3) after v1.9.0 merge 3e86312
     why: "Site submodule — committed static HTML served as-is, no build step. Rendered into by _tools/gen and deployed by _tools/deploy-langs.sh; served directly by the _tests Playwright suite."
     layout: flat
 
   - name: milosvasic.ru
     ssh_url: git@github.com:milos85vasic/milosvasic.ru.git
-    ref: "9b5bf27c087e6ab64416e1cdfb79f85763396555"   # v2.0.0 tag (footer Website version); sha is exact
+    ref: "74c554c9bfcef7e5e0f20d5de7aee80c558ed0c1"   # i18n review fixes (VSC-423, PR #4) on top of v2.0.0; sha is exact
     # Moved 2026-09-08 from f5f13a25eaebb4d8023717040425992a43c53de1 by operator
     # decision #13: `_site/` was UNTRACKED there (8 files, one rendered page).
     # The `why:` below has said "its rendered _site/ is git-ignored" all along;
