@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from career import extract_gates as g, gates, sample_build  # noqa: E402
 
-LANGS = ("en", "de", "hi", "ko")
+LANGS = ("en", "de", "ru", "hi", "ko")
 RESULTS: list[tuple[str, bool, str]] = []
 
 
@@ -101,6 +101,35 @@ def prove_t178(out: Path) -> None:
         case(f"T178 M-nosource-{l}: no source => an auto break cannot be excused", bool(r), str(r))
 
 
+def prove_t179(out: Path) -> None:
+    import tempfile
+    for l in ("en", "ru"):
+        pdf = out / f"cv-ai-engineering-{l}.pdf"
+        r = g.ocr_recall(pdf, l)
+        case(f"T179 control {l}: page-1 OCR recall >= {g.MIN_OCR_RECALL:.0%} and validate_pdf rc 0",
+             r is not None and r >= g.MIN_OCR_RECALL and gates.validate_pdf(pdf, "cv", l)[0] == 0, f"recall={r}")
+    with tempfile.TemporaryDirectory() as td:
+        for l in ("en", "ru"):
+            shutil.copy(out / f"cv-ai-engineering-{l}.tex", Path(td) / f"cv-ai-engineering-{l}.tex")
+            bad = sample_build.scramble_text_layer(out / f"cv-ai-engineering-{l}.pdf", Path(td) / f"cv-ai-engineering-{l}.pdf")
+            rc, msg = gates.validate_pdf(bad, "cv", l)
+            case(f"T179 M-scramble-{l}: real PDF whose text layer no longer matches the page -> blocked",
+                 rc == 1 and "OCR recall" in msg, msg[:120])
+    one = g.ocr_recall(out / "cv-ai-engineering-ru.pdf", "ru", spec="rus")
+    case("T179 root cause of G-20: Cyrillic CV read with `rus` alone is below the bar (Latin names mis-read), `rus+eng` clears it",
+         one is not None and one < g.MIN_OCR_RECALL, f"rus-only={one}")
+    saved = g.shutil.which
+    g.shutil.which = lambda n: None if n == "tesseract" else saved(n)
+    try:
+        r = g.check_ocr_consistency(out / "cv-ai-engineering-ru.pdf", "ru")
+        rc = gates.validate_pdf(out / "cv-ai-engineering-ru.pdf", "cv", "ru")[0]
+    finally:
+        g.shutil.which = saved
+    case("T179 M-no-tesseract: engine absent -> CANNOT DETERMINE (None / rc 2), never a pass", r is None and rc == 2, f"rc={rc}")
+    case("T179 scope: locales without an OCR pack (hi, ko, ar, es...) are reported not-applicable, not silently passed",
+         not any(g.ocr_applicable(l) for l in ("hi", "ko", "ar", "es")))
+
+
 def main() -> int:
     if not sample_build.have_toolchain() or not shutil.which("mutool"):
         print("CANNOT DETERMINE: lualatex, pdftotext or mutool missing")
@@ -110,6 +139,7 @@ def main() -> int:
         sample_build.build_sample(out, priv, langs=LANGS, write=False)
         prove_t168(out)
         prove_t178(out)
+        prove_t179(out)
     finally:
         td.cleanup()
     bad = [n for n, ok, _ in RESULTS if not ok]

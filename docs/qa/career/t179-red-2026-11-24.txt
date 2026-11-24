@@ -1,0 +1,11 @@
+# RED: T179 OCR gate NOT wired into validate_pdf; real PDF whose ToUnicode no longer matches the glyphs (page says one thing, text layer another)
+Traceback (most recent call last):
+  File "/home/milosvasic/Projects/vasic-wt-t179/_tools/career/test_extract_gates.py", line 209, in test_text_layer_that_disagrees_with_the_page_is_refused
+    self.assertIn("OCR recall", msg)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: 'OCR recall' not found in "contact URL not intact in text layer: i@mvasic.ru; contact URL not intact in text layer: milosvasic.ru; contact URL not intact in text layer: github.com/milosvasic; contact URL not intact in text layer: gitlab.com/milos85vasic; contact URL not intact in text layer: t.me/milos85vasic; section heading(s) not recognisable as a standalone line in 'en': experience, education, skills; 3 word(s) split by automatic hyphenation at a line end: p1:pxowl-surylghu, p1:dqwl-eoxii, p2:srlqw-forxg"
+
+----------------------------------------------------------------------
+Ran 1 test in 131.728s
+
+FAILED (failures=1)

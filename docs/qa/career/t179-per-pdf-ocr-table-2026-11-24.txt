@@ -1,0 +1,11 @@
+# page-1 OCR recall of the text layer (words>=3 letters), 200 dpi, fresh ai-engineering PDFs
+cv-ai-engineering-en       lang-set=eng      recall=0.985    3.8s
+cv-ai-engineering-de       lang-set=deu+eng  recall=0.981    4.4s
+cv-ai-engineering-fr       lang-set=fra+eng  recall=0.986    3.6s
+cv-ai-engineering-ru       lang-set=rus+eng  recall=0.964  single-language-only=0.728  6.5s
+cv-ai-engineering-sr       lang-set=srp+eng  recall=0.942  single-language-only=0.698  6.3s
+cover-ai-engineering-en    lang-set=eng      recall=0.967    1.8s
+cover-ai-engineering-de    lang-set=deu+eng  recall=0.969    2.7s
+cover-ai-engineering-fr    lang-set=fra+eng  recall=0.968    2.9s
+cover-ai-engineering-ru    lang-set=rus+eng  recall=0.946  single-language-only=0.733  5.7s
+cover-ai-engineering-sr    lang-set=srp+eng  recall=0.932  single-language-only=0.736  5.4s

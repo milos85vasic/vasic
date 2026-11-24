@@ -61,3 +61,38 @@ def scratch_pair() -> tuple[tempfile.TemporaryDirectory, Path, Path]:
     out, priv = Path(td.name) / "out", Path(td.name) / "private"
     out.mkdir(); priv.mkdir(mode=0o700)
     return td, out, priv
+
+
+def scramble_text_layer(src: Path, dst: Path) -> Path:
+    """A REAL glyph/text-layer mismatch artifact: same page content (the glyphs a reader sees), but every font's
+    ToUnicode maps the letters a-z / A-Z one letter on, so the extracted text no longer says what the page shows."""
+    import re
+    import pypdf
+    from pypdf.generic import DecodedStreamObject, NameObject
+    w = pypdf.PdfWriter(clone_from=str(src))
+
+    seen = set()
+    for page in w.pages:
+        for font in (page["/Resources"].get("/Font") or {}).values():
+            fo = font.get_object()
+            tu = fo.get("/ToUnicode")
+            if tu is None or id(tu.get_object()) in seen:
+                continue
+            seen.add(id(tu.get_object()))
+            data = tu.get_object().get_data().decode("latin1")
+            head, _, tail = data.partition("beginbfchar")
+            body, sep, rest = tail.partition("endbfchar")
+            body = re.sub(r"(<[0-9A-Fa-f]{4}>\s*)<([0-9A-Fa-f]{4})>", lambda m: f"{m.group(1)}<{_rot(int(m.group(2), 16)):04X}>", body)
+            new = DecodedStreamObject()
+            new.set_data((head + "beginbfchar" + body + sep + rest).encode("latin1"))
+            fo[NameObject("/ToUnicode")] = w._add_object(new)
+    w.write(str(dst))
+    return dst
+
+
+def _rot(cp: int) -> int:
+    if 0x61 <= cp <= 0x7A:
+        return 0x61 + (cp - 0x61 + 1) % 26
+    if 0x41 <= cp <= 0x5A:
+        return 0x41 + (cp - 0x41 + 1) % 26
+    return cp
