@@ -32,7 +32,7 @@ Run from the repository root of the main checkout (the one that holds `.cache-ca
 python3 _tools/career/vault.py seal-all && python3 _tools/career/vault.py verify
 ```
 
-`seal-all` is replace mode: it makes a new salt, re-encrypts every slot from `.cache-career/` and prunes slots no longer present. Expected last line of `verify`: `verified 300 slot(s)` (the number of sealable PDFs; a smaller number means some PDFs were skipped, and the `SKIP` lines on stderr name them).
+`seal-all` is replace mode: it makes a new salt, re-encrypts every slot from `.cache-career/` and prunes slots no longer present. The last line of `verify` should read `verified N slot(s)` where N is the number of sealable PDFs (UNCONFIRMED: sealing was not run here, so N is not measured; a number below the 300 cells means some PDFs were skipped, and the `SKIP` lines on stderr name them).
 
 Afterwards the changed files under `milosvasic.ru/downloads/vault/` are published through the usual site pull request (`docs/career/deploy-guide.md`); nothing in this hand-off pushes them.
 
