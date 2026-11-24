@@ -9,6 +9,7 @@ errors name keys and paths, never values.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
@@ -141,6 +142,20 @@ def load_overlay(env: Optional[Mapping[str, str]] = None) -> Optional[dict[str, 
     except yaml.YAMLError:
         raise OverlayError(f"{OVERLAY_FILE}: not valid YAML") from None
     return validate(raw)
+
+
+def overlay_sha(env: Optional[Mapping[str, str]] = None) -> str:
+    """sha256 (hex) of the raw ``overlay.yaml`` bytes, ``""`` when no overlay is configured.
+
+    Same digest job_seeker computes (``match.OverlayFileSHA``); a digest, never content.
+    """
+    d = private_dir(env)
+    if d is None:
+        return ""
+    try:
+        return hashlib.sha256((d / OVERLAY_FILE).read_bytes()).hexdigest()
+    except OSError:
+        return ""
 
 
 def apply_identity(identity: Mapping[str, Any], ov: Optional[Mapping[str, Any]]) -> dict[str, Any]:

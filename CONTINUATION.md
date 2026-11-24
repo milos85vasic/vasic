@@ -4,7 +4,7 @@
      Keep the exact `Field: value` shape. -->
 
     Last-Updated: 2026-11-24T23:30:00Z
-    Synced-Commit: 0e88121
+    Synced-Commit: 311ec4f
     Authority-Root: submodules/constitution
 
 > **2026-11-24 launcher `--runner` matrix** (`docs/qa/launchers/launcher-runner-matrix-2026-11-24/`): 16 of 18 launcher rows PASS on real runs. OPEN: workshop `status.sh` / `run-isolated.sh` lack the flag on workshop main; fix is committed on workshop branch `pr/status-runner-flag` (not pushed: the workshop materials pre-push gate blocks it; operator decision). `submodules/containers` gitlink + helix-deps ref bumped to eb70e05439f3 (cmd/boot exits 2 for an absent forced runner).
@@ -427,6 +427,10 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+## UPDATE 2026-11-24 (post-merge export refresh + gate re-run; branch `pr/export-refresh-2026-11-24`)
+
+The 14 binary/HTML exports under `docs/workable-items/` (`Issues`, `Fixed` and both `_Summary` pairs; html/pdf/docx) and the two `_Summary.md` files were regenerated from `docs/workable_items.db` (663 items) at main `2d491a7` with `workable-items-linux export --db docs/workable_items.db --formats --out-dir docs/workable-items` (~2 min). The README badge row was regenerated (`scripts/badges/compute_badges.sh --write`) because the zero-findings badge still said 63 after the ratchet burn-down to 7 (claim-ledger row `readme-zero-findings-badge` was FALSE). Post-merge gates in a submodule-initialised checkout: manifest-pins rc 0 (22/22); remote-sync rc 1 (5 gitlinks BEHIND their remotes: vasic.digital, containers, qa, challenges, job_seeker - fast-forwardable, each an operator bump decision, not bumped here); governance-cascade rc 1 (C7 only: job_seeker nests own-org submodules); check-registry rc 0. Re-run `bash scripts/verify-all...`/the gates by hand; do not trust these numbers.
 
 ## UPDATE 2026-11-24 (zero-findings ratchet burn-down; branch `pr/ratchet-burndown-1`; VSC-432, VSC-433, VSC-434; closes VSC-422)
 
