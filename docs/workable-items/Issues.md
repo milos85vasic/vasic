@@ -4255,15 +4255,6 @@ The stack rule Go, Gin, HTTP/3 and Brotli applies to job_seeker, which is next i
 
 Two open content decisions for the job_seeker profile.yaml: the i18n ids for skill items, and the identity.pronouns field. Both need the operator's content input; no value has been chosen. Filed under VSC (no job_seeker roster prefix).
 
-## VSC-417 — --runner flag programme: forced container-runner selector across containers, umbrella launchers and docs
-
-**Status:** In progress
-**Type:** Task
-**Severity:** high
-**Created-By:** Claude
-
-WHAT: containers PR #3 adds forced-runner selector; umbrella PR #11 bumped the pin with manifest ref; umbrella launchers (PR #12) carry --runner and the containers gitlink is current (2d18551). 2026-11-24 status: umbrella side merged; the workshop launcher evidence is NOT merged (workshop runner branch is unpushed, blocked at a gate), so the programme stays In progress. Closes when every launcher's evidence is merged and a live run with each runner is captured.
-
 ## VSC-418 — storage-policy programme: root filesystem overfill, DATA1TB and DATA7TB placement
 
 **Status:** In progress
@@ -4306,18 +4297,6 @@ WHAT: the collaborator invite sent 2026-11-23 for the private career repository 
 
 WHAT: the vault v1 passphrase must be backed up by the operator outside the repository and outside any agent session; losing it makes sealed content unrecoverable. Closes when the operator confirms a backup exists. The value is never recorded here.
 
-## VSC-423 — operator item: per-language footer review of the website-version footer
-
-**Status:** Operator-blocked
-**Type:** Task
-**Operator-Block-Details:** WHAT: per-language footer review needs independent per-language reviewers and an operator choice of method UNBLOCK: Choose one:
-- [1] machine review per language with recorded verdicts (cost: model spend)
-- [2] native-speaker review for priority languages only (cost: operator effort) WHO: Claude
-**Severity:** medium
-**Created-By:** Claude
-
-WHAT: the website-version footer text exists in every localized page but each language rendering has not been reviewed by an independent per-language reviewer (11.4.256). Closes when a review verdict is recorded per language.
-
 ## VSC-424 — operator item: stale remote and local branches cleanup
 
 **Status:** Queued
@@ -4351,7 +4330,7 @@ Deferred from wave 1: a new artifact suffix touches ENGINE_FORMATS, expected_fil
 **Severity:** low
 **Created-By:** Claude
 
-WHAT: tracker referenced by SKIP-OK markers on test skips that are conditional on an absent tool or host condition (git, bash, a container runtime, root user, a submodule checkout) and that print an explicit SKIPPED, not-a-pass reason. Each marked site is individually named in docs/findings/zero_findings_ledger.jsonl history. Acceptance: no unconditional skip carries this marker.
+WHAT: tracker referenced by SKIP-OK markers on test skips conditional on an absent tool or host condition (git, bash, a container runtime, root user, a submodule checkout) that print an explicit SKIPPED, not-a-pass reason. Acceptance: no unconditional skip carries this marker.
 
 ## VSC-433 — three live-production specs deferred from gate 6 to the post-deploy live config (SKIP-OK tracker)
 
@@ -4360,5 +4339,5 @@ WHAT: tracker referenced by SKIP-OK markers on test skips that are conditional o
 **Severity:** low
 **Created-By:** Claude
 
-WHAT: _tests/playwright.config.js testIgnore defers restyle-seo-regression, v170-fixes and v171-hardcoding to _tests/playwright.live.config.js (testMatch names all four live specs), run by _tools/deploy-langs.sh LIVE_SPECS after each deploy, because gate 6 runs before deployment and the specs assert against production. Acceptance: the specs stay in the live testMatch and LIVE_SPECS.
+WHAT: _tests/playwright.config.js testIgnore defers restyle-seo-regression, v170-fixes and v171-hardcoding to _tests/playwright.live.config.js, run by _tools/deploy-langs.sh LIVE_SPECS after each deploy. Acceptance: the specs stay in the live testMatch and LIVE_SPECS.
 

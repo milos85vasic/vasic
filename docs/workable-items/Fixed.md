@@ -6004,6 +6004,26 @@ LuaLaTeX tagging via DocumentMetadata plus soft-hyphen and list-geometry fixes, 
 
 Investigated with measurements: hi/ko merging fixed by tagpdf space glyphs, Arabic raw order is content-stream order and not fixable in the renderer, Cyrillic OCR recall low only because Latin text was OCRed with a Cyrillic-only model. Evidence docs/qa/career/career-engine-wave1-2026-11-24.md
 
+## VSC-417 — --runner flag programme: forced container-runner selector across containers, umbrella launchers and docs
+
+**Status:** Completed (→ Fixed.md)
+**Type:** Task
+**Evidence:** docs/qa/launchers/launcher-retest-2026-11-24-post-merge
+**Severity:** high
+**Created-By:** Claude
+
+containers PR #3 adds the forced-runner selector; umbrella PR #11 bumped the pin with manifest ref; umbrella launchers (PR #12) carry --runner and the containers gitlink is current (2d18551). CLOSED 2026-11-24: the workshop launcher change merged as workshop PR #1 (merge 5a7acdd1) after an independent review (GO); post-merge run evidence at the merge commit is in docs/qa/launchers/launcher-retest-2026-11-24-post-merge (Go build/vet/test rc 0, runner-flag.test.sh 26 passed 0 failed, prove-failure 9 killed 0 survived on the branch tip); earlier launcher evidence in docs/qa/launchers/launcher-retest-2026-11-24. The umbrella pin bump is PR #23.
+
+## VSC-423 — operator item: per-language footer review of the website-version footer
+
+**Status:** Completed (→ Fixed.md)
+**Type:** Task
+**Evidence:** docs/qa/i18n-review/README.md
+**Severity:** medium
+**Created-By:** Claude
+
+WHAT: the website-version footer text exists in every localized page but each language rendering has not been reviewed by an independent per-language reviewer (11.4.256). Closes when a review verdict is recorded per language.
+
 ## VSC-431 — zero-findings ratchet burn-down programme (63 live vs ceiling 23)
 
 **Status:** Completed (→ Fixed.md)
@@ -6012,7 +6032,7 @@ Investigated with measurements: hi/ko merging fixed by tagpdf space glyphs, Arab
 **Severity:** medium
 **Created-By:** Claude
 
-WHAT: the §11.4.261 sweep refuses the seam at 63 findings against ceilings totalling 23 (weak-spots 2>1, danger-zones 32>9, todo-fixme 2>0, skipped-tests 21>7). Operator decision 2026-11-24: run a burn-down. Acceptance: live count at or under every class ceiling, no ceiling raised, no detector weakened, every in-repo-fixable finding fixed or annotated with its sanctioned line marker and a stated reason, the rest listed with why they cannot close here.
+WHAT: the §11.4.261 sweep refused the seam at 63 findings against ceilings totalling 23. Operator decision 2026-11-24: burn-down. Acceptance: live count at or under every class ceiling, no ceiling raised, no detector weakened; remainder listed with reasons.
 
 ## VSC-422 — operator item: zero-gap ratchet baseline 63 versus 23
 

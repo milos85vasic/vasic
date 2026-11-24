@@ -8061,19 +8061,47 @@ renderer, Cyrillic OCR recall low only because Latin text was OCRed with
 a Cyrillic-only model. Evidence
 docs/qa/career/career-engine-wave1-2026-11-24.md</p>
 <h2
+id="vsc-417-runner-flag-programme-forced-container-runner-selector-across-containers-umbrella-launchers-and-docs">VSC-417
+— –runner flag programme: forced container-runner selector across
+containers, umbrella launchers and docs</h2>
+<p><strong>Status:</strong> Completed (→ Fixed.md)
+<strong>Type:</strong> Task <strong>Evidence:</strong>
+docs/qa/launchers/launcher-retest-2026-11-24-post-merge
+<strong>Severity:</strong> high <strong>Created-By:</strong> Claude</p>
+<p>containers PR #3 adds the forced-runner selector; umbrella PR #11
+bumped the pin with manifest ref; umbrella launchers (PR #12) carry
+–runner and the containers gitlink is current (2d18551). CLOSED
+2026-11-24: the workshop launcher change merged as workshop PR #1 (merge
+5a7acdd1) after an independent review (GO); post-merge run evidence at
+the merge commit is in
+docs/qa/launchers/launcher-retest-2026-11-24-post-merge (Go
+build/vet/test rc 0, runner-flag.test.sh 26 passed 0 failed,
+prove-failure 9 killed 0 survived on the branch tip); earlier launcher
+evidence in docs/qa/launchers/launcher-retest-2026-11-24. The umbrella
+pin bump is PR #23.</p>
+<h2
+id="vsc-423-operator-item-per-language-footer-review-of-the-website-version-footer">VSC-423
+— operator item: per-language footer review of the website-version
+footer</h2>
+<p><strong>Status:</strong> Completed (→ Fixed.md)
+<strong>Type:</strong> Task <strong>Evidence:</strong>
+docs/qa/i18n-review/README.md <strong>Severity:</strong> medium
+<strong>Created-By:</strong> Claude</p>
+<p>WHAT: the website-version footer text exists in every localized page
+but each language rendering has not been reviewed by an independent
+per-language reviewer (11.4.256). Closes when a review verdict is
+recorded per language.</p>
+<h2
 id="vsc-431-zero-findings-ratchet-burn-down-programme-63-live-vs-ceiling-23">VSC-431
 — zero-findings ratchet burn-down programme (63 live vs ceiling 23)</h2>
 <p><strong>Status:</strong> Completed (→ Fixed.md)
 <strong>Type:</strong> Task <strong>Evidence:</strong>
 docs/qa/ratchet-burndown-2026-11-24.md <strong>Severity:</strong> medium
 <strong>Created-By:</strong> Claude</p>
-<p>WHAT: the §11.4.261 sweep refuses the seam at 63 findings against
-ceilings totalling 23 (weak-spots 2&gt;1, danger-zones 32&gt;9,
-todo-fixme 2&gt;0, skipped-tests 21&gt;7). Operator decision 2026-11-24:
-run a burn-down. Acceptance: live count at or under every class ceiling,
-no ceiling raised, no detector weakened, every in-repo-fixable finding
-fixed or annotated with its sanctioned line marker and a stated reason,
-the rest listed with why they cannot close here.</p>
+<p>WHAT: the §11.4.261 sweep refused the seam at 63 findings against
+ceilings totalling 23. Operator decision 2026-11-24: burn-down.
+Acceptance: live count at or under every class ceiling, no ceiling
+raised, no detector weakened; remainder listed with reasons.</p>
 <h2
 id="vsc-422-operator-item-zero-gap-ratchet-baseline-63-versus-23">VSC-422
 — operator item: zero-gap ratchet baseline 63 versus 23</h2>

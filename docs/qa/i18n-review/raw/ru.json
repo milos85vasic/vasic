@@ -1,0 +1,625 @@
+{
+ "lang": "ru",
+ "verdict": "FIX",
+ "summary": "Mostly solid professional Russian, but there are real defects: a grammatical gender error and calques in pf.summary, two meaning errors in product-page labels ('заказ' for sort order, 'в производстве' for production status), ungrammatical/literal headings, 'Экспертиза' for Expertise, English city names in the footer, and three glossary-verbatim violations (Constitution, AI, Miloš Vasić).",
+ "checks": {
+  "meaning_idiom_register": "Register is professional-neutral overall; FIX for meaning errors (prod.order, status.production, nav.expertise, prod.source) and broken idiom headings (whywebuilt.0/.3, challenges.2, gamechanger.name).",
+  "script": "Cyrillic throughout except protected Latin terms; defect: 'Belgrade · Dubna' left in English in mv footer.text.",
+  "rtl": "n/a",
+  "plural": "No plural-bearing keys; lists only (kw.*, pf.summary enumeration) — confirmed none.",
+  "date_number": "No dates or numbers in these strings (version number v2.0.0 is appended outside); confirmed none. 'Версия сайта: v2.0.0' — no space before colon, correct for Russian.",
+  "glossary": "Constitution, AI and Miloš Vasić were localized; fixed with verbatim term. Brand/product names (Helix, Vasic Digital, Server Factory, OpenDesign, GitHub Pages) preserved. Mixed ё usage (даёт/развёрнутое vs темную/распределенные) is optional in Russian and not churned.",
+  "footer_length": "footer.suffix 37 chars, footer.version 13 — OK. mv footer.text ~70 chars (source is 68) — long by nature; acceptable if the footer wraps."
+ },
+ "items": [
+  {
+   "src": "gen",
+   "key": "skip",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.home",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.products",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.portfolio",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "toggle",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "footer.suffix",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "footer.version",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.download",
+   "verdict": "FIX",
+   "current": "Скачать Портфолио (PDF)",
+   "proposed": "Скачать портфолио (PDF)",
+   "rationale": "Common noun must be lowercase mid-phrase in Russian; capitalised 'Портфолио' is English title-case carried over."
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.products",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.tiers",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.helix",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.readmore",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.lede",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.summary",
+   "verdict": "FIX",
+   "current": "Один флот: крупные приложения на основе десятков небольших, декуплированных, независимо протестированных модулей — управляемых общей инженерной Конституцией и подтвержденных анти-блеф QA. Основным языком является Go, с Kotlin/KMP, TypeScript/React, Python, Swift и Shell там, где они лучше всего подходят. Объединяющая тезис: функция считается выполненной только тогда, когда ее может использовать реальный пользователь и есть доказательства, подтверждающие это.",
+   "proposed": "Один флот: крупные продуктовые приложения поверх десятков небольших, слабосвязанных, независимо протестированных модулей — под управлением общей инженерной конституции (Constitution) и с проверкой через анти-блеф QA. Основной язык — Go; Kotlin/KMP, TypeScript/React, Python, Swift и Shell применяются там, где они подходят лучше всего. Объединяющий тезис: функция считается готовой только тогда, когда ею может воспользоваться реальный пользователь и есть зафиксированные доказательства этого.",
+   "rationale": "Gender error 'Объединяющая тезис' (тезис is masculine); calque 'декуплированных'; glossary term Constitution must stay verbatim; 'captured evidence' lost ('зафиксированные')."
+  },
+  {
+   "src": "gen",
+   "key": "tier1.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier1.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier2.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier2.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier3.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier3.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.tier",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.order",
+   "verdict": "FIX",
+   "current": "заказ",
+   "proposed": "порядок",
+   "rationale": "'заказ' means a purchase order; the field is the sort/sequence order (sr/be correctly use редослед/парадак)."
+  },
+  {
+   "src": "gen",
+   "key": "prod.source",
+   "verdict": "FIX",
+   "current": "Источник",
+   "proposed": "Исходный код",
+   "rationale": "Heading over the list of source repositories; 'Источник' reads as 'reference/origin of information'."
+  },
+  {
+   "src": "gen",
+   "key": "prod.license",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.architecture",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "kw.vasic",
+   "verdict": "FIX",
+   "current": "инженерия программного обеспечения, платформы разработки ИИ, оркестровка LLM, открытый исходный код, инструменты для разработчиков, SDK",
+   "proposed": "программная инженерия, платформы для разработки AI, оркестрация LLM, открытый исходный код, инструменты для разработчиков, SDK",
+   "rationale": "Glossary: AI verbatim; 'оркестровка' is the musical term (IT uses 'оркестрация'); 'инженерия программного обеспечения' is a calque of 'программная инженерия'."
+  },
+  {
+   "src": "gen",
+   "key": "kw.milos",
+   "verdict": "FIX",
+   "current": "инженер платформы, специалист по SDK, Kotlin, Go, архитектура программного обеспечения, распределенные системы, открытый исходный код",
+   "proposed": "платформенный инженер, специалист по SDK, Kotlin, Go, архитектура программного обеспечения, распределённые системы, открытый исходный код",
+   "rationale": "'инженер платформы' reads as 'engineer of a (specific) platform'; the established job title/search term is 'платформенный инженер'."
+  },
+  {
+   "src": "gen",
+   "key": "aria.primaryNav",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "aria.backToTop",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "aria.toggleTheme",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.work",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.contact",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.0",
+   "verdict": "FIX",
+   "current": "Проблема, которую мы решили взяться решить",
+   "proposed": "Проблема, которую мы взялись решить",
+   "rationale": "'решили взяться решить' is ungrammatical (double verb, tautology)."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.3",
+   "verdict": "FIX",
+   "current": "Зуд, который требовал почесать",
+   "proposed": "Задача, которая не давала нам покоя",
+   "rationale": "Literal idiom 'Зуд, который требовал почесать' is ungrammatical and odd; natural Russian equivalent of 'the itch we had to scratch'."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.4",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.2",
+   "verdict": "FIX",
+   "current": "Инженерия сложных моментов",
+   "proposed": "Инженерные решения трудных задач",
+   "rationale": "'Инженерия сложных моментов' is a meaningless calque."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.name",
+   "verdict": "FIX",
+   "current": "Почему это меняет игру",
+   "proposed": "Почему это прорыв",
+   "rationale": "'меняет игру' is a broken half-idiom (the idiom is 'меняет правила игры', already used by gamechanger.0)."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.summary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.short",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.long",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.desc.fallback",
+   "verdict": "FIX",
+   "current": "%s — %s продукт.",
+   "proposed": "%s — продукт %s.",
+   "rationale": "'HelixCode — Vasic Digital продукт.' is English word order; Russian needs 'продукт <brand>'. Placeholder order (name, brand) preserved."
+  },
+  {
+   "src": "gen",
+   "key": "alt.portrait",
+   "verdict": "FIX",
+   "current": "Портрет Милоша Васича",
+   "proposed": "Miloš Vasić — портрет",
+   "rationale": "Glossary requires the name verbatim (Latin); this phrasing avoids declining a Latin name."
+  },
+  {
+   "src": "gen",
+   "key": "alt.brandLogo",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.beta",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.active",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.production",
+   "verdict": "FIX",
+   "current": "в производстве",
+   "proposed": "в эксплуатации",
+   "rationale": "'в производстве' means 'being manufactured'; for software in production the neutral professional term is 'в эксплуатации'."
+  },
+  {
+   "src": "gen",
+   "key": "status.in-development",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.shipped",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.scaffold",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.roadmap",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.stable",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.mixed",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.helix-primary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.vasic-util-secondary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.serverfactory-tertiary",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "a11y.skip",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.expertise",
+   "verdict": "FIX",
+   "current": "Экспертиза",
+   "proposed": "Компетенции",
+   "rationale": "'Экспертиза' in Russian means an expert examination/appraisal, not a person's expertise."
+  },
+  {
+   "src": "mv",
+   "key": "nav.work",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.experience",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.skills",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.contact",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "dl.heading",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "dl.choose",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "footer.text",
+   "verdict": "FIX",
+   "current": "Belgrade · Dubna. Создан как статический сайт, развернут на GitHub Pages.",
+   "proposed": "Белград · Дубна. Создан как статический сайт, размещён на GitHub Pages.",
+   "rationale": "City names were left in English (Latin) inside a Cyrillic sentence; they are not glossary terms."
+  },
+  {
+   "src": "mv",
+   "key": "footer.version",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.changeLang",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.toggleTheme",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.menu",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.close",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.backToTop",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.primaryNav",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "title.language",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "title.theme",
+   "verdict": "OK"
+  }
+ ],
+ "glossary_violation_judgements": [
+  {
+   "key": "pf.summary",
+   "term": "Constitution",
+   "real": true,
+   "why": "Rendered as 'Конституцией'; glossary requires verbatim — fixed as 'конституции (Constitution)'."
+  },
+  {
+   "key": "kw.vasic",
+   "term": "AI",
+   "real": true,
+   "why": "Rendered as 'ИИ'; glossary binding — fixed. (SEO note in spotcheck.)"
+  },
+  {
+   "key": "alt.portrait",
+   "term": "Miloš Vasić",
+   "real": true,
+   "why": "Transliterated 'Милоша Васича'; glossary requires verbatim Latin — fixed as 'Miloš Vasić — портрет'."
+  }
+ ],
+ "spotcheck": [
+  "pf.summary: confirm 'анти-блеф QA' (vs 'QA без блефа') and 'конституции (Constitution)' read naturally to you.",
+  "status.production: 'в эксплуатации' vs dev slang 'в продакшене' — owner preference.",
+  "alt.portrait: glossary forces 'Miloš Vasić' in Latin; if you prefer 'Портрет Милоша Васича' for Russian readers, amend the glossary rule rather than the string.",
+  "kw.vasic: SEO — consider whether to also include 'ИИ' alongside 'AI' (glossary currently forbids localizing).",
+  "pf.eyebrow 'унифицированное портфолио' (kept) — 'единое портфолио' is more natural if you want to polish.",
+  "nav.expertise 'Компетенции' vs 'Специализация'.",
+  "prod.head.* 'флот' metaphor (fleet) used throughout — confirm you want it rather than 'экосистема'."
+ ]
+}

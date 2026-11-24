@@ -1,0 +1,631 @@
+{
+ "lang": "fa",
+ "verdict": "FIX",
+ "summary": "Good, idiomatic Persian with correct ZWNJ usage almost everywhere (وب‌سایت, سطح‌ها) and no Arabic ي/ك contamination. Real defects: a garbled brand in alt.brandLogo ('واسیجیتال دیجیتال'), 'سفارش' (purchase order) for sort order, 'اجازه‌نامه' for license, and a pf.summary that changes meaning and drops verbatim 'Constitution'. The 'fleet' calque (ناوگان) and some literal idioms ('worth stealing', 'changes the game') also need fixing.",
+ "checks": {
+  "meaning_idiom_register": "Professional-neutral register. Some idioms are adapted well (e.g. 'خاری که باید از پا درمی‌آوردیم'). Others are literal: ناوگان (fleet), 'بازی را تغییر می‌دهد' (changes the game), 'ارزش دزدیدن' (worth stealing), لف‌و‌تکلف. There are lexical errors in prod.order (سفارش) and prod.license (اجازه‌نامه).",
+  "script": "Persian script is correct, with Persian ی/ک throughout (no Arabic ي/ك). ZWNJ (U+200C) is present in compounds (وب‌سایت, سطح‌ها, مهارت‌ها, پرچم‌دار). One misuse: ZWNJ around 'و' in 'لف‌و‌تکلف'. The ezafe is inconsistent: gen footer.version has 'نسخه وب‌سایت:' while mv has 'نسخهٔ وب‌سایت:'. Both are acceptable, so this is a spot-check item, not a defect.",
+  "rtl": "Page dir=rtl. 'نسخه وب‌سایت:' followed by the LTR 'v2.0.0' renders correctly, with the colon immediately after the Persian label and the version to its left, so no bidi marks are needed. The Persian colon is the Latin ':'. In prod.desc.fallback the %s order is preserved. The proposed '%s — محصول %s.' keeps Persian text between the two Latin values, which prevents adjacent-LTR reordering. In footer.text, a leading Latin run 'Belgrade · Dubna.' would also be safe under dir=rtl, but it is translated anyway.",
+  "plural": "No counted strings, so no plural forms are needed (Persian CLDR has only one/other).",
+  "date_number": "There are no dates. Tier ordinals use Western 1/2/3. Native Persian typography normally uses ۱/۲/۳. This is a site-wide digit policy decision (and could be applied at render time), so it is noted, not FIXed.",
+  "glossary": "Real violations: Constitution (pf.summary), Miloš Vasić (alt.portrait) and Vasic Digital (alt.brandLogo, which is also garbled). AI and the product names are kept Latin correctly.",
+  "footer_length": "mv footer.text is longer than 45 characters (about 75 proposed vs 66 in English). It is a full-width footer line in the source too, so this is acceptable. footer.suffix is about 34 characters and fine."
+ },
+ "items": [
+  {
+   "src": "gen",
+   "key": "skip",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.home",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.products",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.portfolio",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "toggle",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "footer.suffix",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "footer.version",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.download",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.products",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.tiers",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.helix",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.title",
+   "verdict": "FIX",
+   "current": "یک ناوگان، یک رشته",
+   "proposed": "یک مجموعه، یک انضباط",
+   "rationale": "'ناوگان' (naval/vehicle fleet) is a calque for a set of software modules; 'مجموعه' used consistently. 'یک رشته' reads as 'one field / one thread', not 'one discipline'."
+  },
+  {
+   "src": "gen",
+   "key": "pf.readmore",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.lede",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.summary",
+   "verdict": "FIX",
+   "current": "یک ناوگان: برنامه‌های محصول بزرگ بر روی ده‌ها ماژول کوچک، جداشده و مستقل-آزمون شده — تحت نظارت یک قانون اساسی مهندسی مشترک و تأیید شده توسط QA ضد-خدعه. زبان غالب Go است، با Kotlin/KMP، TypeScript/React، Python، Swift و Shell در جایی که بهترین‌ها هستند. تز یکپارچه: یک ویژگی تنها زمانی انجام شده است که یک کاربر واقعی بتواند از آن استفاده کند و شواهدی برای اثبات آن وجود داشته باشد.",
+   "proposed": "یک مجموعهٔ واحد: برنامه‌های بزرگ محصول که بر پایهٔ ده‌ها ماژول کوچک، جدا از هم و مستقلاً آزمون‌شده ساخته شده‌اند — تحت حاکمیت یک قانون اساسی مهندسی مشترک (Constitution) و تأییدشده با QA که هیچ ادعای بی‌پشتوانه‌ای را نمی‌پذیرد. زبان غالب Go است و Kotlin/KMP، TypeScript/React، Python، Swift و Shell هر جا که مناسب‌ترند به کار می‌روند. اصل وحدت‌بخش: یک قابلیت تنها زمانی کامل است که یک کاربر واقعی بتواند از آن استفاده کند و شواهد ثبت‌شده‌ای برای اثبات آن وجود داشته باشد.",
+   "rationale": "'Constitution' must stay verbatim per glossary; 'ضد-خدعه' is an ungrammatical calque; 'مستقل-آزمون شده' uses a stray hyphen; 'در جایی که بهترین‌ها هستند' means 'where they are the best ones' (meaning change); 'انجام شده است' (has been performed) for 'done'; 'captured' evidence was dropped."
+  },
+  {
+   "src": "gen",
+   "key": "tier1.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier1.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier2.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier2.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier3.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier3.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.tier",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.order",
+   "verdict": "FIX",
+   "current": "سفارش",
+   "proposed": "ترتیب",
+   "rationale": "'سفارش' means a purchase/commercial order; the field is sort order."
+  },
+  {
+   "src": "gen",
+   "key": "prod.source",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.license",
+   "verdict": "FIX",
+   "current": "اجازه‌نامه",
+   "proposed": "مجوز",
+   "rationale": "'اجازه‌نامه' is a permit letter; a software license is 'مجوز' (or 'لایسنس')."
+  },
+  {
+   "src": "gen",
+   "key": "prod.architecture",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "kw.vasic",
+   "verdict": "FIX",
+   "current": "مهندسی نرم‌افزار، پلتفرم‌های توسعه AI، هماهنگی LLM، منبع باز، ابزارهای توسعه‌دهنده، SDK",
+   "proposed": "مهندسی نرم‌افزار، پلتفرم‌های توسعه AI، هماهنگی LLM، متن‌باز، ابزارهای توسعه‌دهنده، SDK",
+   "rationale": "'منبع باز' is a literal calque; the established Persian term (and search keyword) is 'متن‌باز'."
+  },
+  {
+   "src": "gen",
+   "key": "kw.milos",
+   "verdict": "FIX",
+   "current": "مهندس پلتفرم، متخصص SDK، Kotlin، Go، معماری نرم‌افزار، سیستم‌های توزیعی، منبع باز",
+   "proposed": "مهندس پلتفرم، متخصص SDK، Kotlin، Go، معماری نرم‌افزار، سیستم‌های توزیع‌شده، متن‌باز",
+   "rationale": "Standard terms are 'سیستم‌های توزیع‌شده' (distributed systems) and 'متن‌باز' (open source)."
+  },
+  {
+   "src": "gen",
+   "key": "aria.primaryNav",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "aria.backToTop",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "aria.toggleTheme",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.work",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.contact",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.4",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.0",
+   "verdict": "FIX",
+   "current": "چرا بازی را تغییر می‌دهد",
+   "proposed": "چرا قواعد بازی را تغییر می‌دهد",
+   "rationale": "'بازی را تغییر می‌دهد' literally 'changes the game (being played)'; the established Persian idiom is 'قواعد بازی را تغییر می‌دهد'."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.3",
+   "verdict": "FIX",
+   "current": "ایده‌هایی که ارزش دزدیدن دارند",
+   "proposed": "ایده‌هایی که ارزش الگوبرداری دارند",
+   "rationale": "'ارزش دزدیدن' (worth stealing) reads as literal theft in Persian; the playful English idiom is conveyed by 'الگوبرداری'."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.3",
+   "verdict": "FIX",
+   "current": "وضعیت بدون لف‌و‌تکلف",
+   "proposed": "وضعیت، بی‌پرده",
+   "rationale": "'لف‌و‌تکلف' is not an established expression (mixes 'لفت و لعاب' and 'تکلف') and wrongly puts ZWNJ around 'و'; 'بی‌پرده' = candid, no spin."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.1",
+   "verdict": "FIX",
+   "current": "چه چیزی را در سراسر ناوگان باز می‌کند",
+   "proposed": "چه چیزی را در سراسر مجموعه ممکن می‌سازد",
+   "rationale": "'ناوگان' (naval/vehicle fleet) is a calque for a set of software modules; 'مجموعه' used consistently. 'باز می‌کند' is a literal 'unlocks'."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.2",
+   "verdict": "FIX",
+   "current": "ناوگان چگونه به آن تکیه می‌کند",
+   "proposed": "مجموعه چگونه به آن تکیه می‌کند",
+   "rationale": "'ناوگان' (naval/vehicle fleet) is a calque for a set of software modules; 'مجموعه' used consistently."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.name",
+   "verdict": "FIX",
+   "current": "چرا بازی را تغییر می‌دهد",
+   "proposed": "چرا قواعد بازی را تغییر می‌دهد",
+   "rationale": "Same literal-calque issue as gamechanger.0; also keeps the two consistent."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.summary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.short",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.long",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.desc.fallback",
+   "verdict": "FIX",
+   "current": "محصول %s — %s",
+   "proposed": "%s — محصول %s.",
+   "rationale": "Current form attaches 'محصول' to the first placeholder (the name) instead of the second, and drops the source's trailing period; %s order preserved."
+  },
+  {
+   "src": "gen",
+   "key": "alt.portrait",
+   "verdict": "FIX",
+   "current": "پورتره میلوش واسیچ",
+   "proposed": "پرترهٔ Miloš Vasić",
+   "rationale": "Glossary requires the person name verbatim (Latin)."
+  },
+  {
+   "src": "gen",
+   "key": "alt.brandLogo",
+   "verdict": "FIX",
+   "current": "لوگو واسیجیتال دیجیتال",
+   "proposed": "لوگوی Vasic Digital",
+   "rationale": "Garbled brand transliteration 'واسیجیتال دیجیتال' (duplicates 'Digital'); brand must stay Latin verbatim; ezafe 'لوگوی' needed."
+  },
+  {
+   "src": "gen",
+   "key": "status.beta",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.active",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.production",
+   "verdict": "FIX",
+   "current": "تولید",
+   "proposed": "عملیاتی",
+   "rationale": "'تولید' reads as manufacturing/production output; the badge means the product is live/operational."
+  },
+  {
+   "src": "gen",
+   "key": "status.in-development",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.shipped",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.scaffold",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.roadmap",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.stable",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.mixed",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.helix-primary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.vasic-util-secondary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.serverfactory-tertiary",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "a11y.skip",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.expertise",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.work",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.experience",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.skills",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.contact",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "dl.heading",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "dl.choose",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "footer.text",
+   "verdict": "FIX",
+   "current": "Belgrade · Dubna. ساخته شده به عنوان یک سایت استاتیک، مستقر شده روی GitHub Pages.",
+   "proposed": "بلگراد · دوبنا. ساخته‌شده به‌صورت سایت استاتیک و منتشرشده روی GitHub Pages.",
+   "rationale": "City names left in English mid-Persian sentence; 'به عنوان یک ... مستقر شده' is a stiff calque; compound participles take ZWNJ."
+  },
+  {
+   "src": "mv",
+   "key": "footer.version",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.changeLang",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.toggleTheme",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.menu",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.close",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.backToTop",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.primaryNav",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "title.language",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "title.theme",
+   "verdict": "OK"
+  }
+ ],
+ "glossary_violation_judgements": [
+  {
+   "key": "pf.summary",
+   "term": "Constitution",
+   "real": true,
+   "why": "Rendered only as 'قانون اساسی'. Fixed with '(Constitution)' added."
+  },
+  {
+   "key": "alt.portrait",
+   "term": "Miloš Vasić",
+   "real": true,
+   "why": "Transliterated as 'میلوش واسیچ'. Fixed with the Latin name."
+  },
+  {
+   "key": "alt.brandLogo",
+   "term": "Vasic Digital",
+   "real": true,
+   "why": "The transliteration is both a glossary violation and garbled ('واسیجیتال دیجیتال'). Fixed as 'لوگوی Vasic Digital'."
+  }
+ ],
+ "spotcheck": [
+  "Confirm 'مجموعه' for 'fleet' (alternative: 'اکوسیستم').",
+  "Confirm 'انضباط' for 'discipline' in pf.overview.title.",
+  "Decide on a single footer.version spelling, 'نسخه' or 'نسخهٔ', across both sites.",
+  "Decide the Persian-digit policy for '۱/۲/۳' vs '1/2/3' in the tier labels.",
+  "Check whether 'پورتفولیو' or 'نمونه‌کارها' is preferred for Portfolio.",
+  "Check the 'تعویض تم' (toggle) vs 'تغییر تم' (aria) wording difference. Both are fine, but one could be unified.",
+  "Check how the pf.summary rendering of 'anti-bluff QA' ('QA که هیچ ادعای بی‌پشتوانه‌ای را نمی‌پذیرد') reads."
+ ]
+}
