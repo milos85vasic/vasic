@@ -30,7 +30,7 @@ Heads are 9-char SHAs read 2026-11-24 (live values move; re-run to re-measure).
 | ai_interviewing | github vasic-digital, github milos85vasic | d508b8e16 | CURRENT |
 | monetization | github vasic-digital, github milos85vasic, gitlab, gitflic, gitverse | 0634f36fc | CURRENT after push |
 | workshop | github vasic-digital, github milos85vasic | 5a7acdd1f | CURRENT (gate not triggered; no push needed) |
-| submodules/containers | github (x3 names), gitlab (x3 names) | eb70e0543 | CURRENT after push |
+| submodules/containers | github (2 URLs: containers, Containers), gitlab (2 URLs) | eb70e0543 | CURRENT after push |
 | submodules/LLMProvider = llm_provider | github vasic-digital, gitlab, github HelixDevelopment | 53e4b2ec0 | CURRENT |
 | submodules/RAG | github, gitlab | f53c5033f | CURRENT |
 | submodules/verdict | github, gitlab | 66984ecac | CURRENT |
@@ -39,7 +39,7 @@ Heads are 9-char SHAs read 2026-11-24 (live values move; re-run to re-measure).
 | submodules/qa (HelixQA) | github vasic-digital, gitlab, github HelixDevelopment x2 | dc25b8aba | CURRENT after push |
 | submodules/challenges | github, gitlab | 04d5c31b9 | CURRENT after push |
 | submodules/doc_processor | vasic-digital github/gitlab | 12a5fb763 (branch master) | NOT-APPLICABLE-main: all 5 vasic-digital URLs level on `master`; no `main` branch exists there, so the main-directive cannot apply |
-| submodules/doc_processor | HelixDevelopment github, helixdevelopment1 gitlab | main = 86f1a9835 / bea9e9edb (stale, unrelated to master) | NOT TOUCHED; legacy `main` branches, report only |
+| submodules/doc_processor | HelixDevelopment github, helixdevelopment1 gitlab | `main` = 86f1a9835 (github) / bea9e9edb (gitlab); measured vs master 12a5fb763: gitlab main is an ancestor of master (126 behind, merge-base bea9e9edb); github main is DIVERGED (1 unique commit, 126 master-only, merge-base bea9e9edb) | NOT TOUCHED: github main DIVERGED => stop and report per directive; gitlab main is BEHIND master but the repo's canonical branch is master, operator decision whether to ever push main there |
 | submodules/llm_orchestrator | github x2, gitlab x2 | c84c410da | CURRENT |
 | submodules/llms_verifier | github, gitlab | 94e666d41 | CURRENT |
 | submodules/security | github, gitlab | 0513361e2 | CURRENT |
