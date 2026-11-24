@@ -1,0 +1,28 @@
+$ restart.sh --runner=podman
+runner: podman (selected by flag)
+runner: podman (no containers used by this launcher)
+runner: podman (selected by flag)
+runner: podman (no containers used by this launcher)
+not running
+runner: podman (selected by flag)
+runner: podman (no containers used by this launcher)
+>> starting server ...
+rc=0
+$ status.sh --runner podman
+runner: podman (selected by flag)
+runner: podman (no containers used by this launcher)
+RUNNING (pid 1615236)
+  http:  http://localhost:8099
+  https: https://localhost:8444
+{"identity_source":"ldflags","ok":true,"proto":"HTTP/1.1","source_commit":"d508b8e16697e19490b3b8d24f08669a70b6bc0f","source_dirty":false,"s
+rc=0
+$ stop.sh --runner=podman
+runner: podman (selected by flag)
+runner: podman (no containers used by this launcher)
+stopped pid 1615236
+rc=0
+$ status.sh --runner=podman
+runner: podman (selected by flag)
+runner: podman (no containers used by this launcher)
+STOPPED
+rc=0

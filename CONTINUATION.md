@@ -3,9 +3,11 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-11-24T21:10:00Z
-    Synced-Commit: 2d491a7
+    Last-Updated: 2026-11-24T23:30:00Z
+    Synced-Commit: 0e88121
     Authority-Root: submodules/constitution
+
+> **2026-11-24 launcher `--runner` matrix** (`docs/qa/launchers/launcher-runner-matrix-2026-11-24/`): 16 of 18 launcher rows PASS on real runs. OPEN: workshop `status.sh` / `run-isolated.sh` lack the flag on workshop main; fix is committed on workshop branch `pr/status-runner-flag` (not pushed: the workshop materials pre-push gate blocks it; operator decision). `submodules/containers` gitlink + helix-deps ref bumped to eb70e05439f3 (cmd/boot exits 2 for an absent forced runner).
 
 This file is the single canonical handoff document mandated by **Constitution
 §12.10** ("Continuation document — sacred invariant"). Its binding requirements,

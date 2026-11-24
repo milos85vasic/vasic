@@ -1,0 +1,5 @@
+$ (cd /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/umf/job_seeker) : ./bin/jsstack --help
+usage: jsstack [--runner=NAME] probe|port|up|status|logs|down ...
+  --runner=NAME  force the container runner (podman|docker|nerdctl|cri-o|lxd|kubernetes|auto); also --runner NAME
+                 and env CONTAINERS_RUNNER; flag wins. An unknown or not-installed runner is refused (exit 2).
+rc=0

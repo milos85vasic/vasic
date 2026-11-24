@@ -1,0 +1,3 @@
+$ (cd /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/umf) : bash scripts/qa-up.sh --runner bogus --only workshop
+runner: unknown container runner bogus (supported: podman, docker, nerdctl, cri-o, lxd, kubernetes, auto)
+rc=2

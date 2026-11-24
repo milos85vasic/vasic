@@ -1,0 +1,23 @@
+$ (cd /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/umf) : /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/umf/docs/qa/launchers/launcher-runner-matrix-2026-11-24/boot.bin --help
+Usage: boot [options]
+
+Boot services using the Containers module.
+Distributes containers to remote hosts based on .env configuration.
+
+Options:
+  -env string
+    	Path to .env file (default: ./pkg/envconfig/.env)
+  -help
+    	Show help
+  -project string
+    	Path to project directory
+  -runner string
+    	Force the container runner (one of: podman, docker, nerdctl, cri-o, lxd, kubernetes, auto); overrides $CONTAINERS_RUNNER and the default priority order
+  -timeout duration
+    	Boot timeout (default 5m0s)
+
+Examples:
+  boot                           # Boot with default .env
+  boot --env /path/to/.env      # Custom env file
+  boot --project /my/project     # Custom project path
+rc=0

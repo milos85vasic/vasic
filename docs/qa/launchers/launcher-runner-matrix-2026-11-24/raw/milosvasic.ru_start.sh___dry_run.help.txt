@@ -1,0 +1,9 @@
+$ (cd /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/umf/milosvasic.ru) : bash ./start.sh --help
+Usage: ./start.sh [--runner=NAME | --runner NAME | --container] [--dry-run]
+  (no args)         serve with host Jekyll: bundle install && bundle exec jekyll serve
+  --runner=NAME     serve Jekyll inside a container, forced runner NAME (auto = host Jekyll)
+  --container       serve inside a container, runner chosen by the module's default order
+  --dry-run         print the command instead of running it
+  -h, --help        print this help and exit 0
+Env: CONTAINERS_RUNNER, CONTAINERS_DIR. Any other argument is an error (rc 2).
+rc=0
