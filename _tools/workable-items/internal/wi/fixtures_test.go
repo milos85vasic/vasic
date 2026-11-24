@@ -335,7 +335,7 @@ func TestFixtureGoldenGoodIsCleanUnderEveryValidator(t *testing.T) {
 	}
 	rc, out, skipped := canonicalValidate(t, path)
 	if skipped {
-		t.Skip("SKIPPED (not passed): " + out)
+		t.Skip("SKIPPED (not passed): " + out) // SKIP-OK: VSC-432 conditional on the canonical validator binary being runnable; the text says SKIPPED (not passed)
 	}
 	if rc != 0 {
 		t.Fatalf("canonical validator: want rc 0, got %d:\n%s", rc, out)

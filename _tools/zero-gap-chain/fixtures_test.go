@@ -152,7 +152,7 @@ func copyStore(t *testing.T, from, to string) {
 
 func TestFixtures_Regenerate(t *testing.T) {
 	if os.Getenv("ZG_REGEN_FIXTURES") != "1" {
-		t.Skip("set ZG_REGEN_FIXTURES=1 to rewrite the committed corpus")
+		t.Skip("set ZG_REGEN_FIXTURES=1 to rewrite the committed corpus") // SKIP-OK: VSC-432 opt-in corpus regenerator, not a verification test; it never claims a pass when off
 	}
 	good := filepath.Join(fixtureRoot, "golden-good")
 	os.RemoveAll(fixtureRoot + "/golden-good")

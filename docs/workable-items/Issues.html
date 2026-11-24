@@ -6480,20 +6480,6 @@ outside the repository and outside any agent session; losing it makes
 sealed content unrecoverable. Closes when the operator confirms a backup
 exists. The value is never recorded here.</p>
 <h2
-id="vsc-422-operator-item-zero-gap-ratchet-baseline-63-versus-23">VSC-422
-— operator item: zero-gap ratchet baseline 63 versus 23</h2>
-<p><strong>Status:</strong> Operator-blocked <strong>Type:</strong> Task
-<strong>Operator-Block-Details:</strong> WHAT: ratchet shows 63 where 23
-was expected; which is authoritative is an operator decision UNBLOCK:
-Choose one: - [1] adopt 63 after a re-measured run (cost: higher
-baseline) - [2] investigate and restore 23 (cost: investigation time)
-WHO: Claude <strong>Severity:</strong> medium
-<strong>Created-By:</strong> Claude</p>
-<p>WHAT: the zero-findings ratchet records 63 where 23 was expected;
-which figure is authoritative is undecided. Closes when the figures are
-reconciled with a re-measured run and the ratchet file is updated or the
-discrepancy is explained.</p>
-<h2
 id="vsc-423-operator-item-per-language-footer-review-of-the-website-version-footer">VSC-423
 — operator item: per-language footer review of the website-version
 footer</h2>
@@ -6538,5 +6524,29 @@ wave 2</h2>
 expected_files, the verify matrix, manifest.json and vault packing, and
 job_seeker accepts pdf slots only. Needs a design pass first. See
 docs/qa/career/career-engine-wave1-2026-11-24.md</p>
+<h2
+id="vsc-432-register-of-environment-conditional-honest-skips-skip-ok-tracker">VSC-432
+— register of environment-conditional honest skips (SKIP-OK
+tracker)</h2>
+<p><strong>Status:</strong> Queued <strong>Type:</strong> Task
+<strong>Severity:</strong> low <strong>Created-By:</strong> Claude</p>
+<p>WHAT: tracker referenced by SKIP-OK markers on test skips that are
+conditional on an absent tool or host condition (git, bash, a container
+runtime, root user, a submodule checkout) and that print an explicit
+SKIPPED, not-a-pass reason. Each marked site is individually named in
+docs/findings/zero_findings_ledger.jsonl history. Acceptance: no
+unconditional skip carries this marker.</p>
+<h2
+id="vsc-433-three-live-production-specs-deferred-from-gate-6-to-the-post-deploy-live-config-skip-ok-tracker">VSC-433
+— three live-production specs deferred from gate 6 to the post-deploy
+live config (SKIP-OK tracker)</h2>
+<p><strong>Status:</strong> Queued <strong>Type:</strong> Task
+<strong>Severity:</strong> low <strong>Created-By:</strong> Claude</p>
+<p>WHAT: _tests/playwright.config.js testIgnore defers
+restyle-seo-regression, v170-fixes and v171-hardcoding to
+_tests/playwright.live.config.js (testMatch names all four live specs),
+run by _tools/deploy-langs.sh LIVE_SPECS after each deploy, because gate
+6 runs before deployment and the specs assert against production.
+Acceptance: the specs stay in the live testMatch and LIVE_SPECS.</p>
 </body>
 </html>

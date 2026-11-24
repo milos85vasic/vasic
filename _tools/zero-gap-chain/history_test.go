@@ -25,7 +25,7 @@ func gitT(t *testing.T, dir string, args ...string) {
 func historyRepo(t *testing.T) (string, string, string, func(count int, head string)) {
 	t.Helper()
 	if _, err := exec.LookPath("git"); err != nil {
-		t.Skip("git absent: the history verifier cannot be exercised (honest skip)")
+		t.Skip("git absent: the history verifier cannot be exercised (honest skip)") // SKIP-OK: VSC-432 conditional on git on PATH
 	}
 	repo := t.TempDir()
 	gitT(t, repo, "init", "-q")

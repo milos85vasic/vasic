@@ -6004,3 +6004,23 @@ LuaLaTeX tagging via DocumentMetadata plus soft-hyphen and list-geometry fixes, 
 
 Investigated with measurements: hi/ko merging fixed by tagpdf space glyphs, Arabic raw order is content-stream order and not fixable in the renderer, Cyrillic OCR recall low only because Latin text was OCRed with a Cyrillic-only model. Evidence docs/qa/career/career-engine-wave1-2026-11-24.md
 
+## VSC-431 — zero-findings ratchet burn-down programme (63 live vs ceiling 23)
+
+**Status:** Completed (→ Fixed.md)
+**Type:** Task
+**Evidence:** docs/qa/ratchet-burndown-2026-11-24.md
+**Severity:** medium
+**Created-By:** Claude
+
+WHAT: the §11.4.261 sweep refuses the seam at 63 findings against ceilings totalling 23 (weak-spots 2>1, danger-zones 32>9, todo-fixme 2>0, skipped-tests 21>7). Operator decision 2026-11-24: run a burn-down. Acceptance: live count at or under every class ceiling, no ceiling raised, no detector weakened, every in-repo-fixable finding fixed or annotated with its sanctioned line marker and a stated reason, the rest listed with why they cannot close here.
+
+## VSC-422 — operator item: zero-gap ratchet baseline 63 versus 23
+
+**Status:** Completed (→ Fixed.md)
+**Type:** Task
+**Evidence:** docs/qa/ratchet-burndown-2026-11-24.md
+**Severity:** medium
+**Created-By:** Claude
+
+WHAT: the zero-findings ratchet records 63 where 23 was expected; which figure is authoritative is undecided. Closes when the figures are reconciled with a re-measured run and the ratchet file is updated or the discrepancy is explained.
+

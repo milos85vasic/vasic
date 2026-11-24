@@ -426,6 +426,10 @@ deviation is not an override** and must never be written up as one.
 
 ## §3 Active work
 
+## UPDATE 2026-11-24 (zero-findings ratchet burn-down; branch `pr/ratchet-burndown-1`; VSC-431, VSC-432, VSC-433; closes VSC-422)
+
+Live sweep 63 findings against ceiling 23 reproduced, then burned down to 7 with ceilings lowered (TOTAL 23 -> 7). Per-class method and evidence: `docs/qa/ratchet-burndown-2026-11-24.md`. Remaining: six open INVENTORY gap rows plus the deliberately kept `ci.yml.disabled`. `verify-check-registry.sh` still reports two pre-existing FACT DRIFT rows (`scripts/qa-up.sh`, `_tools/lib/vasic-runner.sh`) that belong to the runner programme.
+
 ## UPDATE 2026-11-24 (career engine wave 1 of the job_seeker [UMBRELLA] items; branch `pr/career-engine-wave1`; items VSC-426..VSC-430)
 
 Done in `_tools/career/` (evidence and all measurements: `docs/qa/career/career-engine-wave1-2026-11-24.md`):

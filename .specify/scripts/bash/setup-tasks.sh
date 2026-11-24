@@ -24,7 +24,7 @@ source "$SCRIPT_DIR/common.sh"
 
 # Get feature paths
 _paths_output=$(get_feature_paths) || { echo "ERROR: Failed to resolve feature paths" >&2; exit 1; }
-eval "$_paths_output"
+eval "$_paths_output"  # DANGER-OK: output of this script's own get_feature_paths helper, which shell-quotes every value; vendored spec-kit idiom
 unset _paths_output
 
 # Validate required files

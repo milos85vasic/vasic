@@ -91,7 +91,7 @@ func TestN3_WitnessFetchDisablesConfiguredFsmonitor(t *testing.T) {
 func n3RepoWithPopulatedSubmodule(t *testing.T) (repo, ch, an string) {
 	t.Helper()
 	if _, err := exec.LookPath("git"); err != nil {
-		t.Skip("git absent")
+		t.Skip("git absent") // SKIP-OK: VSC-432 conditional on git on PATH
 	}
 	root := t.TempDir()
 	subOrigin := filepath.Join(root, "sub-origin.git")
@@ -257,7 +257,7 @@ func TestN3_WitnessFetchCredentialHelperResidualIsDocumentedNotClosed(t *testing
 func TestN3_GitFetchArgvIncludesAllNeutralisingFlags(t *testing.T) {
 	realGit, err := exec.LookPath("git")
 	if err != nil {
-		t.Skip("git absent")
+		t.Skip("git absent") // SKIP-OK: VSC-432 conditional on git on PATH
 	}
 	_, ch, an := n3Fixture(t)
 	shimDir := t.TempDir()
