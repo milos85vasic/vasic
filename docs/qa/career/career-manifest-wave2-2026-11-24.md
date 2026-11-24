@@ -44,3 +44,14 @@ callable checks (not wired as blocking: they are measurements, see wave-1 doc).
 * **T173** CV page budget: the task itself says operator decision first.
 * **T180** Hebrew locale: operator decision first.
 * No full 300-PDF rebuild was run (out of scope); the shipped cache is untouched.
+
+## Test run (verbatim log: `career-manifest-wave2-tests-2026-11-24.txt`)
+
+`python3 -m unittest -v test_manifest_contract test_extract_gates test_pdf_pipeline test_gates_render test_pdf_structure test_vault`
+-> `Ran 129 tests in 521.5s, FAILED (failures=1)`: 128 ok; the one failure,
+`test_vault.CrossLanguage.test_node_decrypts_python_sealed_vault_and_rejects_tampering`, is an ENVIRONMENT fault of this
+worktree: `Cannot find module '../../milosvasic.ru/assets/js/vault.js'` (the `milosvasic.ru` submodule is not
+checked out in the PR worktree). It does not touch the manifest or the new gates; not a pass, not hidden.
+A first run (before the `full_cv` flag) had 6 failures in `test_pdf_pipeline`: the minimal fixture documents have no
+experience/education/skills sections, so the heading gate correctly refused them; the heading requirement is now a
+`full_cv=True` flag set by the matrix build and verify (`career.py`), and the same tests pass.
