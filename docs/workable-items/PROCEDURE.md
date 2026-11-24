@@ -175,3 +175,20 @@ rather than a habit.
 8. **Two validators want two option formats.** The canonical validator accepts `[1]`
    markers or two or more `-` bullets; the umbrella validator (V-G11) wants one list line
    per option with `cost:`. A line of the form `- [1] option (cost: ...)` satisfies both.
+
+## Adding an umbrella item, and citing it (VSC) — 2026-11-24
+
+The umbrella key is `VSC` (ratified by the operator 2026-09-08, restated 2026-11-24). Ids are monotonic and never reused.
+
+```bash
+B=submodules/constitution/scripts/workable-items/bin/workable-items-linux
+$B add Task medium --db docs/workable_items.db --prefix VSC --created-by Claude \
+    --title "<what>" --description "<WHAT / how it manifests / acceptance>"
+$B close VSC-NNN --db docs/workable_items.db --status completed --evidence docs/qa/<resolving-path>
+$B block --id VSC-NNN --db docs/workable_items.db --who Claude --details "<WHAT>" --unblock "<signal>"
+$B sync db-to-md --db docs/workable_items.db --out-issues docs/workable-items/Issues.md --out-fixed docs/workable-items/Fixed.md
+$B export --db docs/workable_items.db --formats --out-dir docs/workable-items
+```
+
+Every umbrella commit and pull request cites its item with a trailer line `Roadmap-Item: VSC-NNN`
+(§11.4.293; see `docs/governance/pr-delivery.yaml`). No script here validates the trailer yet.
