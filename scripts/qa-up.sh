@@ -46,6 +46,10 @@
 #                                      flag > $CONTAINERS_RUNNER > default order;
 #                                      unknown / not-installed runner -> exit 2,
 #                                      never a fallback. See docs/RUNNER_FLAG.md.
+#                                      Needed ONLY when a container is used (mv
+#                                      rebuild, workshop/ai boot): vd/mv static
+#                                      servers and --stop work with no Go and no
+#                                      runner; --stop never refuses on a runner.
 #
 # ENVIRONMENT (all optional)
 #   QA_VD_DEFAULT_PORT        preferred port for vd        (default 8401)
@@ -88,16 +92,13 @@ warn() { printf '!! %s\n' "$*" >&2; }
 undetermined() { printf 'UNDETERMINED: %s\n' "$*" >&2; exit 2; }
 
 ONLY="" STOP=0 REBUILD=1
-case " $* " in *" -h "*|*" --help "*) ;; *)
-    vasic_runner_load || exit 2
-    runner_parse_args "$@" || exit 2
-    set -- "${RUNNER_REST[@]+"${RUNNER_REST[@]}"}"
-    # Select BEFORE anything boots: a refused runner must fail the whole run
-    # (rc 2) rather than leave a half-started stack. The choice is exported as
-    # CONTAINERS_RUNNER so site-build and the workshop/ai start/stop scripts
-    # honour the same runner.
-    runner_select || exit 2 ;;
-esac
+# The runner flag is only STRIPPED here (pure bash: no Go, no module). A runner is
+# loaded and selected further down, and only when a container is about to be
+# used (mv rebuild, workshop / ai boot): static servers and --stop need none, and
+# must keep working on a host with no Go toolchain and no cached runner binary.
+QA_ORIG_ARGS=("$@")
+vasic_runner_strip "$@" || exit 2
+set -- "${VASIC_ARGS[@]+"${VASIC_ARGS[@]}"}"
 while [ "$#" -gt 0 ]; do
     case "$1" in
         --only) [ "$#" -ge 2 ] || undetermined "--only needs vd|mv|workshop|ai"
@@ -105,11 +106,28 @@ while [ "$#" -gt 0 ]; do
                 shift 2 ;;
         --stop) STOP=1; shift ;;
         --no-rebuild) REBUILD=0; shift ;;
-        -h|--help) sed -n '2,68p' "${BASH_SOURCE[0]}"; exit 0 ;;
+        -h|--help) sed -n '2,72p' "${BASH_SOURCE[0]}"; exit 0 ;;
         *) undetermined "unknown argument: $1" ;;
     esac
 done
 wants() { [ -z "$ONLY" ] || [ "$ONLY" = "$1" ]; }
+# ---- runner selection, deferred until a container is actually needed --------
+# A runner that was ASKED for (flag / $CONTAINERS_RUNNER) is validated BEFORE
+# anything boots when the run will use containers, so a refusal (rc 2) never
+# leaves a half-started stack; the choice is exported as CONTAINERS_RUNNER so
+# site-build and the workshop/ai scripts honour it. --stop never REFUSES on a
+# runner (stopping is not runner-dependent): for the stacks it tries the
+# selection and, if it is refused, warns and lets their own scripts decide.
+RUNNER_NEEDED=0
+if [ "$VASIC_RUNNER_ASKED" = 1 ] && { wants workshop || wants ai || { wants mv && [ "$REBUILD" -eq 1 ]; }; }; then RUNNER_NEEDED=1; fi
+if [ "$STOP" -eq 1 ]; then { wants workshop || wants ai; } || RUNNER_NEEDED=0; fi
+if [ "$RUNNER_NEEDED" = 1 ]; then
+    if [ "$STOP" -eq 1 ]; then
+        vasic_runner_maybe "${QA_ORIG_ARGS[@]}" || { warn "runner not selected on --stop (stopping needs none); the stack scripts decide"; unset CONTAINERS_RUNNER; }
+    else
+        vasic_runner_maybe "${QA_ORIG_ARGS[@]}" || exit 2
+    fi
+fi
 mkdir -p "$STATE_DIR"
 # ss is needed by BOTH the start and the --stop paths (ownership = listener pid).
 command -v ss   >/dev/null 2>&1 || undetermined "ss absent; cannot prove which process owns a port"

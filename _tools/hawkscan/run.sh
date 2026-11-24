@@ -49,13 +49,19 @@ if grep -q "REPLACE_WITH_REAL_STACKHAWK_APPLICATION_ID" "$HERE/stackhawk.yml"; t
     warn_and_skip "stackhawk.yml still has the placeholder applicationId — create a real Application at app.stackhawk.com first."
 fi
 
-# Which runtime? The Containers Submodule decides (flag/env were validated above;
-# otherwise its default priority order). No `command -v podman || docker` here.
-if [ -z "${CONTAINERS_RUNNER_CHOSEN:-}" ]; then
-    vasic_runner_load && runner_parse_args && runner_select 2>/dev/null \
-        || warn_and_skip "no container runtime could be selected through the Containers Submodule (none installed, or no Go toolchain to build its runner helper)."
+# Which runtime? A forced runner (flag/env) was validated above and is strict.
+# With none forced, prefer the Containers Submodule's selection and, when it
+# cannot answer (no Go toolchain / no cached runner binary), fall back to the
+# host's own podman-else-docker so the scan still runs where it always did.
+CHOSEN="${CONTAINERS_RUNNER_CHOSEN:-}"
+if [ -z "$CHOSEN" ]; then
+    if vasic_runner_load 2>/dev/null && runner_parse_args && runner_select 2>/dev/null; then
+        CHOSEN="$CONTAINERS_RUNNER_CHOSEN"
+    elif command -v podman >/dev/null 2>&1; then CHOSEN="podman"
+    elif command -v docker >/dev/null 2>&1; then CHOSEN="docker"
+    else warn_and_skip "neither podman nor docker is available on this host."; fi
 fi
-RUNTIME="$CONTAINERS_RUNNER_CHOSEN"
+RUNTIME="$CHOSEN"
 case "$RUNTIME" in
     podman|docker|nerdctl) ;;
     *) echo "hawkscan: runner '$RUNTIME' cannot 'run --rm' an image (use podman, docker or nerdctl)" >&2; exit 2 ;;

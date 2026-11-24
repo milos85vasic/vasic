@@ -145,6 +145,16 @@ ht_runner_parse() {
     return 0
 }
 
+# ht_runtime_check NAME -- shape check for a runtime name that is about to be
+# interpolated into an ssh command line (any source: flag, env, legacy
+# $HT_RUNTIME, per-host HT_FLEET). rc 2 + message when malformed.
+ht_runtime_check() {
+    case "$1" in
+        *[!a-z0-9-]*|-*|"") echo "runner: invalid runner name '$1': expected a name like podman, docker or nerdctl" >&2; return 2 ;;
+    esac
+    return 0
+}
+
 ht_fleet_runtime() {
     local want="$1" e host rt
     # A forced runner overrides every per-host choice (see ht_runner_parse).

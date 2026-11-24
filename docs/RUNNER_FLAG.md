@@ -27,10 +27,10 @@ override.
 
 | Launcher | How the flag is honoured |
 |---|---|
-| `scripts/qa-up.sh` | `--runner=NAME`; validated before anything boots (also on `--stop`); exported as `CONTAINERS_RUNNER` so the site rebuild (`site-build`) and the workshop / ai stacks' own scripts see the same choice |
+| `scripts/qa-up.sh` | `--runner=NAME`; the flag is stripped in pure bash and a runner is selected ONLY when containers will be used (mv rebuild, workshop / ai boot) -- validated before anything boots (refusal = rc 2). Static servers (`vd`/`mv` without rebuild) and `--stop` need no runner and work with no Go toolchain / cached runner binary; `--stop` never refuses on a runner (for the stacks it tries the selection, warns if refused and lets their scripts decide); a `--runner` without a value is still a usage error rc 2. Exported as `CONTAINERS_RUNNER` so the site rebuild (`site-build`) and the workshop / ai stacks' own scripts see the same choice |
 | `_tools/deploy-langs.sh` | `--runner=NAME` (in the argument parser, usage text and `--prove-args`); validated before any build, stage, commit or push; reaches the containerised jekyll step through `site-build` |
 | `_tools/helixtranslate-local.sh` | `--runner=NAME`; outranks the legacy `HELIX_RUNTIME` override |
-| `_tools/hawkscan/run.sh` | `--runner=NAME`; the hand-rolled `podman else docker` was replaced by the module's selection; a refused runner is exit 2, not the "skipped" exit 0. Only podman, docker and nerdctl can `run --rm`; any other runner is refused |
+| `_tools/hawkscan/run.sh` | `--runner=NAME`; with no forced runner the module's selection is preferred and, when it cannot answer (no Go / no cached runner binary), the host's `podman else docker` detection is used so the scan still runs; a FORCED runner that is refused is exit 2, not the "skipped" exit 0. Only podman, docker and nerdctl can `run --rm`; any other runner is refused |
 | `_tools/containers/bin/site-build` (`cmd/site-build`) | `--runner=NAME` / env, through `runtime.ResolveRunner` + `SelectRuntime` + `NewDefaultOrchestratorForRunner`; `-probe` prints `runner=<name> source=<flag\|env\|default>` |
 | `_tools/containers/bin/ocr` (`cmd/ocr`) | same as `site-build` |
 | `_tools/containers/bin/runtime-probe` (`cmd/runtime-probe`) | same; the stdout line is `runtime=<name> version=<v> runner=<name> source=<...>`; `-name-only` still prints one bare name; `-priority` together with a forced runner is refused |

@@ -71,3 +71,28 @@ vasic_runner_maybe() {
   VASIC_ARGS=("${RUNNER_REST[@]+"${RUNNER_REST[@]}"}")
   runner_select || return 2
 }
+
+# vasic_runner_strip "$@" -- PURE BASH, needs neither the module nor Go. Removes
+# --runner NAME / --runner=NAME from the args into VASIC_ARGS and sets
+# VASIC_RUNNER_ASKED=1 when a runner was asked for (flag or $CONTAINERS_RUNNER).
+# It validates SHAPE only (a value must be present); choosing and refusing a
+# runner is vasic_runner_maybe's job. For launchers that only need a runner on
+# SOME paths (qa-up: static servers and --stop need none), so the decision to
+# load/select can be deferred until a container is actually about to be used.
+# rc 2 = --runner without a value.
+vasic_runner_strip() {
+  VASIC_ARGS=(); VASIC_RUNNER_ASKED=0
+  [ -n "${CONTAINERS_RUNNER:-}" ] && VASIC_RUNNER_ASKED=1
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
+      --) VASIC_ARGS+=("$@"); break ;;
+      --runner)
+        if [ "$#" -lt 2 ] || [ "${2#-}" != "$2" ]; then printf 'runner: --runner needs a value\n' >&2; return 2; fi
+        VASIC_RUNNER_ASKED=1; shift 2 ;;
+      --runner=*)
+        [ -n "${1#--runner=}" ] || { printf 'runner: --runner= has an empty value\n' >&2; return 2; }
+        VASIC_RUNNER_ASKED=1; shift ;;
+      *) VASIC_ARGS+=("$1"); shift ;;
+    esac
+  done
+}

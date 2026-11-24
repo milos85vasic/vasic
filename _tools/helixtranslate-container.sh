@@ -111,6 +111,10 @@ if [ -n "${HT_RUNNER_OVERRIDE:-}" ]; then RUNTIME="$HT_RUNNER_OVERRIDE"
 elif [ -n "${HT_RUNTIME:-}" ]; then RUNTIME="$HT_RUNTIME"
 else RUNTIME="$(ht_fleet_runtime "$HOST")" || exit 2; fi
 
+# Whatever its source (flag, env, legacy $HT_RUNTIME, HT_FLEET), the name is
+# interpolated into an ssh command line below: shape-check it first.
+ht_runtime_check "$RUNTIME" || exit 2
+
 USER_AT="$(ht_ssh_target "$HOST")" || exit 2
 TMP_OUT="$(mktemp)"; trap 'rm -f "$TMP_OUT"' EXIT
 

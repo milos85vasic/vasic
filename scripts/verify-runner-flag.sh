@@ -79,6 +79,37 @@ expect() {
     ok "$label"
 }
 
+# expect_absent LABEL WANT_RC PATTERN -- CMD...  rc must match AND output must NOT match PATTERN
+expect_absent() {
+    local label="$1" want="$2" pat="$3" out rc; shift 3
+    [ "${1:-}" = "--" ] && shift
+    out="$("$@" 2>&1)"; rc=$?
+    if [ "$rc" != "$want" ]; then bad "$label (rc=$rc, wanted $want)" "$out"; return; fi
+    if printf '%s' "$out" | grep -qE -- "$pat"; then bad "$label (output mentions /$pat/)" "$out"; return; fi
+    ok "$label"
+}
+
+# A host with NO Go toolchain and NO cached runner binary: a PATH of symlinks to
+# every real executable except go/gofmt, and an empty HOME (so no
+# ~/.cache/containers-runner/runner). Built from this host's own binaries.
+mk_nogo_env() {
+    NOGO_BIN="$T/nogo-bin"; NOGO_HOME="$T/nogo-home"
+    [ -d "$NOGO_BIN" ] && return 0
+    mkdir -p "$NOGO_BIN" "$NOGO_HOME"
+    local d f b
+    for d in /usr/bin /bin; do
+        [ -d "$d" ] || continue
+        for f in "$d"/*; do
+            b="${f##*/}"
+            case "$b" in go|gofmt) continue ;; esac
+            [ -x "$f" ] && [ ! -e "$NOGO_BIN/$b" ] && ln -s "$f" "$NOGO_BIN/$b"
+        done
+    done
+}
+nogo() {   # nogo CMD... -- run CMD with the go-less PATH/HOME, no inherited runner state
+    env -u CONTAINERS_RUNNER_BIN -u CONTAINERS_RUNNER -u XDG_CACHE_HOME PATH="$NOGO_BIN" HOME="$NOGO_HOME" "$@"
+}
+
 # ---- core cases: the shared helpers + the shell launchers, against tree $1 ----
 core_cases() {
     local R="$1" E="$T/envfile" IN="$T/in.md"
@@ -130,6 +161,26 @@ core_cases() {
     # the SSH shim refuses a malformed runner BEFORE any ssh
     expect "shim: malformed --runner refused rc2 before ssh" 2 --grep 'invalid runner name' -- \
         env HT_FLEET="h1:podman" HT_SSH_USER=u bash "$R/_tools/helixtranslate-container.sh" --runner='a;b' -i "$IN" -o "$T/o.md" -provider p -model m -target-lang sr
+    expect "shim: malformed legacy HT_RUNTIME refused rc2 before ssh" 2 --grep 'invalid runner name' -- \
+        env -u CONTAINERS_RUNNER HT_RUNTIME='podman;touch pwned' HT_FLEET="h1:podman" HT_SSH_USER=u bash "$R/_tools/helixtranslate-container.sh" -i "$IN" -o "$T/o.md" -provider p -model m -target-lang sr
+    # B1: static servers and --stop need NO runner. On a host with no Go and no
+    # cached runner binary, qa-up must still stop (and not mention a runner).
+    mk_nogo_env
+    command -v "$NOGO_BIN/go" >/dev/null 2>&1 && { bad "nogo PATH still resolves go"; return; }
+    expect_absent "qa-up (no go, no cached runner): --stop --only vd rc0, no runner/go complaint" 0 'runner|go toolchain|COULD NOT' -- \
+        nogo QA_STATE_DIR="$T/qa-nogo" QA_REGISTRY_DIR="$T/qa-nogo-reg" bash "$R/scripts/qa-up.sh" --stop --only vd
+    expect_absent "qa-up (no go): --runner=$ABSENT --stop --only vd rc0 (stopping is not runner-dependent)" 0 'refusing|not installed|go toolchain' -- \
+        nogo QA_STATE_DIR="$T/qa-nogo" QA_REGISTRY_DIR="$T/qa-nogo-reg" bash "$R/scripts/qa-up.sh" --runner="$ABSENT" --stop --only vd
+    expect_absent "qa-up (no go): env CONTAINERS_RUNNER=bogus --stop --only mv rc0" 0 'unknown container runner|go toolchain' -- \
+        nogo CONTAINERS_RUNNER=bogus QA_STATE_DIR="$T/qa-nogo" QA_REGISTRY_DIR="$T/qa-nogo-reg" bash "$R/scripts/qa-up.sh" --stop --only mv
+    expect "qa-up (no go): --runner=$ABSENT --stop --only workshop rc0, warns instead of refusing" 0 --grep 'runner not selected on --stop' -- \
+        nogo QA_STATE_DIR="$T/qa-nogo" QA_REGISTRY_DIR="$T/qa-nogo-reg" QA_AI_HOME="$T/no-ai" bash "$R/scripts/qa-up.sh" --runner="$ABSENT" --stop --only workshop
+    expect "qa-up (no go): a forced runner for a BOOT path is still refused rc2 (workshop)" 2 --grep 'go toolchain not found' -- \
+        nogo QA_STATE_DIR="$T/qa-nogo" QA_REGISTRY_DIR="$T/qa-nogo-reg" bash "$R/scripts/qa-up.sh" --runner="$GOOD" --only workshop
+    expect "qa-up (no go): a forced runner for a BOOT path is still refused rc2 (ai)" 2 --grep 'go toolchain not found' -- \
+        nogo QA_STATE_DIR="$T/qa-nogo" QA_REGISTRY_DIR="$T/qa-nogo-reg" bash "$R/scripts/qa-up.sh" --runner="$GOOD" --only ai
+    expect "qa-up: --runner without a value is a usage error rc2 even on --stop" 2 --grep 'needs a value' -- \
+        env QA_STATE_DIR="$T/qa-nogo" bash "$R/scripts/qa-up.sh" --stop --only vd --runner
 }
 
 # ---- the full suite (real tree only) -----------------------------------------
@@ -154,24 +205,46 @@ full_suite() {
     expect "ocr -probe: forced absent refused rc2" 2 --grep 'refusing to fall back' -- "$O" --runner="$ABSENT" -probe
     expect "go tests: runnersel + runtime-probe" 0 -- bash -c 'cd "$1/_tools/containers" && go test ./internal/runnersel ./cmd/runtime-probe' _ "$R"
     # shell launchers
-    expect "qa-up: forced absent runner refused rc2 before booting anything" 2 --grep 'refusing to fall back' -- \
-        env QA_STATE_DIR="$T/qa" bash "$R/scripts/qa-up.sh" --runner="$ABSENT" --only vd
-    expect "qa-up: unknown runner refused rc2 (also on --stop)" 2 --grep 'unknown container runner' -- \
-        env QA_STATE_DIR="$T/qa" bash "$R/scripts/qa-up.sh" --runner=bogus --stop
-    expect "qa-up: --runner=$GOOD --stop accepted, selected by flag" 0 --grep "runner: $GOOD \\(selected by flag\\)" -- \
+    expect "qa-up: forced absent runner refused rc2 before booting anything (boot path: workshop)" 2 --grep 'refusing to fall back' -- \
+        env QA_STATE_DIR="$T/qa" bash "$R/scripts/qa-up.sh" --runner="$ABSENT" --only workshop
+    expect "qa-up: unknown runner refused rc2 on a boot path" 2 --grep 'unknown container runner' -- \
+        env QA_STATE_DIR="$T/qa" bash "$R/scripts/qa-up.sh" --runner=bogus --only ai
+    expect "qa-up: unknown runner on --stop --only vd is NOT refused (stopping needs no runner)" 0 -- \
+        env QA_STATE_DIR="$T/qa" QA_REGISTRY_DIR="$T/qa-reg" bash "$R/scripts/qa-up.sh" --runner=bogus --stop --only vd
+    expect "qa-up: --runner=$GOOD --stop accepted, selected by flag (stack stop is best-effort)" 0 --grep "runner: $GOOD \\(selected by flag\\)" -- \
         env QA_STATE_DIR="$T/qa" QA_REGISTRY_DIR="$T/qa-reg" bash "$R/scripts/qa-up.sh" --runner="$GOOD" --stop
-    expect "qa-up: module helper missing -> rc2" 2 --grep 'COULD NOT DETERMINE' -- \
-        env CONTAINERS_DIR="$T/nonexistent" bash "$R/scripts/qa-up.sh" --runner="$GOOD" --stop
+    expect "qa-up: module helper missing -> rc2 on a boot path" 2 --grep 'COULD NOT DETERMINE' -- \
+        env CONTAINERS_DIR="$T/nonexistent" bash "$R/scripts/qa-up.sh" --runner="$GOOD" --only workshop
     expect "qa-up: --help documents --runner" 0 --grep '[-][-]runner=podman' -- bash "$R/scripts/qa-up.sh" --help
-    expect "deploy-langs: forced absent runner refused rc2 BEFORE any build/git" 2 --grep 'refusing to fall back' -- \
-        bash "$R/_tools/deploy-langs.sh" --runner="$ABSENT" --dry-run
-    expect "deploy-langs: --runner without value rc2" 2 --grep 'needs a value' -- bash "$R/_tools/deploy-langs.sh" --dry-run --runner
-    expect "deploy-langs: unknown runner rc2" 2 --grep 'unknown container runner' -- bash "$R/_tools/deploy-langs.sh" --runner=bogus
+    # deploy-langs publishes to LIVE sites: these cases run a COPY in a tree with
+    # no sites, no git and no generator, so a regression in the refusal can fail
+    # on a missing path but can never build, commit or push anything real.
+    local DL="$T/dl"; rm -rf -- "$DL"; mkdir -p "$DL/_tools" "$DL/submodules"
+    cp -r "$R/_tools/lib" "$DL/_tools/lib"; cp "$R/_tools/deploy-langs.sh" "$DL/_tools/"
+    ln -s "$R/submodules/containers" "$DL/submodules/containers"
+    expect "deploy-langs (sandbox copy): forced absent runner refused rc2 BEFORE any build/git" 2 --grep 'refusing to fall back' -- \
+        bash "$DL/_tools/deploy-langs.sh" --runner="$ABSENT" --dry-run
+    expect "deploy-langs (sandbox copy): --runner without value rc2" 2 --grep 'needs a value' -- bash "$DL/_tools/deploy-langs.sh" --dry-run --runner
+    expect "deploy-langs (sandbox copy): unknown runner rc2" 2 --grep 'unknown container runner' -- bash "$DL/_tools/deploy-langs.sh" --runner=bogus --dry-run
     expect "deploy-langs: --help documents --runner" 0 --grep '[-][-]runner=NAME' -- bash "$R/_tools/deploy-langs.sh" --help
     expect "hawkscan: forced absent runner refused rc2 (not the skip rc0)" 2 --grep 'refusing to fall back' -- \
         env -u HAWK_API_KEY bash "$R/_tools/hawkscan/run.sh" --runner="$ABSENT"
     expect "hawkscan: forced $GOOD accepted (skips later for the missing key, rc0)" 0 --grep "runner: $GOOD" -- \
         env -u HAWK_API_KEY bash "$R/_tools/hawkscan/run.sh" --runner="$GOOD"
+    # hawkscan, NO flag, a host with podman but no Go and no cached runner binary:
+    # it must still pick the host runtime (legacy podman-else-docker detection)
+    # and not skip. Runs a COPY of the script with a non-placeholder config and a
+    # recording runtime named on PATH (logic proof only: the real scan needs a key).
+    local HK="$T/hk" HKB="$T/hk-bin"; rm -rf -- "$HK" "$HKB"; mkdir -p "$HK/_tools/hawkscan" "$HKB"
+    cp -r "$R/_tools/lib" "$HK/_tools/lib"; cp "$R/_tools/hawkscan/run.sh" "$HK/_tools/hawkscan/"
+    sed 's/REPLACE_WITH_REAL_STACKHAWK_APPLICATION_ID/proof-app/' "$R/_tools/hawkscan/stackhawk.yml" > "$HK/_tools/hawkscan/stackhawk.yml"
+    mkdir -p "$HK/submodules"; ln -sfn "$R/submodules/containers" "$HK/submodules/containers"
+    printf '#!/bin/sh\necho "RECORDED-RUNTIME-CALL $*"\n' > "$HKB/podman"; chmod +x "$HKB/podman"
+    mk_nogo_env
+    expect "hawkscan (no flag, podman on PATH, no go, no cache): falls back to the host runtime" 0 --grep 'RECORDED-RUNTIME-CALL run --rm' -- \
+        env -u CONTAINERS_RUNNER_BIN -u CONTAINERS_RUNNER PATH="$HKB:$NOGO_BIN" HOME="$NOGO_HOME" HAWK_API_KEY=x bash "$HK/_tools/hawkscan/run.sh"
+    expect "hawkscan (forced runner, no go, no cache): strict rc2, no fallback" 2 --grep 'go toolchain not found' -- \
+        env -u CONTAINERS_RUNNER_BIN PATH="$HKB:$NOGO_BIN" HOME="$NOGO_HOME" HAWK_API_KEY=x bash "$HK/_tools/hawkscan/run.sh" --runner=podman
     expect "prove-ocr: forced absent runner refused rc2" 2 --grep 'refusing to fall back' -- \
         bash "$R/_tools/containers/prove-ocr.sh" --runner="$ABSENT"
     expect "od/start-daemon: accepts --runner and says no containers used" 1 --grep 'no containers used' -- \
@@ -207,6 +280,7 @@ mk_sandbox() {   # fresh copy of only what core_cases needs; module + go tree li
     cp "$ROOT"/_tools/lib/*.sh "$SB/_tools/lib/"
     cp "$ROOT/_tools/helixtranslate-local.sh" "$ROOT/_tools/helixtranslate-container.sh" "$SB/_tools/"
     cp "$ROOT/_tools/helixtranslate-container/run.sh" "$SB/_tools/helixtranslate-container/"
+    mkdir -p "$SB/scripts"; cp "$ROOT/scripts/qa-up.sh" "$SB/scripts/"
     ln -s "$ROOT/submodules/containers" "$SB/submodules/containers"
 }
 survivors=0
@@ -236,6 +310,9 @@ mutant "M5 ht_runner_parse accepts shell metacharacters"                _tools/l
 mutant "M6 remote run.sh drops its installed-check (fallback-by-failure)" _tools/helixtranslate-container/run.sh 's/^command -v "\$RUNTIME".*$/:/'
 mutant "M7 helixtranslate-local: HELIX_RUNTIME outranks the forced runner" _tools/helixtranslate-local.sh 's/^RUNTIME="\${CONTAINERS_RUNNER:+\${CONTAINERS_RUNNER_CHOSEN:-}}"$/RUNTIME="${HELIX_RUNTIME:-}"/'
 mutant "M8 vasic_runner_load swallows a missing helper"                 _tools/lib/vasic-runner.sh 's/^  if \[ ! -r "\$helper" \]; then$/  if false; then/'
+mutant "M9 qa-up --stop refuses on a runner (B1 regression)"            scripts/qa-up.sh 's/|| { warn "runner not selected on --stop[^}]*}/|| exit 2/'
+mutant "M10 qa-up selects a runner unconditionally, even for static/--stop (B1)" scripts/qa-up.sh 's/^RUNNER_NEEDED=0$/RUNNER_NEEDED=1/;s/^if \[ "\$STOP" -eq 1 \]; then { wants workshop.*$/:/;s/vasic_runner_maybe "\${QA_ORIG_ARGS\[@\]}"/{ vasic_runner_load \&\& runner_select; }/'
+mutant "M11 shim skips the runtime shape check (legacy HT_RUNTIME)"       _tools/helixtranslate-container.sh 's/^ht_runtime_check "\$RUNTIME" || exit 2$/:/'
 echo "--- $survivors survivor(s)"
 [ "$survivors" -eq 0 ] && exit 0
 exit 1
