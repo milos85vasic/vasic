@@ -410,7 +410,7 @@ deps:
   # ─── Owned product submodules (flat layout, <root>/<name>/) ─────────────
   - name: vasic.digital
     ssh_url: git@github.com:vasic-digital/vasic-digital.github.io.git
-    ref: "006b834edaa76d2daade1a021a0120ca3ad363af"   # i18n review fixes (VSC-423, PR #3) after v1.9.0 merge 3e86312
+    ref: "b63a3c7d23b777b7628b69510096054c5ed6d6a4"   # D2 section-title overflow-wrap fix (PR #4) -- prior: i18n review fixes (VSC-423, PR #3) after v1.9.0 merge 3e86312
     why: "Site submodule — committed static HTML served as-is, no build step. Rendered into by _tools/gen and deployed by _tools/deploy-langs.sh; served directly by the _tests Playwright suite."
     layout: flat
 
