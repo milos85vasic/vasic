@@ -212,7 +212,7 @@ deps:
   # ─── Infrastructure library submodule (grouped layout, submodules/<name>/) ─
   - name: containers
     ssh_url: git@github.com:vasic-digital/containers.git
-    ref: "eb70e05439f30b5dc262aa5818629a34270d9b42"   # bumped 2026-11-24 cmd/boot exits 2 (not 1) for a forced runner that is not installed (ff from 2d18551c6c99, 0 divergent / 3 ahead) -- prior: bumped 2026-11-24 forced-runner selector (--runner / CONTAINERS_RUNNER, containers PR #3, ff from 22b49707f9bb) -- prior: bumped 2026-10-15 VSC-368 (CONST-033 scanner paired proof, ff-only, local) -- gitlink tracks heads/main; tags exist upstream but none names this commit, so a sha is the only exact pin; spec-008 T106: host-shaped hardcoded paths removed from 13 test/doc files
+    ref: "d71b62058502bc1d219319b1db3d27c44845acb9"   # bumped 2026-11-24 batch2 (ff-only, 0 divergent; PR pr/gitlink-bumps-batch2-2026-11-24; prior pin eb70e05439f3) -- prior: bumped 2026-11-24 cmd/boot exits 2 (not 1) for a forced runner that is not installed (ff from 2d18551c6c99, 0 divergent / 3 ahead) -- prior: bumped 2026-11-24 forced-runner selector (--runner / CONTAINERS_RUNNER, containers PR #3, ff from 22b49707f9bb) -- prior: bumped 2026-10-15 VSC-368 (CONST-033 scanner paired proof, ff-only, local) -- gitlink tracks heads/main; tags exist upstream but none names this commit, so a sha is the only exact pin; spec-008 T106: host-shaped hardcoded paths removed from 13 test/doc files
     # ⚠ STAGED, NOT YET COMMITTED (2026-09-01). This gitlink is
     # `git submodule add`-ed and staged, so `git ls-tree HEAD
     # submodules/containers` is still empty. That is precisely why
@@ -241,7 +241,7 @@ deps:
 
   - name: challenges
     ssh_url: git@github.com:vasic-digital/challenges.git
-    ref: "d94e55492f10e29b2bd6eeca3c1be2adbef597f4"   # bumped 2026-10-15 VSC-368 (CONST-033 scanner paired proof, ff-only, local) -- gitlink tracks heads/main; `git tag --points-at HEAD` is empty, so a sha is the only exact pin; bumped 2026-09-18 to bring the four agent carriers into lockstep (closes C8)
+    ref: "04d5c31b97f901f0592ed856c48585f40121022f"   # bumped 2026-11-24 batch2 (ff-only, 0 divergent; PR pr/gitlink-bumps-batch2-2026-11-24; prior pin d94e55492f10) -- prior: bumped 2026-10-15 VSC-368 (CONST-033 scanner paired proof, ff-only, local) -- gitlink tracks heads/main; `git tag --points-at HEAD` is empty, so a sha is the only exact pin; bumped 2026-09-18 to bring the four agent carriers into lockstep (closes C8)
     why: "digital.vasic.challenges — the test-execution/reporting foundation HelixQA (submodules/qa) is built on, per its own go.mod replace directive. Added alongside submodules/qa 2026-09-18 for the same reason; not independently consumed by anything else in this umbrella yet."
     layout: grouped
 
@@ -416,7 +416,7 @@ deps:
 
   - name: milosvasic.ru
     ssh_url: git@github.com:milos85vasic/milosvasic.ru.git
-    ref: "74c554c9bfcef7e5e0f20d5de7aee80c558ed0c1"   # bumped 2026-11-24 (ff-only, 0 divergent, target on the repo's main; PR pr/gitlink-bumps-2026-11-24; prior pin 9b5bf27c087e) -- prior: v2.0.0 tag (footer Website version); sha is exact
+    ref: "cc7853480d554af4f25255284cdc36dfcaef0640"   # bumped 2026-11-24 batch2 (ff-only, 0 divergent; PR pr/gitlink-bumps-batch2-2026-11-24; prior pin 74c554c9bfce) -- prior: bumped 2026-11-24 (ff-only, 0 divergent, target on the repo's main; PR pr/gitlink-bumps-2026-11-24; prior pin 9b5bf27c087e) -- prior: v2.0.0 tag (footer Website version); sha is exact
     # Moved 2026-09-08 from f5f13a25eaebb4d8023717040425992a43c53de1 by operator
     # decision #13: `_site/` was UNTRACKED there (8 files, one rendered page).
     # The `why:` below has said "its rendered _site/ is git-ignored" all along;
@@ -526,7 +526,7 @@ deps:
 
   - name: llm_orchestrator
     ssh_url: git@github.com:vasic-digital/LLMOrchestrator.git
-    ref: "c84c410daa05fa6532f8baca826e6d0427e72c11"   # bumped 2026-10-15 VSC-369 operator-approved pass-rate floors + down-replica finding (ff-only, local) -- bumped 2026-10-15 VSC-369 review follow-ups (stub loopback binding measured, fresh HOME, harness self-test, host A1, 0 % threshold cases, ff-only, local) -- bumped 2026-10-15 VSC-369 (CONST-050(B) family --prove-failure convention, ff-only, local) -- bumped 2026-10-15 VSC-368 (CONST-033 scanner paired proof, ff-only, local) -- gitlink tracks heads/master; bumped 2026-09-18 to add GEMINI.md and bring the four agent carriers into lockstep (closes C2+C8)
+    ref: "8ee57956359c1d1b609bb9a0aa53887c06969941"   # bumped 2026-11-24 batch2 (ff-only, 0 divergent; PR pr/gitlink-bumps-batch2-2026-11-24; prior pin c84c410daa05) -- prior: bumped 2026-10-15 VSC-369 operator-approved pass-rate floors + down-replica finding (ff-only, local) -- bumped 2026-10-15 VSC-369 review follow-ups (stub loopback binding measured, fresh HOME, harness self-test, host A1, 0 % threshold cases, ff-only, local) -- bumped 2026-10-15 VSC-369 (CONST-050(B) family --prove-failure convention, ff-only, local) -- bumped 2026-10-15 VSC-368 (CONST-033 scanner paired proof, ff-only, local) -- gitlink tracks heads/master; bumped 2026-09-18 to add GEMINI.md and bring the four agent carriers into lockstep (closes C2+C8)
     why: "LLM-agent-orchestration dependency consumed by submodules/qa via go.mod replace digital.vasic.llmorchestrator => ../llm_orchestrator. A standalone Go module (Go 1.25) for spawning, managing, and communicating with multiple headless CLI LLM agents through a hybrid pipe+file protocol; used by qa's autonomous QA session feature."
     layout: grouped
 
@@ -550,7 +550,7 @@ deps:
 
   - name: vision_engine
     ssh_url: git@github.com:vasic-digital/VisionEngine.git
-    ref: "d52fa447d168b2023613cdd6e0bcf7e9c2148bbb"   # bumped 2026-10-15 VSC-369 operator-approved pass-rate floors + down-replica finding (ff-only, local) -- bumped 2026-10-15 VSC-369 review follow-ups (stub loopback binding measured, fresh HOME, harness self-test, host A1, 0 % threshold cases, ff-only, local) -- bumped 2026-10-15 VSC-369 (CONST-050(B) family --prove-failure convention, ff-only, local) -- bumped 2026-10-15 VSC-368 (CONST-033 scanner paired proof, ff-only, local) -- gitlink tracks heads/master; bumped 2026-09-18 to add GEMINI.md and bring the four agent carriers into lockstep (closes C2+C8)
+    ref: "1b2b991c31d46fd43447f2456f163032dfdcaf94"   # bumped 2026-11-24 batch2 (ff-only, 0 divergent; PR pr/gitlink-bumps-batch2-2026-11-24; prior pin d52fa447d168) -- prior: bumped 2026-10-15 VSC-369 operator-approved pass-rate floors + down-replica finding (ff-only, local) -- bumped 2026-10-15 VSC-369 review follow-ups (stub loopback binding measured, fresh HOME, harness self-test, host A1, 0 % threshold cases, ff-only, local) -- bumped 2026-10-15 VSC-369 (CONST-050(B) family --prove-failure convention, ff-only, local) -- bumped 2026-10-15 VSC-368 (CONST-033 scanner paired proof, ff-only, local) -- gitlink tracks heads/master; bumped 2026-09-18 to add GEMINI.md and bring the four agent carriers into lockstep (closes C2+C8)
     why: "Computer-vision dependency consumed by submodules/qa via go.mod replace digital.vasic.visionengine => ../vision_engine. A standalone, project-not-aware Go module providing computer-vision and LLM-vision building blocks for UI screenshot analysis and navigation-graph construction; used by qa's vision-based issue detection and autonomous QA session."
     layout: grouped
 
