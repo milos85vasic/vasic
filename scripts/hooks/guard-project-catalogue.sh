@@ -2823,8 +2823,10 @@ MUTS
         done
         echo "$best $r"
     }
+    # 1-minute load for the diagnostic message only; "unknown" (never an empty string) where it cannot be read
+    load1() { cut -d' ' -f1 "${CATALOGUE_LOADAVG_FILE:-/proc/loadavg}" 2>/dev/null | grep . || echo unknown; }
     local l1 ms l1r; l1=$(l1_p95 200 3 0); ms=${l1% *}; l1r=${l1#* }
-    [ "$ms" -lt 100 ] && ok "L1 latency p95=${ms} ms over 200 probes (< 100 ms; best of ${l1r} round(s), load $(cut -d' ' -f1 /proc/loadavg))" || bad "L1 latency p95=${ms} ms in the best of ${l1r} rounds (load $(cut -d' ' -f1 /proc/loadavg))"
+    [ "$ms" -lt 100 ] && ok "L1 latency p95=${ms} ms over 200 probes (< 100 ms; best of ${l1r} round(s), load $(load1))" || bad "L1 latency p95=${ms} ms in the best of ${l1r} rounds (load $(load1))"
     local l1m; l1m=$(l1_p95 20 1 0.15); l1m=${l1m% *}
     [ "$l1m" -ge 100 ] && ok "L1m paired mutation: a hook slowed by 150 ms per call is reported too slow (p95=${l1m} ms)" || bad "L1m a slowed hook was NOT detected (p95=${l1m} ms)"
     echo "guard-project-catalogue --prove-failure: $pass passed, $fail failed"
