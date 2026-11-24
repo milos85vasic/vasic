@@ -3,9 +3,11 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-11-24T23:30:00Z
-    Synced-Commit: 311ec4f
+    Last-Updated: 2026-11-24T23:59:00Z
+    Synced-Commit: a36afb66bead
     Authority-Root: submodules/constitution
+
+> **2026-11-24 §11.4.299 landing (PR pr/constitution-299-2026-11-24):** constitution pin `6d93ccd19e1c` -> `cff7e92b595d` (adds §11.4.299 all-upstreams delivery; `Constitution.md` 13,142 lines / 280 `### §` anchors / 2,275,160 bytes / blob `ab5dcf28e1df` / sha256 `ba1adfbcd80b…`, re-measured on disk), gitlink and `helix-deps.yaml` ref staged together; four carriers edited as one shared artifact (C5 digest count 1); new `scripts/verify-upstream-sync.sh` (check-registry `upstream-sync`), `config/upstream-parity-*`. Resume: triage the fleet findings of `bash scripts/verify-upstream-sync.sh`; the C2 quote-fidelity DRIFT of `continuation-check.sh` pre-dates this change (present on github/main at the old pin).
 
 > **2026-11-24 launcher `--runner` matrix** (`docs/qa/launchers/launcher-runner-matrix-2026-11-24/`): 16 of 18 launcher rows PASS on real runs. OPEN: workshop `status.sh` / `run-isolated.sh` lack the flag on workshop main; fix is committed on workshop branch `pr/status-runner-flag` (not pushed: the workshop materials pre-push gate blocks it; operator decision). `submodules/containers` gitlink + helix-deps ref bumped to eb70e05439f3 (cmd/boot exits 2 for an absent forced runner).
 
