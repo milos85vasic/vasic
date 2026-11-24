@@ -1,0 +1,42 @@
+PASS T168 control ko: real PDF passes validate_pdf
+PASS T168 control ar: real PDF passes the boundary gate - {'mupdf': 1007, 'poppler-raw': 1053, 'pypdf': 891}
+PASS T168 control ar: real PDF passes validate_pdf
+PASS T168 control fa: real PDF passes the boundary gate - {'mupdf': 1012, 'poppler-raw': 1069, 'pypdf': 918}
+PASS T168 control fa: real PDF passes validate_pdf
+PASS T168 M-mupdf-hi: MuPDF loses 45% of the spaces -> blocked - ['word boundaries differ between extractors (min/max 0.59 < 0.90): mupdf 600, poppler-raw 1003, pypdf 1009']
+PASS T168 M-mupdf-ko: MuPDF loses 45% of the spaces -> blocked - ['word boundaries differ between extractors (min/max 0.60 < 0.90): mupdf 567, poppler-raw 928, pypdf 951']
+PASS T168 M-poppler-en: poppler loses 45% of the spaces -> blocked (any extractor, not only MuPDF) - ['word boundaries differ between extractors (min/max 0.60 < 0.90): mupdf 922, poppler-raw 556, pypdf 933']
+PASS T168 M-pypdf-en: pypdf with no spaces at all -> blocked - ['word boundaries differ between extractors (min/max 0.13 < 0.90): mupdf 922, poppler-raw 916, pypdf 116']
+PASS T168 M-one-extractor: fewer than two extractors -> CANNOT DETERMINE (None, never a pass) - None
+PASS T168 exemption: unspaced scripts (zh) are not judged by token count (control for the exemption) - []
+PASS T169 control ar: real PDF reads forward in both supported readers and passes validate_pdf - {'pdftotext-layout': {'phrases': 123, 'forward': 113, 'reversed': 0}, 'mupdf': {'phrases': 123, 'forward': 117, 'reversed': 0}}
+PASS T169 M-mirrored-ar: real visually-mirrored PDF (words laid out last-first) -> blocked by T169 in validate_pdf - {'pdftotext-layout': {'phrases': 123, 'forward': 0, 'reversed': 113}, 'mupdf': {'phrases': 123, 'forward': 0, 'reversed': 109}}
+PASS T169 M-mupdf-only-ar: only MuPDF reads reversed -> blocked (BOTH readers must agree) - ['RTL words not in logical order in mupdf: 0/123 phrases forward (0% < 80%), 84 word-reversed; supported readers: pdftotext-layout, mupdf']
+PASS T169 M-layout-only-ar: only pdftotext -layout reads reversed -> blocked - ['RTL words not in logical order in pdftotext-layout: 0/123 phrases forward (0% < 80%), 65 word-reversed; supported readers: pdftotext-layout, mupdf']
+PASS T169 M-no-mupdf-ar: a supported reader is absent -> CANNOT DETERMINE (None), never a pass - None
+PASS T169 control fa: real PDF reads forward in both supported readers and passes validate_pdf - {'pdftotext-layout': {'phrases': 134, 'forward': 132, 'reversed': 0}, 'mupdf': {'phrases': 134, 'forward': 127, 'reversed': 0}}
+PASS T169 M-mirrored-fa: real visually-mirrored PDF (words laid out last-first) -> blocked by T169 in validate_pdf - {'pdftotext-layout': {'phrases': 134, 'forward': 0, 'reversed': 125}, 'mupdf': {'phrases': 134, 'forward': 0, 'reversed': 113}}
+PASS T169 M-mupdf-only-fa: only MuPDF reads reversed -> blocked (BOTH readers must agree) - ['RTL words not in logical order in mupdf: 0/134 phrases forward (0% < 80%), 94 word-reversed; supported readers: pdftotext-layout, mupdf']
+PASS T169 M-layout-only-fa: only pdftotext -layout reads reversed -> blocked - ['RTL words not in logical order in pdftotext-layout: 0/134 phrases forward (0% < 80%), 87 word-reversed; supported readers: pdftotext-layout, mupdf']
+PASS T169 M-no-mupdf-fa: a supported reader is absent -> CANNOT DETERMINE (None), never a pass - None
+PASS T169 scope: pdftotext -raw reads this correct PDF mostly reversed, yet validate_pdf passes it (raw is NOT a supported reader) - raw forward 0/123
+PASS T169 scope: left-to-right locales are not judged
+PASS T178 control en: real CV has no automatic-hyphenation break - explicit=3
+PASS T178 M-auto-en: injected 'evalua-/tion' (renderer cut a word) -> blocked - ['2 word(s) split by automatic hyphenation at a line end: p1:evalua-tion, p1:post-gresql']
+PASS T178 M-budget-en: 9 source-hyphen breaks -> blocked by the budget - ['12 line-end breaks at source hyphens exceed the budget 8']
+PASS T178 M-nosource-en: no source => an auto break cannot be excused - ['5 word(s) split by automatic hyphenation at a line end: p1:multi-provider, p1:anti-bluff, p1:evalua-tion, p1:post-gresql']
+PASS T178 control de: real CV has no automatic-hyphenation break - explicit=4
+PASS T178 M-auto-de: injected 'evalua-/tion' (renderer cut a word) -> blocked - ['2 word(s) split by automatic hyphenation at a line end: p1:evalua-tion, p1:post-gresql']
+PASS T178 M-budget-de: 9 source-hyphen breaks -> blocked by the budget - ['13 line-end breaks at source hyphens exceed the budget 8']
+PASS T178 M-nosource-de: no source => an auto break cannot be excused - ['6 word(s) split by automatic hyphenation at a line end: p1:echtzeit-hardwareintegration, p1:anti-bluff-qualitätssicherung, p1:evalua-tion, p1:post-gresql']
+PASS T179 control en: page-1 OCR recall >= 90% and validate_pdf rc 0 - recall=0.984984984984985
+PASS T179 control ru: page-1 OCR recall >= 90% and validate_pdf rc 0 - recall=0.964
+PASS T179 M-scramble-en: real PDF whose text layer no longer matches the page -> blocked - contact URL not intact in text layer: i@mvasic.ru; contact URL not intact in text layer: milosvasic.ru; contact URL not 
+PASS T179 M-scramble-ru: real PDF whose text layer no longer matches the page -> blocked - contact URL not intact in text layer: i@mvasic.ru; contact URL not intact in text layer: milosvasic.ru; contact URL not 
+PASS T179 root cause of G-20: Cyrillic CV read with `rus` alone is below the bar (Latin names mis-read), `rus+eng` clears it - rus-only=0.728
+PASS T179 M-no-tesseract: engine absent -> CANNOT DETERMINE (None / rc 2), never a pass - rc=2
+PASS T179 scope: locales without an OCR pack (hi, ko, ar, es...) are reported not-applicable, not silently passed
+
+47 passed, 0 failed of 47 cases
+
+[exited with code 0]

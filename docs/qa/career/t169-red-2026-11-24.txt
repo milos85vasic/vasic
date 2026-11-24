@@ -1,0 +1,8 @@
+RED baseline JSK-T169, gate function present but NOT wired into gates.validate_pdf
+source: visually-mirrored PDFs rendered by WeasyPrint from the real ar/fa documents (sample_build.visual_order_pdf)
+cv-ai-engineering-ar: validate_pdf rc=1; T169 message in verdict: False
+  standalone gate: ['RTL words not in logical order in pdftotext-layout: 0/123 phrases forward (0% < 80%), 113 word-reversed; supported readers: pdftotext-layout, mupdf', 'RTL words not in logical order in mupdf: 0/123 phrases forward (0% < 80%), 109 word-reversed; supported readers: pdftotext-layout, mupdf']
+cv-ai-engineering-fa: validate_pdf rc=1; T169 message in verdict: False
+  standalone gate: ['RTL words not in logical order in pdftotext-layout: 0/134 phrases forward (0% < 80%), 125 word-reversed; supported readers: pdftotext-layout, mupdf', 'RTL words not in logical order in mupdf: 0/134 phrases forward (0% < 80%), 113 word-reversed; supported readers: pdftotext-layout, mupdf']
+cover-ai-engineering-ar: validate_pdf rc=1; T169 message in verdict: False
+  standalone gate: ['RTL words not in logical order in pdftotext-layout: 0/46 phrases forward (0% < 80%), 39 word-reversed; supported readers: pdftotext-layout, mupdf', 'RTL words not in logical order in mupdf: 0/46 phrases forward (0% < 80%), 38 word-reversed; supported readers: pdftotext-layout, mupdf']
