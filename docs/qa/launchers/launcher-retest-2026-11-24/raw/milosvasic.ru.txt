@@ -1,0 +1,55 @@
+=== [help-flag] $ bash start.sh --help --dry-run
+bundle install && bundle exec jekyll serve
+--- rc=0
+=== [unknown-flag-dry] $ bash start.sh --bogus --dry-run
+bundle install && bundle exec jekyll serve
+--- rc=0
+=== [default-dry] $ bash start.sh --dry-run
+bundle install && bundle exec jekyll serve
+--- rc=0
+=== [runner-podman-dry] $ bash start.sh --runner=podman --dry-run
+runner: podman (selected by flag)
+serving Jekyll in a container via: podman-compose (runner podman)
+podman-compose -p milosvasic-ru-serve -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/mvwt2/_container/compose.serve.yml up
+--- rc=0
+=== [runner-auto-dry] $ bash start.sh --runner=auto --dry-run
+runner: podman (selected by flag)
+runner: podman (no containers used; host Jekyll serve)
+bundle install && bundle exec jekyll serve
+--- rc=0
+=== [container-dry] $ bash start.sh --container --dry-run
+runner: podman (selected by default)
+serving Jekyll in a container via: podman-compose (runner podman)
+podman-compose -p milosvasic-ru-serve -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/mvwt2/_container/compose.serve.yml up
+--- rc=0
+=== [env-podman-dry] $ env CONTAINERS_RUNNER=podman bash start.sh --dry-run
+runner: podman (selected by env)
+runner: podman (no containers used; host Jekyll serve)
+bundle install && bundle exec jekyll serve
+--- rc=0
+=== [flag-auto-over-env-docker-dry] $ env CONTAINERS_RUNNER=docker bash start.sh --runner=auto --dry-run
+runner: podman (selected by flag)
+runner: podman (no containers used; host Jekyll serve)
+bundle install && bundle exec jekyll serve
+--- rc=0
+=== [runner-docker-refused] $ bash start.sh --runner=docker --dry-run
+runner: forced container runner is not available: "docker" (selected via flag) is not installed or not reachable on this host; refusing to fall back to another runner
+--- rc=2
+=== [env-docker-refused] $ env CONTAINERS_RUNNER=docker bash start.sh --dry-run
+runner: forced container runner is not available: "docker" (selected via env) is not installed or not reachable on this host; refusing to fall back to another runner
+--- rc=2
+=== [runner-bogus] $ bash start.sh --runner=bogus --dry-run
+runner: unknown container runner "bogus" (from --runner): supported runners are podman, docker, nerdctl, cri-o, lxd, kubernetes, or "auto" for the default order
+--- rc=2
+=== [runner-novalue] $ bash start.sh --runner --dry-run
+runner: --runner needs a value
+--- rc=2
+=== [runner-docker-container-refused] $ bash start.sh --runner=docker --container --dry-run
+runner: forced container runner is not available: "docker" (selected via flag) is not installed or not reachable on this host; refusing to fall back to another runner
+--- rc=2
+=== [real-serve-http] $ curl -sS -m 5 -o /dev/null -w HTTP %{http_code} bytes %{size_download}\n http://127.0.0.1:14000/
+HTTP 200 bytes 40059
+--- rc=0
+=== [stop-via-SIGTERM-of-start.sh (trap -> compose down)]
+0
+(0 = container removed)

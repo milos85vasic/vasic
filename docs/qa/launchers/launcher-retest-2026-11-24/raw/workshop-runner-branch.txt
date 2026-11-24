@@ -1,0 +1,142 @@
+=== [help] $ bash scripts/start.sh --help
+Usage: start.sh [--port N] [--bind ADDR] [--wait-healthy N] [--runner=NAME]
+  --runner=NAME   force the container runner (podman|docker|nerdctl|cri-o|lxd|kubernetes|auto); overrides $CONTAINERS_RUNNER
+                  and the default priority order. An unknown or not-installed runner is refused (rc 2).
+--- rc=0
+=== [bogus-flag] $ bash scripts/start.sh --bogus
+UNDETERMINED: unknown argument: --bogus
+--- rc=2
+=== [runner-docker-refused] $ bash scripts/start.sh --runner=docker
+runner: forced container runner is not available: "docker" (selected via flag) is not installed or not reachable on this host; refusing to fall back to another runner
+--- rc=2
+=== [runner-bogus] $ bash scripts/start.sh --runner=bogus
+runner: unknown container runner "bogus" (from --runner): supported runners are podman, docker, nerdctl, cri-o, lxd, kubernetes, or "auto" for the default order
+--- rc=2
+=== [runner-novalue] $ bash scripts/start.sh --runner
+runner: --runner needs a value
+--- rc=2
+=== [runner-empty] $ bash scripts/start.sh --runner=
+runner: --runner= has an empty value
+--- rc=2
+=== [env-docker-refused] $ env CONTAINERS_RUNNER=docker bash scripts/start.sh
+runner: forced container runner is not available: "docker" (selected via env) is not installed or not reachable on this host; refusing to fall back to another runner
+--- rc=2
+=== [stop-runner-docker] $ bash scripts/stop.sh --runner=docker
+runner: forced container runner is not available: "docker" (selected via flag) is not installed or not reachable on this host; refusing to fall back to another runner
+--- rc=2
+=== [restart-runner-docker] $ bash scripts/restart.sh --skip-quiescence-check --runner=docker
+runner: forced container runner is not available: "docker" (selected via flag) is not installed or not reachable on this host; refusing to fall back to another runner
+--- rc=2
+=== [precedence-flag-over-env] $ env CONTAINERS_RUNNER=docker bash scripts/start.sh --runner=bogus
+runner: unknown container runner "bogus" (from --runner): supported runners are podman, docker, nerdctl, cri-o, lxd, kubernetes, or "auto" for the default order
+--- rc=2
+=== [snap x] podman ps (ours)
+workshop-curriculum_platform_1 Up About a minute (healthy)
+listeners:
+LISTEN 0      4096                                     127.0.0.1:8087       0.0.0.0:*    users:(("workshop-server",pid=3658171,fd=4))                       
+=== [start-runner-podman-altport] $ bash scripts/start.sh --runner=podman --port 18087 --wait-healthy 120
+runner: podman (selected by flag)
+>> WORKSHOP_ENV is '' (not production): the production boot guard is inert
+>> AUTH_SHARED_SECRET_FILE is unset: authkit audience-scoped tokens are OFF (a presented X-Authkit-Token is refused)
+require: OK  (8 entries)
+>> control plane not built yet; building ...
+>> containers submodule: /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/submodules/containers
+replace target ../../../submodules/passage (in /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/backend/go.mod) does not exist
+PROBLEM: workshop-server failed to build from /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/backend/./cmd/workshop-server
+--- rc=1
+=== [start-runner-podman-altport] $ bash scripts/start.sh --runner=podman --port 18087 --wait-healthy 120
+>> stamping workshop-server: build=7797b732-20261124T125120Z dirty=false src_dirty=false (8 input module(s))
+>> building workshop-server (static) from /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/backend/./cmd/workshop-server ...
+>>    -> /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/bin/workshop-server (7797b732-20261124T125120Z, src_dirty=false)
+>> starting the workshop curriculum stack ...
+2026/11/24 13:51:28 [INFO]  workshop-boot: compose up: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/compose.yml --project-name wsretest up -d --no-recreate
+2026/11/24 13:51:28 [DEBUG] workshop-boot: executing: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/compose.yml --project-name wsretest up -d --no-recreate (dir: /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform)
+2026/11/24 13:51:29 [DEBUG] workshop-boot: compose command completed successfully
+2026/11/24 13:51:29 [DEBUG] workshop-boot: podman-compose wait: all requested services ready (1)
+  platform                     running
+>> oomd protection applied while the stack was still booting
+HEALTHY: http://127.0.0.1:18087/api/health (5ms)
+UP: http://127.0.0.1:18087
+>> oomd protection: libpod-75ff70f42d1b44ef14a5dec265e061e43a990f069a0499a1f632c768e25afbad.scope ManagedOOMPreference=avoid, cgroup user.oomd_avoid=1, drop-in present
+WORKSHOP_OOMD_OUTCOME=applied
+--- rc=0
+=== [status-up] $ bash scripts/status.sh
+  platform                     running
+RUNNING
+  http:   http://127.0.0.1:18087
+  health: OK (4ms)
+  { "status": "ok", "http": "http://127.0.0.1:18087", "pid": 1, "chapters": 5, "web": true, "index": "/var/lib/workshop", "build": "7797b732-20261124T125120Z", "source_commit": "7797b7320e09b66a93b61e0da688ecf2ec060516", "source_dirty": false, "built_at": "2026-11-24T12:51:20Z", "identity_source": "ldflags", "ollama": { "url": "http://127.0.0.1:11434", "configured": true, "reachable": true } }
+--- rc=0
+=== [health-curl] $ curl -sS -m 5 -o /dev/null -w HTTP %{http_code}\n http://127.0.0.1:18087/api/health
+HTTP 200
+--- rc=0
+=== [real-read] $ curl -sS -m 10 -o /dev/null -w HTTP %{http_code} bytes %{size_download}\n http://127.0.0.1:18087/
+HTTP 200 bytes 13344
+--- rc=0
+=== [double-start-runner-auto] $ bash scripts/start.sh --runner=auto --port 18087
+  http:   http://127.0.0.1:18087
+  health: OK (4ms)
+  { "status": "ok", "http": "http://127.0.0.1:18087", "pid": 1, "chapters": 5, "web": true, "index": "/var/lib/workshop", "build": "7797b732-20261124T125120Z", "source_commit": "7797b7320e09b66a93b61e0da688ecf2ec060516", "source_dirty": false, "built_at": "2026-11-24T12:51:20Z", "identity_source": "ldflags", "ollama": { "url": "http://127.0.0.1:11434", "configured": true, "reachable": true } }
+>> oomd protection: libpod-75ff70f42d1b44ef14a5dec265e061e43a990f069a0499a1f632c768e25afbad.scope ManagedOOMPreference=avoid, cgroup user.oomd_avoid=1, drop-in present
+WORKSHOP_OOMD_OUTCOME=applied
+--- rc=0
+=== [double-start-env-podman] $ env CONTAINERS_RUNNER=podman bash scripts/start.sh --port 18087
+  http:   http://127.0.0.1:18087
+  health: OK (3ms)
+  { "status": "ok", "http": "http://127.0.0.1:18087", "pid": 1, "chapters": 5, "web": true, "index": "/var/lib/workshop", "build": "7797b732-20261124T125120Z", "source_commit": "7797b7320e09b66a93b61e0da688ecf2ec060516", "source_dirty": false, "built_at": "2026-11-24T12:51:20Z", "identity_source": "ldflags", "ollama": { "url": "http://127.0.0.1:11434", "configured": true, "reachable": true } }
+>> oomd protection: libpod-75ff70f42d1b44ef14a5dec265e061e43a990f069a0499a1f632c768e25afbad.scope ManagedOOMPreference=avoid, cgroup user.oomd_avoid=1, drop-in present
+WORKSHOP_OOMD_OUTCOME=applied
+--- rc=0
+=== [precedence-flag-auto-over-env-docker] $ env CONTAINERS_RUNNER=docker bash scripts/start.sh --runner=auto --port 18087
+  http:   http://127.0.0.1:18087
+  health: OK (3ms)
+  { "status": "ok", "http": "http://127.0.0.1:18087", "pid": 1, "chapters": 5, "web": true, "index": "/var/lib/workshop", "build": "7797b732-20261124T125120Z", "source_commit": "7797b7320e09b66a93b61e0da688ecf2ec060516", "source_dirty": false, "built_at": "2026-11-24T12:51:20Z", "identity_source": "ldflags", "ollama": { "url": "http://127.0.0.1:11434", "configured": true, "reachable": true } }
+>> oomd protection: libpod-75ff70f42d1b44ef14a5dec265e061e43a990f069a0499a1f632c768e25afbad.scope ManagedOOMPreference=avoid, cgroup user.oomd_avoid=1, drop-in present
+WORKSHOP_OOMD_OUTCOME=applied
+--- rc=0
+=== [stop-runner-podman] $ bash scripts/stop.sh --runner=podman
+2026/11/24 13:52:56 [INFO]  workshop-boot: compose down: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/compose.yml --project-name wsretest down --timeout 20
+2026/11/24 13:52:56 [DEBUG] workshop-boot: executing: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/compose.yml --project-name wsretest down --timeout 20 (dir: /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform)
+2026/11/24 13:52:57 [DEBUG] workshop-boot: compose command completed successfully
+STOPPED
+named volumes preserved (search index and transcripts intact)
+--- rc=0
+=== [snap after-stop] podman ps (ours)
+(none)
+listeners:
+(none)
+=== [stop-again-runner-podman] $ bash scripts/stop.sh --runner=podman
+2026/11/24 13:53:04 [INFO]  workshop-boot: compose down: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/compose.yml --project-name wsretest down --timeout 20
+2026/11/24 13:53:04 [DEBUG] workshop-boot: executing: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/compose.yml --project-name wsretest down --timeout 20 (dir: /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform)
+2026/11/24 13:53:05 [DEBUG] workshop-boot: compose command completed successfully
+STOPPED
+named volumes preserved (search index and transcripts intact)
+--- rc=0
+=== [restart-when-stopped-runner-podman] $ bash scripts/restart.sh --skip-quiescence-check --runner=podman --port 18087
+UP: http://127.0.0.1:18087
+>> oomd protection: libpod-e5a52de64818e29273d290dd94b58753bebbe0e634a1d4bacf69db545aea6350.scope ManagedOOMPreference=avoid, cgroup user.oomd_avoid=1, drop-in present
+WORKSHOP_OOMD_OUTCOME=applied
+seed-test-accounts: COULD NOT DETERMINE: no student password (export WORKSHOP_TEST_SEED_PASSWORD_STUDENT, or add that key to the gitignored, 0600 /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/.env). Nothing was written.
+WARN: restart: seed-test-accounts.sh did not complete (the stack itself is up); run it by hand
+--- rc=0
+=== [health-after-restart] $ curl -sS -m 5 -o /dev/null -w HTTP %{http_code}\n http://127.0.0.1:18087/api/health
+HTTP 200
+--- rc=0
+=== [restart-when-running-runner-auto] $ bash scripts/restart.sh --skip-quiescence-check --runner=auto --port 18087
+UP: http://127.0.0.1:18087
+>> oomd protection: libpod-2b1bb8dc0bb33cf5675092caccd16f4325bc98f0b3bcc385f2b69ef8e0c52cc3.scope ManagedOOMPreference=avoid, cgroup user.oomd_avoid=1, drop-in present
+WORKSHOP_OOMD_OUTCOME=applied
+seed-test-accounts: COULD NOT DETERMINE: no student password (export WORKSHOP_TEST_SEED_PASSWORD_STUDENT, or add that key to the gitignored, 0600 /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/.env). Nothing was written.
+WARN: restart: seed-test-accounts.sh did not complete (the stack itself is up); run it by hand
+--- rc=0
+=== [stop-final] $ bash scripts/stop.sh --runner=podman
+2026/11/24 13:55:18 [INFO]  workshop-boot: compose down: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/compose.yml --project-name wsretest down --timeout 20
+2026/11/24 13:55:18 [DEBUG] workshop-boot: executing: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/compose.yml --project-name wsretest down --timeout 20 (dir: /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform)
+2026/11/24 13:55:19 [DEBUG] workshop-boot: compose command completed successfully
+STOPPED
+named volumes preserved (search index and transcripts intact)
+--- rc=0
+=== [snap final] podman ps (ours)
+(none)
+listeners:
+(none)

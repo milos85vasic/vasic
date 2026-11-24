@@ -1,0 +1,50 @@
+=== [hawkscan-runner-docker] $ bash hawkscan/run.sh --runner=docker
+runner: forced container runner is not available: "docker" (selected via flag) is not installed or not reachable on this host; refusing to fall back to another runner
+--- rc=2
+=== [hawkscan-runner-bogus] $ bash hawkscan/run.sh --runner=bogus
+runner: unknown container runner "bogus" (from --runner): supported runners are podman, docker, nerdctl, cri-o, lxd, kubernetes, or "auto" for the default order
+--- rc=2
+=== [hawkscan-runner-novalue] $ bash hawkscan/run.sh --runner
+runner: --runner needs a value
+--- rc=2
+=== [hawkscan-env-docker] $ env CONTAINERS_RUNNER=docker bash hawkscan/run.sh
+runner: forced container runner is not available: "docker" (selected via env) is not installed or not reachable on this host; refusing to fall back to another runner
+--- rc=2
+=== [hawkscan-podman-nokey] $ bash hawkscan/run.sh --runner=podman
+⚠️  HawkScan SKIPPED — HAWK_API_KEY is not set in the environment.
+
+    This does NOT block your work. HawkScan is a third-party DAST scanner
+    (StackHawk) requiring an account and API key this host does not have
+    configured. See _tools/hawkscan/README.md for setup steps.
+--- rc=0
+=== [helixtranslate-local-docker] $ bash helixtranslate-local.sh --runner=docker
+runner: forced container runner is not available: "docker" (selected via flag) is not installed or not reachable on this host; refusing to fall back to another runner
+--- rc=2
+=== [helixtranslate-local-bogus] $ bash helixtranslate-local.sh --runner=bogus
+runner: unknown container runner "bogus" (from --runner): supported runners are podman, docker, nerdctl, cri-o, lxd, kubernetes, or "auto" for the default order
+--- rc=2
+=== [helixtranslate-local-env-docker] $ env CONTAINERS_RUNNER=docker bash helixtranslate-local.sh
+runner: forced container runner is not available: "docker" (selected via env) is not installed or not reachable on this host; refusing to fall back to another runner
+--- rc=2
+=== [od-daemon-runner-docker] $ bash od/start-daemon.sh --runner=docker --help
+start-daemon: --runner=docker ignored: no containers used (native Electron daemon)
+Open Design app not found at: /Applications/Open Design.app/Contents/MacOS/Open Design
+--- rc=1
+=== [od-daemon-runner-novalue] $ bash od/start-daemon.sh --runner
+start-daemon: --runner needs a value
+--- rc=2
+=== [od-daemon-help] $ bash od/start-daemon.sh --help
+Open Design app not found at: /Applications/Open Design.app/Contents/MacOS/Open Design
+--- rc=1
+=== [deploy-langs-prove-args] $ bash deploy-langs.sh --prove-args
+✅ C4 commit-wired          git commit consumes COMMIT_MSG_ARGS; no hardcoded Claude trailer
+✅ M10 trailer-mutant-caught hardcoded-trailer variant of the real function: C1 is FALSE on it
+✅ M10b env-ignored-mutant  env-ignoring variant of the real function: C3 is FALSE on it
+----------------------------------------------------------------------
+✅ args §1.1 MUTATION PROOF: PASS — 23 assertions incl. mutants M9, M9b, M9c, M10, M10b.
+--- rc=0
+=== [ocr-run-prove-args] $ bash containers/compose/ocr-run.sh --prove-args
+[ocr-run] tesseract 5.5.0
+[ocr-run] psm=6 lang=eng
+[ocr-run] no .png file in /data — nothing to OCR
+--- rc=3

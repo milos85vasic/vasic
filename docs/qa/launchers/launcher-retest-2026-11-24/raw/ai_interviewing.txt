@@ -1,0 +1,111 @@
+=== [start-help] $ bash start.sh --help
+>> starting server ...
+   still starting (ingesting corpus) ...
+UP: http://localhost:18099  (pid 82649)
+    https://localhost:18443  (HTTP/2 + HTTP/3, self-signed)
+{"curriculum":1,"lesson":435,"module":77,"plan":74,"question":2488,"track":3},"version":"1.0.0"}
+--- rc=0
+=== [start-unknown-flag] $ bash start.sh --bogus
+already running (pid 82649)
+UP: http://localhost:18099
+--- rc=0
+=== [start-runner-docker] $ bash start.sh --runner=docker
+runner: forced container runner is not available: "docker" (selected via flag) is not installed or not reachable on this host; refusing to fall back to another runner
+--- rc=2
+=== [start-runner-bogus] $ bash start.sh --runner=bogus
+runner: unknown container runner "bogus" (from --runner): supported runners are podman, docker, nerdctl, cri-o, lxd, kubernetes, or "auto" for the default order
+--- rc=2
+=== [start-runner-novalue] $ bash start.sh --runner
+runner: --runner needs a value
+--- rc=2
+=== [env-docker] $ env CONTAINERS_RUNNER=docker bash start.sh
+runner: forced container runner is not available: "docker" (selected via env) is not installed or not reachable on this host; refusing to fall back to another runner
+--- rc=2
+=== [stop-runner-docker] $ bash stop.sh --runner=docker
+runner: forced container runner is not available: "docker" (selected via flag) is not installed or not reachable on this host; refusing to fall back to another runner
+--- rc=2
+=== [restart-runner-docker] $ bash restart.sh --runner=docker
+runner: forced container runner is not available: "docker" (selected via flag) is not installed or not reachable on this host; refusing to fall back to another runner
+--- rc=2
+=== [status-before] $ bash status.sh
+RUNNING (pid 82649)
+  http:  http://localhost:18099
+  https: https://localhost:18443
+{"identity_source":"ldflags","ok":true,"proto":"HTTP/1.1","source_commit":"30da69613e88a7cc62ecd4b99b1849f864a48b44","source_dirty":false,"stats":{"curriculum":1,"lesson":435,"module":77,"plan":74,"question":2488,"track":3},"version":"1.0.0"}
+--- rc=0
+=== [snap before] podman ps (ours)
+(none)
+listeners:
+LISTEN 0      4096                                     127.0.0.1:18443      0.0.0.0:*    users:(("aicur",pid=82649,fd=10))                                  
+LISTEN 0      4096                                     127.0.0.1:18099      0.0.0.0:*    users:(("aicur",pid=82649,fd=9))                                   
+=== [health-curl] $ curl -sS -m 5 -o /dev/null -w HTTP %{http_code}\n http://127.0.0.1:18099/api/health
+HTTP 200
+--- rc=0
+=== [real-read] $ curl -sS -m 5 -o /dev/null -w HTTP %{http_code} bytes %{size_download}\n http://127.0.0.1:18099/
+HTTP 404 bytes 54
+--- rc=0
+=== [double-start-runner-podman] $ bash start.sh --runner=podman
+runner: podman (selected by flag)
+runner: podman (no containers used by this launcher)
+already running (pid 82649)
+UP: http://localhost:18099
+--- rc=0
+=== [double-start-runner-auto] $ bash start.sh --runner=auto
+runner: podman (selected by flag)
+runner: podman (no containers used by this launcher)
+already running (pid 82649)
+UP: http://localhost:18099
+--- rc=0
+=== [double-start-env-podman] $ env CONTAINERS_RUNNER=podman bash start.sh
+runner: podman (selected by env)
+runner: podman (no containers used by this launcher)
+already running (pid 82649)
+UP: http://localhost:18099
+--- rc=0
+=== [stop] $ bash stop.sh
+stopped pid 82649
+--- rc=0
+=== [snap after-stop] podman ps (ours)
+(none)
+listeners:
+(none)
+=== [status-stopped] $ bash status.sh
+STOPPED
+--- rc=0
+=== [health-after-stop] $ curl -sS -m 3 http://127.0.0.1:18099/api/health
+curl: (7) Failed to connect to 127.0.0.1 port 18099 after 0 ms: Could not connect to server
+--- rc=7
+=== [stop-again] $ bash stop.sh
+not running
+--- rc=0
+=== [restart-when-stopped-runner-podman] $ bash restart.sh --runner=podman
+runner: podman (selected by flag)
+runner: podman (no containers used by this launcher)
+>> starting server ...
+UP: http://localhost:18099  (pid 135967)
+    https://localhost:18443  (HTTP/2 + HTTP/3, self-signed)
+{"curriculum":1,"lesson":435,"module":77,"plan":74,"question":2488,"track":3},"version":"1.0.0"}
+--- rc=0
+=== [health-after-restart] $ curl -sS -m 5 -o /dev/null -w HTTP %{http_code}\n http://127.0.0.1:18099/api/health
+HTTP 200
+--- rc=0
+=== [restart-when-running-runner-auto] $ bash restart.sh --runner=auto
+runner: podman (no containers used by this launcher)
+stopped pid 135967
+>> starting server ...
+UP: http://localhost:18099  (pid 139912)
+    https://localhost:18443  (HTTP/2 + HTTP/3, self-signed)
+{"curriculum":1,"lesson":435,"module":77,"plan":74,"question":2488,"track":3},"version":"1.0.0"}
+--- rc=0
+=== [stop-runner-podman] $ bash stop.sh --runner=podman
+runner: podman (selected by flag)
+runner: podman (no containers used by this launcher)
+stopped pid 139912
+--- rc=0
+=== [snap final] podman ps (ours)
+(none)
+listeners:
+(none)
+=== [logs] $ tail -3 ../run/server.log
+tail: cannot open '../run/server.log' for reading: No such file or directory
+--- rc=1
