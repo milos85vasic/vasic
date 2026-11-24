@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-11-24T00:40:00Z
-    Synced-Commit: 4e9a3f5
+    Last-Updated: 2026-11-24T12:00:00Z
+    Synced-Commit: c4e1320
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -86,7 +86,7 @@ You are resuming work on the `vasic` umbrella monorepo.
 6. Do not commit or push unless the operator asks. If asked, use the `commit`
    wrapper on PATH, never bare `git add` / `git commit` / `git push`. Note the
    wrapper runs `git add .` — check `.gitignore` first.
-7. SpecKit feature 001 (`specs/001-workshop-curriculum-platform/`) has moved
+7. (HISTORICAL as of 2026-11-24: current work is job_seeker `specs/001-job-seeker-mvp`, see §3 top section.) SpecKit feature 001 (`specs/001-workshop-curriculum-platform/`) has moved
    from planning into building, and none of it is committed yet — an untracked
    `workshop/pipeline/` tree and an untracked `analysis.md` exist. Claim no
    completion you have not measured. Host capability changed on 2026-09-01:
@@ -426,9 +426,20 @@ deviation is not an override** and must never be written up as one.
 
 ## §3 Active work
 
+## UPDATE 2026-11-24 (consolidated state after PRs #1-#8; branch `pr/continuation-sync-2026-11-24`; SUPERSEDES the 2026-11-23 and earlier 2026-11-24 "Open"/"Pending" wording below where facts changed)
+
+Umbrella pull requests, all MERGED (`env -u GITHUB_TOKEN gh pr list --state all`): #1 milosvasic.ru v2.0.0 rework (merge `3aa8de2`); #2 vasic.digital submodule, static site moved to digital.vasic.dev (`4e9a3f5`); #3 constitution inheritance made verifiable (`cecb991`); #4 vasic.digital footer website version v1.9.0 (`845e4f4`); #5 job_seeker kickoff (`d4dc150`); #6 milosvasic.ru website version footer v2.0.0 (`95930bb`); #7 job-seeker research set and real-vault browser proof (`00caca5`); #8 job_seeker transferred to vasic-digital (`c4e1320`). This section's own PR (job_seeker gitlink and manifest ref bump plus this refresh) follows.
+
+- **Live sites.** milosvasic.ru v2.0.0 and digital.vasic.dev v1.9.0 are live with version footers (evidence under `docs/qa/live-site/post/` and `docs/qa/live-site/post-migrate/`). The static-site domain migration (vasic.digital submodule content now served as digital.vasic.dev) is merged (PR #2); the 5 live-Playwright failures recorded on 2026-11-23 were about canonical host `vasic.digital` and are addressed by that migration (post-migrate evidence `playwright-live-88-passed.txt`).
+- **Vault.** The career vault was sealed into the private repository `vasic-digital/career_private` (`git ls-remote git@github.com:vasic-digital/career_private.git HEAD` = `000ba65dd427`). The passphrase file path is `_secure/cv-vault.passphrase` (git-ignored, mode 0600); no secret is recorded in this repository. Real-vault browser proof: `docs/qa/vault/real-vault-browser-proof-2026-11-24.txt` (wrong passphrase rejected, field cleared after unlock, lock clears passphrase).
+- **Constitution inheritance (PR #3).** Pin `6d93ccd19e1c`, anchors through `11.4.298`, carriers re-measured in lockstep. The zero-findings ratchet is honestly RED: 63 findings against a ceiling of 23 (the rise is open and the ratchet was NOT raised, §11.4.261(C)).
+- **job_seeker.** Transferred to `vasic-digital/job_seeker`; kickoff done (PR #5); `specs/001-job-seeker-mvp` merged in job_seeker PR #3 at `1876de3` (measured on that commit: 78 distinct FR ids in spec.md, 23 SC ids, 159 task ids in tasks.md; `analysis.md` severity table: CRITICAL 0, HIGH 3 open and operator/measurement owned, MEDIUM 5, LOW 3). Gitlink and `helix-deps.yaml` ref both moved to `1876de3775cd` in this change.
+- **Pending (operator).** Accept the rnabulsi invitations, including `vasic-digital/career_private`. Answer the 15 open operator questions Q1-Q15 listed at `job_seeker/specs/001-job-seeker-mvp/analysis.md` under "Open questions for the operator" (none blocks planning or the first execution phases). Decide the open ratchet rise (63 vs 23). Tag `vasic-1.0.0-dev-0.0.8` is not yet cut.
+- **Pending (agent work).** Implement job_seeker through `/speckit-superspec-execute` (SpecKit implementation rule). Item 7 of the §0 resumption prompt below still describes the 2026-09 workshop state and is historical; the current work is the job_seeker implementation.
+
 ## UPDATE 2026-11-24 (job_seeker kicked off; branch `pr/job-seeker-kickoff`)
 
-`job_seeker` (private, `milos85vasic/job_seeker`, prefix `JSK`, layout `flat`) fast-forwarded `8066233` -> `cc7b074` (0 divergent, no live local session), then received its four lockstep carriers, `.gitignore`, README and leaf `helix-deps.yaml` via its own PR #1 (independent review GO), now at `8b3da29ebbc4`. Umbrella: `helix-deps.yaml` entry, `docs/workable-items/sub-projects.tsv` JSK row, gitlink bump, `docs/plans/job-seeker-inputs-summary.md`. Open: the repo lives on a personal account, so a read-only collaborator cannot be granted there (operator rule: private repos under `vasic-digital`); jobops submodule and speckit work not started.
+`job_seeker` (private, `vasic-digital/job_seeker` since the 2026-11-24 transfer; formerly `milos85vasic/job_seeker`, prefix `JSK`, layout `flat`) fast-forwarded `8066233` -> `cc7b074` (0 divergent, no live local session), then received its four lockstep carriers, `.gitignore`, README and leaf `helix-deps.yaml` via its own PR #1 (independent review GO), now at `8b3da29ebbc4`. Umbrella: `helix-deps.yaml` entry, `docs/workable-items/sub-projects.tsv` JSK row, gitlink bump, `docs/plans/job-seeker-inputs-summary.md`. The personal-account blocker is RESOLVED: the repo was transferred to `vasic-digital` (see the 2026-11-24 consolidated section above). jobops submodule not started.
 
 ## UPDATE 2026-11-24 (constitution inheritance made verifiable; PR-delivery decision recorded; branch `pr/constitution-inheritance`)
 

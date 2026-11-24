@@ -1,5 +1,7 @@
 # Milestone State: milosvasic.ru career rework
 
+_SUPERSEDED where facts changed by the CONTINUATION.md section "UPDATE 2026-11-24 (consolidated state after PRs #1-#8)": PR #1 is now MERGED, the live-site canonical-host failures were addressed by the digital.vasic.dev migration (PR #2), and the vault is sealed in vasic-digital/career_private. Figures below are the 2026-11-23 readings._
+
 _Revision 3 (2026-11-23, post-merge-review rewrite). Canonical resume point for this workstream. Every figure carries the command or evidence file that produced it; anything not measured says UNCONFIRMED. No personal data values are recorded here._
 
 Guides: `docs/career/vault-guide.md`, `docs/career/site-build-guide.md`, `docs/career/deploy-guide.md`. Plan: `docs/plans/2026-11-19-milosvasic-ru-rework/PLAN.md`.
