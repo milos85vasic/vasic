@@ -47,6 +47,11 @@ set -uo pipefail
 SELF="${BASH_SOURCE[0]}"; while [ -L "$SELF" ]; do _sl="$(readlink -- "$SELF")"; case "$_sl" in /*) SELF="$_sl" ;; *) SELF="$(dirname -- "$SELF")/$_sl" ;; esac; done  # portable realpath
 SELF="$(cd -P -- "$(dirname -- "$SELF")" && pwd -P)/$(basename -- "$SELF")"
 ROOT="$(cd -- "$(dirname -- "$SELF")/.." && pwd -P)"
+_stat_field() {  # $1 = mode (octal) | dev | mtime | size ; $2 = path (the link itself, never its target). Portable: perl is core on Linux and macOS, unlike GNU-only stat format flags.
+    perl -e 'my @s = lstat($ARGV[1]) or exit 1; my $f = $ARGV[0];
+             if ($f eq "mode") { printf("%o\n", $s[2] & 07777) } elsif ($f eq "dev") { print "$s[0]\n" }
+             elsif ($f eq "mtime") { print "$s[9]\n" } elsif ($f eq "size") { print "$s[7]\n" } else { exit 2 }' "$1" "$2"
+}
 _realpath() {  # portable realpath (BSD/macOS readlink has no GNU canonicalise flag): follow every link, then canonicalise the directory
     local p="$1" n=0 l d
     while [ -L "$p" ]; do
@@ -210,7 +215,7 @@ ensure_creds() {
   mkdir -p "$(dirname "$CREDS")" || die2 "cannot create $(dirname "$CREDS")"
   if [ -e "$CREDS" ]; then
     [ ! -L "$CREDS" ] || die1 "credentials file is a symlink: refused"
-    [ "$(stat -c '%a' "$CREDS")" = 600 ] || die1 "credentials file $CREDS is not mode 0600: refused"
+    [ "$(_stat_field mode "$CREDS")" = 600 ] || die1 "credentials file $CREDS is not mode 0600: refused"
     return 0
   fi
   local old; old="$(umask)"; umask 077

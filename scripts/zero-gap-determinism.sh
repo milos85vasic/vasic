@@ -163,6 +163,11 @@
 # sweep-runner.md, tasks.md T035. Registered in scripts/check-registry.tsv as
 # `zero-gap-determinism` (proof: --prove-failure; rc-2 probe: --root /nonexistent).
 set -uo pipefail
+_stat_field() {  # $1 = mode (octal) | dev | mtime | size ; $2 = path (the link itself, never its target). Portable: perl is core on Linux and macOS, unlike GNU-only stat format flags.
+    perl -e 'my @s = lstat($ARGV[1]) or exit 1; my $f = $ARGV[0];
+             if ($f eq "mode") { printf("%o\n", $s[2] & 07777) } elsif ($f eq "dev") { print "$s[0]\n" }
+             elsif ($f eq "mtime") { print "$s[9]\n" } elsif ($f eq "size") { print "$s[7]\n" } else { exit 2 }' "$1" "$2"
+}
 
 export LC_ALL=C LANG=C GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null \
        GIT_CONFIG_COUNT=2 GIT_CONFIG_KEY_0=core.excludesFile GIT_CONFIG_VALUE_0=/dev/null \
@@ -353,7 +358,7 @@ det_main() {
         if [ -d "$root/$d/.git" ]; then printf '%s\0' "$d" >>"$S/gitdirs"; else printf '%s/.git\0' "$d" >>"$S/list"; fi
     done
     # ── 0. room for it: estimate (listed files + every .git + --include), refuse below 1.2x ──
-    est=$( { ( cd "$root" && xargs -0 -r stat -c '%s' -- <"$S/list" 2>/dev/null ) || true
+    est=$( { ( cd "$root" && perl -0ne 'chomp; my @s = lstat($_) or next; print "$s[7]\n"' <"$S/list" 2>/dev/null ) || true
              du -sb -- "$root/.git" 2>/dev/null | cut -f1
              while IFS= read -r -d '' d; do du -sb -- "$root/$d/.git" 2>/dev/null | cut -f1; done <"$S/gitdirs"
              for inc in ${incs[@]+"${incs[@]}"}; do du -sb -- "$root/$inc" 2>/dev/null | cut -f1; done
