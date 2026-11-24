@@ -156,6 +156,13 @@
 #
 # Usage: --root <abs dir> [--corpus <abs dir>] [--emit-population]      |   --prove-failure
 set -uo pipefail
+_sedi() {  # portable in-place sed (GNU and BSD/macOS disagree on the -i suffix argument): _sedi [sed options] script... FILE
+    local f="${!#}" t r
+    t="$(mktemp "${TMPDIR:-/tmp}/sedi.XXXXXX")" || return 1
+    sed "${@:1:$#-1}" "$f" >"$t"; r=$?
+    [ "$r" -eq 0 ] && cat "$t" >"$f"; r=$?
+    rm -f "$t"; return "$r"
+}
 export LC_ALL=C PYTHONDONTWRITEBYTECODE=1
 ID=unproven-checks
 
@@ -311,7 +318,7 @@ if [ "$PROVE" -eq 1 ]; then
     mut() { # location description target expr(@chmod|@rm|sed script)
         local loc=$1 desc=$2 tgt=$3 expr=$4
         k=$((k + 1)); muts=$((muts + 1)); mk "m$k" clean
-        if [ "$expr" = "@chmod" ]; then chmod -x "$T/m$k/$tgt"; elif [ "$expr" = "@rm" ]; then rm -f "$T/m$k/$tgt"; else sed -i "$expr" "$T/m$k/$tgt"; fi
+        if [ "$expr" = "@chmod" ]; then chmod -x "$T/m$k/$tgt"; elif [ "$expr" = "@rm" ]; then rm -f "$T/m$k/$tgt"; else _sedi "$expr" "$T/m$k/$tgt"; fi
         run "$T/m$k"
         if [ "$RC" -eq 1 ] && has "^FINDING $ID [a-z]* [a-z-]* $loc "; then ok "M$k $desc => finding at $loc"; else bad "M$k $desc rc=$RC (want 1 with a finding at $loc)"; fi
     }
@@ -437,19 +444,19 @@ if [ "$PROVE" -eq 1 ]; then
     else bad "M$k honoured exemption rc=$RC: $OUT"; fi
     sx sxa "exemption without a reason => not honoured, the script is flagged and the row is a finding" \
         '[ "$RC" -eq 1 ] && flagged && has "^FINDING $ID high governance-drift subregistry:$SR:4 "' \
-        "sed -i 's/^\(exempt\ttools\/stage_audit.sh\)\t.*/\1/' $SR"
+        "_sedi 's/^\(exempt\ttools\/stage_audit.sh\)\t.*/\1/' $SR"
     sx sxa2 "exemption whose reason is only blanks => not honoured, flagged, row reported" \
         '[ "$RC" -eq 1 ] && flagged && has "^FINDING $ID high governance-drift subregistry:$SR:4 "' \
-        "sed -i 's/^\(exempt\ttools\/stage_audit.sh\)\t.*/\1\t   /' $SR"
+        "_sedi 's/^\(exempt\ttools\/stage_audit.sh\)\t.*/\1\t   /' $SR"
     sx sxb "exemption naming a DIFFERENT existing file => the real script is still flagged, the other is not" \
         '[ "$RC" -eq 1 ] && flagged && ! has "^FINDING [^ ]* [^ ]* [^ ]* mods/owned/tools/stage_audit2.sh " && ! has "^FINDING .*subregistry:"' \
-        "cp -p mods/owned/tools/stage_audit.sh mods/owned/tools/stage_audit2.sh; sed -i 's|tools/stage_audit.sh|tools/stage_audit2.sh|' $SR"
+        "cp -p mods/owned/tools/stage_audit.sh mods/owned/tools/stage_audit2.sh; _sedi 's|tools/stage_audit.sh|tools/stage_audit2.sh|' $SR"
     sx sxb2 "exemption naming the script's DIRECTORY (a blanket allow) => not honoured, flagged, row reported" \
         '[ "$RC" -eq 1 ] && flagged && has "^FINDING $ID high governance-drift subregistry:$SR:4 "' \
-        "sed -i 's|^exempt\ttools/stage_audit.sh|exempt\ttools|' $SR"
+        "_sedi 's|^exempt\ttools/stage_audit.sh|exempt\ttools|' $SR"
     sx sxb3 "exemption naming a PREFIX of the file name (not the exact file) => not honoured, flagged" \
         '[ "$RC" -eq 1 ] && flagged && has "^FINDING $ID high governance-drift subregistry:$SR:4 "' \
-        "sed -i 's|^exempt\ttools/stage_audit.sh|exempt\ttools/stage_aud|' $SR"
+        "_sedi 's|^exempt\ttools/stage_audit.sh|exempt\ttools/stage_aud|' $SR"
     sx sxc "registry missing => the exemption is gone and the script is flagged (never a silent pass)" \
         '[ "$RC" -eq 1 ] && flagged' "rm -f $SR"
     sx sxc2 "registry unreadable => COULD-NOT-INSPECT naming it, exemption not honoured" \
@@ -458,13 +465,13 @@ if [ "$PROVE" -eq 1 ]; then
         '[ "$RC" -eq 2 ] && voided && has "^COULD-NOT-INSPECT subregistry:$SR "' "printf 'bogus\tx\n' >>$SR"
     sx sxd2 "registry malformed and nothing else to report => rc 2 exactly, never 0" \
         '[ "$RC" -eq 2 ] && has "^COULD-NOT-INSPECT subregistry:$SR " && ! has "^FINDING"' \
-        "rm -f mods/owned/tools/stage_audit.sh; sed -i '/^exempt/d' $SR; printf 'bogus\tx\n' >>$SR"
+        "rm -f mods/owned/tools/stage_audit.sh; _sedi '/^exempt/d' $SR; printf 'bogus\tx\n' >>$SR"
     sx sxd3 "registry malformed (exempt row with an extra field) => COULD-NOT-INSPECT, not honoured" \
-        '[ "$RC" -eq 2 ] && voided && has "^COULD-NOT-INSPECT subregistry:$SR "' "sed -i 's/^\(exempt\t.*\)$/\1\textra/' $SR"
+        '[ "$RC" -eq 2 ] && voided && has "^COULD-NOT-INSPECT subregistry:$SR "' "_sedi 's/^\(exempt\t.*\)$/\1\textra/' $SR"
     sx sxd4 "registry malformed (an exempt path escaping the submodule with ..) => COULD-NOT-INSPECT" \
         '[ "$RC" -eq 2 ] && voided && has "^COULD-NOT-INSPECT subregistry:$SR "' "printf 'exempt\t../../scripts/ok-real.sh\tescape\n' >>$SR"
     sx sxd5 "registry malformed (a CR line ending) => COULD-NOT-INSPECT, not honoured" \
-        '[ "$RC" -eq 2 ] && voided && has "^COULD-NOT-INSPECT subregistry:$SR "' "sed -i 's/\$/\r/' $SR"
+        '[ "$RC" -eq 2 ] && voided && has "^COULD-NOT-INSPECT subregistry:$SR "' "_sedi \"s/\\\$/$(printf '\r')/\" $SR"
     sx sxe "exemption for a file that does not exist => the row itself is a finding" \
         '[ "$RC" -eq 1 ] && ! flagged && has "^FINDING $ID high governance-drift subregistry:$SR:5 "' \
         "printf 'exempt\ttools/ghost_audit.sh\treason given\n' >>$SR"
@@ -489,11 +496,11 @@ if [ "$PROVE" -eq 1 ]; then
         'U+3164:\xe3\x85\xa4' 'U+115F:\xe1\x85\x9f' 'U+1160:\xe1\x85\xa0' 'U+FFA0:\xef\xbe\xa0' 'combining-mark:\xcc\x81' 'symbols:\xe2\x82\xac+=\xc2\xa9'; do
         sx "sxi${inv%%:*}" "a reason made only of ${inv%%:*} (no visible letter or digit) => not honoured, row reported" \
             '[ "$RC" -eq 1 ] && flagged && has "^FINDING $ID high governance-drift subregistry:$SR:4 "' \
-            "sed -i '4d' $SR; printf 'exempt\ttools/stage_audit.sh\t%b\n' '${inv#*:}' >>$SR"
+            "_sedi '4d' $SR; printf 'exempt\ttools/stage_audit.sh\t%b\n' '${inv#*:}' >>$SR"
     done
     for vis in 'e-acute:\xc3\xa9' 'cjk:\xe4\xb8\xad' 'digit:7'; do
         sx "sxv${vis%%:*}" "a reason holding one visible ${vis%%:*} character => honoured (the rule is not over-strict)" \
-            '[ "$RC" -eq 0 ] && ! flagged' "sed -i '4d' $SR; printf 'exempt\ttools/stage_audit.sh\t%b\n' '${vis#*:}' >>$SR"
+            '[ "$RC" -eq 0 ] && ! flagged' "_sedi '4d' $SR; printf 'exempt\ttools/stage_audit.sh\t%b\n' '${vis#*:}' >>$SR"
     done
     sx sxu "a registry that is not valid UTF-8 => COULD-NOT-INSPECT (malformed), not honoured" \
         '[ "$RC" -eq 2 ] && voided && has "^COULD-NOT-INSPECT subregistry:$SR "' "printf '# \xff\xfe\n' >>$SR"
@@ -555,7 +562,7 @@ if [ "$PROVE" -eq 1 ]; then
     for sh in shimP shimL; do
         k=$((k + 1)); muts=$((muts + 1)); mk "sx$sh" clean
         OUT=$(cd "$T/sx$sh" && env -i PATH="$T/$sh:$PATH" HOME="${HOME:-/}" TMPDIR="$T" LC_ALL=C bash "$SELF" --root "$T/sx$sh" --corpus "$T/sx$sh" 2>&1); RC=$?
-        if [ "$RC" -eq 2 ] && has "^COULD-NOT-INSPECT subregistry:$SR reason-classifier-unavailable" && voided; then ok "M$k reason classifier unusable ($sh: no grep -P / no UTF-8 locale) => every registry COULD-NOT-INSPECT, script undetermined, rc 2"
+        if [ "$RC" -eq 2 ] && has "^COULD-NOT-INSPECT subregistry:$SR reason-classifier-unavailable" && voided; then ok "M$k reason classifier unusable ($sh: no PCRE grep / no UTF-8 locale) => every registry COULD-NOT-INSPECT, script undetermined, rc 2"
         else bad "M$k $sh rc=$RC: $OUT"; fi
     done
     # INFO: free text that fits the path byte set (@ , = ~ +) is refused unless a real file carries those bytes
