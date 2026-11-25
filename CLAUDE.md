@@ -273,7 +273,7 @@ bash scripts/verify-manifest-pins.sh                            # 0 = ref == git
 
 **Current gitlinks of the five modules whose pins this carrier narrates — a dated reading, 2026-11-24, from the index.**
 Re-derive each with `git ls-files -s <path>`; these move with every bump and the `pointer-drift` sweep class
-reports the carrier again when one does: `submodules/constitution` `f92868dd7036`, `design-toolkit` `e5fee6c660b9`, `submodules/containers` `ec32935dbed6`, `submodules/curriculum-kit` `277b96efcca4`, `workshop` `d58ae75d2d7b`.
+reports the carrier again when one does: `submodules/constitution` `f92868dd7036`, `design-toolkit` `e5fee6c660b9`, `submodules/containers` `ec32935dbed6`, `submodules/curriculum-kit` `277b96efcca4`, `workshop` `a8b740fceca2`.
 
 **Re-measured 2026-09-09, and the whole fleet is level — no move was made and
 none was needed.** `git -C submodules/constitution rev-parse HEAD` and
