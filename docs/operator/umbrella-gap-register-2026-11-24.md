@@ -165,7 +165,7 @@ LEAK — 27310 surviving match(es) (prose 21812, short 2040, name 501, fingerpri
 | declared exemptions | 9 pairs in `.content-boundary-allow`, 4808 matches pardoned |
 | not indexed | 173 files over the 524288-byte cap or machine-generated; untracked public files not scanned |
 
-Wall clock from the trace: corpus fingerprint at 24 s, public scan done at 2173 s, exemptions at 2289 s, direction dating 2299 s to 7836 s (5537 s, the dominant stage), corpus re-fingerprint at 7839 s. Total about 2 h 11 min, which is why the 3600 s default cannot complete this gate on a 23-submodule fleet. Log: `/home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/ev/content-boundary-long.log` (3861463 bytes; scratchpad, not tracked).
+Wall clock from the trace: corpus fingerprint at 24 s, public scan done at 2173 s, exemptions at 2289 s, direction dating 2299 s to 7836 s (5537 s, the dominant stage), corpus re-fingerprint at 7839 s. Total about 2 h 11 min, which is why the 3600 s default cannot complete this gate on a 23-submodule fleet. Log: `<scratch>/ev/content-boundary-long.log` (3861463 bytes; scratchpad, not tracked).
 
 Comparability: the carrier's 2026-09-09 reading was `LEAK 5267 (prose 4291, short 450, name 257, fingerprint 269)` over 15098 files. This reading is over 34867 files and 55391 eligible keys (3.7 times the earlier eligible population), so the totals are not comparable and no cleanup or regression is inferred from the difference.
 
