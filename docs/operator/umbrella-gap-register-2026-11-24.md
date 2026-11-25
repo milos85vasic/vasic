@@ -78,7 +78,7 @@ In a worktree, `bash scripts/verify-upstream-sync.sh` printed `RESULT: BEHIND-OR
 
 ### UG-07 content boundary
 
-RED by design. Reading from a fully initialised worktree (all 23 submodules, `env -u GITHUB_TOKEN`): see the section at the end of this file, filled in from the captured log.
+RED by design. Reading from a fully initialised worktree (all 23 submodules, `env -u GITHUB_TOKEN`): reading recorded in the section at the end of this file (completed 2026-11-25: LEAK 27310, corpus STABLE).
 
 ### UG-08 audits (owned by agent a3ac97ad, not fixed here)
 
@@ -137,6 +137,36 @@ The ten highest, in order (identifiers refer to the backlog in the matrix compan
 
 ## Content-boundary reading (UG-07)
 
-Command: `env -u GITHUB_TOKEN bash scripts/verify-content-boundary.sh` in a worktree with all 23 submodules initialised and no other writer touching that worktree (a separate worktree was used for the PR edits so the scanned corpus stayed fixed). The gate admitted itself under `agent-admit` and runs under `bounded-run -m 6G -T 3600`. State at the time this file was written: the run was still executing after 38 minutes (the gate's own bound is 60); no verdict line exists yet, so this reading is UNDETERMINED at the time of this commit. The result is appended below by a follow-up commit on this branch if it completes before merge, otherwise the next session must re-run the command above.
+**Completed reading, 2026-11-25.** The earlier attempt was killed at the default `bounded-run -T 3600` (`VERDICT=timeout`, rc 2, never a pass). This run used the wrapper's own documented tunable, `AGENT_ADMIT_TIMEOUT` (header of `scripts/agent-admit.sh`: `-T` / `$AGENT_ADMIT_TIMEOUT`, default 3600), set to 14400. No guard was edited, the memory cap stayed `-m 6G`, and the admission pre-checks ran and admitted.
 
-The designed verdict (RED, rc 1, a reading assignment and not a regression) is unchanged and is not made green here: no allow-list entry, no baseline move and no redaction was made.
+Command (worktree `vasic-wt-gapreg`, all 23 submodules initialised, no writer in that worktree during the run; PR edits were made in a separate worktree):
+
+```
+CB_TRACE=1 AGENT_ADMIT_TIMEOUT=14400 AGENT_ADMIT_WAIT=1800 nice -n 10 ionice -c3 \
+  bash scripts/agent-admit.sh --verdict3 --tag content-boundary -- \
+  env -u GITHUB_TOKEN bash scripts/verify-content-boundary.sh
+```
+
+Gate lines, verbatim from the log (`agent-admit: ADMITTED ... -> bounded-run -m 6G -T 14400`):
+
+```
+corpus STABLE (34867 files, digest 5d956f51) — re-measured after the analysis; the counts below describe one unmoving tree
+LEAK — 27310 surviving match(es) (prose 21812, short 2040, name 501, fingerprint 2957); 3 row(s) also could not be determined
+```
+
+| Figure | Value |
+|---|---|
+| LEAK surviving matches | 27310 = prose 21812, short 2040, name 501, fingerprint 2957 |
+| rows that could not be determined | 3 (two PDFs where `pdftotext` extracted nothing; one direction-UNDETERMINED summary row for 5043 rows) |
+| corpus fingerprint | 34867 files, digest `5d956f51`; MOVED: no ("corpus STABLE") |
+| scan population | public scan raw matches L=235591 S=27654 N=13069 A=11831; 1076560 surviving rows after exemptions |
+| direction subtraction | 1049121 rows subtracted as provably public-first of 55391 eligible keys; 18809 dated and kept (private-first or same second); 5043 direction-UNDETERMINED and kept |
+| already-public subtraction | 10907 keys in >= 2 public repositories (prose 9240, short 1552, name 52, fingerprint 63) |
+| declared exemptions | 9 pairs in `.content-boundary-allow`, 4808 matches pardoned |
+| not indexed | 173 files over the 524288-byte cap or machine-generated; untracked public files not scanned |
+
+Wall clock from the trace: corpus fingerprint at 24 s, public scan done at 2173 s, exemptions at 2289 s, direction dating 2299 s to 7836 s (5537 s, the dominant stage), corpus re-fingerprint at 7839 s. Total about 2 h 11 min, which is why the 3600 s default cannot complete this gate on a 23-submodule fleet. Log: `/home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/ev/content-boundary-long.log` (3861463 bytes; scratchpad, not tracked).
+
+Comparability: the carrier's 2026-09-09 reading was `LEAK 5267 (prose 4291, short 450, name 257, fingerprint 269)` over 15098 files. This reading is over 34867 files and 55391 eligible keys (3.7 times the earlier eligible population), so the totals are not comparable and no cleanup or regression is inferred from the difference.
+
+Not done, by instruction: no row was judged, allow-listed, redacted or re-baselined, and the gate stays RED by design (rc 1, a reading assignment). The operator-level option for future runs is to set `AGENT_ADMIT_TIMEOUT` (at least 8000 s, 14400 s used here) on the documented wrapper; the direction stage has no resume or per-submodule split flag (`--no-direction` skips it but removes the subtraction, giving a different, much larger number).
