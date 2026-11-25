@@ -539,7 +539,7 @@ ACCEPTANCE CRITERIA — the obligation the decision states is discharged with ca
 STATUS BASIS — the source row records a DECISION, not an execution: the decision is made and the work is not evidenced complete
 
 SUB-PROJECT BASIS — no sub-project path named in the source row.
-## VSC-028 — operator decision 2026-09-08 #16 — 264 pre-existing citations of unverified relevance
+## VSC-028 — Decision 2026-09-08 #16 (audit 264 citations of unverified relevance) decided but not executed
 
 **Status:** Queued
 **Type:** Task
