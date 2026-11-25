@@ -70,7 +70,7 @@ Ordered by blast radius on the two live production sites, then by how often the 
 | B2 | Tests for `site-build` and `internal/orchestrate` | the only Jekyll build path; failure means a stale production publish | unit and integration |
 | B3 | Stable perf-budget and visual baselines with a tolerance and a refresh rule | evidence churn makes real regressions invisible | performance and visual |
 | B4 | Deploy rollback: a documented `git revert` PR path plus a test; decide whether tolerated `gen <lang>` failures for a COMPLETE language should be fatal | live sites, no recovery step | deploy |
-| B5 | Worktree bootstrap script: `submodule update --init --recursive`, `npm ci` in a scratch copy, build `docs_chain` | UG-06, UG-09, UG-10, UG-14 all share this root cause | environment |
+| B5 (bootstrap script DONE 2026-11-25: `scripts/worktree-bootstrap.sh`; `docs_chain` build still open) | Worktree bootstrap script: `submodule update --init --recursive`, `npm ci` in a scratch copy, build `docs_chain` | UG-06, UG-09, UG-10, UG-14 all share this root cause | environment |
 | B6 | `CONTINUATION.md` Synced-Commit update (C3 DRIFT) and anchor its 520 unanchored figures into the claim ledger incrementally | stale carrier text already misled once (webkit, three sweep gates) | docs |
 | B7 | Sweep runtime: gates that hit the 900 s timeout need a root cause (`cm_agent_type_label_mutation_test.sh`) and the sweep needs a resumable ledger | sweep never finishes in a session | tooling |
 | B8 | `--run-proofs` across all 79 checks with the targeted-mutation method, not blanket `sed` | only 3 gates sampled | mutation |
