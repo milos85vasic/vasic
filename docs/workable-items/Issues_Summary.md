@@ -11,9 +11,9 @@ Open workable items (current_location = Issues), regenerated from the SQLite sin
 | Bug | Queued | 11 |
 | Feature | Queued | 5 |
 | Task | In progress | 4 |
-| Task | Operator-blocked | 34 |
+| Task | Operator-blocked | 33 |
 | Task | Queued | 213 |
-| **TOTAL** | | **289** |
+| **TOTAL** | | **288** |
 
 ## Items
 
@@ -39,7 +39,6 @@ Open workable items (current_location = Issues), regenerated from the SQLite sin
 | HLP-001 | Task | Operator-blocked | medium | Owned gitlink not bumped. Observation: HelixDevelopment/LLMProvider and vasic-digital/LLMProvider (submodules/LLMProvider) report the SAME tip e05ec64ebc48; whether two gitlinks of one history are intended is UNCONFIRMED. Operator decides per bump; separately decide whether both gitlinks should exist (never remove without an explicit operator decision, §11.4.122). | UNSET | UNSET |
 | HQA-001 | Task | Queued | low | Counts whose subject no rule of the class noun-to-measure table resolves ("recorded, not drift"): nothing re-measures them. Many sit in dated session reports, plans and evidence files that were true when written. Per document: (a) a docs/zero-gap/point-in-time.tsv row with the reason from the document header when it is dated; (b) a noun-to-measure rule when the subject is measurable in the tree; (c) otherwise replace the count with its derive command. Fix in the repository that owns the document. | UNSET | UNSET |
 | LLP-001 | Task | Operator-blocked | medium | Owned gitlink not bumped after upstream commits; 4 remotes (github, gitlab, origin, upstream) show the same tip. Operator decides per bump: fast-forward (merge --ff-only, stage gitlink and helix-deps.yaml ref together) or hold. | UNSET | UNSET |
-| LMV-001 | Task | Operator-blocked | medium | Owned gitlink not bumped. Operator decides per bump (ff-only; gitlink + helix-deps.yaml ref staged together). | UNSET | UNSET |
 | LMV-002 | Bug | Operator-blocked | medium | the module carries its own run_*_challenge.sh family (5), run_challenges.sh, verify-deployment.sh, security-audit.sh, verify_day1_completion.sh, verify_providerinit_fix.sh and two copies of validate_implementation.sh (root and tests/, different blobs) with no proof convention or registry triage first (which are gates vs one-shot historical scripts: verify_day1_completion / verify_providerinit_fix look historical — retire only via §11.4.122 operator decision), then add proof arms to the real gates and dedupe the two validate_implementation.sh copies | UNSET | UNSET |
 | LMV-003 | Bug | Operator-blocked | medium | `if [ ! -f/-x BIN ]` then go build, no freshness guard; the challenge harness then scores providers with a stale binary fix in vasic-digital/LLMsVerifier (always go build, or freshness test), return as a gitlink bump | UNSET | UNSET |
 | MON-001 | Task | Queued | low | Counts whose subject no rule of the class noun-to-measure table resolves ("recorded, not drift"): nothing re-measures them. Many sit in dated session reports, plans and evidence files that were true when written. Per document: (a) a docs/zero-gap/point-in-time.tsv row with the reason from the document header when it is dated; (b) a noun-to-measure rule when the subject is measurable in the tree; (c) otherwise replace the count with its derive command. Fix in the repository that owns the document. | UNSET | UNSET |

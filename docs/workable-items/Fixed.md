@@ -6054,3 +6054,14 @@ WHAT: the §11.4.261 sweep refused the seam at 63 findings against ceilings tota
 
 WHAT: the zero-findings ratchet records 63 where 23 was expected; which figure is authoritative is undecided. Closes when the figures are reconciled with a re-measured run and the ratchet file is updated or the discrepancy is explained.
 
+## LMV-001 — submodules/llms_verifier gitlink 2c6602c78931 behind origin 8f2090acb907
+
+**Status:** Completed (→ Fixed.md)
+**Type:** Task
+**Evidence:** ev/LMV-001.green.json
+**Severity:** medium
+**Created-By:** AI
+**Assigned-To:** zero-gap-sweep
+
+Owned gitlink not bumped. Operator decides per bump (ff-only; gitlink + helix-deps.yaml ref staged together).
+

@@ -3627,16 +3627,6 @@ Owned gitlink not bumped after upstream commits; 4 remotes (github, gitlab, orig
 
 Owned gitlink not bumped. Observation: HelixDevelopment/LLMProvider and vasic-digital/LLMProvider (submodules/LLMProvider) report the SAME tip e05ec64ebc48; whether two gitlinks of one history are intended is UNCONFIRMED. Operator decides per bump; separately decide whether both gitlinks should exist (never remove without an explicit operator decision, §11.4.122).
 
-## LMV-001 — submodules/llms_verifier gitlink 2c6602c78931 behind origin 8f2090acb907
-
-**Status:** Operator-blocked
-**Type:** Task
-**Severity:** medium
-**Created-By:** AI
-**Assigned-To:** zero-gap-sweep
-
-Owned gitlink not bumped. Operator decides per bump (ff-only; gitlink + helix-deps.yaml ref staged together).
-
 ## CON-002 — submodules/constitution pin f8afb98ab0eb differs from all 8 remotes (direction undetermined at baseline)
 
 **Status:** Queued
