@@ -46,7 +46,7 @@
 #                         a §11.4.40 pre-tag sweep, where a SKIP is not good
 #                         enough)
 #   PREPUSH_ONLY="E 0 1"  run only the listed gate ids (debugging / mutation
-#                         proofs); ids are E Z0 Z1 0 1 2 3 4 5 6
+#                         proofs); ids are E Z0 Z1 C 0 1 2 3 4 5 6
 #
 #   There is deliberately NO switch that skips gate E. §11.4.156 states: "No
 #   escape hatch — no --allow-ci, --enable-workflow, --keep-pipeline,
@@ -171,12 +171,13 @@ CI_PROBE_RE='^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$'
 
 # ---- Gate table --------------------------------------------------------------
 # id | short name | provenance
-GATE_IDS=(E Z0 Z1 0 1 2 3 4 5 6)
+GATE_IDS=(E Z0 Z1 C 0 1 2 3 4 5 6)
 gate_name() {
     case "$1" in
         E) echo "§11.4.156(E) no active root CI config" ;;
         Z0) echo "zero-gap: no check weakened (FR-023)" ;;
         Z1) echo "zero-gap: no third-party edit (FR-021)" ;;
+        C) echo "CONTINUATION.md in sync (§12.10)" ;;
         0) echo "hardcoded path audit" ;;
         1) echo "Go unit tests (_tools/gen)" ;;
         2) echo "hardcoding audit (builds the Go generator)" ;;
@@ -192,6 +193,7 @@ gate_cmd_text() {
         E) echo "git ls-files | grep -E '${CI_PROBE_RE}'   (must be EMPTY)" ;;
         Z0) echo "bash scripts/zero-gap-guard-checks.sh" ;;
         Z1) echo "bash scripts/zero-gap-third-party-guard.sh" ;;
+        C) echo "bash scripts/continuation-check.sh" ;;
         0) echo "./scripts/audit-hardcoded-paths.sh" ;;
         1) echo "cd _tools/gen && go test ./..." ;;
         2) echo "bash _tools/audit-hardcoding.sh" ;;
@@ -267,6 +269,16 @@ ensure_site_built() {
 # gate cannot honestly run (SKIP), or 2 when a host-dependency INSTALL ran and
 # failed (a hard FAIL — see the hostdeps note below).
 precondition() {
+    case "$1" in
+        C)
+            local _unin
+            _unin="$(git -C "$ROOT" submodule status 2>/dev/null | sed -n 's/^-[0-9a-f]* \([^ ]*\).*/\1/p' | tr '\n' ' ')"
+            if [[ -n "$_unin" ]]; then
+                echo "submodule(s) not initialised, so continuation-check's entry-point check (C5) cannot judge the document: ${_unin}— run: git submodule update --init"
+                return 1
+            fi
+            ;;
+    esac
     case "$1" in
         5|6)
             if [[ ! -d "$ROOT/_tests/node_modules/@playwright/test" ]]; then
@@ -518,6 +530,16 @@ gate_Z0() { bash "$ROOT/scripts/zero-gap-guard-checks.sh" --root "$ROOT"; }
 # classified third-party in docs/zero-gap/third-party.tsv (derived from .gitmodules + helix-deps.yaml) is
 # refused. Same three-valued contract as Z0; rc 2 (e.g. classification data absent from HEAD) is UNDET.
 gate_Z1() { bash "$ROOT/scripts/zero-gap-third-party-guard.sh" --root "$ROOT"; }
+
+# Gate C — §12.10 protection 2: CONTINUATION.md must move with every watched
+# governance change. scripts/continuation-check.sh (0 in sync / 1 drift / 2 could
+# not determine) existed and was registered but no gate ran it, so drift went
+# unenforced until a reading found it (UG-11). Its rc maps straight onto this
+# runner's contract (run_gate maps 2 to UNDET). Its C5 check reads entry points
+# INSIDE submodules, so an uninitialised submodule produces DRIFT rows about a
+# checkout state, not about the document; precondition() therefore SKIPs the gate
+# with a stated reason in that case rather than accusing the tree.
+gate_C() { bash "$ROOT/scripts/continuation-check.sh"; }
 
 gate_0() { "$ROOT/scripts/audit-hardcoded-paths.sh"; }
 
@@ -1134,6 +1156,38 @@ STUBSB
     if [[ ! -f "$SITE_IDX" ]]; then p_ok "M10f nothing-was-built     " "PREPUSH_BUILD_SITE=0 ran no build"
     else p_bad "M10f nothing-was-built    " "a build ran despite PREPUSH_BUILD_SITE=0"; fi
     rm -rf "$SPEC/milosvasic.ru" "$SPEC/_tests/node_modules" "$SPEC/_tools" "$SPEC/scripts/agent-admit.sh"
+    # ---- M11  gate C (CONTINUATION.md) maps the checker's rc onto the verdicts.
+    # The specimen's scripts/continuation-check.sh is a stub whose rc is DATA; this
+    # proves the WIRING (1 -> FAIL and blocks, 2 -> UNDET and blocks without
+    # accusing, an uninitialised submodule -> SKIP), not the checker itself, whose
+    # own proof is registered as `continuation-sync`.
+    cat > "$SPEC/scripts/continuation-check.sh" <<'STUBCC'
+#!/usr/bin/env bash
+f="${BASH_SOURCE[0]}.rc"; rc=0; [ -f "$f" ] && rc="$(cat "$f")"
+echo "synthetic continuation-check rc=${rc}"
+exit "$rc"
+STUBCC
+    chmod 755 "$SPEC/scripts/continuation-check.sh"
+    assert "M11 continuation-green     " 0 "ALL RUN GATES PASSED" PREPUSH_ONLY="C" --
+    printf '1\n' > "$SPEC/scripts/continuation-check.sh.rc"
+    assert "M11b continuation-drift    " 1 "PUSH BLOCKED" PREPUSH_ONLY="C" --
+    out="$(run_spec PREPUSH_ONLY="C" --)"
+    if grep -qE 'passed=0[[:space:]]+failed=1[[:space:]]+undetermined=0' <<<"$out"; then
+        p_ok "M11c drift-counted-as-FAIL" "counters read failed=1"
+    else
+        p_bad "M11c drift-counted-as-FAIL" "a drifting CONTINUATION.md was not counted as a FAIL"
+    fi
+    printf '2\n' > "$SPEC/scripts/continuation-check.sh.rc"
+    assert "M11d continuation-undet    " 1 "COULD NOT DETERMINE a verdict" PREPUSH_ONLY="C" --
+    printf '0\n' > "$SPEC/scripts/continuation-check.sh.rc"
+    # an uninitialised submodule: a gitlink with no checkout, registered in .gitmodules
+    printf '[submodule "uninit"]\n\tpath = uninit\n\turl = git@github.com:synthetic-org/uninit.git\n' >> "$SPEC/.gitmodules"
+    sgit -C "$SPEC" update-index --add --cacheinfo 160000,1111111111111111111111111111111111111111,uninit >/dev/null 2>&1
+    assert "M11e uninit-submodule-SKIPs" 0 "not initialised" PREPUSH_ONLY="C" --
+    assert "M11f uninit-strict-fails   " 1 "PREPUSH_STRICT=1 and the gate cannot run" PREPUSH_ONLY="C" PREPUSH_STRICT=1 --
+    sgit -C "$SPEC" update-index --force-remove uninit >/dev/null 2>&1
+    sgit -C "$SPEC" checkout -q -- .gitmodules >/dev/null 2>&1
+    rm -f "$SPEC/scripts/continuation-check.sh" "$SPEC/scripts/continuation-check.sh.rc"
 
     # ---- M8  the runner cannot create its workspace -> rc 2, never 0 --------
     assert "M8 no-log-dir-is-rc2       " 2 "cannot create a log directory" TMPDIR=/nonexistent --
