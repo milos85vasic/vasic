@@ -27,7 +27,7 @@ Nothing is copied here. This file is a pointer; the authority is the submodule.
 
 | What | Canonical path in this repository |
 |---|---|
-| The universal constitution (13,174 lines, 281 `### §` anchors, 2,283,524 bytes, blob `1cab1d0726bb`, sha256 `d72bd3b45236…`, re-measured 2026-11-25 at the index pin `71c5e178707d` with `wc -l`, `grep -c '^### §'`, `wc -c`, `git rev-parse HEAD:Constitution.md` and `sha256sum` on `Constitution.md`; re-derive, do not quote; historical and withdrawn as current: 11,965 lines, 257 anchors, 1,908,339 bytes at `a71b1767b402` (2026-10-12), and the 11,787 lines, 255 anchors, 1,801,862 bytes, sha256 `973e473c823b4a13…` of 2026-09-03) | `submodules/constitution/Constitution.md` |
+| The universal constitution (13,174 lines, 281 `### §` anchors, 2,283,524 bytes, blob `1cab1d0726bb`, sha256 `d72bd3b45236…`, re-measured 2026-11-25 at the index pin `0d9e638f69d9` with `wc -l`, `grep -c '^### §'`, `wc -c`, `git rev-parse HEAD:Constitution.md` and `sha256sum` on `Constitution.md`; re-derive, do not quote; historical and withdrawn as current: 11,965 lines, 257 anchors, 1,908,339 bytes at `a71b1767b402` (2026-10-12), and the 11,787 lines, 255 anchors, 1,801,862 bytes, sha256 `973e473c823b4a13…` of 2026-09-03) | `submodules/constitution/Constitution.md` |
 | Claude Code carrier | `submodules/constitution/CLAUDE.md` |
 | Codex / Cursor / Aider / OpenCode / Crush / Kimi CLI carrier | `submodules/constitution/AGENTS.md` |
 | Qwen Code carrier | `submodules/constitution/QWEN.md` |
@@ -266,14 +266,14 @@ above, a `--fetch` may then be run to classify WHICH WAY:
 git -C submodules/constitution rev-parse HEAD                   # the local pin
 git ls-remote git@github.com:HelixDevelopment/HelixConstitution.git HEAD
 git -C submodules/constitution rev-parse HEAD:Constitution.md   # blob identity
-grep -c '^### §' submodules/constitution/Constitution.md        # 281 (re-measured 2026-11-25 at pin 71c5e178707d; 280, 279 and 257 SUPERSEDED)
-wc -l < submodules/constitution/Constitution.md                 # 13174 (re-measured 2026-11-25 at pin 71c5e178707d; 13142, 13108 and 11965 SUPERSEDED)
+grep -c '^### §' submodules/constitution/Constitution.md        # 281 (re-measured 2026-11-25 at pin 0d9e638f69d9; 280, 279 and 257 SUPERSEDED)
+wc -l < submodules/constitution/Constitution.md                 # 13174 (re-measured 2026-11-25 at pin 0d9e638f69d9; 13142, 13108 and 11965 SUPERSEDED)
 bash scripts/verify-manifest-pins.sh                            # 0 = ref == gitlink
 ```
 
 **Current gitlinks of the five modules whose pins this carrier narrates — a dated reading, 2026-11-24, from the index.**
 Re-derive each with `git ls-files -s <path>`; these move with every bump and the `pointer-drift` sweep class
-reports the carrier again when one does: `submodules/constitution` `71c5e178707d`, `design-toolkit` `e5fee6c660b9`, `submodules/containers` `ec32935dbed6`, `submodules/curriculum-kit` `277b96efcca4`, `workshop` `a8b740fceca2`.
+reports the carrier again when one does: `submodules/constitution` `0d9e638f69d9`, `design-toolkit` `e5fee6c660b9`, `submodules/containers` `ec32935dbed6`, `submodules/curriculum-kit` `277b96efcca4`, `workshop` `ccb7aeecc64a`.
 
 **Re-measured 2026-09-09, and the whole fleet is level — no move was made and
 none was needed.** `git -C submodules/constitution rev-parse HEAD` and
@@ -373,7 +373,7 @@ read them; do not guess.
 
 ## Anchors 11.4.289 through 11.4.299, and the recorded PR-delivery decision
 
-Re-measured 2026-11-25 at the pin `71c5e178707d`: `Constitution.md` defines anchors through `11.4.300`. Read each block in
+Re-measured 2026-11-25 at the pin `0d9e638f69d9`: `Constitution.md` defines anchors through `11.4.300`. Read each block in
 `submodules/constitution/Constitution.md` before relying on it; this list is a pointer, not the rule (the canon wins).
 
 - `11.4.289` no stub, mock or fixture server as evidence: results are validated LIVE; a test double proves only the
