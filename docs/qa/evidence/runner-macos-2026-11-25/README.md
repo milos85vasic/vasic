@@ -10,7 +10,7 @@ Host mistborn.local (macOS arm64, /bin/bash 3.2.57, PATH /opt/homebrew/bin:/usr/
 - Root cause: BSD realpath has no -m or -s ("realpath: illegal option -- -") and BSD readlink has no -m; both were used in scripts/run-isolated.sh (readlink -m also in answering-measure.sh). GNU timeout was used in start.sh.
 - With only the system PATH (no /opt/homebrew/bin), runner-flag.test.sh exits 2 CANNOT-DETERMINE because podman is not on PATH.
 
-## GREEN (workshop main 364850d3, tag vasic-1.0.0-dev-0.0.10, Mac checkout fast-forwarded)
+## GREEN (workshop main 364850d3, tag vasic-1.0.0-dev-0.1.0, Mac checkout fast-forwarded)
 
 green-final-364850d3-*.txt: runner-flag 45 passed / 0 failed; portable-helpers OK 50 assertions; runner-prepare 39 passed / 0 failed. mutation-final.txt: 5 killed / 0 survived. Hashes: SHA256SUMS.
 
