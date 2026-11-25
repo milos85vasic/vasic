@@ -299,18 +299,18 @@ func verifyArtifact(service, path, rel string, before, startedAt time.Time) (os.
 	fi, serr := os.Stat(path)
 	if serr != nil {
 		return nil, fmt.Errorf("%q exited 0 but %s does not exist. "+
-			"A green exit with no artifact is a bluff, and it is reported as a failure", service, rel)
+			"A green exit with no artifact is a bluff, and it is reported as a failure.", service, rel)
 	}
 	if fi.Size() == 0 {
-		return nil, fmt.Errorf("%s exists but is empty (0 bytes)", rel)
+		return nil, fmt.Errorf("%s exists but is empty (0 bytes).", rel)
 	}
 	if !before.IsZero() && !fi.ModTime().After(before) {
 		return nil, fmt.Errorf("%s was NOT rewritten: mtime is still %s. "+
-			"The container exited 0 while leaving the previous artifact in place",
+			"The container exited 0 while leaving the previous artifact in place.",
 			rel, fi.ModTime().Format(time.RFC3339))
 	}
 	if fi.ModTime().Before(startedAt.Add(-2 * time.Second)) {
-		return nil, fmt.Errorf("%s has mtime %s, which predates this run (started %s)",
+		return nil, fmt.Errorf("%s has mtime %s, which predates this run (started %s).",
 			rel, fi.ModTime().Format(time.RFC3339), startedAt.Format(time.RFC3339))
 	}
 	return fi, nil
