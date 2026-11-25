@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-11-25T19:00:00Z
-    Synced-Commit: 9ef2787a2dc6
+    Last-Updated: 2026-11-25T21:00:00Z
+    Synced-Commit: a2d694731096
     Authority-Root: submodules/constitution
 
 
@@ -452,6 +452,13 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+## UPDATE 2026-11-25 pin bumps + issue-sync facade (branch `pr/wrap-2026-11-25`)
+
+- `submodules/constitution` 71c5e178707d -> 0d9e638f69d9 (PR #46 facade), ff-only, 0 divergent / 11 behind; `Constitution.md` unchanged on both sides (blob 1cab1d0726bb, 13,174 lines, 281 anchors, 2,283,524 bytes, sha256 d72bd3b4); `diff --stat` 17 files, 1,454 insertions, 28 deletions. `helix-deps.yaml` ref and the four carriers' dated gitlink reading moved in the same change.
+- `workshop` a8b740fceca2 -> ccb7aeecc64a (PR #7 `--runner` prepare fix), ff-only, 0 divergent / 8 behind; ccb7aeec read with `git ls-remote` on both workshop upstreams. NOT proven on macOS: the live proof on `mistborn.local` is pending SSH access.
+- Issue-sync facade wired in dry-run: `.docs_chain/contexts/issues-sync.yaml` installed; `run` measured doctor rc 0, `docs_chain verify` rc 0, facade `verify` rc 1 (DRIFT: nothing applied by design). No tracker was written. Record: `docs/governance/ISSUE-SYNC-FACADE-WIRING-2026-11-25.md`.
+- Open operator items: `docs/operator/open-operator-items-2026-11-25.md`. Workable-items gate unchanged (rc 1, 69 date findings).
 
 ## UPDATE 2026-11-25 WRAP-UP (resumption state since the previous CONTINUATION update, to 2026-11-25; branch `pr/umbrella-wrapup-2026-11-25`; SUPERSEDES the "Open"/"Pending"/"Blocked" wording in the dated UPDATE blocks below wherever it disagrees)
 

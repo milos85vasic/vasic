@@ -16,8 +16,8 @@ interval_hours: 24
 inbound:
   enabled: false
   assignees: []
-# docs_chain: the issues-sync context is NOT wired here yet: the umbrella has no docs/Issues.md, Fixed.md or *_Summary.md
-# nodes for the template to derive; the engine reaches the umbrella through scripts/verify_issues_sync.sh instead.
+# docs_chain: the issues-sync context IS installed (.docs_chain/contexts/issues-sync.yaml, 2026-11-25); see
+# docs/governance/ISSUE-SYNC-FACADE-WIRING-2026-11-25.md for the measured `run` result and the binary/CLI caveats.
 # mirrors (anchor §11.4.300(D), constitution PR for the key): declared mirror -> the owning repository it mirrors. The umbrella
 # (github.com/milos85vasic/vasic, public) is mirrored by empty PUBLIC repositories created 2026-11-25 (docs/governance/ISSUE-SYNC-HOST-REPOS-2026-11-25.md).
 # Codeberg, GitFlic and GitVerse use the owner name `milosvasic`, so without this map the engine answers not-owning-repo for them.
