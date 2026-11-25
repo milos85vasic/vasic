@@ -67,9 +67,9 @@ if [[ $PROVE -eq 1 ]]; then
     mk() { rm -rf "$W/t"; mkdir -p "$W/t/_tests/tools" "$W/t/_tests/tests" "$W/t/_tests/evidence/test-types"; cp "$ROOT"/_tests/tools/evidence-paths.cjs "$ROOT"/_tests/tools/perf-budget-rows.cjs "$W/t/_tests/tools/"; : > "$W/t/_tests/tests/a.spec.js"; }
     mk; check_tree "$W/t" >/dev/null 2>&1; rc=$?
     [[ $rc -eq 0 ]] && echo "PASS control: unmutated copy exits 0" || { echo "PROOF FAIL control rc=$rc"; pf=1; }
-    mk; sed -i "s/refreshRequested(env) ? TRACKED : SCRATCH/TRACKED/" "$W/t/_tests/tools/evidence-paths.cjs"; check_tree "$W/t" >/dev/null 2>&1; rc=$?
+    mk; sed -i.bak "s/refreshRequested(env) ? TRACKED : SCRATCH/TRACKED/" "$W/t/_tests/tools/evidence-paths.cjs" && rm -f "$W/t/_tests/tools/evidence-paths.cjs.bak"; check_tree "$W/t" >/dev/null 2>&1; rc=$?
     [[ $rc -eq 1 ]] && echo "PASS M1 always-tracked resolver caught (rc 1)" || { echo "PROOF FAIL M1 rc=$rc"; pf=1; }
-    mk; sed -i "s/refreshRequested(env) ? TRACKED : SCRATCH/SCRATCH/" "$W/t/_tests/tools/evidence-paths.cjs"; check_tree "$W/t" >/dev/null 2>&1; rc=$?
+    mk; sed -i.bak "s/refreshRequested(env) ? TRACKED : SCRATCH/SCRATCH/" "$W/t/_tests/tools/evidence-paths.cjs" && rm -f "$W/t/_tests/tools/evidence-paths.cjs.bak"; check_tree "$W/t" >/dev/null 2>&1; rc=$?
     [[ $rc -eq 1 ]] && echo "PASS M2 never-tracked (dead refresh) caught (rc 1)" || { echo "PROOF FAIL M2 rc=$rc"; pf=1; }
     mk; printf "const p=require('path');const S=p.join(__dirname,'..','evidence','homepages');\n" > "$W/t/_tests/tests/a.spec.js"; check_tree "$W/t" >/dev/null 2>&1; rc=$?
     [[ $rc -eq 1 ]] && echo "PASS M3 spec composing tracked path caught (rc 1)" || { echo "PROOF FAIL M3 rc=$rc"; pf=1; }

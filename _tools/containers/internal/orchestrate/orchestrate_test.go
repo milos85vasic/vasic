@@ -95,17 +95,21 @@ func TestResolveRootWalksUpFromCwd(t *testing.T) {
 
 func TestResolveRootNoAncestor(t *testing.T) {
 	t.Chdir(t.TempDir())
-	// A temp dir has no ancestor carrying both markers on a sane host; if the
-	// host does have one the premise is false and the test cannot decide.
-	if _, err := ResolveRoot(""); err == nil {
-		t.Skip("an ancestor of the temp dir looks like an umbrella root; cannot decide (not a pass)")
+	// A temp dir has no ancestor carrying both markers on a sane host. When the
+	// host does have one, the correct behaviour is to return exactly that
+	// ancestor, so the test asserts it instead of skipping.
+	got, err := ResolveRoot("")
+	if err != nil {
+		return
+	}
+	wd, _ := os.Getwd()
+	rel, rerr := filepath.Rel(got, wd)
+	if !IsRepoRoot(got) || rerr != nil || strings.HasPrefix(rel, "..") {
+		t.Fatalf("ResolveRoot returned %q, which is not a root ancestor of %q", got, wd)
 	}
 }
 
 func TestWaitForExitReturnsRealExitCode(t *testing.T) {
-	if testing.Short() {
-		t.Skip("polls at 2s")
-	}
 	f := &fakeRT{seq: []*runtime.ContainerStatus{
 		{State: runtime.StateRunning},
 		{State: runtime.StateStopped, ExitCode: 7},
