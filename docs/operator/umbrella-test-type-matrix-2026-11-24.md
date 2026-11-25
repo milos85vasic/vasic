@@ -96,4 +96,4 @@ Only the rows whose truth moved since the matrix was written are listed. "Run to
 | - | Continuation sync | run today | `continuation-check.sh` rc 0, 8 PASS / 0 DRIFT / 0 UNDET |
 | - | Workable-items | run today | `verify-workable-items.sh` rc 1, 2 findings, both pre-existing (see the gap register) |
 
-Missing areas 3 to 8 above stand as written. Backlog B2 (site-build tests), B3 (churning evidence) and B6 (stale carrier text, C3 drift) are done; B1 is partly done (remote-sync fixed, bootstrap added), B4, B5 (nested constitution submodules), B7 and B8 remain open.
+Missing areas 3 to 8 above stand as written. Backlog B2 (site-build tests), B3 (churning evidence) and B6 (stale carrier text, C3 drift) are partly done (C3 drift cleared; claim-ledger anchoring of the unanchored figures is open); B1 is partly done (remote-sync fixed, bootstrap added), B4, B5 (nested constitution submodules), B7 and B8 remain open.

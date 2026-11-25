@@ -449,15 +449,15 @@ deviation is not an override** and must never be written up as one.
 
 ## §3 Active work
 
-## UPDATE 2026-11-25 WRAP-UP (resumption state after the week of 2026-11-18..25; branch `pr/umbrella-wrapup-2026-11-25`; SUPERSEDES the "Open"/"Pending"/"Blocked" wording in the dated UPDATE blocks below wherever it disagrees)
+## UPDATE 2026-11-25 WRAP-UP (resumption state since the previous CONTINUATION update, to 2026-11-25; branch `pr/umbrella-wrapup-2026-11-25`; SUPERSEDES the "Open"/"Pending"/"Blocked" wording in the dated UPDATE blocks below wherever it disagrees)
 
 Every figure here is a dated reading taken on 2026-11-25; re-derive with the command named, do not quote. This PR does NOT bump any gitlink: the final pin bump is a later, separate PR after the other wrap agents finish.
 
-### What merged this week (PR numbers only; titles are in `git log` and `gh pr list --state merged`)
+### What merged since the previous update (PR numbers only; ranges are the newest groups, not every PR since 2026-11-18; titles are in `git log` and `gh pr list --state merged`)
 
 - Umbrella `milos85vasic/vasic`: #46..#105 landed on `main` (merge commits, no squash, no force). The newest group, in order: #89 gap register + test-type matrix + remote-sync uninitialised-submodule fix; #90 volatile test evidence refreshed only deliberately (UG-15); #91 vault tests skip with a reason (UG-19); #92 C3 drift cleared; #93 `internal/orchestrate` tests; #94 zero-gap-sweep load/checkout proofs; #95 env-assumption prose-record exemption; #96 carrier corrections; #97 RTL logical-order gate (JSK-T169, T178); #98 check-registry exempt row; #99 `site-build` characterisation tests (UG-13 closed); #100 gate `C` (continuation-check) in pre-push; #101 gate 6 builds `_site` when absent; #102 `scripts/worktree-bootstrap.sh`; #103 workshop bump `3f9565a3`; #104 constitution pin `f92868dd` (11.4.300) + plan-only Issues mirror declaration; #105 UG-07 content-boundary reading.
-- `job_seeker` (`vasic-digital/job_seeker`): #187..#246 merged (i18n catalogues and review state, G04/G06/G07/G08/G09/G10/G12-G15/G23 gap-register work, eligibility shadow T236..T244, vision-verified HelixQA session #225/#243, knockout pre-flight #241/#245, hooks #212/#246). Remote `main` read `9937d78edab4`; the umbrella gitlink pins `b30fdad46114`.
-- `workshop` (`vasic-digital/workshop_curriculum`): #1..#3 (`--runner` flag, clone URLs to the org). Umbrella gitlink `3f9565a335fb`.
+- `job_seeker` (`vasic-digital/job_seeker`): #187..#246 merged (i18n catalogues and review state, G04/G06/G07/G08/G09/G10/G12-G15/G23 gap-register work, eligibility shadow PRs #236..#239 (JSK-T244) and #240 (JSK-T242), vision-verified HelixQA session #225/#243, knockout pre-flight #241/#245, hooks #212/#246). Remote `main` read `9937d78edab4`; the umbrella gitlink pins `b30fdad46114`.
+- `workshop` (`vasic-digital/workshop_curriculum`): #1..#3 (`--runner` flag, clone URLs to the org) and #4 (wrap-up docs, merged just before this PR). Umbrella gitlink `3f9565a335fb`.
 - Constitution (`HelixDevelopment/HelixConstitution`): #31..#42 (11.4.299 all-upstreams delivery, 11.4.300 workable-items Issues mirror C1..C8). Umbrella pin `f92868dd7036`.
 - HelixQA (`vasic-digital/HelixQA`): #8..#17 (honest zero-frame verdict, strictly explicit credentials, web cookie file, window-scoped web video).
 
@@ -478,18 +478,19 @@ Every figure here is a dated reading taken on 2026-11-25; re-derive with the com
 5. Deletion commands for stray refs (branches and tags no longer needed); the commands are listed by the owner of each repository, none was run.
 6. Vault re-seal.
 7. Tesseract language packs for OCR (`tesseract --list-langs`).
-8. Shared checkout reconcile: `/home/milosvasic/Projects/vasic` is on local `main` `0cb5add`, 0 ahead / 232 behind `github/main` with a dirty tree and many `*-wt-*` worktrees; inside it `job_seeker` local `main` `20a9f91` differs from the remote `main` and from the pinned `b30fdad46114`. Decide the reset (never a force-push).
+8. Shared checkout reconcile: the shared checkout (`$SHARED` below) is on local `main` `0cb5add`, 0 ahead / 232 behind `github/main` with a dirty tree and many `*-wt-*` worktrees; inside it `job_seeker` local `main` `20a9f91` differs from the remote `main` and from the pinned `b30fdad46114`. Decide the reset (never a force-push).
 9. Content-boundary: set `AGENT_ADMIT_TIMEOUT` at least 8000 for any run; the gate stays RED by design (reading assignment, not a regression).
 10. History-rewrite decision for the exposed contact string in public history (§11.4.113 forbids a rewrite of pushed history; the decision is the operator's and a rewrite is not performed by an agent).
 
 ### Exact commands to resume after a power-off
 
 ```bash
-cd /home/milosvasic/Projects/vasic
+SHARED="${VASIC_SHARED_CHECKOUT:-$HOME/Projects/vasic}"   # the operator's shared checkout
+cd "$SHARED"
 git fetch github                                    # fetch only; do not touch the dirty shared checkout
 git worktree add -b pr/<topic> ../vasic-wt-<topic> github/main
 cd ../vasic-wt-<topic>
-bash scripts/worktree-bootstrap.sh --reference /home/milosvasic/Projects/vasic   # 23 declared, 0 uninitialised
+bash scripts/worktree-bootstrap.sh --reference "$SHARED"   # 23 declared, 0 uninitialised
 bash scripts/continuation-check.sh                  # 0 in sync | 1 drift | 2 undetermined
 bash scripts/verify-claim-ledger.sh                 # 0
 bash scripts/verify-check-registry.sh               # 0 (structure only; --run-proofs takes about an hour)
@@ -503,7 +504,7 @@ Heavy gates run through `bash scripts/agent-admit.sh --verdict3 --tag <t> -- <cm
 
 ### Release
 
-The umbrella has a dev tag line `vasic-1.0.0-dev-0.0.N` (newest `0.0.8`, 2026-11-24) and `docs/releases/ADDING-A-RELEASE.md`, which is a build-once-promote procedure for the workshop platform (side-directory build, fingerprint, verdict, promote). A docs-only wrap has no build artifact for that procedure and the final pin bump is still to come, so no tag was cut here. Cut `0.0.9` after the final pin-bump PR lands, ff-only, and read it back with `git ls-remote --tags github 'vasic-1.0.0-dev-0.0.9*'`.
+The umbrella has a dev tag line `vasic-1.0.0-dev-0.0.N` (newest `0.0.8`, 2026-11-24) and `docs/releases/ADDING-A-RELEASE.md`, which is a build-once-promote procedure for the workshop platform (side-directory build, fingerprint, verdict, promote). A docs-only wrap has no build artifact for that procedure and the final pin bump is still to come, so no tag was cut here. Cut `0.0.9` through the full `docs/releases/ADDING-A-RELEASE.md` procedure after the final pin-bump PR lands (take N from the remote tag list, annotated tag, ff-only push), and read it back with `git ls-remote --tags github 'vasic-1.0.0-dev-0.0.9*'`.
 
 ## UPDATE 2026-11-25 (workable-items Issues mirror U1: plan-only; branch `pr/u1-issue-sync`)
 
