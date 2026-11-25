@@ -3871,16 +3871,6 @@ both scripts guard the build with an existence test of the binary and no freshne
 
 `if [ ! -f/-x BIN ]` then go build, no freshness guard; the challenge harness then scores providers with a stale binary fix in vasic-digital/LLMsVerifier (always go build, or freshness test), return as a gitlink bump
 
-## WSP-169 — workshop platform serves build 185fb15 while workshop HEAD is e076fa6: the stack was not redeployed after the last commit
-
-**Status:** Operator-blocked
-**Type:** Bug
-**Severity:** medium
-**Created-By:** AI
-**Assigned-To:** zero-gap-sweep
-
-container 42c12e533a91 started 2026-09-25T09:06:32Z serving source_commit 185fb158c4f4; e076fa6 was committed 10:18:12Z and nothing redeployed; scripts/qa-up.sh reuses a running stack without restarting it (header line 32). Measured: git diff --name-only 185fb158c4f4 e076fa6aa26f lists 3 *_test.go files only, so the production source is equal (identical binary output UNCONFIRMED) OPERATOR: redeploy the workshop stack from the committed tree (bash workshop/scripts/restart.sh, answering stays OFF by default). AGENT (follow-up): qa-up warns or refuses when it adopts a stack whose /api/health source_commit differs from workshop HEAD
-
 ## AII-005 — ai_interviewing's running build carries no source identity: the served binary cannot be tied to its source
 
 **Status:** Operator-blocked
@@ -4027,7 +4017,7 @@ os.WriteFile truncates then writes. A writer stopped between the truncate and th
 **Type:** Task
 **Severity:** medium
 
-Evidence owed before answering waivers WVR-2026-10-27-deepseek-qa (expires 2026-11-26) and WVR-2026-10-28-deepseek-qa-llm (expires 2026-11-27) lapse: see workshop docs/work-items/WSP-170.md. Row created 2026-10-29 at hand-off; id 170 matches the waiver roster tracked_item.
+Operator decision 2026-11-25 (Let it lapse): waiver WVR-2026-10-27-deepseek-qa lapses 2026-11-27 00:00Z, not renewed; the llm record WVR-2026-10-28-deepseek-qa-llm ends at its own date; answering stays OFF (live platform runs -answer-provider none). Evidence owed is not produced. Close after the lapse is checked; see workshop docs/work-items/WSP-170.md and docs/qa/WSP-169-170-tracker-2026-11-25.md.
 
 ## WSP-176 — workshop admin password is operator-held: student-surface gate checks C05 C13 C14 C15 stay UNDETERMINED
 
