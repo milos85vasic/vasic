@@ -7,13 +7,13 @@ Open workable items (current_location = Issues), regenerated from the SQLite sin
 | Type | Status | Count |
 |---|---|---|
 | Bug | In progress | 1 |
-| Bug | Operator-blocked | 21 |
+| Bug | Operator-blocked | 20 |
 | Bug | Queued | 11 |
 | Feature | Queued | 5 |
 | Task | In progress | 4 |
 | Task | Operator-blocked | 33 |
 | Task | Queued | 213 |
-| **TOTAL** | | **288** |
+| **TOTAL** | | **287** |
 
 ## Items
 
@@ -302,8 +302,7 @@ Open workable items (current_location = Issues), regenerated from the SQLite sin
 | WSP-166 | Task | Queued | low | Counts whose subject no rule of the class noun-to-measure table resolves ("recorded, not drift"): nothing re-measures them. Many sit in dated session reports, plans and evidence files that were true when written. Per document: (a) a docs/zero-gap/point-in-time.tsv row with the reason from the document header when it is dated; (b) a noun-to-measure rule when the subject is measurable in the tree; (c) otherwise replace the count with its derive command. Fix in the repository that owns the document. | UNSET | UNSET |
 | WSP-167 | Bug | Operator-blocked | high | Per the 2026-09-09 record the gate exits 0 while the proposal prose and the committed JSON disagree, because it never reads the prose (a false-green, §11.4.201). Current state UNCONFIRMED (not re-run this session). Make the gate read and compare the prose count; paired mutation proof. | UNSET | UNSET |
 | WSP-168 | Bug | Operator-blocked | medium | two tracked scripts matching the gate-name heuristic carry no proof arm and no sibling proof; whether pipeline/run_audit.sh is a verdict gate at all is UNCONFIRMED (name-heuristic population; its only in-repo referrers are a doc and a Python helper, neither a proof) for each: confirm gate or not; gate => add proof arm + register in the workshop's own gate surface; not a gate => record why the heuristic should not flag it (class exemption with reason) | UNSET | UNSET |
-| WSP-169 | Bug | Operator-blocked | medium | container 42c12e533a91 started 2026-09-25T09:06:32Z serving source_commit 185fb158c4f4; e076fa6 was committed 10:18:12Z and nothing redeployed; scripts/qa-up.sh reuses a running stack without restarting it (header line 32). Measured: git diff --name-only 185fb158c4f4 e076fa6aa26f lists 3 *_test.go files only, so the production source is equal (identical binary output UNCONFIRMED) OPERATOR: redeploy the workshop stack from the committed tree (bash workshop/scripts/restart.sh, answering stays OFF by default). AGENT (follow-up): qa-up warns or refuses when it adopts a stack whose /api/health source_commit differs from workshop HEAD | UNSET | UNSET |
-| WSP-170 | Task | Queued | medium | Evidence owed before answering waivers WVR-2026-10-27-deepseek-qa (expires 2026-11-26) and WVR-2026-10-28-deepseek-qa-llm (expires 2026-11-27) lapse: see workshop docs/work-items/WSP-170.md. Row created 2026-10-29 at hand-off; id 170 matches the waiver roster tracked_item. | UNSET | UNSET |
+| WSP-170 | Task | Queued | medium | Operator decision 2026-11-25 (Let it lapse): waiver WVR-2026-10-27-deepseek-qa lapses 2026-11-27 00:00Z, not renewed; the llm record WVR-2026-10-28-deepseek-qa-llm ends at its own date; answering stays OFF (live platform runs -answer-provider none). Evidence owed is not produced. Close after the lapse is checked; see workshop docs/work-items/WSP-170.md and docs/qa/WSP-169-170-tracker-2026-11-25.md. | UNSET | UNSET |
 | WSP-176 | Task | Operator-blocked | high | On the 0.0.7 release build 5641ea85 the student-surface gate reports 35 pass, 0 fail, 4 UNDETERMINED; the four checks C05, C13, C14, C15 need the admin password, which only the operator holds. Undetermined is not a pass. Source docs/releases/0.0.7.md. | UNSET | UNSET |
 | WSP-177 | Task | Queued | medium | The materials upload to Yandex Disk was running at about 40 to 90 KB per second and is not complete; workshop-storage verify --deep has not been run and pushes used the storage offline reason. Nothing has been untracked. Source CONTINUATION.md 2026-10-27 and 2026-10-29 sections. | UNSET | UNSET |
 | WSP-178 | Task | Queued | low | The stack rule Go, Gin, HTTP/3 and Brotli applies to the workshop server. The operator DEFERRED it: focus is milosvasic.ru first, then job_seeker. Not scheduled; the workshop server's present stack was not re-measured by this record. | UNSET | UNSET |

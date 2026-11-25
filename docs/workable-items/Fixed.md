@@ -6054,6 +6054,17 @@ WHAT: the §11.4.261 sweep refused the seam at 63 findings against ceilings tota
 
 WHAT: the zero-findings ratchet records 63 where 23 was expected; which figure is authoritative is undecided. Closes when the figures are reconciled with a re-measured run and the ratchet file is updated or the discrepancy is explained.
 
+## WSP-169 — workshop platform serves build 185fb15 while workshop HEAD is e076fa6: the stack was not redeployed after the last commit
+
+**Status:** Obsolete (→ Fixed.md)
+**Type:** Bug
+**Evidence:** docs/qa/WSP-169-170-tracker-2026-11-25.md
+**Severity:** medium
+**Created-By:** AI
+**Assigned-To:** zero-gap-sweep
+
+container 42c12e533a91 started 2026-09-25T09:06:32Z serving source_commit 185fb158c4f4; e076fa6 was committed 10:18:12Z and nothing redeployed; scripts/qa-up.sh reuses a running stack without restarting it (header line 32). Measured: git diff --name-only 185fb158c4f4 e076fa6aa26f lists 3 *_test.go files only, so the production source is equal (identical binary output UNCONFIRMED) OPERATOR: redeploy the workshop stack from the committed tree (bash workshop/scripts/restart.sh, answering stays OFF by default). AGENT (follow-up): qa-up warns or refuses when it adopts a stack whose /api/health source_commit differs from workshop HEAD
+
 ## LMV-001 — submodules/llms_verifier gitlink 2c6602c78931 behind origin 8f2090acb907
 
 **Status:** Completed (→ Fixed.md)
