@@ -20,9 +20,9 @@ set -u
 ROOT=""; REF=""; LINK=""; DRY=0
 while [ $# -gt 0 ]; do
     case "$1" in
-        --root) ROOT="${2:-}"; shift 2 ;;
-        --reference) REF="${2:-}"; shift 2 ;;
-        --link-node-modules) LINK="${2:-}"; shift 2 ;;
+        --root) [ $# -ge 2 ] || { echo "worktree-bootstrap: --root needs a value" >&2; exit 64; }; ROOT="${2:-}"; shift 2 ;;
+        --reference) [ $# -ge 2 ] || { echo "worktree-bootstrap: --reference needs a value" >&2; exit 64; }; REF="${2:-}"; shift 2 ;;
+        --link-node-modules) [ $# -ge 2 ] || { echo "worktree-bootstrap: --link-node-modules needs a value" >&2; exit 64; }; LINK="${2:-}"; shift 2 ;;
         --dry-run) DRY=1; shift ;;
         -h|--help) sed -n 2,19p "$0"; exit 0 ;;
         *) echo "worktree-bootstrap: unknown argument '$1'" >&2; exit 64 ;;
@@ -55,7 +55,7 @@ if [ -n "$LINK" ]; then
     elif [ "$DRY" = 1 ]; then echo "would: ln -s $LINK/_tests/node_modules $ROOT/_tests/node_modules"
     else ln -s "$LINK/_tests/node_modules" "$ROOT/_tests/node_modules" && echo "linked  _tests/node_modules"; fi
 fi
-if [ "$DRY" = 1 ]; then echo "dry run: $n submodule(s) declared"; exit 0; fi
+if [ "$DRY" = 1 ]; then echo "dry run: $n submodule(s) declared"; [ "$fail" -eq 0 ] || exit 2; exit 0; fi
 unin="$(git -C "$ROOT" submodule status 2>/dev/null | grep -c '^-')"
 echo "post-condition: $n declared, $unin uninitialised, $fail step(s) failed"
 if [ "$fail" -gt 0 ] || [ "$unin" -gt 0 ]; then exit 2; fi
