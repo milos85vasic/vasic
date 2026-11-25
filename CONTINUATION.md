@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-11-25T04:00:00Z
-    Synced-Commit: 95d8701a4262
+    Last-Updated: 2026-11-25T04:30:00Z
+    Synced-Commit: 50cb4d804447
     Authority-Root: submodules/constitution
 
 
@@ -27,6 +27,8 @@ quoted from `submodules/constitution/Constitution.md`:
 >    any CLI agent.
 > 6. **Document MUST be self-contained.** No hyperlinks to ephemeral
 >    external systems as the only source of truth.
+
+> **2026-11-25 gate 6 builds `_site` (PR pr/gate6-site-build-2026-11-25):** `scripts/pre-push-gates.sh` precondition for gate 6 now builds `milosvasic.ru/_site` with `_tools/containers/bin/site-build -workload jekyll` when `index.html` is absent (through `scripts/agent-admit.sh`, memory-capped, plus `mem_limit` on the compose service; `PREPUSH_BUILD_SITE=0` opts out; rc 1 from the build is a FAIL, anything undetermined a SKIP). Paired proof cases M10-M10f. The first real full run found two stale specs, fixed here: `seo-meta.spec.js` expected the vasic.digital canonical host `vasic.digital` (the site declares `digital.vasic.dev`), and `expertise.spec.js` expected the operator-private admin console to be served (milosvasic.ru excludes it since its commit 14b2d8b). Real run after the fixes: `553 passed (7.2m)`.
 
 > **2026-11-25 gate C (PR pr/gate-continuation-2026-11-25):** `scripts/pre-push-gates.sh` gained gate `C` running `scripts/continuation-check.sh`, with paired proof cases M11-M11f. Its first real run in a fully initialised worktree caught C7 (gate `C` missing from §6), fixed in this same change.
 
