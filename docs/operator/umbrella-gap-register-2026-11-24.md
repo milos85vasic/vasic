@@ -170,3 +170,31 @@ Wall clock from the trace: corpus fingerprint at 24 s, public scan done at 2173 
 Comparability: the carrier's 2026-09-09 reading was `LEAK 5267 (prose 4291, short 450, name 257, fingerprint 269)` over 15098 files. This reading is over 34867 files and 55391 eligible keys (3.7 times the earlier eligible population), so the totals are not comparable and no cleanup or regression is inferred from the difference.
 
 Not done, by instruction: no row was judged, allow-listed, redacted or re-baselined, and the gate stays RED by design (rc 1, a reading assignment). The operator-level option for future runs is to set `AGENT_ADMIT_TIMEOUT` (at least 8000 s, 14400 s used here) on the documented wrapper; the direction stage has no resume or per-submodule split flag (`--no-direction` skips it but removes the subtraction, giving a different, much larger number).
+
+## Status at the 2026-11-25 wrap-up
+
+Measured or cited on 2026-11-25 at umbrella `main` `34044af73f2a` (merge of PR #105). "Re-run today" means the command ran in the wrap-up worktree with all 23 declared submodules initialised by `scripts/worktree-bootstrap.sh`; "cited" means the status comes from a merged PR and was not re-run in the wrap-up.
+
+| ID | Status now | Basis |
+|---|---|---|
+| UG-01 | CLOSED in the carriers; gate 6 `_site` build step landed, not re-run in the wrap-up | PR #96 corrected the carrier text; PR #101 builds `milosvasic.ru/_site` with `site-build -workload jekyll` when absent (cited) |
+| UG-02 | PARTLY CLOSED, unchanged | the tolerated per-language set is deliberate; the misreport was fixed by PR #89 (cited) |
+| UG-03 | GREEN, slice only | re-run today: `bash scripts/verify-claim-ledger.sh` rc 0, 11 VERIFIED / 0 FALSE / 0 ORPHAN / 0 UNDETERMINED; the ledger says itself it is a slice of 11 and not complete |
+| UG-04 | FIXED | PR #89 (cited) |
+| UG-05 | OPEN, operator decision | exemption row design unchanged |
+| UG-06 | MITIGATED for worktrees | PR #102 `worktree-bootstrap.sh`; re-run today: `post-condition: 23 declared, 0 uninitialised, 0 step(s) failed`. `bash scripts/verify-upstream-sync.sh` was not re-run in the wrap-up |
+| UG-07 | READING RECORDED, RED by design | PR #105 (LEAK 27310, corpus STABLE); needs `AGENT_ADMIT_TIMEOUT` of at least 8000 for any run |
+| UG-08 | OPEN, partly worked | PRs #78, #80, #81, #84, #85, #87, #95 fixed or exempted classes; the full-tree counts were not re-measured in the wrap-up |
+| UG-09 | MEASURABLE after one extra init | the nested `submodules/constitution/submodules/docs_chain` is not initialised by `worktree-bootstrap.sh`. After `git submodule update --init submodules/docs_chain` and `go build -o docs_chain ./cmd/docs_chain` in it, `bash scripts/verify-docs-chain.sh` ran: C1, C2, C4, C5 PASS, C3 FAIL (6 documents missing from the contexts). `bash scripts/gen-docs-chain-contexts.sh` regenerated `.docs_chain/contexts/umbrella-docs.yaml` in this PR |
+| UG-10 | OPEN | the sweep never finishes in one session; nested constitution submodules uninitialised by the bootstrap give REFUSE rc 4; PR #94 and the ratchet repair of PR #96 are cited, the sweep was not re-run |
+| UG-11 | CLOSED | PR #92; re-run today: `bash scripts/continuation-check.sh` rc 0 (8 PASS, 0 DRIFT, 0 UNDET) before and after this wrap-up edit |
+| UG-12 | OPEN, sample only | 3 of 79 gates sampled; no new sampling in the wrap-up. `bash scripts/verify-check-registry.sh` re-run today: rc 0, 168 PASS / 0 FAIL / 0 DEBT / 0 UNDET (structure only; `--run-proofs` not run) |
+| UG-13 | FIXED | PR #93 (`internal/orchestrate`) and PR #99 (`cmd/site-build`) (cited) |
+| UG-14 | MITIGATED | `worktree-bootstrap.sh --link-node-modules DIR` exists (PR #102); the harness self-validation was not re-run in the wrap-up |
+| UG-15 | FIXED | PR #90 (cited) |
+| UG-16 | FIXED | PR #89 (cited) |
+| UG-17 | OPEN | no rollback tool or test; `git revert` through the normal PR path is the only route |
+| UG-18 | DETERMINED, procedural | merge `github/main` before the PR |
+| UG-19 | MITIGATED | PR #91 skips with a reason when `vault.js` is absent; the owner of the vault feature still decides whether the submodule ships the file |
+
+Workable-items gate, re-run today: `bash scripts/verify-workable-items.sh` rc 1 with 2 findings, both pre-existing (G5 70 validator findings: 50 `V-G2` classification-recheck dates elapsed, 19 `V-G10` plan_due dates elapsed, 1 missing-provenance finding for 5 items; G6 3 canonical violations: VSC-028 title read-back, VSC-285 and WSP-151 "BLOCKED in title, status Queued"). Not fixed: each needs a per-item re-judgement or a zero-gap `gap` CLI action, which is not a cheap, safe edit. `Issues.md` and `Fixed.md` regenerate from the database with a 0-line diff, and the `Issues_Summary.md` counts (289 open) equal the database.
