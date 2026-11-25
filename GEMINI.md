@@ -27,7 +27,7 @@ Nothing is copied here. This file is a pointer; the authority is the submodule.
 
 | What | Canonical path in this repository |
 |---|---|
-| The universal constitution (13,142 lines, 280 `### §` anchors, 2,275,160 bytes, blob `ab5dcf28e1df`, sha256 `ba1adfbcd80b…`, re-measured 2026-11-24 at the index pin `f9eb835e03db` with `wc -l`, `grep -c '^### §'`, `wc -c`, `git rev-parse HEAD:Constitution.md` and `sha256sum` on `Constitution.md`; re-derive, do not quote; historical and withdrawn as current: 11,965 lines, 257 anchors, 1,908,339 bytes at `a71b1767b402` (2026-10-12), and the 11,787 lines, 255 anchors, 1,801,862 bytes, sha256 `973e473c823b4a13…` of 2026-09-03) | `submodules/constitution/Constitution.md` |
+| The universal constitution (13,174 lines, 281 `### §` anchors, 2,283,524 bytes, blob `1cab1d0726bb`, sha256 `d72bd3b45236…`, re-measured 2026-11-25 at the index pin `f92868dd7036` with `wc -l`, `grep -c '^### §'`, `wc -c`, `git rev-parse HEAD:Constitution.md` and `sha256sum` on `Constitution.md`; re-derive, do not quote; historical and withdrawn as current: 11,965 lines, 257 anchors, 1,908,339 bytes at `a71b1767b402` (2026-10-12), and the 11,787 lines, 255 anchors, 1,801,862 bytes, sha256 `973e473c823b4a13…` of 2026-09-03) | `submodules/constitution/Constitution.md` |
 | Claude Code carrier | `submodules/constitution/CLAUDE.md` |
 | Codex / Cursor / Aider / OpenCode / Crush / Kimi CLI carrier | `submodules/constitution/AGENTS.md` |
 | Qwen Code carrier | `submodules/constitution/QWEN.md` |
@@ -266,14 +266,14 @@ above, a `--fetch` may then be run to classify WHICH WAY:
 git -C submodules/constitution rev-parse HEAD                   # the local pin
 git ls-remote git@github.com:HelixDevelopment/HelixConstitution.git HEAD
 git -C submodules/constitution rev-parse HEAD:Constitution.md   # blob identity
-grep -c '^### §' submodules/constitution/Constitution.md        # 280 (re-measured 2026-11-24 at pin f9eb835e03db; 279 and 257 SUPERSEDED)
-wc -l < submodules/constitution/Constitution.md                 # 13142 (re-measured 2026-11-24 at pin f9eb835e03db; 13108 and 11965 SUPERSEDED)
+grep -c '^### §' submodules/constitution/Constitution.md        # 281 (re-measured 2026-11-25 at pin f92868dd7036; 280, 279 and 257 SUPERSEDED)
+wc -l < submodules/constitution/Constitution.md                 # 13174 (re-measured 2026-11-25 at pin f92868dd7036; 13142, 13108 and 11965 SUPERSEDED)
 bash scripts/verify-manifest-pins.sh                            # 0 = ref == gitlink
 ```
 
 **Current gitlinks of the five modules whose pins this carrier narrates — a dated reading, 2026-11-24, from the index.**
 Re-derive each with `git ls-files -s <path>`; these move with every bump and the `pointer-drift` sweep class
-reports the carrier again when one does: `submodules/constitution` `f9eb835e03db`, `design-toolkit` `e5fee6c660b9`, `submodules/containers` `ec32935dbed6`, `submodules/curriculum-kit` `277b96efcca4`, `workshop` `d58ae75d2d7b`.
+reports the carrier again when one does: `submodules/constitution` `f92868dd7036`, `design-toolkit` `e5fee6c660b9`, `submodules/containers` `ec32935dbed6`, `submodules/curriculum-kit` `277b96efcca4`, `workshop` `d58ae75d2d7b`.
 
 **Re-measured 2026-09-09, and the whole fleet is level — no move was made and
 none was needed.** `git -C submodules/constitution rev-parse HEAD` and
@@ -373,7 +373,7 @@ read them; do not guess.
 
 ## Anchors 11.4.289 through 11.4.299, and the recorded PR-delivery decision
 
-Re-measured 2026-11-24 at the pin `f9eb835e03db`: `Constitution.md` defines anchors through `11.4.299`. Read each block in
+Re-measured 2026-11-25 at the pin `f92868dd7036`: `Constitution.md` defines anchors through `11.4.300`. Read each block in
 `submodules/constitution/Constitution.md` before relying on it; this list is a pointer, not the rule (the canon wins).
 
 - `11.4.289` no stub, mock or fixture server as evidence: results are validated LIVE; a test double proves only the
@@ -388,7 +388,7 @@ Re-measured 2026-11-24 at the pin `f9eb835e03db`: `Constitution.md` defines anch
 - `11.4.297` pull-request delivery, binding only where a recorded operator decision declares it.
 - `11.4.298` release gate per product: deploy or tag only after a full live run on connected target hardware.
 - `11.4.299` merged is not delivered until fast-forward pushed to EVERY declared upstream and read back per upstream with `git ls-remote`, for the root and every own-org submodule touched (submodule first, then the parent pointer plus `helix-deps.yaml` ref); a partial push is a defect; a blocked push is reported BLOCKED, never bypassed; the constitution submodule itself is always the latest upstream `main` with nested submodules current.
-- `11.4.300` (NOT in the pinned `f9eb835e03db`; read 2026-11-25 from the constitution upstream `origin/main` at `3b491d63e215` with `git show origin/main:Constitution.md`, a fetched ref and not this repository's pin): workable items are mirrored one way, database to the Issues of every declared upstream, as a mechanism that is default OFF until a project turns it on; an undetermined leg is UNCONFIRMED, never in sync. This repository has not turned it on and no part of it is claimed wired here. Read the block before relying on it.
+- `11.4.300` workable items are mirrored one way, database to the Issues of every declared upstream, as a mechanism that is default OFF until a project turns it on; an undetermined or write-unproven leg is UNCONFIRMED, never in sync. Present in the pin `f92868dd7036` (since 2026-11-25). This repository has turned it on PLAN-ONLY (`.workable-items-sync.yaml`, `mode: dry-run`, no `apply_decision`); see the 2026-11-25 operator decision below. Read the block before relying on it.
 
 **Recorded operator decision (the §11.4.297(A) declaration), 2026-11-23/24:** "PR-driven work: task branch, one PR per
 task, independent review agents, merge to main by the agent." Record:
@@ -399,6 +399,8 @@ commit (`gh pr merge --merge`); squash and rebase merges are forbidden and force
 guard, so no part of PR delivery is claimed ENFORCED. This does not weaken §11.4.288 for any path the decision does not cover.
 
 **Operator directive of 2026-11-24 (§11.4.299), and how this repository wires it.** After PRs are merged and the main repositories updated, everything brought into `main` MUST be fully pushed to ALL UPSTREAMS. Read-only instruments: `bash scripts/verify-upstream-sync.sh` (the fleet derived from `.gitmodules`; exit 0 every upstream current, 1 behind or diverged, 2 cannot determine, never a pass; registered as `upstream-sync` in `scripts/check-registry.tsv` with `--prove-failure`) and `bash submodules/constitution/scripts/sync/verify_constitution_latest.sh --root .` (the constitution pin equals upstream `main` and its nested submodules are initialised and current). The guarded helper is `submodules/constitution/scripts/sync/push_all_upstreams.sh --repo <dir> --sha <merged-sha> [--apply]` (dry run by default, fast-forward only, no force construct, ends with a read-back). Declared mirror exemptions live as data in `config/upstream-parity-exemptions.tsv` (none today; a row needs a recorded operator decision). Honest boundary (§11.4.297(G)): the wiring is PROVISIONAL, not ENFORCED, until a delivery step runs the verifier after every merge; no part of it is claimed ENFORCED here.
+
+**Operator decision of 2026-11-25 (§11.4.300), and how this umbrella wires it: ENABLED, PLAN-ONLY.** `.workable-items-sync.yaml` is tracked at the root with `enabled: true`, `mode: dry-run` and NO `apply_decision`; the engine is the constitution's (`submodules/constitution/scripts/issue_sync/`), never copied. The upstream set is derived per repository from its `upstreams/*.sh` recipes and remotes (`trackers: []`); a private item goes only to its owner's own private tracker (visibility is read live and an undetermined one blocks); GitFlic and GitVerse are written only behind a recorded live create-and-read-back in the constitution's `config/forge/issue_sync_proven.tsv`, which is EMPTY, so every write leg is UNCONFIRMED and `apply` refuses to write. Read-only instruments: `bash scripts/verify-issues-sync.sh` (registered as `issues-sync` in `scripts/check-registry.tsv` with `--prove-failure`; exit 2 while no host is proven, by design) and the recorded plan counts in `docs/qa/issue_sync/plan_2026-11-25.txt`. Honest boundary (§11.4.297(G)): PROVISIONAL, nothing has been written to any tracker, and the Docs Chain `issues-sync` context is not wired because the umbrella carries no `Issues.md`/`Fixed.md` status documents for it to derive.
 
 Exactly ONE operator override is in force (`Override §11.4.279-§11.4.286`, hosted Jev only; see "Project overrides of
 universal rules" below). PR delivery is a declared delivery MODE, not an override: it amends nothing beyond the three
