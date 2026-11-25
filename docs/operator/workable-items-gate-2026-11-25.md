@@ -84,7 +84,7 @@ V-G2 = classification recheck elapsed; V-G10 = open item whose plan_due elapsed.
 
 ## Second pass, 2026-11-25 (re-judgement from current evidence)
 
-Method: `gap classify` (the only CLI path that changes a recheck date) was run through `_tools/workable-items/bin/workable-items-vsc` for items whose block was RE-MEASURED today and still holds, keeping reason, owner and block text unchanged and setting `--recheck 2026-12-09` (14 days). No plan date was edited, no item was closed, and nothing was classified from a guess. `validate` before 67 V-G2/V-G10 findings in this checkout, after 49 (V-G2 48 to 30, V-G10 19 unchanged). Issues.md and Fixed.md regenerated with `sync db-to-md`: byte-identical, because recheck dates are not rendered. Issue-sync stayed in dry-run.
+Method: `gap classify` (the only CLI path that changes a recheck date) was run through `_tools/workable-items/bin/workable-items-vsc` for items whose block was RE-MEASURED today and still holds, keeping reason, owner and block wording unchanged (classify re-writes operator_block_details: option newlines collapsed to spaces and a trailing space added to `who`, whitespace only) and setting `--recheck 2026-12-09` (14 days). No plan date was edited, no item was closed, and nothing was classified from a guess. `validate` before 67 V-G2/V-G10 findings in this checkout, after 49 (V-G2 48 to 30, V-G10 19 unchanged). Issues.md and Fixed.md regenerated with `sync db-to-md`: byte-identical, because recheck dates are not rendered. Issue-sync stayed in dry-run.
 
 Re-affirmed (18), with the evidence:
 
@@ -94,7 +94,7 @@ Re-affirmed (18), with the evidence:
 | CON-009 | Depends on the content-boundary decision below; no decision record exists. |
 | VSC-389..VSC-395 | Decision `G-content-boundary-rows-01` appears only in the register itself; no operator decision record under `docs/` resolves it. |
 | HLP-001, LLP-001 | Gitlink `bd302c8ab57d` vs `ls-remote` HEAD `97af6f0c7ef4`: still behind; bump is an operator decision. |
-| VSC-387, VSC-397 | `docs/operator-decisions/` D-02 (2026-10-21) records rotation as DEFERRED by the operator. |
+| VSC-387, VSC-397 | `docs/OPERATOR-DECISIONS-2026-10-21.md` D-02 records rotation of the `milosvasic` account password as DEFERRED by the operator (it does not mention the second account; see decision 3). |
 
 ### Closure candidates (work appears delivered; NOT closed, because `gap close` needs RED+GREEN evidence records, an independent verifier verdict and a reviewer verdict that one agent cannot supply, §11.4.240)
 
@@ -117,4 +117,4 @@ Note: LMV-001, listed in the first table, is already Completed; that row was sta
 1. V-G10, 19 open items (AII-002, CON-002, HQA-001, MON-001, PSG-007, VSC-028, VSC-349, VSC-351, VSC-354, VSC-356..358, VSC-378..380, VSC-396, WSP-151, WSP-165, WSP-166): no CLI command re-dates an open item's `plan_due` (`gap reopen --plan-due` applies to closed items only; `classify` clears `plan_due` and needs one of four reasons that do not fit docs-hygiene work). Options: (a) add a `gap replan --id --plan-due --reason` subcommand (code change, tests, independent review); (b) do the work and close with evidence; (c) operator picks a documented reason.
 2. V-G2 items not re-judged (30): AII-004, LMV-002, LMV-003, VSC-078, VSC-125, VSC-293, VSC-300, VSC-301, VSC-362, VSC-368..371, WSP-028, WSP-042, WSP-054, WSP-060, WSP-062, WSP-066, WSP-125, WSP-167, WSP-168, plus the closure candidates above. Each needs the owning repo's current state read, then a re-classify or an independent-verifier closure.
 3. Confirm whether the 2026-10-27 "do not rotate keys" decision extends to VSC-387/397 (it names Yandex, GitHub PAT and DeepSeek keys only).
-4. G5 also reports 2 V-G1 and 1 V-G6 on PSG-007 and WSP-169 in a fresh worktree; the PSG-007 one is the uninitialised submodule, WSP-169 (Obsolete, zero-gap columns wiped) is unexamined.
+4. G5 also reports 2 V-G1 and 1 V-G6 on PSG-007 and WSP-169 in a fresh worktree (a reviewer re-run also saw 3 V-G1 and 1 V-G12, not reconciled); the PSG-007 one is the uninitialised submodule, WSP-169 (Obsolete, zero-gap columns wiped) is unexamined.
