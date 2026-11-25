@@ -16,7 +16,7 @@
 | 3 | m3w SSH key | git.m3w.org SSH access for the push topology | Provide or authorise a key for the m3w account |
 | 4 | mistborn.local key-based SSH | CLOSED 2026-11-25: key access exists; test-level macOS proof recorded in docs/qa/evidence/runner-macos-2026-11-25/ | none |
 
-## B. macOS live proof of workshop --runner (workshop main 364850d3, tag vasic-1.0.0-dev-0.0.10)
+## B. macOS live proof of workshop --runner (workshop main 364850d3, tag vasic-1.0.0-dev-0.1.0)
 
 Done 2026-11-25 (test level, PROVISIONAL): on mistborn.local (bash 3.2.57) runner-flag.test.sh 45/0, portable-helpers.test.sh 50 OK (5/5 mutants killed), runner-prepare.test.sh 39/0, after fixing a real macOS defect (BSD realpath -m -s and readlink -m in run-isolated.sh, GNU timeout in start.sh). Evidence: docs/qa/evidence/runner-macos-2026-11-25/. NOT done: start.sh live on the Mac, the reboot case and the docker/colima cases.
 

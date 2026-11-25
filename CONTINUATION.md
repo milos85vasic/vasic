@@ -455,7 +455,7 @@ deviation is not an override** and must never be written up as one.
 
 ## UPDATE 2026-11-25 (late) workshop macOS fix (branch pr/mac-runner-proof-2026-11-25)
 
-- workshop ccb7aeec -> 364850d3 (PR #11: BSD realpath -m -s / readlink -m and GNU timeout replaced by portable helpers; bash 3.2 on mistborn.local: runner-flag 45/0, portable-helpers 50 OK, runner-prepare 39/0, 5/5 mutants killed). Dev tag vasic-1.0.0-dev-0.0.10 (PROVISIONAL, 11.4.298) on github and origin, read back with git ls-remote; Mac checkout fast-forwarded. Evidence docs/qa/evidence/runner-macos-2026-11-25/. NOT done: start.sh live on the Mac, reboot and docker/colima cases (commands in docs/operator/open-operator-items-2026-11-25.md section B).
+- workshop ccb7aeec -> 364850d3 (PR #11: BSD realpath -m -s / readlink -m and GNU timeout replaced by portable helpers; bash 3.2 on mistborn.local: runner-flag 45/0, portable-helpers 50 OK, runner-prepare 39/0, 5/5 mutants killed). Dev tag vasic-1.0.0-dev-0.1.0 (PROVISIONAL, 11.4.298) on github and origin, read back with git ls-remote; Mac checkout fast-forwarded. Evidence docs/qa/evidence/runner-macos-2026-11-25/. NOT done: start.sh live on the Mac, reboot and docker/colima cases (commands in docs/operator/open-operator-items-2026-11-25.md section B).
 
 ## UPDATE 2026-11-25 pin bumps + issue-sync facade (branch `pr/wrap-2026-11-25`)
 
