@@ -1,0 +1,13 @@
+  ok    start.sh: ws_runner_args (line 25) precedes first action (line 68)
+  ok    stop.sh: ws_runner_args (line 22) precedes first action (line 40)
+  ok    restart.sh: ws_runner_args (line 84) precedes first action (line 158)
+  ok    status.sh: ws_runner_args (line 39) precedes first action (line 53)
+preparation: only the START paths make the runner available (stop/status never boot a VM)
+  ok    start.sh enables runner preparation
+  ok    restart.sh enables runner preparation
+  ok    stop.sh never prepares a runner
+  ok    status.sh never prepares a runner
+  ok    runner-prepare.test.sh holds
+
+44 passed, 1 failed
+rc=

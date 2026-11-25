@@ -14,11 +14,23 @@
 | 1 | GitHub token: add `Issues: write` and access to the private repositories | The fine-grained token in `~/api_keys.sh` answers 403 on issue PATCH (`issues=write` required) and 404 on `vasic-digital/ai_interviewing`, `vasic-digital/monetization`, `vasic-digital/workshop_curriculum` | Regrant the token (or issue a new one) with Issues read/write and the three private repositories; github.com cannot enter `config/forge/issue_sync_proven.tsv` until a live create and read-back is recorded |
 | 2 | GitVerse issue create 403, `is_verified: false` | gitverse.ru issue creation is refused for the account | Verify the GitVerse account or grant the token issue-create; then a live create and read-back |
 | 3 | m3w SSH key | git.m3w.org SSH access for the push topology | Provide or authorise a key for the m3w account |
-| 4 | `mistborn.local` key-based SSH | The macOS live proof of workshop `--runner` is pending: there is no non-interactive access to that host | Install an authorised key for the agent user on `mistborn.local` |
+| 4 | mistborn.local key-based SSH | CLOSED 2026-11-25: key access exists; test-level macOS proof recorded in docs/qa/evidence/runner-macos-2026-11-25/ | none |
 
-## B. macOS live proof of workshop `--runner` (workshop PR #7, main `ccb7aeec`)
+## B. macOS live proof of workshop --runner (workshop main 364850d3, tag vasic-1.0.0-dev-0.0.10)
 
-The pin is bumped to `ccb7aeec` in the 2026-11-25 wrap change, **NOT labelled proven on macOS**: no live run on `mistborn.local` exists. Steps, once item A4 is done:
+Done 2026-11-25 (test level, PROVISIONAL): on mistborn.local (bash 3.2.57) runner-flag.test.sh 45/0, portable-helpers.test.sh 50 OK (5/5 mutants killed), runner-prepare.test.sh 39/0, after fixing a real macOS defect (BSD realpath -m -s and readlink -m in run-isolated.sh, GNU timeout in start.sh). Evidence: docs/qa/evidence/runner-macos-2026-11-25/. NOT done: start.sh live on the Mac, the reboot case and the docker/colima cases.
+
+Operator reboot test, to run on the Mac once it is back up (checkout /Volumes/T7/Projects/vasic/workshop):
+
+```
+cd /Volumes/T7/Projects/vasic/workshop
+env -i HOME=$HOME PATH=/usr/bin:/bin:/usr/sbin:/sbin bash scripts/start.sh --runner=podman; echo rc=$?
+bash scripts/status.sh --runner=podman; echo rc=$?
+env -i HOME=$HOME PATH=/usr/bin:/bin:/usr/sbin:/sbin bash scripts/start.sh --runner=podman; echo rc=$?
+PATH=/opt/homebrew/bin:$PATH bash scripts/runner-flag.test.sh | tail -2
+```
+
+Original steps (kept):
 
 1. Stop the podman machine.
 2. `env -i HOME=$HOME PATH=/usr/bin:/bin:/usr/sbin:/sbin bash scripts/start.sh --runner=podman` (minimal environment; expect the prepare step to start the machine itself).
