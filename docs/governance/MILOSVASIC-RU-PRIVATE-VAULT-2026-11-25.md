@@ -38,3 +38,9 @@ Wire-or-dormant, secret scope and the Marko access were decided by the operator 
 - First real run on main, `45603119180`: success. Live check: `https://milosvasic.ru/` answers 200; `/admin/console.html`, `/downloads/vault/manifest.json`, `/matrix.tsv`, `/assets/js/vault.js`, `/_private/README.md` answer 404.
 - Exports (11.4.65): per `OPERATOR-DECISION-DROP-NONMD-EXPORTS-2026-11-24.md`, agents work with Markdown only; no non-Markdown export was generated for this document.
 - Remaining: the proof branch `pr/private-vault-access-proof` on the site repo.
+
+## 5. Hardening after automated security review
+
+- `ruby/setup-ruby` in `pages.yml` is pinned to commit `78c62f2208e480ce3d5ae4dfd9b9e181acf48b63` (v1.344.0, the same commit `v1` resolved to), via site PR #7 (merge `805111bad259`); the deploy permissions are unchanged. Main run on that commit succeeded and the live check repeated (200 on `/`, 404 on the private paths).
+- The temporary proof workflow `private-vault-proof.yml` (its `permissions` were not widened beyond `contents: read`) exists in no branch head and no longer in main. The remote proof branches `pr/private-vault-access-proof` and `pr/private-vault-wire` were deleted (operator-approved). The only secret is the environment secret in `private-vault` (main-only).
+- Gitlink moved to `805111bad259` in this change together with the `helix-deps.yaml` ref.

@@ -416,7 +416,7 @@ deps:
 
   - name: milosvasic.ru
     ssh_url: git@github.com:milos85vasic/milosvasic.ru.git
-    ref: "c03a86fa8c233b7891c75f296613f876c9833ed7"   # bumped 2026-11-25 (private submodule _private wired; ff-only; PR milosvasic.ru#6; prior pin cc7853480d55) -- prior: bumped 2026-11-24 batch2 (ff-only, 0 divergent; PR pr/gitlink-bumps-batch2-2026-11-24; prior pin 74c554c9bfce) -- prior: bumped 2026-11-24 (ff-only, 0 divergent, target on the repo's main; PR pr/gitlink-bumps-2026-11-24; prior pin 9b5bf27c087e) -- prior: v2.0.0 tag (footer Website version); sha is exact
+    ref: "805111bad2595eb9d80a52cfb5a6d057660ba292"   # bumped 2026-11-25 (private submodule _private wired + setup-ruby SHA pin; ff-only; PRs milosvasic.ru#6,#7; prior pin cc7853480d55) -- prior: bumped 2026-11-24 batch2 (ff-only, 0 divergent; PR pr/gitlink-bumps-batch2-2026-11-24; prior pin 74c554c9bfce) -- prior: bumped 2026-11-24 (ff-only, 0 divergent, target on the repo's main; PR pr/gitlink-bumps-2026-11-24; prior pin 9b5bf27c087e) -- prior: v2.0.0 tag (footer Website version); sha is exact
     # Moved 2026-09-08 from f5f13a25eaebb4d8023717040425992a43c53de1 by operator
     # decision #13: `_site/` was UNTRACKED there (8 files, one rendered page).
     # The `why:` below has said "its rendered _site/ is git-ignored" all along;
