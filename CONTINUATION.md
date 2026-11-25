@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-11-25T05:30:00Z
-    Synced-Commit: bc7bd177bb59
+    Last-Updated: 2026-11-25T12:00:00Z
+    Synced-Commit: 29ce42e083fd
     Authority-Root: submodules/constitution
 
 
@@ -448,6 +448,14 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+## UPDATE 2026-11-25 (workable-items Issues mirror U1: plan-only; branch `pr/u1-issue-sync`)
+
+- Constitution pin moved `f9eb835e03db` -> `f92868dd7036` (fast-forward only, 0 divergent / 34 behind; adds anchor 11.4.300; `Constitution.md` CHANGED: 13142 -> 13174 lines, 280 -> 281 anchors; `helix-deps.yaml` ref staged with the gitlink, `verify-manifest-pins.sh` 22 MATCH / 0 DRIFT).
+- `.workable-items-sync.yaml` added: `enabled: true`, `mode: dry-run`, no `apply_decision`. `config/forge/issue_sync_proven.tsv` (constitution) is EMPTY, so no write leg is proven and nothing was written to any tracker.
+- `docs/workable_items.db` `sub_projects` URLs for WSP, AII, MON, HQA, DOC, LLO, HLP, VSE corrected to the `.gitmodules` URLs (org `vasic-digital`). No `job_seeker` prefix row exists yet (needs a ratified prefix).
+- `scripts/verify-issues-sync.sh` registered as `issues-sync` (`--prove-failure`); plan counts: `docs/qa/issue_sync/plan_2026-11-25.txt`. Resume: re-run `bash scripts/verify-issues-sync.sh`; apply is blocked on operator tokens/scopes and per-host live create+read-back proof.
+- No `docs_chain` submodule added: the constitution already nests `submodules/docs_chain`, and the `issues-sync` context needs `Issues.md`/`Fixed.md` nodes the umbrella does not carry.
 
 ## UPDATE 2026-11-24 (all-upstreams push sweep + parity-gate fix; branch `task/UPSTREAM-PARITY-pin-bump`)
 

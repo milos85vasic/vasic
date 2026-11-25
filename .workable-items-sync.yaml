@@ -1,0 +1,21 @@
+# .workable-items-sync.yaml -- umbrella declaration of the workable-items Issues mirror (anchor §11.4.300).
+# The engine lives in submodules/constitution/scripts/issue_sync/; this file is the ONLY thing the umbrella carries.
+# STATE: ENABLED but PLAN-ONLY. mode stays dry-run; there is no apply_decision and config/forge/issue_sync_proven.tsv in
+# the constitution submodule is EMPTY, so no tracker is written to. Turning on apply is a separate recorded operator decision.
+# Decisions in force (operator, 2026-11-25): the upstream set is derived per repository from its upstreams/*.sh recipes and
+# existing remotes (trackers: []); a private item goes only to the owner's own private tracker (visibility_policy: owning-repo,
+# enforced by the engine from the LIVE provider answer); GitFlic and GitVerse are written only behind a recorded live proof in
+# issue_sync_proven.tsv; the issue text is a generated public summary (no description or body text of the database is mirrored).
+enabled: true
+scope:
+  recursive: true         # own-org submodules, fleet derived from .gitmodules + helix-deps.yaml; third-party (superspec) never synced
+mode: dry-run
+trackers: []              # derive per repo from declared upstreams/*.sh and remotes
+visibility_policy: owning-repo
+interval_hours: 24
+inbound:
+  enabled: false
+  assignees: []
+# docs_chain: the issues-sync context is NOT wired here yet: the umbrella has no docs/Issues.md, Fixed.md or *_Summary.md
+# nodes for the template to derive; the engine reaches the umbrella through scripts/verify_issues_sync.sh instead.
+token_vars: {}            # NAMES only; defaults come from the constitution's config/forge/hosts.tsv

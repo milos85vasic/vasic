@@ -1,0 +1,92 @@
+# U1 issue-sync PLAN (GET-only, dry-run) 2026-11-25; engine pin f92868dd7036; no tracker written
+# umbrella VSC: github.com/milos85vasic/vasic -> unconfirmed 435 (capability-unverified:can_create); not-owned 229
+== VSC owner= targets= github.com/milos85vasic/vasic
+  RAW cannot determine: --target and --owner-repo are required
+
+== WSP owner=github.com/vasic-digital/workshop_curriculum targets= github.com/milos85vasic/workshop_curriculum
+   {"leg": "github.com/milos85vasic/workshop_curriculum", "counts": {"unconfirmed": 178}, "reasons": ["repo-absent"]}
+   {"routing": {"not-owned-by-this-repo (never sent)": 486, "unroutable-prefix (blocked)": 0}}
+== AII owner=github.com/vasic-digital/ai_interviewing targets= github.com/vasic-digital/ai_interviewing
+   {"leg": "github.com/vasic-digital/ai_interviewing", "counts": {"unconfirmed": 5}, "reasons": ["repo-absent"]}
+   {"routing": {"not-owned-by-this-repo (never sent)": 659, "unroutable-prefix (blocked)": 0}}
+== MVR owner=github.com/milos85vasic/milosvasic.ru targets= github.com/milos85vasic/milosvasic.ru
+   {"leg": "github.com/milos85vasic/milosvasic.ru", "counts": {"unconfirmed": 11}, "reasons": ["capability-unverified:can_create"]}
+   {"routing": {"not-owned-by-this-repo (never sent)": 653, "unroutable-prefix (blocked)": 0}}
+== VDT owner=github.com/vasic-digital/vasic-digital.github.io targets= github.com/vasic-digital/vasic-digital.github.io
+   {"leg": "github.com/vasic-digital/vasic-digital.github.io", "counts": {}}
+   {"routing": {"not-owned-by-this-repo (never sent)": 664, "unroutable-prefix (blocked)": 0}}
+== MON owner=github.com/vasic-digital/monetization targets= gitflic.ru/milosvasic/monetization  github.com/vasic-digital/monetization  gitlab.com/milos85vasic/monetization  gitverse.ru:2222/milosvasic/monetization
+   {"leg": "gitflic.ru/milosvasic/monetization", "verdict": "UNDETERMINED", "reason": "capability_unverified:repo_info"}
+   {"leg": "github.com/vasic-digital/monetization", "counts": {"unconfirmed": 1}, "reasons": ["repo-absent"]}
+   {"leg": "gitlab.com/milos85vasic/monetization", "counts": {"blocked": 1}, "reasons": ["visibility-undetermined"]}
+   {"leg": "gitverse.ru:2222/milosvasic/monetization", "verdict": "UNDETERMINED", "reason": "unknown-host"}
+   {"routing": {"not-owned-by-this-repo (never sent)": 663, "unroutable-prefix (blocked)": 0}}
+== DTK owner=github.com/vasic-digital/design-toolkit targets= github.com/vasic-digital/design-toolkit  gitlab.com/vasic-digital/design-toolkit
+   {"leg": "github.com/vasic-digital/design-toolkit", "counts": {"unconfirmed": 1}, "reasons": ["capability-unverified:can_create"]}
+   {"leg": "gitlab.com/vasic-digital/design-toolkit", "counts": {"unconfirmed": 1}, "reasons": ["capability-unverified:can_create"]}
+   {"routing": {"not-owned-by-this-repo (never sent)": 663, "unroutable-prefix (blocked)": 0}}
+== CNT owner=github.com/vasic-digital/containers targets= github.com/vasic-digital/Containers  gitlab.com/vasic-digital/containers  gitlab.com/vasic-digital/Containers
+   {"leg": "github.com/vasic-digital/Containers", "counts": {"unconfirmed": 1}, "reasons": ["capability-unverified:can_create"]}
+   {"leg": "gitlab.com/vasic-digital/containers", "counts": {"unconfirmed": 1}, "reasons": ["capability-unverified:can_create"]}
+   {"leg": "gitlab.com/vasic-digital/Containers", "counts": {"unconfirmed": 1}, "reasons": ["capability-unverified:can_create"]}
+   {"routing": {"not-owned-by-this-repo (never sent)": 663, "unroutable-prefix (blocked)": 0}}
+== LLP owner=github.com/vasic-digital/LLMProvider targets= github.com/HelixDevelopment/LLMProvider  github.com/vasic-digital/LLMProvider  gitlab.com/vasic-digital/LLMProvider
+   {"leg": "github.com/HelixDevelopment/LLMProvider", "verdict": "UNDETERMINED", "reason": "redirect_refused"}
+   {"leg": "github.com/vasic-digital/LLMProvider", "counts": {"unconfirmed": 2}, "reasons": ["capability-unverified:can_create"]}
+   {"leg": "gitlab.com/vasic-digital/LLMProvider", "counts": {"unconfirmed": 2}, "reasons": ["capability-unverified:can_create"]}
+   {"routing": {"not-owned-by-this-repo (never sent)": 662, "unroutable-prefix (blocked)": 0}}
+== RAG owner=github.com/vasic-digital/RAG targets= github.com/vasic-digital/RAG  gitlab.com/vasic-digital/RAG
+   {"leg": "github.com/vasic-digital/RAG", "counts": {}}
+   {"leg": "gitlab.com/vasic-digital/RAG", "counts": {}}
+   {"routing": {"not-owned-by-this-repo (never sent)": 664, "unroutable-prefix (blocked)": 0}}
+== VDC owner=github.com/vasic-digital/verdict targets= github.com/vasic-digital/verdict  gitlab.com/vasic-digital/verdict
+   {"leg": "github.com/vasic-digital/verdict", "counts": {"unconfirmed": 1}, "reasons": ["capability-unverified:can_create"]}
+   {"leg": "gitlab.com/vasic-digital/verdict", "counts": {"unconfirmed": 1}, "reasons": ["capability-unverified:can_create"]}
+   {"routing": {"not-owned-by-this-repo (never sent)": 663, "unroutable-prefix (blocked)": 0}}
+== PSG owner=github.com/vasic-digital/passage targets= github.com/vasic-digital/passage  gitlab.com/vasic-digital/passage
+   {"leg": "github.com/vasic-digital/passage", "counts": {"unconfirmed": 7}, "reasons": ["capability-unverified:can_create"]}
+   {"leg": "gitlab.com/vasic-digital/passage", "counts": {"unconfirmed": 7}, "reasons": ["capability-unverified:can_create"]}
+   {"routing": {"not-owned-by-this-repo (never sent)": 657, "unroutable-prefix (blocked)": 0}}
+== CKT owner=github.com/vasic-digital/curriculum-kit targets= github.com/vasic-digital/curriculum-kit  gitlab.com/vasic-digital/curriculum-kit
+   {"leg": "github.com/vasic-digital/curriculum-kit", "counts": {"unconfirmed": 6}, "reasons": ["capability-unverified:can_create"]}
+   {"leg": "gitlab.com/vasic-digital/curriculum-kit", "counts": {"unconfirmed": 6}, "reasons": ["capability-unverified:can_create"]}
+   {"routing": {"not-owned-by-this-repo (never sent)": 658, "unroutable-prefix (blocked)": 0}}
+== HQA owner=github.com/vasic-digital/HelixQA targets= github.com/HelixDevelopment/helixqa  github.com/vasic-digital/HelixQA  gitlab.com/vasic-digital/HelixQA
+   {"leg": "github.com/HelixDevelopment/helixqa", "verdict": "UNDETERMINED", "reason": "redirect_refused"}
+   {"leg": "github.com/vasic-digital/HelixQA", "verdict": "UNDETERMINED", "reason": "redirect_refused"}
+   {"leg": "gitlab.com/vasic-digital/HelixQA", "counts": {"blocked": 1}, "reasons": ["visibility-undetermined"]}
+   {"routing": {"not-owned-by-this-repo (never sent)": 663, "unroutable-prefix (blocked)": 0}}
+== CHA owner=github.com/vasic-digital/challenges targets= github.com/vasic-digital/challenges  github.com/vasic-digital/Challenges  gitlab.com/vasic-digital/challenges
+   {"leg": "github.com/vasic-digital/challenges", "counts": {}}
+   {"leg": "github.com/vasic-digital/Challenges", "counts": {}}
+   {"leg": "gitlab.com/vasic-digital/challenges", "counts": {}}
+   {"routing": {"not-owned-by-this-repo (never sent)": 664, "unroutable-prefix (blocked)": 0}}
+== DOC owner=github.com/vasic-digital/DocProcessor targets= github.com/HelixDevelopment/DocProcessor  github.com/vasic-digital/DocProcessor  gitlab.com/helixdevelopment1/docprocessor  gitlab.com/vasic-digital/DocProcessor
+   {"leg": "github.com/HelixDevelopment/DocProcessor", "counts": {"blocked": 1}, "reasons": ["not-owning-repo"]}
+   {"leg": "github.com/vasic-digital/DocProcessor", "counts": {"unconfirmed": 1}, "reasons": ["capability-unverified:can_create"]}
+   {"leg": "gitlab.com/helixdevelopment1/docprocessor", "counts": {"blocked": 1}, "reasons": ["not-owning-repo"]}
+   {"leg": "gitlab.com/vasic-digital/DocProcessor", "counts": {"unconfirmed": 1}, "reasons": ["capability-unverified:can_create"]}
+   {"routing": {"not-owned-by-this-repo (never sent)": 663, "unroutable-prefix (blocked)": 0}}
+== LLO owner=github.com/vasic-digital/LLMOrchestrator targets= github.com/HelixDevelopment/LLMOrchestrator  github.com/vasic-digital/LLMOrchestrator  gitlab.com/vasic-digital/LLMOrchestrator
+   {"leg": "github.com/HelixDevelopment/LLMOrchestrator", "counts": {}}
+   {"leg": "github.com/vasic-digital/LLMOrchestrator", "counts": {}}
+   {"leg": "gitlab.com/vasic-digital/LLMOrchestrator", "counts": {}}
+   {"routing": {"not-owned-by-this-repo (never sent)": 664, "unroutable-prefix (blocked)": 0}}
+== HLP owner=github.com/vasic-digital/LLMProvider targets= github.com/HelixDevelopment/LLMProvider  github.com/vasic-digital/LLMProvider  gitlab.com/vasic-digital/LLMProvider
+   {"leg": "github.com/HelixDevelopment/LLMProvider", "verdict": "UNDETERMINED", "reason": "redirect_refused"}
+   {"leg": "github.com/vasic-digital/LLMProvider", "counts": {"unconfirmed": 2}, "reasons": ["capability-unverified:can_create"]}
+   {"leg": "gitlab.com/vasic-digital/LLMProvider", "counts": {"unconfirmed": 2}, "reasons": ["capability-unverified:can_create"]}
+   {"routing": {"not-owned-by-this-repo (never sent)": 662, "unroutable-prefix (blocked)": 0}}
+== LMV owner=github.com/vasic-digital/LLMsVerifier targets= github.com/vasic-digital/LLMsVerifier  gitlab.com/vasic-digital/LLMsVerifier
+   {"leg": "github.com/vasic-digital/LLMsVerifier", "counts": {"unconfirmed": 3}, "reasons": ["capability-unverified:can_create"]}
+   {"leg": "gitlab.com/vasic-digital/LLMsVerifier", "counts": {"unconfirmed": 3}, "reasons": ["capability-unverified:can_create"]}
+   {"routing": {"not-owned-by-this-repo (never sent)": 661, "unroutable-prefix (blocked)": 0}}
+== SEC owner=github.com/vasic-digital/security targets= github.com/vasic-digital/Security  gitlab.com/vasic-digital/Security
+   {"leg": "github.com/vasic-digital/Security", "counts": {}}
+   {"leg": "gitlab.com/vasic-digital/Security", "counts": {}}
+   {"routing": {"not-owned-by-this-repo (never sent)": 664, "unroutable-prefix (blocked)": 0}}
+== VSE owner=github.com/vasic-digital/VisionEngine targets= github.com/HelixDevelopment/VisionEngine  github.com/vasic-digital/VisionEngine  gitlab.com/vasic-digital/VisionEngine
+   {"leg": "github.com/HelixDevelopment/VisionEngine", "verdict": "UNDETERMINED", "reason": "redirect_refused"}
+   {"leg": "github.com/vasic-digital/VisionEngine", "counts": {}}
+   {"leg": "gitlab.com/vasic-digital/VisionEngine", "counts": {}}
+   {"routing": {"not-owned-by-this-repo (never sent)": 664, "unroutable-prefix (blocked)": 0}}
