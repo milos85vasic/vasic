@@ -46,6 +46,7 @@ import (
 	"os"
 	"os/signal"
 	"path/filepath"
+	"sort"
 	"strings"
 	"syscall"
 	"time"
@@ -130,14 +131,9 @@ func run() int {
 		return exitUndetermined
 	}
 
-	wl, ok := workloads[*flagWorkload]
-	if !ok {
-		names := make([]string, 0, len(workloads))
-		for k := range workloads {
-			names = append(names, k)
-		}
-		fmt.Fprintf(os.Stderr, "site-build: unknown -workload %q (known: %s)\n",
-			*flagWorkload, strings.Join(names, ", "))
+	wl, werrLookup := lookupWorkload(*flagWorkload)
+	if werrLookup != nil {
+		fmt.Fprintf(os.Stderr, "site-build: %v\n", werrLookup)
 		return exitFail
 	}
 
@@ -262,34 +258,9 @@ func run() int {
 		return exitOK
 	}
 
-	fi, serr := os.Stat(artifactPath)
-	if serr != nil {
-		fmt.Fprintf(os.Stderr,
-			"site-build: FAIL — %q exited 0 but %s does not exist. "+
-				"A green exit with no artifact is a bluff, and it is reported as a failure.\n",
-			wl.service, wl.artifact)
-		return exitFail
-	}
-	if fi.Size() == 0 {
-		fmt.Fprintf(os.Stderr,
-			"site-build: FAIL — %s exists but is empty (0 bytes).\n", wl.artifact)
-		return exitFail
-	}
-	// Strictly newer than the pre-run snapshot AND not older than the moment we
-	// started. Either check alone can be fooled — the first by a file that was
-	// never there, the second by a filesystem with coarse timestamps — so both
-	// are made, and the failure message says which one bit.
-	if !before.IsZero() && !fi.ModTime().After(before) {
-		fmt.Fprintf(os.Stderr,
-			"site-build: FAIL — %s was NOT rewritten: mtime is still %s. "+
-				"The container exited 0 while leaving the previous artifact in place.\n",
-			wl.artifact, fi.ModTime().Format(time.RFC3339))
-		return exitFail
-	}
-	if fi.ModTime().Before(startedAt.Add(-2 * time.Second)) {
-		fmt.Fprintf(os.Stderr,
-			"site-build: FAIL — %s has mtime %s, which predates this run (started %s).\n",
-			wl.artifact, fi.ModTime().Format(time.RFC3339), startedAt.Format(time.RFC3339))
+	fi, verr2 := verifyArtifact(wl.service, artifactPath, wl.artifact, before, startedAt)
+	if verr2 != nil {
+		fmt.Fprintf(os.Stderr, "site-build: FAIL — %v\n", verr2)
 		return exitFail
 	}
 
@@ -303,4 +274,44 @@ func run() int {
 		fmt.Printf("   freshness: mtime advanced from %s\n", before.Format(time.RFC3339))
 	}
 	return exitOK
+}
+
+// lookupWorkload resolves a -workload name against the table. The error text
+// lists the known names sorted, so it is stable.
+func lookupWorkload(name string) (workload, error) {
+	wl, ok := workloads[name]
+	if ok {
+		return wl, nil
+	}
+	names := make([]string, 0, len(workloads))
+	for k := range workloads {
+		names = append(names, k)
+	}
+	sort.Strings(names)
+	return workload{}, fmt.Errorf("unknown -workload %q (known: %s)", name, strings.Join(names, ", "))
+}
+
+// verifyArtifact is the anti-bluff post-condition: the artifact must exist, be
+// non-empty, be strictly newer than the pre-run snapshot (when there was one)
+// and not predate the run's start by more than 2 s. It returns the FileInfo on
+// success, and an error naming which check bit otherwise. Pure of any runtime.
+func verifyArtifact(service, path, rel string, before, startedAt time.Time) (os.FileInfo, error) {
+	fi, serr := os.Stat(path)
+	if serr != nil {
+		return nil, fmt.Errorf("%q exited 0 but %s does not exist. "+
+			"A green exit with no artifact is a bluff, and it is reported as a failure.", service, rel)
+	}
+	if fi.Size() == 0 {
+		return nil, fmt.Errorf("%s exists but is empty (0 bytes).", rel)
+	}
+	if !before.IsZero() && !fi.ModTime().After(before) {
+		return nil, fmt.Errorf("%s was NOT rewritten: mtime is still %s. "+
+			"The container exited 0 while leaving the previous artifact in place.",
+			rel, fi.ModTime().Format(time.RFC3339))
+	}
+	if fi.ModTime().Before(startedAt.Add(-2 * time.Second)) {
+		return nil, fmt.Errorf("%s has mtime %s, which predates this run (started %s).",
+			rel, fi.ModTime().Format(time.RFC3339), startedAt.Format(time.RFC3339))
+	}
+	return fi, nil
 }
