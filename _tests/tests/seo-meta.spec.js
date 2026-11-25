@@ -17,13 +17,15 @@ const { VD_BASE, MV_BASE } = require('../env.js');
 // everywhere EXCEPT the milosvasic.ru homepage, which is documented in
 // _tests/TEST-TYPES.md.
 
+// canonHost is the host the site DECLARES as canonical (vasic.digital/CNAME is
+// digital.vasic.dev; the repository name is not the public host).
 const PAGES = [
-  { site: 'vasic.digital', base: VD_BASE, path: '/', hreflang: true },
-  { site: 'vasic.digital', base: VD_BASE, path: '/portfolio/', hreflang: true },
-  { site: 'vasic.digital', base: VD_BASE, path: '/products/helixtrack.html', hreflang: true },
-  { site: 'milosvasic.ru', base: MV_BASE, path: '/', hreflang: false },
-  { site: 'milosvasic.ru', base: MV_BASE, path: '/portfolio/', hreflang: true },
-  { site: 'milosvasic.ru', base: MV_BASE, path: '/products/helixtrack.html', hreflang: true },
+  { site: 'vasic.digital', canonHost: 'digital.vasic.dev', base: VD_BASE, path: '/', hreflang: true },
+  { site: 'vasic.digital', canonHost: 'digital.vasic.dev', base: VD_BASE, path: '/portfolio/', hreflang: true },
+  { site: 'vasic.digital', canonHost: 'digital.vasic.dev', base: VD_BASE, path: '/products/helixtrack.html', hreflang: true },
+  { site: 'milosvasic.ru', canonHost: 'milosvasic.ru', base: MV_BASE, path: '/', hreflang: false },
+  { site: 'milosvasic.ru', canonHost: 'milosvasic.ru', base: MV_BASE, path: '/portfolio/', hreflang: true },
+  { site: 'milosvasic.ru', canonHost: 'milosvasic.ru', base: MV_BASE, path: '/products/helixtrack.html', hreflang: true },
 ];
 
 function findType(node, out) {
@@ -55,7 +57,7 @@ for (const p of PAGES) {
 
     test('canonical link present and absolute', async ({ page }) => {
       const canon = await page.locator('head link[rel="canonical"]').first().getAttribute('href');
-      expect(canon).toMatch(new RegExp(`^https://${p.site.replace('.', '\\.')}/`));
+      expect(canon).toMatch(new RegExp(`^https://${p.canonHost.replace(/\./g, '\\.')}/`));
     });
 
     test('Open Graph + Twitter card', async ({ page }) => {

@@ -55,6 +55,9 @@ services:
       - ${VASIC_ROOT:?VASIC_ROOT must be set}/_tools/containers/compose/jekyll-build.sh:/opt/build/jekyll-build.sh:ro
       - jekyll-bundle:/bundle
     command: ["bash", "/opt/build/jekyll-build.sh"]
+    # §12.6 memory cap on the container itself (bounded-run caps only the
+    # launcher's scope, not a rootless container's cgroup).
+    mem_limit: ${VASIC_JEKYLL_MEM:-4g}
     restart: "no"
 
   # ---------------------------------------------------------------------------

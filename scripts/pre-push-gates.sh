@@ -203,6 +203,64 @@ gate_cmd_text() {
     esac
 }
 
+# ---- Gate 6 site artifact ----------------------------------------------------
+# Gate 6 serves milosvasic.ru/_site, which is git-ignored and untracked, so a
+# fresh clone or worktree has none and the preflight can only say "cannot
+# determine". This host has no bundle/jekyll either, so the one build path is
+# _tools/containers/bin/site-build (Jekyll in the ruby image through the
+# Containers Submodule, §11.4.76). It is run here, BOUNDED: through
+# scripts/agent-admit.sh (slot + pressure pre-checks + bounded-run cgroup scope
+# with a memory cap and a wall clock, §12.6/§12.7), and the compose service
+# itself carries mem_limit. Returns, in precondition()'s vocabulary:
+#   0  _site/index.html present (already, or freshly built and verified)
+#   1  SKIP with a stated reason (cannot build here; PREPUSH_STRICT=1 promotes it)
+#   2  the build RAN and failed (a real failure; never hidden behind a SKIP)
+# PREPUSH_BUILD_SITE=0 opts out of the build (the gate then SKIPs naming why).
+ensure_site_built() {
+    local idx="$ROOT/milosvasic.ru/_site/index.html"
+    [[ -f "$idx" ]] && return 0
+    if [[ "${PREPUSH_BUILD_SITE:-1}" != "1" ]]; then
+        echo "milosvasic.ru/_site/index.html is absent and PREPUSH_BUILD_SITE=0 forbids building it — run: _tools/containers/bin/site-build -workload jekyll"
+        return 1
+    fi
+    local sb="$ROOT/_tools/containers/bin/site-build"
+    local cdir="$ROOT/_tools/containers"
+    if [[ -d "$cdir/cmd/site-build" ]] && command -v go >/dev/null 2>&1 \
+       && { [[ ! -x "$sb" ]] || [[ -n "$(find "$cdir" -path "$cdir/bin" -prune -o -type f -newer "$sb" -print -quit 2>/dev/null)" ]]; }; then
+        if ! ( cd "$cdir" && GOPROXY=off go build -o bin/site-build ./cmd/site-build ) >/dev/null 2>&1; then
+            echo "milosvasic.ru/_site is absent and the site-build binary could not be compiled (go build ./cmd/site-build failed; is submodules/containers initialised?) — COULD NOT DETERMINE"
+            return 1
+        fi
+    fi
+    if [[ ! -x "$sb" ]]; then
+        echo "milosvasic.ru/_site is absent and there is no _tools/containers/bin/site-build to build it — COULD NOT DETERMINE"
+        return 1
+    fi
+    if [[ ! -f "$ADMIT" ]]; then
+        echo "milosvasic.ru/_site is absent and the memory-bounding admission controller is missing ($ADMIT); an unbounded Jekyll build is refused — COULD NOT DETERMINE"
+        return 1
+    fi
+    local b_out b_rc
+    b_out="$(bash "$ADMIT" --verdict3 --tag gate-6-site-build -m "${PREPUSH_SITE_BUILD_MEM:-6G}" -T "${PREPUSH_SITE_BUILD_TIMEOUT:-1500}" -- "$sb" -workload jekyll 2>&1)"; b_rc=$?
+    case "$b_rc" in
+        0)
+            if [[ ! -f "$idx" ]]; then
+                echo "site-build exited 0 but milosvasic.ru/_site/index.html still does not exist — a zero exit is not evidence (§11.4); COULD NOT DETERMINE"
+                printf '%s\n' "$b_out" | tail -5 | sed 's/^/    /'
+                return 1
+            fi
+            return 0 ;;
+        1)
+            echo "site-build RAN and FAILED (rc 1) — a real build failure, not an environment gap:"
+            printf '%s\n' "$b_out" | tail -15 | sed 's/^/    /'
+            return 2 ;;
+        *)
+            echo "site-build could not run to a verdict (rc $b_rc; no runtime, refused by pressure, or timed out) — COULD NOT DETERMINE:"
+            printf '%s\n' "$b_out" | tail -8 | sed 's/^/    /'
+            return 1 ;;
+    esac
+}
+
 # ---- Preconditions -----------------------------------------------------------
 # A gate whose toolchain is absent must SKIP with a stated reason (§11.4.3),
 # never silently pass. `precondition` echoes the reason and returns 1 when the
@@ -285,6 +343,12 @@ precondition() {
             # Its exit 2 is a CANNOT-DETERMINE, which is exactly what a stated
             # SKIP reason means here; it never returns 1, because a preflight
             # has read no site content and may make no claim about it.
+            local sb_out sb_rc
+            sb_out="$(ensure_site_built)"; sb_rc=$?
+            if [[ "$sb_rc" != "0" ]]; then
+                printf '%s\n' "$sb_out"
+                return "$sb_rc"
+            fi
             local pf_out pf_rc
             pf_out="$(cd "$ROOT/_tests" && node preflight.js --project=chromium 2>&1)"
             pf_rc=$?
@@ -587,7 +651,7 @@ run_gate() {
     if [[ $prc -eq 2 ]]; then
         # An install RAN and failed: a real failure, never a SKIP (see precondition).
         printf '%s✖ FAIL%s  gate %-2s %s\n' "$RED" "$NC" "$id" "$name"
-        printf '        a host dependency install failed: %s\n' "$reason"
+        printf '        a precondition step failed (host dependency install or site build): %s\n' "$reason"
         FAILED=$((FAILED + 1))
         SUMMARY+=("FAIL|$id|$name|host dependency install failed: $reason")
         return 1
@@ -1027,8 +1091,49 @@ STUBHD
     assert "M7d hostdeps-rc2-strict    " 1 "PREPUSH_STRICT=1 and the gate cannot run" \
            PREPUSH_ONLY="5" PREPUSH_STRICT=1 --
     printf '1\n' > "$SPEC/scripts/hostdeps.sh.rc"
-    assert "M7e hostdeps-rc1-is-FAIL   " 1 "a host dependency install failed" PREPUSH_ONLY="5" --
+    assert "M7e hostdeps-rc1-is-FAIL   " 1 "a precondition step failed" PREPUSH_ONLY="5" --
     rm -rf "$SPEC/_tests/node_modules" "$SPEC/scripts/hostdeps.sh" "$SPEC/scripts/hostdeps.sh.rc"
+
+    # ---- M10  gate 6 builds milosvasic.ru/_site when absent, bounded, and a
+    # zero exit alone is not evidence. The specimen carries a stub admission
+    # controller (it just execs after `--`) and a stub site-build whose rc and
+    # whether it writes the artifact are DATA in sidecar files; this proves the
+    # WIRING (which verdict each outcome maps to), not that a real Jekyll build
+    # works — that is shown by a live run recorded in the PR, not here.
+    mkdir -p "$SPEC/_tests/node_modules/@playwright/test" "$SPEC/_tools/containers/bin"
+    cat > "$SPEC/scripts/agent-admit.sh" <<'STUBAA'
+#!/usr/bin/env bash
+while [ $# -gt 0 ] && [ "$1" != "--" ]; do shift; done
+shift
+exec "$@"
+STUBAA
+    cat > "$SPEC/_tools/containers/bin/site-build" <<'STUBSB'
+#!/usr/bin/env bash
+d="$(dirname "${BASH_SOURCE[0]}")"; rc=0; [ -f "$d/site-build.rc" ] && rc="$(cat "$d/site-build.rc")"
+if [ -f "$d/site-build.make" ]; then
+    mkdir -p "$d/../../../milosvasic.ru/_site"; echo built > "$d/../../../milosvasic.ru/_site/index.html"
+fi
+echo "synthetic site-build rc=${rc}"
+exit "$rc"
+STUBSB
+    chmod 755 "$SPEC/scripts/agent-admit.sh" "$SPEC/_tools/containers/bin/site-build"
+    local SBD="$SPEC/_tools/containers/bin" SITE_IDX="$SPEC/milosvasic.ru/_site/index.html"
+    printf '2\n' > "$SBD/site-build.rc"
+    assert "M10 build-rc2-is-SKIP      " 0 "site-build could not run to a verdict" PREPUSH_ONLY="6" --
+    assert "M10b build-rc2-strict      " 1 "PREPUSH_STRICT=1 and the gate cannot run" PREPUSH_ONLY="6" PREPUSH_STRICT=1 --
+    printf '1\n' > "$SBD/site-build.rc"
+    assert "M10c build-rc1-is-FAIL     " 1 "site-build RAN and FAILED" PREPUSH_ONLY="6" --
+    printf '0\n' > "$SBD/site-build.rc"
+    assert "M10d zero-exit-no-artifact " 0 "a zero exit is not evidence" PREPUSH_ONLY="6" --
+    : > "$SBD/site-build.make"
+    assert "M10e build-ok-reaches-preflight" 0 "preflight.js exited" PREPUSH_ONLY="6" --
+    if [[ -f "$SITE_IDX" ]]; then p_ok "M10e artifact-was-built    " "the stub produced _site/index.html and the gate went on to the preflight"
+    else p_bad "M10e artifact-was-built   " "no _site/index.html after a successful build"; fi
+    rm -rf "$SPEC/milosvasic.ru"
+    assert "M10f opt-out-does-not-build" 0 "forbids building it" PREPUSH_ONLY="6" PREPUSH_BUILD_SITE=0 --
+    if [[ ! -f "$SITE_IDX" ]]; then p_ok "M10f nothing-was-built     " "PREPUSH_BUILD_SITE=0 ran no build"
+    else p_bad "M10f nothing-was-built    " "a build ran despite PREPUSH_BUILD_SITE=0"; fi
+    rm -rf "$SPEC/milosvasic.ru" "$SPEC/_tests/node_modules" "$SPEC/_tools" "$SPEC/scripts/agent-admit.sh"
 
     # ---- M8  the runner cannot create its workspace -> rc 2, never 0 --------
     assert "M8 no-log-dir-is-rc2       " 2 "cannot create a log directory" TMPDIR=/nonexistent --
