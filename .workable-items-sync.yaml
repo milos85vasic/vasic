@@ -18,4 +18,14 @@ inbound:
   assignees: []
 # docs_chain: the issues-sync context is NOT wired here yet: the umbrella has no docs/Issues.md, Fixed.md or *_Summary.md
 # nodes for the template to derive; the engine reaches the umbrella through scripts/verify_issues_sync.sh instead.
+# mirrors (anchor §11.4.300(D), constitution PR for the key): declared mirror -> the owning repository it mirrors. The umbrella
+# (github.com/milos85vasic/vasic, public) is mirrored by empty PUBLIC repositories created 2026-11-25 (docs/governance/ISSUE-SYNC-HOST-REPOS-2026-11-25.md).
+# Codeberg, GitFlic and GitVerse use the owner name `milosvasic`, so without this map the engine answers not-owning-repo for them.
+# Declared targets are still plan-only here: mode stays dry-run, and a write needs the host in config/forge/issue_sync_proven.tsv.
+mirrors:
+  gitlab.com/milos85vasic/vasic: github.com/milos85vasic/vasic
+  codeberg.org/milosvasic/vasic: github.com/milos85vasic/vasic
+  git.m3w.org/milos85vasic/vasic: github.com/milos85vasic/vasic
+  gitflic.ru/milosvasic/vasic: github.com/milos85vasic/vasic
+  gitverse.ru/milosvasic/vasic: github.com/milos85vasic/vasic
 token_vars: {}            # NAMES only; defaults come from the constitution's config/forge/hosts.tsv
