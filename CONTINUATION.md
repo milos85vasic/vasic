@@ -4,7 +4,7 @@
      Keep the exact `Field: value` shape. -->
 
     Last-Updated: 2026-11-25T19:00:00Z
-    Synced-Commit: ebc2aef90f93
+    Synced-Commit: 9ef2787a2dc6
     Authority-Root: submodules/constitution
 
 
@@ -37,6 +37,8 @@ quoted from `submodules/constitution/Constitution.md`:
 > **2026-11-25 site-build tests (PR pr/site-build-tests-2026-11-25):** `_tools/containers/cmd/site-build` gained `main_test.go` (characterisation tests of the real entry point written first, then `lookupWorkload` and `verifyArtifact` extracted behaviour-preservingly); the carriers' containers-file count moved 22 -> 23 (ledger row `carriers-containers-consumer-files`). Resume: items 7, 9, 12 of the umbrella gap register.
 
 > **2026-11-25 carrier corrections (PR pr/carriers-fix-2026-11-25):** the four root carriers were edited as one shared artifact (C5 digest count 1): the stale "webkit cannot launch" and "three sweep gates FAIL, none acted on" sentences are marked superseded with their re-measurement, the §11.4.299 pin figures stay at `f9eb835e03db`, and §11.4.300 is recorded as present in the constitution upstream only (not in the pin). Two `t.Skip` lines added by PR #93 in `_tools/containers/internal/orchestrate/orchestrate_test.go` had pushed the zero-findings ratchet to 9 > 7; they were removed. Resume: items 7-12 of the umbrella gap register.
+
+> **2026-11-25 constitution bump + issue-sync mirrors (PR pr/constitution-bump-issue-sync-targets-2026-11-25):** `submodules/constitution` f92868dd7036 -> 71c5e178707d, ff-only, 0 divergent / 7 behind, `Constitution.md` unchanged on both sides (blob `1cab1d0726bb`, 13,174 lines, 281 anchors, 2,283,524 bytes, sha256 `d72bd3b45236…`); gitlink and `helix-deps.yaml` ref moved together, carriers' dated gitlink reading updated in all four. The pin carries constitution PRs #44 and #45 (GitVerse list query fixed; #44: GitFlic issue adapter proven live, new `mirrors:` key). `.workable-items-sync.yaml` now declares the five umbrella mirrors (gitlab.com, codeberg.org, git.m3w.org, gitflic.ru, gitverse.ru) under `mirrors:`; mode stays dry-run, and only gitlab.com, codeberg.org, git.m3w.org and gitflic.ru are in `issue_sync_proven.tsv`. github.com (fine-grained token lacks `Issues: write`) and gitverse.ru (POST /issues 403) remain UNCONFIRMED. Synced-Commit advanced to `9ef2787a2dc6` (PR #113 merge).
 
 > **2026-11-25 final batched pin bump (PR pr/final-pin-bump-2026-11-25):** each gitlink moved ff-only, 0 divergent, to the remote main read with `git ls-remote` in the same session, and its `helix-deps.yaml` ref moved in the same change: `job_seeker` b30fdad46114 -> 2db7fe371b52 (207 commits; the declared `origin` `vasic-digital/job_seeker` is its only remote), `submodules/qa` (HelixQA) e19f9ab01ca7 -> 3c6021ab8c31 (16), `workshop` 3f9565a335fb -> a8b740fceca2 (3). Not moved because already equal to upstream main: `submodules/constitution` f92868dd7036 (so no constitution diff --stat exists and no re-measure of `Constitution.md` was needed; `verify_constitution_latest.sh` reads CURRENT) and `design-toolkit` e5fee6c660b9. The carriers' dated gitlink reading moved `workshop` d58ae75d2d7b -> a8b740fceca2 in all four (C5 digest count 1). Synced-Commit advanced to ebc2aef90f93, the commit recording the pins.
 
