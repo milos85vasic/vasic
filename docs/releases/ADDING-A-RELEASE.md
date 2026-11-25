@@ -7,7 +7,7 @@
 | Revision | 3 (2026-10-21). Revision 1 described a procedure that cannot work (see part 1) and is withdrawn. Revision 2 was reviewed NO-GO on documentation only; revision 3 adds what releases 0.0.3 and 0.0.4 taught (the pre-deploy safety boot, the verdict vocabulary and the shipping-over-a-verdict rule, the stamp, the hazard of a later plain `start.sh`, a step 6 that survives being pasted) |
 | Status | Draft for independent review (11.4.142) |
 | Basis | The artifacts that releases 0.0.2, 0.0.3 and 0.0.4 left in `workshop` (`evidence/release/N/`: `MANIFEST.json`, `verdict.json`, `BUILD_STAMP`, `logs/`; for 0.0.4 also `server.stamp` and `logs/predeploy-safety.txt`; `docs/releases/N.md`) and on disk (`$HOME/.cache/workshop-release/N/`: `bin`, `web`, `stamp.txt`, `bundle.hash`, `web.filehashes.txt`, `pre-deploy-backup`), plus the scripts as they are on `workshop` `main` at `827e79e` (`scripts/_common.sh`, `restart.sh`, `start.sh`, `stop.sh`, `build.sh`, `verify.sh`, `run-isolated.sh`). The command lines the operators used for the promotion and the pre-deploy safety boot were **not preserved in a log**: they are written here from the scripts' own contracts and are **UNCONFIRMED** as replays of 0.0.2, 0.0.3 or 0.0.4. Executed by the author of this revision and recorded under "Checked in revision 3" in part 4: the digest, tag-list, prefix and stamp-function commands marked "checked"; and `bash -n` plus a dry run of the step 6 and rollback scripts on a scratch copy of the layout with stub `stop.sh` and `start.sh` |
-| Tag scheme | `<prefix>-1.0.0-dev-0.0.N`, annotated tags. The prefix is `vasic` (part 2). Baseline: `vasic-1.0.0-dev-0.0.1` (workshop `ce62bcb`, umbrella `a55e878`) |
+| Tag scheme | `<prefix>-1.0.0-dev-A.B.C`, annotated tags, with a DECIMAL CARRY (operator directive 2026-11-25; §11.4.151, grammar §11.4.235(E.5)): each of A, B, C after the first is a single digit 0..9, so `-dev-0.0.9` is followed by `-dev-0.1.0`, never `-dev-0.0.10`, and `-dev-0.9.9` by `-dev-1.0.0`. `CM-RELEASE-TAG-CARRY` (`submodules/constitution/scripts/gates/cm_release_tag_carry.sh --prefix vasic --repo .`) rejects a no-carry tag. The prefix is `vasic` (part 2). Baseline: `vasic-1.0.0-dev-0.0.1` (workshop `ce62bcb`, umbrella `a55e878`) |
 | Not covered | Release channels beyond "dev", signing, and any step that needs a credential. No credential appears or is needed in this document |
 
 ## Contents
@@ -429,11 +429,11 @@ Decide N from the **remotes**, not from local tags (part 1). In each repository 
 
 ```bash
 git fetch --tags origin
-git ls-remote --tags origin "$PREFIX-1.0.0-dev-0.0.*"      # highest N on the remote, after the ^{} lines
-git tag -l "$PREFIX-1.0.0-dev-0.0.*" | sort -V | tail -1   # local, for comparison only
+git ls-remote --tags origin "$PREFIX-1.0.0-dev-*"          # highest version on the remote, after the ^{} lines
+git tag -l "$PREFIX-1.0.0-dev-*" | sort -V | tail -1       # local, for comparison only
 ```
 
-N is one more than the highest number seen on **any** remote of **any** of the three repository kinds. If
+The next version is the **decimal-carry successor** of the highest version seen on **any** remote of **any** of the three repository kinds: add 1 to the last position, and a position that would pass 9 becomes 0 and carries 1 into the position to its left (`0.0.9` -> `0.1.0`, never `0.0.10`). Call it `$VER` below. If
 the number you built under in step 1 is no longer free, the candidate directory and the evidence are
 named for a number that will not be used: rename them before tagging, or build again. Never move or
 delete a published tag; a wrong tag is superseded by the next number.
@@ -445,8 +445,8 @@ Tag three kinds of repository, each at the commit the release actually uses:
 3. every **owned submodule that changed** since the previous release tag.
 
 ```bash
-git -C workshop tag -a "$PREFIX-1.0.0-dev-0.0.$N" -m "<message, part 6>" <workshop-commit>
-git tag -a "$PREFIX-1.0.0-dev-0.0.$N" -m "<message, part 6> (umbrella commit pinning workshop <short>)" <umbrella-commit>
+git -C workshop tag -a "$PREFIX-1.0.0-dev-$VER" -m "<message, part 6>" <workshop-commit>
+git tag -a "$PREFIX-1.0.0-dev-$VER" -m "<message, part 6> (umbrella commit pinning workshop <short>)" <umbrella-commit>
 ```
 
 A gitlink bump and the matching `helix-deps.yaml` `ref` go in **one** change, otherwise cascade check C9
@@ -464,7 +464,7 @@ dropped. Keep the connection alive:
 export GIT_SSH_COMMAND='ssh -o ServerAliveInterval=30 -o ServerAliveCountMax=40'
 git fetch --all                                   # integrate first: merge onto the latest main
 git push origin main                              # fast-forward only; git refuses anything else
-git push origin "refs/tags/$PREFIX-1.0.0-dev-0.0.$N"
+git push origin "refs/tags/$PREFIX-1.0.0-dev-$VER"
 ```
 
 Repeat for **every distinct remote** of each repository (part 2; `github`, `origin` and `upstream`
@@ -476,7 +476,7 @@ merge onto the latest main, push again.
 ### Step 10. Verify the publication
 
 ```bash
-git ls-remote origin refs/heads/main "refs/tags/$PREFIX-1.0.0-dev-0.0.$N" "refs/tags/$PREFIX-1.0.0-dev-0.0.$N^{}"
+git ls-remote origin refs/heads/main "refs/tags/$PREFIX-1.0.0-dev-$VER" "refs/tags/$PREFIX-1.0.0-dev-$VER^{}"
 bash scripts/verify-manifest-pins.sh            # umbrella: helix-deps refs equal gitlinks
 bash scripts/verify-submodule-remote-sync.sh    # umbrella: gitlinks vs remotes
 ```
