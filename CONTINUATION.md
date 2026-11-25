@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-11-25T03:00:00Z
+    Last-Updated: 2026-11-25T04:00:00Z
     Synced-Commit: 95d8701a4262
     Authority-Root: submodules/constitution
 
@@ -27,6 +27,8 @@ quoted from `submodules/constitution/Constitution.md`:
 >    any CLI agent.
 > 6. **Document MUST be self-contained.** No hyperlinks to ephemeral
 >    external systems as the only source of truth.
+
+> **2026-11-25 gate C (PR pr/gate-continuation-2026-11-25):** `scripts/pre-push-gates.sh` gained gate `C` running `scripts/continuation-check.sh`, with paired proof cases M11-M11f. Its first real run in a fully initialised worktree caught C7 (gate `C` missing from §6), fixed in this same change.
 
 > **2026-11-25 site-build tests (PR pr/site-build-tests-2026-11-25):** `_tools/containers/cmd/site-build` gained `main_test.go` (characterisation tests of the real entry point written first, then `lookupWorkload` and `verifyArtifact` extracted behaviour-preservingly); the carriers' containers-file count moved 22 -> 23 (ledger row `carriers-containers-consumer-files`). Resume: items 7, 9, 12 of the umbrella gap register.
 
@@ -12232,6 +12234,7 @@ inert, in `.github/workflows/ci.yml.disabled`; the runnable replacement is
 | E | `git ls-files \| grep -E '^\.github/workflows/.*\.ya?ml$\|^\.gitlab-ci\.yml$'` (must be EMPTY) |
 | Z0 | `bash scripts/zero-gap-guard-checks.sh` | Refuses a push whose diff weakens a registered check: removed or weakened registry rows, deleted check scripts, or new exempt/debt rows or allow-list lines without a paired waiver in `docs/zero-gap/guard-waivers.tsv` (FR-023, T040). |
 | Z1 | `bash scripts/zero-gap-third-party-guard.sh` | Refuses a push that edits files under a third-party gitlink or moves its pointer; the classification data is `docs/zero-gap/third-party.tsv`, read from `HEAD`, so it returns UNDET (could not determine, never a pass) until that file is committed (FR-021, T041). |
+| C | `bash scripts/continuation-check.sh` | §12.10 protection 2 as a push gate (added 2026-11-25; the check existed and was registered as `continuation-sync` but no gate ran it, so drift went unenforced). Its rc maps onto the runner's verdicts (1 FAIL, 2 UNDET). SKIPs with a stated reason while any submodule is uninitialised, because C5 reads entry points inside submodules. |
 | 0 | `./scripts/audit-hardcoded-paths.sh` |
 | 1 | `cd _tools/gen && go test ./...` |
 | 2 | `bash _tools/audit-hardcoding.sh` |
