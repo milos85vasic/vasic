@@ -4,7 +4,7 @@
      Keep the exact `Field: value` shape. -->
 
     Last-Updated: 2026-11-25T05:30:00Z
-    Synced-Commit: 50cb4d804447
+    Synced-Commit: bc7bd177bb59
     Authority-Root: submodules/constitution
 
 
