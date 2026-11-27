@@ -123,7 +123,7 @@ deps:
   # ─── Governance submodule (grouped layout, submodules/<name>/) ──────────
   - name: constitution
     ssh_url: git@github.com:HelixDevelopment/HelixConstitution.git
-    ref: "6d93ccd19e1c2fe0e1a97ece22b49e962ef3005e"   # bumped 2026-10-23 per standing authorization, ff-only, 0 divergent / 4 behind (tag helixconstitution-v71); Constitution.md blob 3c3c71f6 -> 79f733ed (12252 -> 12420 lines, 259 -> 267 anchors, sha256 1c75391f -> 846fac65); adds Jev decision layer §11.4.279-286; prior pin 5f8503b4f4f0
+    ref: "2c0b3ad16a12799eefa7d8a59cdd5544857ce277"   # bumped 2026-11-27 per operator decision (ALL 25 drift rows), ff-only, 0 divergent; updates all 8 push-target remotes too
     # REF FIELD RESYNCED 2026-09-19: this field had drifted from the live gitlink,
     # which the umbrella's own commit 026a95e ("gitlink: bump constitution —
     # §11.4.184(I) HawkScan/ZAP/gitleaks/Trivy security tooling") had already
@@ -212,7 +212,7 @@ deps:
   # ─── Infrastructure library submodule (grouped layout, submodules/<name>/) ─
   - name: containers
     ssh_url: git@github.com:vasic-digital/containers.git
-    ref: "2d18551c6c99e21f4287be5b1d3c927ac3901d07"   # bumped 2026-11-24 forced-runner selector (--runner / CONTAINERS_RUNNER, containers PR #3, ff from 22b49707f9bb) -- prior: bumped 2026-10-15 VSC-368 (CONST-033 scanner paired proof, ff-only, local) -- gitlink tracks heads/main; tags exist upstream but none names this commit, so a sha is the only exact pin; spec-008 T106: host-shaped hardcoded paths removed from 13 test/doc files
+    ref: "ec32935dbed61806b2d8b65c2ad31c5fddbe02da"   # bumped 2026-11-27 per operator decision (ALL 25 drift rows), ff-only, 0 divergent
     # ⚠ STAGED, NOT YET COMMITTED (2026-09-01). This gitlink is
     # `git submodule add`-ed and staged, so `git ls-tree HEAD
     # submodules/containers` is still empty. That is precisely why
@@ -410,13 +410,13 @@ deps:
   # ─── Owned product submodules (flat layout, <root>/<name>/) ─────────────
   - name: vasic.digital
     ssh_url: git@github.com:vasic-digital/vasic-digital.github.io.git
-    ref: "3e86312cc685298d606e6ae8da68d01cce3f563f"   # v1.9.0 tag points at this merge commit (annotated tag peels to it); website-version footer + digital.vasic.dev
+    ref: "b63a3c7d23b777b7628b69510096054c5ed6d6a4"   # bumped 2026-11-27 per operator decision (ALL 25 drift rows), ff-only, 0 divergent
     why: "Site submodule — committed static HTML served as-is, no build step. Rendered into by _tools/gen and deployed by _tools/deploy-langs.sh; served directly by the _tests Playwright suite."
     layout: flat
 
   - name: milosvasic.ru
     ssh_url: git@github.com:milos85vasic/milosvasic.ru.git
-    ref: "9b5bf27c087e6ab64416e1cdfb79f85763396555"   # v2.0.0 tag (footer Website version); sha is exact
+    ref: "805111bad2595eb9d80a52cfb5a6d057660ba292"   # bumped 2026-11-27 per operator decision (ALL 25 drift rows), ff-only, 0 divergent
     # Moved 2026-09-08 from f5f13a25eaebb4d8023717040425992a43c53de1 by operator
     # decision #13: `_site/` was UNTRACKED there (8 files, one rendered page).
     # The `why:` below has said "its rendered _site/ is git-ignored" all along;
@@ -439,7 +439,7 @@ deps:
 
   - name: design-toolkit
     ssh_url: git@github.com:vasic-digital/design-toolkit.git
-    ref: "1b9abac8ca50427685121864a72f8580fee0a189"   # a v0.2.2 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact; spec-008 T106: hardcoded macOS dev path removed from hybrid-pipeline.md
+    ref: "e5fee6c660b9556cc1edbccffa864c9f8362d0dc"   # bumped 2026-11-27 per operator decision (ALL 25 drift rows), ff-only, 0 divergent
     # Moved 2026-09-08 from ddb9b6510e7513c628613bd326453a721d0efbb3 by operator
     # decision #15: `upstreams/gitlab.sh.disabled` was renamed to
     # `upstreams/gitlab.sh` and the PRIVATE GitLab mirror was synced. Measured
@@ -473,13 +473,13 @@ deps:
 
   - name: job_seeker
     ssh_url: git@github.com:vasic-digital/job_seeker.git
-    ref: "8827b1b9dd00de3a5b6d583ff8b05b8f2186ea96"   # specs/001-job-seeker-mvp merged (job_seeker PR #3, 78 FR, 23 SC, 159 tasks); prior 7bbec36; repo transferred to vasic-digital 2026-11-24 (job_seeker PR #2); prior 8b3da29; kickoff 2026-11-24 (PR #1 merged, independent review GO); gitlink tracks heads/main
+    ref: "8c7986f94dc57da128f9d0148a152abfab159a26"   # bumped 2026-11-27 per operator decision (ALL 25 drift rows), ff-only, 0 divergent
     why: "Private single-operator job-search tool: job-source adapters, per-position ATS CVs, human-in-the-loop applying (dry-run default). Personal data only in the git-ignored career_private overlay."
     layout: flat
 
   - name: monetization
     ssh_url: git@github.com:vasic-digital/monetization.git
-    ref: "05227b03f49aa6517134e7fdeec66520e2b87517"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
+    ref: "35efbe8329b1276b36e82444c5d4ea7cf8271305"   # bumped 2026-11-27 per operator decision (ALL 25 drift rows), ff-only, 0 divergent
     why: "Monetization of existing projects — docs, repos.txt, and the per-provider upstream declaration scripts (GitFlic / GitHub / GitLab / GitVerse)."
     layout: flat
     # Live topology: origin fetches github.com:vasic-digital/monetization.git and
@@ -520,7 +520,7 @@ deps:
   #     task-2-report.md for the full account. ────────────────────────────
   - name: doc_processor
     ssh_url: git@github.com:vasic-digital/DocProcessor.git
-    ref: "12a5fb76381a6bb9a1a668c67211ff073967ea44"   # bumped 2026-10-15 VSC-369 operator-approved pass-rate floors + down-replica finding (ff-only, local) -- bumped 2026-10-15 VSC-369 review follow-ups (stub loopback binding measured, fresh HOME, harness self-test, host A1, 0 % threshold cases, ff-only, local) -- bumped 2026-10-15 VSC-369 (CONST-050(B) family --prove-failure convention, ff-only, local) -- bumped 2026-10-15 VSC-368 (CONST-033 scanner paired proof, ff-only, local) -- gitlink tracks heads/master; bumped 2026-09-18 to add GEMINI.md and bring the four agent carriers into lockstep (closes C2+C8)
+    ref: "01084c9ef060549121d5304ada0adceb4c4481db"   # bumped 2026-11-27 per operator decision (fetch + ff to origin/main), DOC-001
     why: "Document-processing dependency consumed by submodules/qa via go.mod replace digital.vasic.docprocessor => ../doc_processor. A standalone, project-not-aware Go module (Go 1.25) that loads project documentation, builds structured feature maps, and tracks verification coverage for QA automation; imported directly by cmd/helixqa/main.go and several of qa's core packages."
     layout: grouped
 
