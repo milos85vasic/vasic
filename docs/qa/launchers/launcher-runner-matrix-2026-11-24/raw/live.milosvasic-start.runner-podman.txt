@@ -1,0 +1,57 @@
+runner: podman (selected by flag)
+serving Jekyll in a container via: podman-compose (runner podman)
+02fecd42f722a2bdcb0facbd32e44acaeadee5a3031547bf08807351da443542
+137413b2a076c5c19aedc8b90032d4bb3dd442d93095952f9366dd72aa7cdc15
+[1;32m[jekyll-serve] |[0m Bundle complete! 6 Gemfile dependencies, 38 gems now installed.
+[1;32m[jekyll-serve] |[0m Bundled gems are installed into `/bundle`
+[1;32m[jekyll-serve] |[0m Configuration file: /site/_config.yml
+[1;32m[jekyll-serve] |[0m             Source: /site
+[1;32m[jekyll-serve] |[0m        Destination: /site/_site
+[1;32m[jekyll-serve] |[0m  Incremental build: disabled. Enable with --incremental
+[1;32m[jekyll-serve] |[0m       Generating... 
+[1;32m[jekyll-serve] |[0m        Jekyll Feed: Generating feed for posts
+[1;32m[jekyll-serve] |[0m                     done in 5.609 seconds.
+[1;32m[jekyll-serve] |[0m  Auto-regeneration: enabled for '/site'
+[1;32m[jekyll-serve] |[0m     Server address: http://0.0.0.0:4000
+[1;32m[jekyll-serve] |[0m   Server running... press ctrl-c to stop.
+[1;32m[jekyll-serve] |[0m [31m                    ------------------------------------------------[0m
+[1;32m[jekyll-serve] |[0m [31m      Jekyll 4.4.1   Please append `--trace` to the `serve` command [0m
+[1;32m[jekyll-serve] |[0m [31m                     for any additional information or backtrace. [0m
+[1;32m[jekyll-serve] |[0m [31m                    ------------------------------------------------[0m
+[1;32m[jekyll-serve] |[0m /bundle/ruby/3.3.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:291:in `join': SIGTERM (SignalException)
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:291:in `boot_or_detach'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:221:in `start_up_webrick'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:102:in `process'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `block in process_with_graceful_fail'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `each'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `process_with_graceful_fail'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:85:in `block (2 levels) in init_with_program'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `block in execute'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `each'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `execute'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/mercenary-0.4.0/lib/mercenary/program.rb:44:in `go'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/mercenary-0.4.0/lib/mercenary.rb:21:in `program'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/jekyll-4.4.1/exe/jekyll:15:in `<top (required)>'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/bin/jekyll:25:in `load'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/bin/jekyll:25:in `<top (required)>'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/bundler-2.5.11/lib/bundler/cli/exec.rb:58:in `load'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/bundler-2.5.11/lib/bundler/cli/exec.rb:58:in `kernel_load'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/bundler-2.5.11/lib/bundler/cli/exec.rb:23:in `run'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/bundler-2.5.11/lib/bundler/cli.rb:455:in `exec'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/bundler-2.5.11/lib/bundler/vendor/thor/lib/thor/command.rb:28:in `run'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/bundler-2.5.11/lib/bundler/vendor/thor/lib/thor/invocation.rb:127:in `invoke_command'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/bundler-2.5.11/lib/bundler/vendor/thor/lib/thor.rb:527:in `dispatch'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/bundler-2.5.11/lib/bundler/cli.rb:35:in `dispatch'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/bundler-2.5.11/lib/bundler/vendor/thor/lib/thor/base.rb:584:in `start'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/bundler-2.5.11/lib/bundler/cli.rb:29:in `start'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/bundler-2.5.11/exe/bundle:28:in `block in <top (required)>'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/bundler-2.5.11/lib/bundler/friendly_errors.rb:117:in `with_friendly_errors'
+[1;32m[jekyll-serve] |[0m 	from /bundle/ruby/3.3.0/gems/bundler-2.5.11/exe/bundle:20:in `<top (required)>'
+[1;32m[jekyll-serve] |[0m 	from /usr/local/bin/bundle:25:in `load'
+[1;32m[jekyll-serve] |[0m 	from /usr/local/bin/bundle:25:in `<main>'
+milosvasic-ru-serve
+02fecd42f722a2bdcb0facbd32e44acaeadee5a3031547bf08807351da443542
+milosvasic-ru-serve_default
+rc=0
+after down http=000
+0

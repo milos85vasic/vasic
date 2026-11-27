@@ -22,6 +22,11 @@ import subprocess
 from pathlib import Path
 from typing import List, Tuple
 
+try:
+    from . import extract_gates
+except ImportError:  # run as a script
+    import extract_gates  # type: ignore
+
 #: Classified as extraction garbage by every ATS we have a reading of.
 #: ZWNJ/ZWJ/LRM/RLM (U+200C-200F) are deliberately absent: Persian/Arabic
 #: typography needs them and extractors drop them.
@@ -226,12 +231,22 @@ def _check_single_column_pdf(pdf_path: Path) -> List[str]:
     return []
 
 
+def _redact_contact(value: str) -> str:
+    """Opaque, stable label for a contact string so a failure reason never prints
+    the person's real address/URL into logs or committed evidence (JSK-T179).
+    Shape is kept (kind + length + short digest) so reasons stay diagnosable."""
+    import hashlib
+    v = str(value)
+    kind = "email" if "@" in v else ("url" if "/" in v or "." in v else "text")
+    return f"<contact {kind} len={len(v)} sha={hashlib.sha256(v.encode()).hexdigest()[:8]}>"
+
+
 def _check_contact_urls(text: str, urls: List[str]) -> List[str]:
     """Every contact URL must appear intact (one unbroken string) in the text."""
     wanted = [u for u in urls if u]
     if not wanted:
         return ["no contact URLs to check: the source/doc lists none, so intactness is unproven"]
-    return [f"contact URL not intact in text layer: {u}" for u in wanted if u not in text]
+    return [f"contact URL not intact in text layer: {_redact_contact(u)}" for u in wanted if u not in text]
 
 
 def _expected_contacts(pdf_path: Path, contacts: List[str] | None) -> List[str]:
@@ -319,11 +334,11 @@ def _check_link_annotations(pdf_path: Path, labels: List[str]) -> List[str]:
         if kind != "URI":
             problems.append(f"link annotation is a {kind} action, not a URI")
         elif not target.startswith(_ALLOWED_LINK_SCHEMES):
-            problems.append(f"link annotation URI has no mailto:/https: scheme: {target!r}")
+            problems.append(f"link annotation URI has no mailto:/https: scheme: {_redact_contact(target)}")
     reached = {_link_label(t) for k, t in anns if k == "URI" and t.startswith(_ALLOWED_LINK_SCHEMES)}
     for label in (u for u in labels if u):
         if label.rstrip("/") not in reached:
-            problems.append(f"no mailto:/https: link annotation targets the visible contact: {label}")
+            problems.append(f"no mailto:/https: link annotation targets the visible contact: {_redact_contact(label)}")
     return problems
 
 
@@ -521,6 +536,36 @@ def validate_pdf(pdf_path: Path, kind: str = "cv", lang: str | None = None,
         problems.extend(_check_structure(pdf_path))
     except RuntimeError as exc:
         return 2, str(exc)
+    # Extraction-side ATS gates (JSK-T163 placeholder leakage, T174 heading recognition, T178 running header).
+    problems.extend(extract_gates.check_placeholder_leak(clean, lang))
+    if kind == "cv":
+        problems.extend(extract_gates.check_headings(clean, lang))
+    # JSK-T168 / G-06 / F-25: every independent extractor must see the same word boundaries.
+    wb = extract_gates.check_word_boundaries(pdf_path, lang)
+    if wb is None:
+        return 2, "cannot determine word boundaries: fewer than two independent extractors available"
+    problems.extend(wb)
+    # JSK-T169 / G-07: Arabic/Persian words must read in logical order in the supported readers (MuPDF and
+    # pdftotext -layout); pdftotext -raw and position-less readers are NOT supported (extract_gates.RTL_TARGET_EXTRACTORS).
+    rtl = extract_gates.check_rtl_document(pdf_path, lang)
+    if rtl is None:
+        return 2, (f"cannot determine RTL logical order for '{lang}': MuPDF, pdftotext or the sibling .html "
+                   "source is missing")
+    problems.extend(rtl)
+    layout = extract_gates.pages_of(pdf_path)
+    if layout is not None:
+        problems.extend(extract_gates.check_running_headers(layout))
+        # JSK-T178 / G-19: no word cut by automatic hyphenation; source-hyphen breaks are budgeted.
+        src = extract_gates.sibling_source_text(pdf_path)
+        if src is None and extract_gates.hyphen_breaks(layout, None)["auto"]:
+            return 2, "cannot classify line-end hyphens: the sibling .tex source is missing"
+        problems.extend(extract_gates.check_hyphenation(layout, src))
+    # JSK-T179 / G-20: the rendered page and the text layer must say the same thing (needs the locale's OCR pack).
+    if extract_gates.ocr_applicable(lang):
+        ocr = extract_gates.check_ocr_consistency(pdf_path, lang)
+        if ocr is None:
+            return 2, f"cannot determine OCR consistency for '{lang}': tesseract, pdftoppm or its language pack is missing"
+        problems.extend(ocr)
     problems.extend(_check_page_count(pdf_path, kind))
     problems.extend(_check_fonts_embedded(pdf_path))
     problems = list(dict.fromkeys(problems))

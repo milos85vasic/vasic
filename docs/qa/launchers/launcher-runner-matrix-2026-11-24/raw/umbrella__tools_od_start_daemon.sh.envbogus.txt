@@ -1,0 +1,3 @@
+$ (cd <scratchpad>/umf) CONTAINERS_RUNNER=bogus bash _tools/od/start-daemon.sh
+Open Design app not found at: /Applications/Open Design.app/Contents/MacOS/Open Design
+rc=1

@@ -1,0 +1,13 @@
+# RED: T178 hyphenation gate NOT wired into validate_pdf; real old-penalty (hyphenpenalty=600) artifact built by the real renderer
+FAIL: test_old_penalty_is_refused_and_current_class_is_clean (career.test_extract_gates.BrokenArtifactHyphenation.test_old_penalty_is_refused_and_current_class_is_clean)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<worktree>/_tools/career/test_extract_gates.py", line 244, in test_old_penalty_is_refused_and_current_class_is_clean
+    self.assertEqual(rc, 1, (lang, msg))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : ('en', 'PDF is extractable, single-column, embedded, within budget (cv)')
+
+----------------------------------------------------------------------
+Ran 1 test in 14.743s
+
+FAILED (failures=1)

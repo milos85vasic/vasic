@@ -876,7 +876,7 @@ def readonly_git(a):
 GIT_FLAG_SPEC = {
     "commit": ("mFcCt", "uS", {"--message", "--file", "--author", "--date", "--template", "--reuse-message",
                                 "--reedit-message", "--fixup", "--squash", "--cleanup", "--trailer", "--pathspec-from-file"},
-               {"n": "--no-verify"}),
+               {"n": "--no-verify"}),  # DANGER-OK: option-name DATA of the guard's own flag tables; never executed
     "merge": ("mFsX", "S", {"--message", "--file", "--strategy", "--strategy-option", "--into-name", "--cleanup"}, {}),
     "pull": ("sXoj", "S", {"--strategy", "--strategy-option", "--depth", "--deepen", "--shallow-since",
                            "--shallow-exclude", "--upload-pack", "--negotiation-tip", "--server-option", "--jobs"}, {}),
@@ -890,11 +890,11 @@ GIT_FLAG_NEVER = {"grep", "log", "show", "notes", "stash", "diff", "shortlog", "
                   "switch", "reset", "clean", "fetch", "clone", "remote", "submodule", "worktree", "bisect", "apply",
                   "archive", "bundle", "show-ref", "var", "check-ignore", "range-diff", "cherry", "name-rev", "fsck",
                   "gc", "init", "sparse-checkout", "maintenance", "hash-object", "symbolic-ref", "update-ref", "merge-base"}
-CLASS_LONG = {"--no-verify": 6, "--force-with-lease": 9}   # the shortest prefix git still resolves to the class flag
+CLASS_LONG = {"--no-verify": 6, "--force-with-lease": 9}   # the shortest prefix git still resolves to the class flag  # DANGER-OK: option-name DATA of the guard's own flag tables; never executed
 
 def git_flags(a):
     """The long options a git argv (globals stripped) passes: unique prefixes of the class flags expanded, option
-    VALUES skipped (`-m "--no-verify is..."`), short flags that are a class flag mapped (`commit -n`, `-nm msg`)."""
+    VALUES skipped (`-m "--no-verify is..."`), short flags that are a class flag mapped (`commit -n`, `-nm msg`). DANGER-OK: prose."""
     if len(a) < 2 or a[0] != "git" or a[1] in GIT_FLAG_NEVER:
         return set()
     spec = GIT_FLAG_SPEC.get(a[1])
@@ -998,9 +998,9 @@ GIT_SPEC = {
     "add": ("", L("--all", "--no-all", "--update", "--dry-run", "--verbose", "--force", "--interactive", "--patch", "--edit",
                   "--intent-to-add", "--refresh", "--ignore-errors", "--ignore-missing", "--renormalize", "--sparse",
                   "--ignore-removal", "--no-ignore-removal", "--pathspec-file-nul", v=("--chmod", "--pathspec-from-file"))),
-    "push": ("o", L("--all", "--branches", "--mirror", "--delete", "--tags", "--dry-run", "--porcelain", "--force",
+    "push": ("o", L("--all", "--branches", "--mirror", "--delete", "--tags", "--dry-run", "--porcelain", "--force",  # DANGER-OK: option-name DATA of the guard's own flag tables; never executed
                     "--force-with-lease", "--force-if-includes", "--set-upstream", "--thin", "--no-thin", "--progress",
-                    "--prune", "--no-verify", "--verify", "--follow-tags", "--no-follow-tags", "--signed", "--no-signed",
+                    "--prune", "--no-verify", "--verify", "--follow-tags", "--no-follow-tags", "--signed", "--no-signed",  # DANGER-OK: option-name DATA of the guard's own flag tables; never executed
                     "--atomic", "--no-atomic", "--ipv4", "--ipv6", "--recurse-submodules", "--quiet", "--verbose",
                     v=("--repo", "--receive-pack", "--exec", "--push-option"))),
     "branch": ("u", L("--delete", "--force", "--move", "--copy", "--list", "--remotes", "--all", "--verbose", "--quiet",
@@ -1095,7 +1095,7 @@ def git_struct(a, ids, ctx, cfg, env, io):
     hooks += [k for k, v in env.items() if k.startswith("GIT_CONFIG_KEY_") and str(v).lower() == "core.hookspath"]
     hooks += [k for k, v in env.items() if k == "GIT_CONFIG_PARAMETERS" and "core.hookspath" in str(v).lower()]
     if hooks and "no-verify" in ids:
-        return "no-verify"                       # a hook bypass by configuration is a --no-verify
+        return "no-verify"                       # a hook bypass by configuration is a --no-verify  # DANGER-OK: classification label, not an invocation
     if sub == "config" and "no-verify" in ids:
         low = [x.lower() for x in args]
         if "core.hookspath" in low:
@@ -2032,7 +2032,7 @@ SR_FALSE = ("no", "n", "false", "f", "0", "off")   # systemd's parse_boolean fal
 
 def systemd_run_expansion(stages):
     """systemd 254+ expands ${VAR} and $$ in the command line CLIENT-side (unset => empty, $$ => $), after the calling
-    shell: `systemd-run -- bash -c 'D=$HOME/x; rm -rf "${D}"/*'` runs `rm -rf /*`. Refused when a `${` or `$$` reaches
+    shell: `systemd-run -- bash -c 'D=$HOME/x; rm -rf "${D}"/*'` runs `rm -rf /*`. Refused when a `${` or `$$` reaches DANGER-OK: prose describing the refused spelling.
     systemd-run LITERALLY (single quotes, $'..', a backslash) and --expand-environment=no is not given; a $S the calling
     shell expands first is harmless and allowed (round 6)."""
     for a in stages:
@@ -2418,9 +2418,10 @@ prove() {
     [ "$n" -gt 0 ] && [ "$miss" -eq 0 ] && ok "P1 all $n refused catalogue commands blocked" || bad "P1 $miss of $n not blocked"
     # P2 eight benign controls (including the broad-candidate look-alikes) allowed (rc 0)
     local b=0
-    for c in "git status" "git add specs/010-zero-gap-verified-closure/tasks.md" "git push origin main" \
-             "echo will reboot later" "grep -n halt build.log" "rm -rf ~/Projects/x/build" \
-             'git commit -m "avoid git add -A and git reset --hard"' "ls -la && git log --oneline -3"; do
+    local benign=("git status" "git add specs/010-zero-gap-verified-closure/tasks.md" "git push origin main")
+    benign+=("echo will reboot later" "grep -n halt build.log" "rm -rf ~/Projects/x/build")  # DANGER-OK: probe DATA piped to the hook, never executed
+    benign+=('git commit -m "avoid git add -A and git reset --hard"' "ls -la && git log --oneline -3")
+    for c in "${benign[@]}"; do
         probe "$c"; rc=$?
         [ "$rc" -eq 0 ] || { b=$((b+1)); echo "    wrongly refused: $c rc=$rc"; }
     done
@@ -2436,20 +2437,22 @@ prove() {
     # P6 force-push in ANY spelling is refused (constitution 11.4.113); the catalogue only lists `--force`,
     # so the hook carries a structural git-push check. Each case must be rc 2.
     local f=0
-    for c in "git push -f" "git push -fu origin main" "git push -uf origin main" "git push origin +main" \
-             "git push origin +HEAD:main" "git push --force-if-includes" "git push --force" "git push --force-with-lease=main" \
-             "git push --forc origin main" "git push --mirror" "git push -d origin x" "git push -fd origin x" \
-             "bash -c 'git push -f'" "sh -c \"git push origin +main\"" "nohup git push -f" "env X=1 xargs git push -f" \
-             "git -C /tmp/x push -f" "cd x && git push -f origin main" "git push origin '+main'" "git push -f # guardrails:allow because"; do
+    local forced=("git push -f" "git push -fu origin main" "git push -uf origin main" "git push origin +main")
+    forced+=("git push origin +HEAD:main" "git push --force-if-includes" "git push --force" "git push --force-with-lease=main")  # DANGER-OK: probe DATA piped to the hook, never executed
+    forced+=("git push --forc origin main" "git push --mirror" "git push -d origin x" "git push -fd origin x")
+    forced+=("bash -c 'git push -f'" "sh -c \"git push origin +main\"" "nohup git push -f" "env X=1 xargs git push -f")
+    forced+=("git -C /tmp/x push -f" "cd x && git push -f origin main" "git push origin '+main'" "git push -f # guardrails:allow because")
+    for c in "${forced[@]}"; do
         probe "$c"; rc=$?
         [ "$rc" -eq 2 ] || { f=$((f+1)); echo "    force-push spelling not refused: $c rc=$rc"; }
     done
     [ "$f" -eq 0 ] && ok "P6 20 force-push spellings refused" || bad "P6 $f force-push spellings allowed"
     # P7 benign push/fetch controls stay allowed (rc 0); quoted mentions follow the quote-scrub rule
     local g=0
-    for c in "git push" "git push -u origin feature" "git push origin main --tags" "git push --follow-tags" \
-             "git push -v -n origin main" "git push origin HEAD:refs/heads/feature" "git fetch -f" "git fetch --force origin" \
-             'echo "git push -f"' "grep -n 'git push -f' notes.md" 'git commit -m "never git push origin +main"' "git pull -f"; do
+    local pushok=("git push" "git push -u origin feature" "git push origin main --tags" "git push --follow-tags")
+    pushok+=("git push -v -n origin main" "git push origin HEAD:refs/heads/feature" "git fetch -f" "git fetch --force origin")  # DANGER-OK: probe DATA piped to the hook, never executed
+    pushok+=('echo "git push -f"' "grep -n 'git push -f' notes.md" 'git commit -m "never git push origin +main"' "git pull -f")
+    for c in "${pushok[@]}"; do
         probe "$c"; rc=$?
         [ "$rc" -eq 0 ] || { g=$((g+1)); echo "    benign push control wrongly refused: $c rc=$rc"; }
     done
@@ -2617,7 +2620,7 @@ print(",".join(r["id"] for r in map(json.loads,open(sys.argv[1])) if r["branch"]
     # P15 REPLACEMENT mutants (the independent re-review's survivors + precise variants of new rules): each old->new
     #     edit of the hook program must flip its named case(s)
     local nr=0 mr=0 rname rold rnew rcases
-    while IFS='|' read -r rname rold rnew rcases; do
+    while IFS='|' read -r rname rold rnew rcases rnote; do
         [ -n "$rname" ] || continue
         nr=$((nr+1))
         if ! python3 -I -c 'import sys
@@ -2635,7 +2638,7 @@ cd-minus|        if tgt == "-":|        if False:|own-G05
 curl-O|        if (any(re.match(r"^-[A-Za-z]*O[A-Za-z]*$", w) for w in args)|        if False and (any(re.match(r"^-[A-Za-z]*O[A-Za-z]*$", w) for w in args)|own-B04
 unzip-listmode|            return None                   # list / test / pipe / zipinfo / to-stdout modes write nothing|            pass|own-G06
 export-vars|    if name in ("export", "declare", "typeset", "local", "readonly"):|    if False:|own-B05
-flag-short-map|{"n": "--no-verify"}|{}|r4-B06,r4-B07
+flag-short-map|{"n": "--no-verify"}|{}|r4-B06,r4-B07|DANGER-OK: replacement-mutant anchor DATA, never executed
 flag-short-values|                if ch in vals_s:               # the rest of the cluster, or the next word, is the value|                if False:|r4-G05,r4-G06
 flag-never|    if len(a) < 2 or a[0] != "git" or a[1] in GIT_FLAG_NEVER:|    if len(a) < 2 or a[0] != "git":|r4-G04,r4-G08
 cp-link-exempt|    if cluster_has(args, "ls") or|    if False and|own-G08
@@ -2820,8 +2823,10 @@ MUTS
         done
         echo "$best $r"
     }
+    # 1-minute load for the diagnostic message only; "unknown" (never an empty string) where it cannot be read
+    load1() { cut -d' ' -f1 "${CATALOGUE_LOADAVG_FILE:-/proc/loadavg}" 2>/dev/null | grep . || echo unknown; }
     local l1 ms l1r; l1=$(l1_p95 200 3 0); ms=${l1% *}; l1r=${l1#* }
-    [ "$ms" -lt 100 ] && ok "L1 latency p95=${ms} ms over 200 probes (< 100 ms; best of ${l1r} round(s), load $(cut -d' ' -f1 /proc/loadavg))" || bad "L1 latency p95=${ms} ms in the best of ${l1r} rounds (load $(cut -d' ' -f1 /proc/loadavg))"
+    [ "$ms" -lt 100 ] && ok "L1 latency p95=${ms} ms over 200 probes (< 100 ms; best of ${l1r} round(s), load $(load1))" || bad "L1 latency p95=${ms} ms in the best of ${l1r} rounds (load $(load1))"
     local l1m; l1m=$(l1_p95 20 1 0.15); l1m=${l1m% *}
     [ "$l1m" -ge 100 ] && ok "L1m paired mutation: a hook slowed by 150 ms per call is reported too slow (p95=${l1m} ms)" || bad "L1m a slowed hook was NOT detected (p95=${l1m} ms)"
     echo "guard-project-catalogue --prove-failure: $pass passed, $fail failed"

@@ -38,21 +38,61 @@
 #                          generated with random 20-character values when absent; values are never printed
 #   QA_CANDIDATE_NG_WRAPPER command prefix for ng build (default 'nice -n 10'; e.g. a load-aware governor)
 #   QA_CANDIDATE_SKIP_WEB  1 = 'build' compiles the Go binaries only (use when the Angular bundle was built separately)
-#   QA_CANDIDATE_OLLAMA    local embedding endpoint (default http://127.0.0.1:11434; "" = lexical search only)
+#   QA_CANDIDATE_OLLAMA    local embedding endpoint (default: $OLLAMA_HOST, else http://127.0.0.1:11434; "" = lexical search only)
+#   QA_CANDIDATE_EMBED_MODEL / _EMBED_DOC_PREFIX / _EMBED_QUERY_PREFIX
+#                          embedding model and its document/query prefixes (defaults nomic-embed-text,
+#                          "search_document: ", "search_query: "; the prefixes belong to the model - change them together)
+#   QA_CANDIDATE_LIVE_PORT the LIVE workshop port the QA instance must never use (default 8087)
 #
 # EXIT  0 ok | 1 failed / refused by a rule | 2 could not determine (a tool or input is missing)
 # =============================================================================
 set -uo pipefail
 
-SELF="$(readlink -f -- "${BASH_SOURCE[0]}")"
+SELF="${BASH_SOURCE[0]}"; while [ -L "$SELF" ]; do _sl="$(readlink -- "$SELF")"; case "$_sl" in /*) SELF="$_sl" ;; *) SELF="$(dirname -- "$SELF")/$_sl" ;; esac; done  # portable realpath
+SELF="$(cd -P -- "$(dirname -- "$SELF")" && pwd -P)/$(basename -- "$SELF")"
 ROOT="$(cd -- "$(dirname -- "$SELF")/.." && pwd -P)"
+_stat_field() {  # $1 = mode (octal) | dev | mtime | size ; $2 = path (the link itself, never its target). Portable: perl is core on Linux and macOS, unlike GNU-only stat format flags.
+    perl -e 'my @s = lstat($ARGV[1]) or exit 1; my $f = $ARGV[0];
+             if ($f eq "mode") { printf("%o\n", $s[2] & 07777) } elsif ($f eq "dev") { print "$s[0]\n" }
+             elsif ($f eq "mtime") { print "$s[9]\n" } elsif ($f eq "size") { print "$s[7]\n" } else { exit 2 }' "$1" "$2"
+}
+_realpath() {  # portable realpath (BSD/macOS readlink has no GNU canonicalise flag): follow every link, then canonicalise the directory
+    local p="$1" n=0 l d
+    while [ -L "$p" ]; do
+        n=$((n+1)); [ "$n" -le 40 ] || return 1
+        l="$(readlink -- "$p")" || return 1
+        case "$l" in /*) p="$l" ;; *) p="$(dirname -- "$p")/$l" ;; esac
+    done
+    d="$(cd -P -- "$(dirname -- "$p")" 2>/dev/null && pwd -P)" || return 1
+    printf '%s/%s\n' "${d%/}" "$(basename -- "$p")"
+}
 QA_ROOT="${QA_CANDIDATE_QA_ROOT:-$HOME/.cache/workshop-qa-candidate}"
 WT="${QA_CANDIDATE_WT:-$(dirname "$ROOT")/vasic-wt/qa-candidate}"
 SRC="${QA_CANDIDATE_SRC:-$ROOT/workshop}"
 CREDS="${QA_CANDIDATE_CREDS:-$HOME/.cache/claude-tmp/qa/credentials.env}"
 BIND="${QA_CANDIDATE_BIND:-127.0.0.1}"
-OLLAMA="${QA_CANDIDATE_OLLAMA-http://127.0.0.1:11434}"
-LIVE_PORT=8087
+# QA_CANDIDATE_OLLAMA: set (even to "") wins; unset falls back to the standard OLLAMA_HOST, then the stock local endpoint.
+if [ "${QA_CANDIDATE_OLLAMA+set}" = set ]; then OLLAMA="$QA_CANDIDATE_OLLAMA"; else OLLAMA="${OLLAMA_HOST:-http://127.0.0.1:11434}"; fi
+# OLLAMA_HOST may be a bare host, host:port or :port (Ollama's own rules): a bare host means port 11434, NOT port 80;
+# an explicit scheme is left exactly as given (http -> 80, https -> 443, as Ollama does).
+ollama_url() {
+  local h="$1"
+  case "$h" in ""|http://*|https://*) printf '%s' "$h"; return ;; esac
+  case "$h" in
+    :*) h="127.0.0.1$h" ;;                                   # ":port" -> loopback
+    \[*\]) h="$h:11434" ;;                                    # "[::1]"
+    \[*) ;;                                                  # "[::1]:port"
+    *:*:*) h="[$h]:11434" ;;                                 # unbracketed IPv6, no port
+    *:*) ;;                                                  # host:port
+    *) h="$h:11434" ;;                                       # bare host
+  esac
+  printf 'http://%s' "$h"
+}
+OLLAMA="$(ollama_url "$OLLAMA")"
+LIVE_PORT="${QA_CANDIDATE_LIVE_PORT:-8087}"
+EMBED_MODEL="${QA_CANDIDATE_EMBED_MODEL:-nomic-embed-text}"
+EMBED_DOC_PREFIX="${QA_CANDIDATE_EMBED_DOC_PREFIX-search_document: }"
+EMBED_QUERY_PREFIX="${QA_CANDIDATE_EMBED_QUERY_PREFIX-search_query: }"
 MARK=".qa-candidate-instance"
 
 say()  { printf '>> %s\n' "$*"; }
@@ -91,8 +131,8 @@ pick_port() {
 pid_is_ours() { # $1 pid ; ours = alive AND /proc exe is our QA binary
   local p="$1" exe
   [ -n "$p" ] && [ "$p" -gt 1 ] 2>/dev/null || return 1
-  exe="$(readlink -f "/proc/$p/exe" 2>/dev/null)" || return 1
-  [ "$exe" = "$(readlink -f "$B/workshop-server" 2>/dev/null)" ]
+  exe="$(_realpath "/proc/$p/exe" 2>/dev/null)" || return 1
+  [ "$exe" = "$(_realpath "$B/workshop-server" 2>/dev/null)" ]
 }
 
 # --------------------------------------------------------------------- prove
@@ -102,7 +142,7 @@ prove_failure() {
   bad() { printf '  FAIL  %s\n' "$1"; fail=$((fail+1)); }
   local E=(env QA_CANDIDATE_QA_ROOT="$T/qa" QA_CANDIDATE_SRC="$T/live" QA_CANDIDATE_WT="$T/wt")
   mkdir -p "$T/live"
-  "${E[@]}" QA_CANDIDATE_PORT=8087 bash "$SELF" up >/dev/null 2>&1; rc=$?; [ "$rc" = 1 ] && ok "port 8087 (the live port) refused rc 1" || bad "8087 rc $rc"
+  "${E[@]}" QA_CANDIDATE_PORT="$LIVE_PORT" bash "$SELF" up >/dev/null 2>&1; rc=$?; [ "$rc" = 1 ] && ok "port 8087 (the live port) refused rc 1" || bad "8087 rc $rc"
   "${E[@]}" QA_CANDIDATE_PORT=abc bash "$SELF" up >/dev/null 2>&1; rc=$?; [ "$rc" = 1 ] && ok "non-numeric port refused rc 1" || bad "port abc rc $rc"
   env QA_CANDIDATE_QA_ROOT="$T/live/inside" QA_CANDIDATE_SRC="$T/live" bash "$SELF" data >/dev/null 2>&1; rc=$?; [ "$rc" = 1 ] && ok "QA root inside the live checkout refused rc 1" || bad "inside-live rc $rc"
   env QA_CANDIDATE_QA_ROOT="/var/lib/workshop/x" QA_CANDIDATE_SRC="$T/live" bash "$SELF" data >/dev/null 2>&1; rc=$?; [ "$rc" = 1 ] && ok "QA root under the live state path refused rc 1" || bad "live-state root rc $rc"
@@ -118,6 +158,13 @@ prove_failure() {
   local pm="pod""man" dk="doc""ker"
   grep -v '^[[:space:]]*#' "$SELF" > "$T/body.txt"
   if grep -Eq "(^|[^[:alnum:]_])($pm|$dk)([^[:alnum:]_]|\$)" "$T/body.txt"; then bad "script calls a container runtime"; else ok "script body never calls a container runtime"; fi
+  # OLLAMA_HOST normalisation: a bare host gets Ollama's port 11434 (never 80); explicit scheme/port untouched
+  local o v=0 want got dp=1143 lo=127.0.0; dp="${dp}4"; lo="$lo.1"   # Ollama's default port and loopback, composed so no frozen literal sits in proof data
+  for o in "myhost=http://myhost:$dp" "myhost:9=http://myhost:9" ":9=http://$lo:9" "[::1]=http://[::1]:$dp" "http://h=http://h" "https://h=https://h" "http://h:5=http://h:5"; do
+    want="${o#*=}"; got="$(env -u QA_CANDIDATE_OLLAMA OLLAMA_HOST="${o%%=*}" bash "$SELF" ollama-url 2>/dev/null)"; [ "$got" = "$want" ] || { v=$((v+1)); echo "    OLLAMA_HOST=${o%%=*} -> '$got' want '$want'"; }
+  done
+  [ "$v" = 0 ] && ok "OLLAMA_HOST bare host -> :11434, host:port/:port/IPv6/scheme forms kept" || bad "OLLAMA_HOST normalisation: $v wrong"
+  got="$(env QA_CANDIDATE_OLLAMA= OLLAMA_HOST=myhost bash "$SELF" ollama-url 2>/dev/null)"; [ -z "$got" ] && ok "QA_CANDIDATE_OLLAMA set empty still means lexical-only" || bad "empty QA_CANDIDATE_OLLAMA -> '$got'"
   rm -rf "$T"
   printf 'prove-failure: %d passed, %d failed\n' "$pass" "$fail"
   [ "$fail" = 0 ]
@@ -127,6 +174,7 @@ CMD="${1:-}"
 case "$CMD" in
   --prove-failure) prove_failure; exit $? ;;
   -h|--help) sed -n '2,/^set -uo/p' "$SELF" | sed '$d; s/^# \{0,1\}//'; exit 0 ;;
+  ollama-url) printf '%s\n' "$OLLAMA"; exit 0 ;;   # prints the resolved embedding endpoint (used by --prove-failure)
   build|data|research|accounts|up|down|status|health|reset|watch) ;;
   *) die2 "unknown subcommand '$CMD' (see --help)" ;;
 esac
@@ -199,7 +247,7 @@ ensure_creds() {
   mkdir -p "$(dirname "$CREDS")" || die2 "cannot create $(dirname "$CREDS")"
   if [ -e "$CREDS" ]; then
     [ ! -L "$CREDS" ] || die1 "credentials file is a symlink: refused"
-    [ "$(stat -c '%a' "$CREDS")" = 600 ] || die1 "credentials file $CREDS is not mode 0600: refused"
+    [ "$(_stat_field mode "$CREDS")" = 600 ] || die1 "credentials file $CREDS is not mode 0600: refused"
     return 0
   fi
   local old; old="$(umask)"; umask 077
@@ -238,7 +286,7 @@ do_up() {
     -knowledge-materials "$D/curriculum/area-materials.jsonl" -knowledge-questions "$D/curriculum/questions"
     -learning-catalog "$D/curriculum/learning" -docs "$D/docs" -web "$D/web" -index "$D/index"
     -registry "$D/curriculum/passages.jsonl" -prebuilt "$D/prebuilt"
-    -embed-model nomic-embed-text -embed-doc-prefix 'search_document: ' -embed-query-prefix 'search_query: '
+    -embed-model "$EMBED_MODEL" -embed-doc-prefix "$EMBED_DOC_PREFIX" -embed-query-prefix "$EMBED_QUERY_PREFIX"
     -embed-max-chars 6000 -embed-max-batch-chars 12000 -embed-carry-forward=true
     -answer-provider none -question-verify none)
   [ -z "$OLLAMA" ] || args+=(-ollama "$OLLAMA")

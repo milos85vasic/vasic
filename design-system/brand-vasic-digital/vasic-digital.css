@@ -87,8 +87,14 @@
   --vd-hairline: rgba(20, 21, 25, 0.08);
 
   /* Type: Bricolage display, Inter body, JetBrains mono. */
-  --od-font-display: "Bricolage Grotesque", "Space Grotesk", system-ui, sans-serif;
-  --od-font-body: "Inter", system-ui, sans-serif;
+  /* Script faces (Noto, OFL 1.1, fonts/fonts.css). Latin + Cyrillic come from Inter / Bricolage; these only answer for the
+   * scripts those lack (Arabic, Devanagari, CJK). Each family is unicode-range gated, so a page downloads one only when it
+   * shows that script. The CJK order is per language (see the :root:lang() rules after this block): Han glyph shapes differ
+   * between zh / ja / ko, so the first CJK family must be the page language's own. */
+  --od-font-script-cjk: "Noto Sans SC", "Noto Sans JP", "Noto Sans KR";
+  --od-font-script: "Noto Sans Arabic", "Noto Sans Devanagari", var(--od-font-script-cjk);
+  --od-font-display: "Bricolage Grotesque", "Space Grotesk", "Inter", var(--od-font-script), system-ui, sans-serif;
+  --od-font-body: "Inter", var(--od-font-script), system-ui, sans-serif;
   --od-font-mono: "JetBrains Mono", ui-monospace, monospace;
   --od-font-space-grotesk: "Space Grotesk", sans-serif;
   --od-font-inter: "Inter", sans-serif;
@@ -147,6 +153,15 @@
   --od-z-modal: 1100;
   --od-z-toast: 1200;
   --od-container-max: 120rem;
+}
+
+/* Per-language script rules. Han glyph shapes differ between zh / ja / ko, so each puts its own CJK family first. Cursive
+ * and CJK scripts must not be tracked: negative tracking breaks Arabic joining and cramps Devanagari and CJK. */
+:root:lang(ja) { --od-font-script-cjk: "Noto Sans JP", "Noto Sans SC", "Noto Sans KR"; }
+:root:lang(ko) { --od-font-script-cjk: "Noto Sans KR", "Noto Sans SC", "Noto Sans JP"; }
+:root:lang(zh), :root:lang(ja), :root:lang(ko), :root:lang(ar), :root:lang(fa), :root:lang(hi) {
+  --od-tracking-tight: 0;
+  --od-tracking-wide: 0;
 }
 
 :root[data-theme="dark"] {
@@ -439,6 +454,11 @@ body {
   letter-spacing: var(--od-tracking-tight);
   color: var(--od-text);
   text-wrap: balance;
+  /* Translated titles carry U+2011 non-breaking hyphens ("Infrastruktur‑Automatisierung"),
+   * which leave a long word no break opportunity; at this display size it overran
+   * the box and made /de/ and /ru/ scroll sideways on phones (defect D2). Break
+   * inside the word only as a last resort — titles that fit are untouched. */
+  overflow-wrap: break-word;
   margin: 0 0 var(--od-space-6);
 }
 

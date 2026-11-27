@@ -10,7 +10,7 @@ bundle install && bundle exec jekyll serve
 === [runner-podman-dry] $ bash start.sh --runner=podman --dry-run
 runner: podman (selected by flag)
 serving Jekyll in a container via: podman-compose (runner podman)
-podman-compose -p milosvasic-ru-serve -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/mvwt2/_container/compose.serve.yml up
+podman-compose -p milosvasic-ru-serve -f <scratchpad>/mvwt2/_container/compose.serve.yml up
 --- rc=0
 === [runner-auto-dry] $ bash start.sh --runner=auto --dry-run
 runner: podman (selected by flag)
@@ -20,7 +20,7 @@ bundle install && bundle exec jekyll serve
 === [container-dry] $ bash start.sh --container --dry-run
 runner: podman (selected by default)
 serving Jekyll in a container via: podman-compose (runner podman)
-podman-compose -p milosvasic-ru-serve -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/mvwt2/_container/compose.serve.yml up
+podman-compose -p milosvasic-ru-serve -f <scratchpad>/mvwt2/_container/compose.serve.yml up
 --- rc=0
 === [env-podman-dry] $ env CONTAINERS_RUNNER=podman bash start.sh --dry-run
 runner: podman (selected by env)

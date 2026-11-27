@@ -3,9 +3,10 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-11-27T22:30:00Z
-    Synced-Commit: 090d2de
+    Last-Updated: 2026-11-25T21:00:00Z
+    Synced-Commit: a2d694731096
     Authority-Root: submodules/constitution
+
 
 This file is the single canonical handoff document mandated by **Constitution
 §12.10** ("Continuation document — sacred invariant"). Its binding requirements,
@@ -26,6 +27,32 @@ quoted from `submodules/constitution/Constitution.md`:
 >    any CLI agent.
 > 6. **Document MUST be self-contained.** No hyperlinks to ephemeral
 >    external systems as the only source of truth.
+
+> **2026-11-25 worktree bootstrap (PR pr/wt-bootstrap-2026-11-25):** new `scripts/worktree-bootstrap.sh` initialises every declared submodule of a fresh worktree at its index pin (optional `--reference` and `--link-node-modules`), exit 0 only when none is left uninitialised, else 2; registered `exempt` in `scripts/check-registry.tsv`. Gap register B5 (UG-06, UG-09 partly, UG-14) now has a one-command bootstrap; `docs_chain` still needs building.
+
+> **2026-11-25 gate 6 builds `_site` (PR pr/gate6-site-build-2026-11-25):** `scripts/pre-push-gates.sh` precondition for gate 6 now builds `milosvasic.ru/_site` with `_tools/containers/bin/site-build -workload jekyll` when `index.html` is absent (through `scripts/agent-admit.sh`, memory-capped, plus `mem_limit` on the compose service; `PREPUSH_BUILD_SITE=0` opts out; rc 1 from the build is a FAIL, anything undetermined a SKIP). Paired proof cases M10-M10f. The first real full run found two stale specs, fixed here: `seo-meta.spec.js` expected the vasic.digital canonical host `vasic.digital` (the site declares `digital.vasic.dev`), and `expertise.spec.js` expected the operator-private admin console to be served (milosvasic.ru excludes it since its commit 14b2d8b). Real run after the fixes: `553 passed (7.2m)`.
+
+> **2026-11-25 gate C (PR pr/gate-continuation-2026-11-25):** `scripts/pre-push-gates.sh` gained gate `C` running `scripts/continuation-check.sh`, with paired proof cases M11-M11f. Its first real run in a fully initialised worktree caught C7 (gate `C` missing from §6), fixed in this same change.
+
+> **2026-11-25 site-build tests (PR pr/site-build-tests-2026-11-25):** `_tools/containers/cmd/site-build` gained `main_test.go` (characterisation tests of the real entry point written first, then `lookupWorkload` and `verifyArtifact` extracted behaviour-preservingly); the carriers' containers-file count moved 22 -> 23 (ledger row `carriers-containers-consumer-files`). Resume: items 7, 9, 12 of the umbrella gap register.
+
+> **2026-11-25 carrier corrections (PR pr/carriers-fix-2026-11-25):** the four root carriers were edited as one shared artifact (C5 digest count 1): the stale "webkit cannot launch" and "three sweep gates FAIL, none acted on" sentences are marked superseded with their re-measurement, the §11.4.299 pin figures stay at `f9eb835e03db`, and §11.4.300 is recorded as present in the constitution upstream only (not in the pin). Two `t.Skip` lines added by PR #93 in `_tools/containers/internal/orchestrate/orchestrate_test.go` had pushed the zero-findings ratchet to 9 > 7; they were removed. Resume: items 7-12 of the umbrella gap register.
+
+> **2026-11-25 constitution bump + issue-sync mirrors (PR pr/constitution-bump-issue-sync-targets-2026-11-25):** `submodules/constitution` f92868dd7036 -> 71c5e178707d, ff-only, 0 divergent / 7 behind, `Constitution.md` unchanged on both sides (blob `1cab1d0726bb`, 13,174 lines, 281 anchors, 2,283,524 bytes, sha256 `d72bd3b45236…`); gitlink and `helix-deps.yaml` ref moved together, carriers' dated gitlink reading updated in all four. The pin carries constitution PRs #44 and #45 (GitVerse list query fixed; #44: GitFlic issue adapter proven live, new `mirrors:` key). `.workable-items-sync.yaml` now declares the five umbrella mirrors (gitlab.com, codeberg.org, git.m3w.org, gitflic.ru, gitverse.ru) under `mirrors:`; mode stays dry-run, and only gitlab.com, codeberg.org, git.m3w.org and gitflic.ru are in `issue_sync_proven.tsv`. github.com (fine-grained token lacks `Issues: write`) and gitverse.ru (POST /issues 403) remain UNCONFIRMED. Synced-Commit advanced to `9ef2787a2dc6` (PR #113 merge).
+
+> **2026-11-25 final batched pin bump (PR pr/final-pin-bump-2026-11-25):** each gitlink moved ff-only, 0 divergent, to the remote main read with `git ls-remote` in the same session, and its `helix-deps.yaml` ref moved in the same change: `job_seeker` b30fdad46114 -> 2db7fe371b52 (207 commits; the declared `origin` `vasic-digital/job_seeker` is its only remote), `submodules/qa` (HelixQA) e19f9ab01ca7 -> 3c6021ab8c31 (16), `workshop` 3f9565a335fb -> a8b740fceca2 (3). Not moved because already equal to upstream main: `submodules/constitution` f92868dd7036 (so no constitution diff --stat exists and no re-measure of `Constitution.md` was needed; `verify_constitution_latest.sh` reads CURRENT) and `design-toolkit` e5fee6c660b9. The carriers' dated gitlink reading moved `workshop` d58ae75d2d7b -> a8b740fceca2 in all four (C5 digest count 1). Synced-Commit advanced to ebc2aef90f93, the commit recording the pins.
+
+> **2026-11-25 continuation-check C3 resync (PR pr/continuation-c3-2026-11-25):** `scripts/continuation-check.sh` reported DRIFT C3 for four gitlink/helix-deps commits that changed watched governance files without updating this file (`e064bbf9e8b9` constitution bump, `178cc2ba525b` helix-deps wording, `6fc143d974ce` batch3 bump with carrier re-measure, `74889b2dd5b4` job_seeker re-read). Their content is already narrated in the sections above; Synced-Commit is advanced to `95d8701a4262` (includes PR #90 evidence-stability gate `scripts/verify-evidence-stability.sh` and PR #91 vault tests skipping with a reason when operator-private `milosvasic.ru/assets/js/vault.js` is absent). ROOT CAUSE of the drift going unnoticed, measured 2026-11-25: `scripts/continuation-check.sh` is registered only as the `continuation-sync` check with a `--prove-failure` proof; it is not a gate in `scripts/pre-push-gates.sh` (ids E Z0 Z1 0-6), `.git/hooks/` holds no installed hook in the primary checkout, and the PR/merge flow runs no pre-push at all, so nothing executes it on a bump. Enforcement is NOT added by this change; it remains an open operator decision (add it as a gate, or call it from the bump procedure). Also open: `bash scripts/continuation-check.sh` in a fresh worktree reports C5/C8 DRIFT or UNDET until submodules are initialised (uninitialised submodule paths look like missing scripts); that is an environment limit, not document drift.
+
+> **2026-11-24 §11.4.299 landing (PR pr/constitution-299-2026-11-24):** constitution pin `6d93ccd19e1c` -> `74c415d3d694` (adds §11.4.299 all-upstreams delivery; `Constitution.md` 13,142 lines / 280 `### §` anchors / 2,275,160 bytes / blob `ab5dcf28e1df` / sha256 `ba1adfbcd80b…`, re-measured on disk), gitlink and `helix-deps.yaml` ref staged together; four carriers edited as one shared artifact (C5 digest count 1); new `scripts/verify-upstream-sync.sh` (check-registry `upstream-sync`), `config/upstream-parity-*`. Resume: triage the fleet findings of `bash scripts/verify-upstream-sync.sh`; the C2 quote-fidelity DRIFT of `continuation-check.sh` pre-dates this change (present on github/main at the old pin).
+
+> **2026-11-24 batch2 gitlink bump** (PR pr/gitlink-bumps-batch2-2026-11-24; each ff-only, 0 divergent, `helix-deps.yaml` ref moved in the same change): `milosvasic.ru` 74c554c9bfce -> cc7853480d55, `submodules/containers` eb70e05439f3 -> d71b62058502, `submodules/challenges` d94e55492f10 -> 04d5c31b97f9, `submodules/llm_orchestrator` c84c410daa05 -> 8ee57956359c, `submodules/vision_engine` d52fa447d168 -> 1b2b991c31d4. Deliberately NOT moved: `submodules/constitution`, `job_seeker`. Synced-Commit advanced to 824624b, which also accounts for the earlier merged pin commits (qa f232d39, vasic.digital b63a3c7).
+
+> **2026-11-24 gitlink-revert repair (PR pr/fix-gitlink-revert-2026-11-24; Synced-Commit advanced to bea5a4abc474, which also accounts for PR #53 = `submodules/qa` 4c72af7224b2 and its helix-deps ref):** commit `91d3255` ("docs(continuation): resync Synced-Commit after merge", landed via PR #51) silently reverted five gitlinks that PR #52 had bumped -- `milosvasic.ru` cc7853480d55 -> 74c554c9bfce, `submodules/containers` d71b62058502 -> eb70e05439f3, `submodules/challenges` 04d5c31b97f9 -> d94e55492f10, `submodules/llm_orchestrator` 8ee57956359c -> c84c410daa05, `submodules/vision_engine` 1b2b991c31d4 -> d52fa447d168 -- while `helix-deps.yaml` kept the new refs, so `verify-manifest-pins.sh` read 17 MATCH / 5 DRIFT on main `bea5a4a`. Cause: that commit was made from a checkout whose submodule working trees sat at the old SHAs (commit staged them with the doc edit); the parent merge `c10a455` was correct. Repaired by restoring the five gitlinks to the recorded refs (each ref equals the remote `main` head; nothing moved backwards; `helix-deps.yaml` untouched). Lesson: a doc-only commit MUST be checked with `git diff --raw HEAD~1 HEAD | grep 160000` before push. PR #52 also included the deliberate Markdown-only export removals from `submodules/llm_orchestrator` (8ee5795) and `submodules/vision_engine` (1b2b991) per the 2026-10-26 operator order and the §11.4.65 amendment; they are not defects.
+
+> **2026-11-24 qa bump (HelixQA PR #11):** `submodules/qa` 4c72af7224b2 -> e19f9ab01ca7 (ff-only; strictly explicit credentials: no built-in admin pair, no credential in LLM prompts, bank credentials via `HELIX_TEST_USER` / `HELIX_TEST_PASSWORD`; unset => step Blocked, nothing sent). Pushed to all four upstreams, `ls-remote` equal. `helix-deps.yaml` ref moved in the same change.
+
+> **2026-11-24 launcher `--runner` matrix** (`docs/qa/launchers/launcher-runner-matrix-2026-11-24/`): 16 of 18 launcher rows PASS on real runs. OPEN: workshop `status.sh` / `run-isolated.sh` lack the flag on workshop main; fix is committed on workshop branch `pr/status-runner-flag` (not pushed: the workshop materials pre-push gate blocks it; operator decision). `submodules/containers` gitlink + helix-deps ref bumped to eb70e05439f3 (cmd/boot exits 2 for an absent forced runner).
 
 **Path note (honest boundary, §11.4.6).** §12.10's protection 1 is internally
 inconsistent: it names `docs/CONTINUATION.md` but requires it "at the project
@@ -426,21 +453,93 @@ deviation is not an override** and must never be written up as one.
 
 ## §3 Active work
 
-## UPDATE 2026-11-27 (root gitlink bumps + ratchet + C5 drift fix; branch `pr/root-fixes-2026-11-27`, pushed to origin)
+## UPDATE 2026-11-25 (late) workshop macOS fix (branch pr/mac-runner-proof-2026-11-25)
 
-Commits c8c2bf0, eed37b3, 1f7e577, 090d2de, ec128a1, all on `pr/root-fixes-2026-11-27` and pushed to origin.
+- workshop ccb7aeec -> 364850d3 (PR #11: BSD realpath -m -s / readlink -m and GNU timeout replaced by portable helpers; bash 3.2 on mistborn.local: runner-flag 45/0, portable-helpers 50 OK, runner-prepare 39/0, 5/5 mutants killed). Dev tag vasic-1.0.0-dev-0.1.0 (PROVISIONAL, 11.4.298) on github and origin, read back with git ls-remote; Mac checkout fast-forwarded. Evidence docs/qa/evidence/runner-macos-2026-11-25/. NOT done: start.sh live on the Mac, reboot and docker/colima cases (commands in docs/operator/open-operator-items-2026-11-25.md section B).
 
-- **Gitlink bumps (7 submodules + doc_processor), all ff-only, 0 divergent, helix-deps.yaml refs updated together (C9): `verify-manifest-pins.sh` reports 22 MATCH / 0 DRIFT.** Bumped: `submodules/constitution` 6d93ccd1 → 2c0b3ad1, `submodules/containers` 2d18551 → ec32935d, `vasic.digital` 3e86312c → b63a3c7d, `milosvasic.ru` 9b5bf27c → 805111b (production-deploying repo), `design-toolkit` 1b9abac8 → e5fee6c6, `job_seeker` 8827b1b9 → 8c7986f9, `monetization` 05227b03 → 35efbe83, `submodules/doc_processor` 12a5fb7 → 01084c9 (DOC-001, clears the `doc_processor` mirror divergence). `workshop` and `ai_interviewing` deliberately NOT bumped (operator constraint).
-- **Ratchet ceiling raised 23 → 63 (VSC-422).** `docs/findings/zero_findings_ratchet.tsv` ceiling changed; ratchet now green at 63-over-63. Commit 090d2de.
-- **CONTINUATION.md C5 drift fixed.** Entry-point path `challenges/challenges/scripts/host_no_auto_suspend_challenge.sh` corrected (the root `challenges/` gitrepo nests its own `challenges/` subdirectory); `continuation-check.sh` reports 0 DRIFT / IN SYNC. Synced-Commit → 090d2de. Commit c8c2bf0.
-- **4 phantom `@anthropics` plugin keys removed from `~/.claude/settings.json` (VSC-426).** Local config change only, not committed. 53 of 68 plugin aliases now load (was 53 because 4 keys were not installed; now unloaded keys removed).
+## UPDATE 2026-11-25 pin bumps + issue-sync facade (branch `pr/wrap-2026-11-25`)
 
-**Operator-owned items still open:** VSC-421 vault re-seal (needs operator passphrase file at `_secure/cv-vault.passphrase`), VSC-420 rnabulsi invitations (incl. `vasic-digital/career_private`), Q1-Q15 job_seeker questions at `job_seeker/specs/001-job-seeker-mvp/analysis.md`, VSC-404 GitHub default branch `master` → `main` (still `master` for LLMOrchestrator and VisionEngine).
+- `submodules/constitution` 71c5e178707d -> 0d9e638f69d9 (PR #46 facade), ff-only, 0 divergent / 11 behind; `Constitution.md` unchanged on both sides (blob 1cab1d0726bb, 13,174 lines, 281 anchors, 2,283,524 bytes, sha256 d72bd3b4); `diff --stat` 17 files, 1,454 insertions, 28 deletions. `helix-deps.yaml` ref and the four carriers' dated gitlink reading moved in the same change.
+- `workshop` a8b740fceca2 -> ccb7aeecc64a (PR #7 `--runner` prepare fix), ff-only, 0 divergent / 8 behind; ccb7aeec read with `git ls-remote` on both workshop upstreams. NOT proven on macOS: the live proof on `mistborn.local` is pending SSH access.
+- Issue-sync facade wired in dry-run: `.docs_chain/contexts/issues-sync.yaml` installed; `run` measured doctor rc 0, `docs_chain verify` rc 0, facade `verify` rc 1 (DRIFT: nothing applied by design). No tracker was written. Record: `docs/governance/ISSUE-SYNC-FACADE-WIRING-2026-11-25.md`.
+- Open operator items: `docs/operator/open-operator-items-2026-11-25.md`. Workable-items gate unchanged (rc 1, 69 date findings).
 
-**NEW — C7 cascade violation (needs operator decision):** `milosvasic.ru/_private` is a nested gitlink (mode 160000, commit `8abff3de`, URL `git@github.com:vasic-digital/milosvasic_ru_private.git`) introduced by the milosvasic.ru bump `805111b`. It is recorded in `milosvasic.ru`'s `.gitmodules` but is NOT in the umbrella's `.gitmodules`/`helix-deps.yaml`, so C7 flags it as an undeclared nested gitlink under an owned submodule.
+## UPDATE 2026-11-25 WRAP-UP (resumption state since the previous CONTINUATION update, to 2026-11-25; branch `pr/umbrella-wrapup-2026-11-25`; SUPERSEDES the "Open"/"Pending"/"Blocked" wording in the dated UPDATE blocks below wherever it disagrees)
 
-**Pre-existing submodule drift (working trees don't match index, NOT caused this session):** `ai_interviewing` (index `30da696`, worktree `d508b8e`), `submodules/LLMProvider` (index `bd302c8`, worktree `53e4b2e`), `submodules/llm_provider` (index `bd302c8`, worktree `53e4b2e`). Each is one commit ahead in its working tree; neither was bumped this session.
+Every figure here is a dated reading taken on 2026-11-25; re-derive with the command named, do not quote. This PR does NOT bump any gitlink: the final pin bump is a later, separate PR after the other wrap agents finish.
 
+### What merged since the previous update (PR numbers only; ranges are the newest groups, not every PR since 2026-11-18; titles are in `git log` and `gh pr list --state merged`)
+
+- Umbrella `milos85vasic/vasic`: #46..#105 landed on `main` (merge commits, no squash, no force). The newest group, in order: #89 gap register + test-type matrix + remote-sync uninitialised-submodule fix; #90 volatile test evidence refreshed only deliberately (UG-15); #91 vault tests skip with a reason (UG-19); #92 C3 drift cleared; #93 `internal/orchestrate` tests; #94 zero-gap-sweep load/checkout proofs; #95 env-assumption prose-record exemption; #96 carrier corrections; #97 RTL logical-order gate (JSK-T169, T178); #98 check-registry exempt row; #99 `site-build` characterisation tests (UG-13 closed); #100 gate `C` (continuation-check) in pre-push; #101 gate 6 builds `_site` when absent; #102 `scripts/worktree-bootstrap.sh`; #103 workshop bump `3f9565a3`; #104 constitution pin `f92868dd` (11.4.300) + plan-only Issues mirror declaration; #105 UG-07 content-boundary reading.
+- `job_seeker` (`vasic-digital/job_seeker`): #187..#246 merged (i18n catalogues and review state, G04/G06/G07/G08/G09/G10/G12-G15/G23 gap-register work, eligibility shadow PRs #236..#239 (JSK-T244) and #240 (JSK-T242), vision-verified HelixQA session #225/#243, knockout pre-flight #241/#245, hooks #212/#246). Remote `main` read `9937d78edab4`; the umbrella gitlink pins `b30fdad46114`.
+- `workshop` (`vasic-digital/workshop_curriculum`): #1..#3 (`--runner` flag, clone URLs to the org) and #4 (wrap-up docs, merged just before this PR). Umbrella gitlink `3f9565a335fb`.
+- Constitution (`HelixDevelopment/HelixConstitution`): #31..#42 (11.4.299 all-upstreams delivery, 11.4.300 workable-items Issues mirror C1..C8). Umbrella pin `f92868dd7036`.
+- HelixQA (`vasic-digital/HelixQA`): #8..#17 (honest zero-frame verdict, strictly explicit credentials, web cookie file, window-scoped web video).
+
+### Running and blocked at the time of writing
+
+- No open pull request was listed on `milos85vasic/vasic` or `vasic-digital/job_seeker` when this was written (`env -u GITHUB_TOKEN gh pr list -R <repo> --state open`).
+- Workable-items Issues mirror (§11.4.300): PLAN-ONLY. `.workable-items-sync.yaml` is `mode: dry-run`; nothing was written to any tracker. Blocked on operator tokens/scopes and the repositories to sync, then per-host live create + read-back proof.
+- `bash scripts/verify-workable-items.sh` rc 1 with 2 findings, both pre-existing: G5 = 70 umbrella-validator findings (50 `V-G2` classification recheck dates elapsed, 19 `V-G10` plan_due dates elapsed, 1 provenance row missing for 5 items); G6 = 3 canonical violations (VSC-028 title read-back, VSC-285 and WSP-151 "BLOCKED in title, status Queued"). Not cheap: each needs a per-item re-judgement or a zero-gap `gap` CLI action, so none was changed. `docs/workable-items/Issues.md` and `Fixed.md` regenerate byte-identically from the DB (`workable-items sync db-to-md` diff 0 lines) and `Issues_Summary.md` counts equal the DB (289 open).
+- Content-boundary gate is RED by design and needs `AGENT_ADMIT_TIMEOUT` of at least 8000 (14400 used) because its direction stage alone took 5537 s: `CB_TRACE=1 AGENT_ADMIT_TIMEOUT=14400 AGENT_ADMIT_WAIT=1800 bash scripts/agent-admit.sh --verdict3 --tag content-boundary -- env -u GITHUB_TOKEN bash scripts/verify-content-boundary.sh`.
+- Gap register and test-type matrix carry a "Status at 2026-11-25 wrap-up" section with the per-item truth (`docs/operator/umbrella-gap-register-2026-11-24.md`, `docs/operator/umbrella-test-type-matrix-2026-11-24.md`).
+
+### Open operator decisions (nothing here was decided by an agent)
+
+1. Tokens and scopes, and which repositories to sync, for the workable-items Issues mirror (§11.4.300 / §11.4.296).
+2. The `m3w` SSH key (host access for the deploy path that needs it).
+3. The GitFlic public-visibility click for the `job_seeker_public` snapshot (VSC-435: 4 of 5 public hosts published).
+4. T242 eligibility rules and the Serbian script decision (job_seeker JSK-T242).
+5. Deletion commands for stray refs (branches and tags no longer needed); the commands are listed by the owner of each repository, none was run.
+6. Vault re-seal.
+7. Tesseract language packs for OCR (`tesseract --list-langs`).
+8. Shared checkout reconcile: the shared checkout (`$SHARED` below) is on local `main` `0cb5add`, 0 ahead / 232 behind `github/main` with a dirty tree and many `*-wt-*` worktrees; inside it `job_seeker` local `main` `20a9f91` differs from the remote `main` and from the pinned `b30fdad46114`. Decide the reset (never a force-push).
+9. Content-boundary: set `AGENT_ADMIT_TIMEOUT` at least 8000 for any run; the gate stays RED by design (reading assignment, not a regression).
+10. History-rewrite decision for the exposed contact string in public history (§11.4.113 forbids a rewrite of pushed history; the decision is the operator's and a rewrite is not performed by an agent).
+
+### Exact commands to resume after a power-off
+
+```bash
+SHARED="${VASIC_SHARED_CHECKOUT:-$HOME/Projects/vasic}"   # the operator's shared checkout
+cd "$SHARED"
+git fetch github                                    # fetch only; do not touch the dirty shared checkout
+git worktree add -b pr/<topic> ../vasic-wt-<topic> github/main
+cd ../vasic-wt-<topic>
+bash scripts/worktree-bootstrap.sh --reference "$SHARED"   # 23 declared, 0 uninitialised
+bash scripts/continuation-check.sh                  # 0 in sync | 1 drift | 2 undetermined
+bash scripts/verify-claim-ledger.sh                 # 0
+bash scripts/verify-check-registry.sh               # 0 (structure only; --run-proofs takes about an hour)
+bash scripts/verify-workable-items.sh               # 1 until the 2 findings above are resolved
+bash scripts/verify-upstream-sync.sh                # read-back of every declared upstream
+bash scripts/verify-docs-chain.sh                   # needs: (cd submodules/constitution && git submodule update --init submodules/docs_chain && cd submodules/docs_chain && go build -o docs_chain ./cmd/docs_chain); then bash scripts/gen-docs-chain-contexts.sh if C3 is stale
+env -u GITHUB_TOKEN gh pr list -R milos85vasic/vasic --state open
+```
+
+Heavy gates run through `bash scripts/agent-admit.sh --verdict3 --tag <t> -- <cmd>`, one at a time. PR flow is the §11.4.297 declaration: task branch, independent read-only reviewer, GO, then `env -u GITHUB_TOKEN gh pr merge --merge` (no squash, no rebase, no force), fast-forward push to every upstream and `bash scripts/verify-upstream-sync.sh` read-back.
+
+### Release
+
+The umbrella has a dev tag line `vasic-1.0.0-dev-0.0.N` (newest `0.0.8`, 2026-11-24) and `docs/releases/ADDING-A-RELEASE.md`, which is a build-once-promote procedure for the workshop platform (side-directory build, fingerprint, verdict, promote). A docs-only wrap has no build artifact for that procedure and the final pin bump is still to come, so no tag was cut here. Cut `0.0.9` through the full `docs/releases/ADDING-A-RELEASE.md` procedure after the final pin-bump PR lands (take N from the remote tag list, annotated tag, ff-only push), and read it back with `git ls-remote --tags github 'vasic-1.0.0-dev-0.0.9*'`.
+
+## UPDATE 2026-11-25 (workable-items Issues mirror U1: plan-only; branch `pr/u1-issue-sync`)
+
+- Constitution pin moved `f9eb835e03db` -> `f92868dd7036` (fast-forward only, 0 divergent / 34 behind; adds anchor 11.4.300; `Constitution.md` CHANGED: 13142 -> 13174 lines, 280 -> 281 anchors; `helix-deps.yaml` ref staged with the gitlink, `verify-manifest-pins.sh` 22 MATCH / 0 DRIFT).
+- `.workable-items-sync.yaml` added: `enabled: true`, `mode: dry-run`, no `apply_decision`. `config/forge/issue_sync_proven.tsv` (constitution) is EMPTY, so no write leg is proven and nothing was written to any tracker.
+- `docs/workable_items.db` `sub_projects` URLs for WSP, AII, MON, HQA, DOC, LLO, HLP, VSE corrected to the `.gitmodules` URLs (org `vasic-digital`). No `job_seeker` prefix row exists yet (needs a ratified prefix).
+- `scripts/verify-issues-sync.sh` registered as `issues-sync` (`--prove-failure`); plan counts: `docs/qa/issue_sync/plan_2026-11-25.txt`. Resume: re-run `bash scripts/verify-issues-sync.sh`; apply is blocked on operator tokens/scopes and per-host live create+read-back proof.
+- No `docs_chain` submodule added: the constitution already nests `submodules/docs_chain`, and the `issues-sync` context needs `Issues.md`/`Fixed.md` nodes the umbrella does not carry.
+
+## UPDATE 2026-11-24 (all-upstreams push sweep + parity-gate fix; branch `task/UPSTREAM-PARITY-pin-bump`)
+
+Constitution main pushed fast-forward to all 8 upstreams (74c415d3, then 7ac2926f after constitution PR #33: the parity verifier expects the checked-out HEAD instead of a stale local main; its mutation test no longer force-pushes; new M27a-c). milosvasic.ru gitflic mirror fast-forwarded 04cf165 -> cc785348. This change bumps the constitution gitlink and helix-deps ref to 7ac2926f and makes `verify-upstream-sync.sh --prove-failure` non-force. Open operator decisions: LLMProvider/llm_provider `master` vs `main` (main stale at 53e4b2e on 3 upstreams; pushing bd302c8 as main is ff-only, 0 divergent) and doc_processor (HelixDevelopment/DocProcessor main 86f1a98 diverged from pin 12a5fb7, 126/1; vasic-digital upstreams have no main; helixdevelopment1 gitlab main bea9e9e is an ancestor of the pin). Nothing was decided or pushed for those.
+
+## UPDATE 2026-11-24 (post-merge export refresh + gate re-run; branch `pr/export-refresh-2026-11-24`)
+
+The 14 binary/HTML exports under `docs/workable-items/` (`Issues`, `Fixed` and both `_Summary` pairs; html/pdf/docx) and the two `_Summary.md` files were regenerated from `docs/workable_items.db` (663 items) at main `2d491a7` with `workable-items-linux export --db docs/workable_items.db --formats --out-dir docs/workable-items` (~2 min). The README badge row was regenerated (`scripts/badges/compute_badges.sh --write`) because the zero-findings badge still said 63 after the ratchet burn-down to 7 (claim-ledger row `readme-zero-findings-badge` was FALSE). Post-merge gates in a submodule-initialised checkout: manifest-pins rc 0 (22/22); remote-sync rc 1 (5 gitlinks BEHIND their remotes: vasic.digital, containers, qa, challenges, job_seeker - fast-forwardable, each an operator bump decision, not bumped here); governance-cascade rc 1 (C7 only: job_seeker nests own-org submodules); check-registry rc 0. Re-run `bash scripts/verify-all...`/the gates by hand; do not trust these numbers.
+
+## UPDATE 2026-11-24 (zero-findings ratchet burn-down; branch `pr/ratchet-burndown-1`; VSC-432, VSC-433, VSC-434; closes VSC-422)
+
+Live sweep 63 findings against ceiling 23 reproduced, then burned down to 7 with ceilings lowered (TOTAL 23 -> 7). Per-class method and evidence: `docs/qa/ratchet-burndown-2026-11-24.md`. Remaining: six open INVENTORY gap rows plus the deliberately kept `ci.yml.disabled`. `verify-check-registry.sh` still reports two pre-existing FACT DRIFT rows (`scripts/qa-up.sh`, `_tools/lib/vasic-runner.sh`) that belong to the runner programme.
 ## UPDATE 2026-11-24 (workshop `--runner` merged; VSC-417 completed; branch `pr/vsc-417-workshop-runner`)
 
 workshop PR #1 (`pr/runner-flag`, `--runner=NAME` / `CONTAINERS_RUNNER` for start/stop/restart, workshop-boot, containers-status-probe) was merged on origin as `5a7acdd1` after an independent review (GO) and scratch-clone runs (Go tests ok, `runner-flag.test.sh` 26 passed, `--prove-failure` 9 killed / 0 survived). The workshop gitlink and `helix-deps.yaml` ref moved together to `5a7acdd1` (`verify-manifest-pins.sh`: 22 MATCH). VSC-417 is closed Completed with evidence `docs/qa/launchers/launcher-retest-2026-11-24-post-merge` (go + runner-flag tests re-run AT the merge commit 5a7acdd1; prove-failure 9/0 on the branch tip). Known cosmetic nit: `workshop/scripts/restart.sh --help` prints two extra lines (range should be `2,62p`).
@@ -459,6 +558,14 @@ secret; untouched). Until then the existing `.cache-career` PDFs are RED on the 
 (2) veraPDF is not installed, so no PDF/UA conformance may be claimed; the WeasyPrint files carry the library's own
 `pdfuaid:part=1` declaration, which is not a measurement. (3) Tagged PDFs are ~47% larger (2.86 MB -> 4.21 MB over 60 samples).
 
+
+## UPDATE 2026-11-24 (VSC-423 i18n review fixes deployed to both sites; branch `pr/i18n-gitlink-bump`)
+
+- Site PRs merged and live: milosvasic.ru PR #4 -> `74c554c` (Pages run success, `build_type=workflow`), vasic.digital PR #3 -> `006b834` (legacy Pages build, success). Each was reviewed read-only (GO, string-only diffs) before merge.
+- `verify-live-site.py` against the saved baselines, before and after each merge: milosvasic.ru 690/690 pages 200, FAILED 0, regressions 0 (both runs); digital.vasic.dev 527/527, FAILED 0, regressions 0 (both runs). Evidence: `docs/qa/i18n-review/deploy-evidence/`.
+- Version-footer checkers on the live sites PASS (vasic.digital `check-site-version-footer.py`, 30 sampled pages, release page 200; milosvasic.ru `check_version_footer.py` on 16 fetched live pages). Live footer labels of all 14 non-English languages equal the reviewed dictionaries on both sites.
+- Gitlinks `milosvasic.ru` and `vasic.digital` and their `helix-deps.yaml` refs moved together (C9); `aria-footer-l10n-runtime.spec.js` updated to the reviewed RU footer.text.
+- VSC-423 was already Completed in `Fixed.md`; nothing further to close from this task.
 
 ## UPDATE 2026-11-24 (storage policy: root filesystem kept free; branch `pr/storage-policy-2026-11-24`)
 
@@ -11356,7 +11463,7 @@ verified 2026-09-02 in its own log:
 endpoints in fixtures`, and `fix(settings): the frozen-default class was 3x
 bigger than the MODEL column`. **That is not the same as LLMProvider being
 clean**: it still contributes **14 files to the 728-row BASELINE** (13 under
-`pkg/providers/`, plus `challenges/challenges/scripts/host_no_auto_suspend_challenge.sh`).
+`pkg/providers/`, plus `challenges/scripts/host_no_auto_suspend_challenge.sh`).
 A finding fixed upstream and a baselined debt row are different states, and the
 audit prints them in different sections — do not read the empty findings list as
 a clean submodule. Then the 728-row baseline, worked down file by file, deriving
@@ -12211,6 +12318,7 @@ inert, in `.github/workflows/ci.yml.disabled`; the runnable replacement is
 | E | `git ls-files \| grep -E '^\.github/workflows/.*\.ya?ml$\|^\.gitlab-ci\.yml$'` (must be EMPTY) |
 | Z0 | `bash scripts/zero-gap-guard-checks.sh` | Refuses a push whose diff weakens a registered check: removed or weakened registry rows, deleted check scripts, or new exempt/debt rows or allow-list lines without a paired waiver in `docs/zero-gap/guard-waivers.tsv` (FR-023, T040). |
 | Z1 | `bash scripts/zero-gap-third-party-guard.sh` | Refuses a push that edits files under a third-party gitlink or moves its pointer; the classification data is `docs/zero-gap/third-party.tsv`, read from `HEAD`, so it returns UNDET (could not determine, never a pass) until that file is committed (FR-021, T041). |
+| C | `bash scripts/continuation-check.sh` | §12.10 protection 2 as a push gate (added 2026-11-25; the check existed and was registered as `continuation-sync` but no gate ran it, so drift went unenforced). Its rc maps onto the runner's verdicts (1 FAIL, 2 UNDET). SKIPs with a stated reason while any submodule is uninitialised, because C5 reads entry points inside submodules. |
 | 0 | `./scripts/audit-hardcoded-paths.sh` |
 | 1 | `cd _tools/gen && go test ./...` |
 | 2 | `bash _tools/audit-hardcoding.sh` |
@@ -12444,3 +12552,19 @@ is no live `docs/qa/evidence/`-style directory yet, so this is a policy stated a
 the volume it anticipates, not a description of an existing cleanup problem. This entry
 touched two files: `workshop/docs/qa/MANUAL-TEST-PLAN.md` (new §0d) and this document
 (this entry). Nothing was committed or pushed.
+
+## UPDATE 2026-11-24 (gitlink bumps, PR `pr/gitlink-bumps-2026-11-24`, Roadmap-Item VSC-417)
+
+Four own-org gitlinks fast-forwarded together with their `helix-deps.yaml` refs (C9), each classified first
+(`merge-base --is-ancestor` TRUE, `rev-list --left-right --count` 0 divergent, target == that repo's `origin/main`):
+ai_interviewing `30da696` -> `d508b8e` (0/6), monetization `05227b0` -> `0634f36` (0/2), job_seeker `8827b1b` -> `a7cb5af` (0/145),
+milosvasic.ru `9b5bf27` -> `74c554c` (0/4; its pages workflow run for that sha is completed/success, so the umbrella points at an
+already-deployed commit). Constitution pin unchanged at `6d93ccd1`; the `m3w`/`upstream` remote still sits at `1f9700eb` (2 behind, 0 divergent;
+not pushed from here). Open: `verify-governance-cascade.sh` C7 is a TRUE positive on job_seeker (it nests own-org containers/challenges/qa/security
+gitlinks, forbidden by §11.4.28(C)); the fix belongs in job_seeker (hoist to the umbrella's `submodules/`), not in the checker.
+
+## UPDATE 2026-11-24 late (governance hygiene sweep; branch `pr/continuation-sync-2026-11-25`)
+
+State measured from a fresh recursive clone of `milos85vasic/vasic` at `2cf8f1277d71` (PR #57 merged): `bash scripts/continuation-check.sh` rc 0 (8 PASS / 0 DRIFT / 0 UNDET / 17 NOTE) and `bash scripts/verify-governance-cascade.sh` rc 0 (12 PASS / 0 FAIL / 0 ENV / 8 NOTE; C1 = 23 declared, 21 owned, 1 source, 1 third-party; C7 PASS, so the earlier C7 finding on job_seeker is closed: job_seeker is gitlink-free since 2026-11-24, ADR 0008). Constitution gitlink `7ac2926fa727` equals upstream `main` (`verify_constitution_latest.sh`: gitlink == checkout == upstream; 32 nested rows initialised and at pin). The same instrument exits 1 on nested submodules of the constitution itself (containers, design-toolkit DIFFERS; open_design, verification, verify BEHIND; video-quality-mcp, wave-dpctf UNREACHABLE from this host): their pins are recorded by the constitution repository, which this repository does not commit to; reported upstream, not fixed here.
+
+job_seeker (`vasic-digital/job_seeker`): PR #159 merged (merge commit, `3c6c06280284`) adds the §11.4.299 delivery bullet to all four carriers in lockstep (`gates/verify_carriers.sh` rc 0); both `origin` URLs read back `3c6c062`. job_seeker declares no constitution pin of its own. The umbrella's job_seeker and workshop gitlinks are intentionally NOT bumped here (batched bump planned). Open decisions carried forward: LLMProvider `master` vs `main`, doc_processor divergence, the `m3w` mirror lag.

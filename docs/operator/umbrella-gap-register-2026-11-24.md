@@ -1,0 +1,200 @@
+# Umbrella gap register, 2026-11-24
+
+| Field | Value |
+|---|---|
+| Date | 2026-11-24 |
+| Scope | Umbrella repo `milos85vasic/vasic` root and its own tooling: `_tools/gen`, `_tools/career`, `_tools/containers`, `_tests`, `scripts/`, `design-system`, `_tools/deploy-langs.sh`. Not `job_seeker` (separate agent). |
+| Operator order | 2026-11-24, gaps, weak spots and danger zones investigated to root cause, covered by 10+ test types with machine-produced deterministic evidence (§11.4.169, §11.4.262, §11.4.289, §11.4.102) |
+| Measured at | umbrella `main` merge `3fd715b` (worktree off `github/main`, submodules initialised with `--reference`), host Ubuntu 26.04, Go, Node 20, Python 3 |
+| Companion | [`umbrella-test-type-matrix-2026-11-24.md`](umbrella-test-type-matrix-2026-11-24.md) |
+| Status vocabulary | DETERMINED (root cause measured, captured output exists), UNDETERMINED (named reason, next step stated), FIXED-IN-THIS-PR, OPERATOR (host or provider action) |
+
+Every reading below is a dated measurement from this session. Re-run the named command; do not quote a number from here (§11.4.6).
+
+## Contents
+
+1. [Register](#register)
+2. [Fixed in this PR](#fixed-in-this-pr)
+3. [Details per gap](#details-per-gap)
+4. [Top risks](#top-risks)
+
+## Register
+
+| ID | Gap | State | Root cause (one line) | Next owner |
+|---|---|---|---|---|
+| UG-01 | Gate 6 webkit missing libs | DETERMINED, carrier claim CORRECTED 2026-11-25 (four root carriers); `_site` build still open (item 7) | `libmanette-0.2-0` and `libwoff1` are now installed; webkit launches. The remaining preflight blocker is a missing `milosvasic.ru/_site` | build step, see UG-01 |
+| UG-02 | `build_warn` tolerance in deploy-langs | DETERMINED, partly closed, one misreport FIXED | tolerated set is deliberate (per-language gen and pdf); `pdf built` echo printed after a tolerated failure | FIXED-IN-THIS-PR |
+| UG-03 | Claims drift (`verify-claim-ledger`) | DETERMINED green, slice only | 11 recorded claims, all agree; coverage is a slice, 520 unanchored figures in `CONTINUATION.md` | backlog B6 |
+| UG-04 | Remote-sync false DRIFT for uninitialised submodules | DETERMINED, FIXED-IN-THIS-PR | `git -C <empty submodule dir> rev-parse --git-dir` walks up to the superproject and reads ITS pushurl | FIXED-IN-THIS-PR |
+| UG-05 | Upstream-sync exemption hides the mirror's `master` read-back | DETERMINED (design, recorded) | exemption row matches the whole mirror URL for the submodule check | operator decision |
+| UG-06 | Upstream-sync rc 2 in worktrees (uninitialised submodules, nested constitution submodules) | DETERMINED | instrument reports `declared submodule is not initialised` per submodule; 20 undetermined rows in a partly initialised worktree | backlog B5 |
+| UG-07 | content-boundary RED by design | see section | reading recorded below | operator (decision packet in carrier) |
+| UG-08 | Hardcoded-path and environment-assumption audits | DETERMINED measurement, fixes owned by agent a3ac97ad | 11011 and 8943 occurrences in a fully initialised tree, mostly consumed submodules | a3ac97ad |
+| UG-09 | Docs-chain check C-set | UNDETERMINED | `docs_chain` binary absent: nested submodule `constitution/submodules/docs_chain` not initialised and not built | backlog B5 |
+| UG-10 | Constitution sweep, failures actionable in this tree | DETERMINED partial; carrier sentence CORRECTED 2026-11-25; PR #93 had pushed the zero-findings ratchet to 9 > 7 with two `t.Skip` lines, removed 2026-11-25 (live 7 <= 7 again) | the three carrier-named gates now PASS; 4 of the first failing gates are REFUSE rc 4 caused by uninitialised nested constitution submodules; sweep does not finish in a session | backlog B5, B7 |
+| UG-11 | `continuation-check` DRIFT C3 | DETERMINED | three gitlink-bump commits changed watched governance files without touching `CONTINUATION.md` | backlog B6 |
+| UG-12 | Paired proofs that could false-green (§11.4.201) | DETERMINED sample, no vacuous mutant found in 4 targeted mutants; one crude mutation method rejected | see section | backlog B8 |
+| UG-13 | `_tools/containers/cmd/site-build` and `internal/orchestrate` have no Go tests | FIXED (internal/orchestrate by PR #93, cmd/site-build by this PR) | `go test` prints `[no test files]` for both; they are the only Jekyll build path | backlog B2 |
+| UG-14 | Harness self-validation UNDETERMINED in a fresh worktree | DETERMINED | `@playwright/test` not installed (`_tests/node_modules` absent); gate returns rc 2 correctly | environment, B5 |
+| UG-15 | `perf-budget.json` rewritten non-deterministically by test runs, summary doc quotes stale numbers | FIXED by PR #90 (evidence stability) | committed JSON says `vasic.digital/` 324,494 B, `playwright-summary.txt` says 221,252 B; the main checkout shows the JSON modified | backlog B3 |
+| UG-16 | `TEST-TYPES.md` a11y row lists one spec; two exist | DETERMINED, FIXED-IN-THIS-PR | `vasic-digital-a11y.spec.js` exists and passes (12 passed webkit) | FIXED-IN-THIS-PR |
+| UG-17 | No deploy rollback tooling | DETERMINED | `grep -n rollback _tools/deploy-langs.sh` returns nothing; only `rollback-agents-wizard.sh` exists | backlog B4 |
+| UG-19 |  cross-language test fails | MITIGATED by PR #91 (vault skip); the owner still decides whether the submodule should ship the file | the test requires , which is not in the pinned submodule; the test fails instead of skipping | backlog B2 area, owner of the vault feature |
+| UG-18 | Root `main` behind `github/main` between worktree creation and PR | DETERMINED | `verify-upstream-sync` reported `tip 3a46674… not in the local object store` for the root | merge before PR |
+
+## Fixed in this PR
+
+1. UG-04. `scripts/verify-submodule-remote-sync.sh` gains `own_repo`, used where it previously asked `rev-parse --git-dir`. RED before, GREEN after, captured: before the fix a worktree with uninitialised submodules printed 10 `DRIFT REMOTE-SYNC <path> push target 1 — DIFFERS` rows that all named the umbrella's own URL `git@github.com:milos85vasic/vasic.git`; after the fix the same worktree prints 0 such rows (21 CURRENT, 1 DRIFT where the 1 is `job_seeker`, a real remote-ahead drift, 0 UNDETERMINED). A paired proof `P18` was added to `--prove-failure`; with the fix reverted the proof fails (`P18 … rc=2, wanted 0. THIS GATE WOULD BE A SHAM`), with the fix it passes and the control stays green.
+2. UG-02 (misreport only). `_tools/deploy-langs.sh` printed `[deploy-langs] pdf built: <lang>` unconditionally after a tolerated `pdf <lang>` failure. The line now prints only on success.
+3. UG-16. `_tests/TEST-TYPES.md` row 6 now names both a11y specs.
+
+## Details per gap
+
+### UG-01 gate 6, webkit
+
+Carrier text says webkit cannot launch because `libmanette-0.2-0` and `libwoff1` are missing, and that fixing it is an operator action (`sudo apt-get install -y libmanette-0.2-0 libwoff1`). Measured now:
+
+```
+dpkg -s libmanette-0.2-0 libwoff1        -> Status: install ok installed  (both)
+node _tests/preflight.js                 -> browser OK webkit: launched and closed cleanly
+npx playwright test --project=webkit vasic-digital-a11y -> 12 passed (40.9s)
+```
+
+So the carrier claim "webkit BLOCKED" is stale on this host: someone installed the packages (an operator action, not done here). On a host without them the remedy remains the operator package install above. What still blocks gate 6: `milosvasic.ru/_site` does not exist in a fresh worktree (`preflight.js` prints `CANNOT DETERMINE (2)`, `MV_BASE serves milosvasic.ru/_site, which does not exist`). Remedy per the preflight: `_tools/containers/bin/site-build -workload jekyll` (container build; not run in this session, heavy). State: DETERMINED. The carrier sentence should be corrected by whoever next edits the carriers (they are byte-identical across four files; not edited here to avoid a lockstep conflict with other PRs).
+
+### UG-02 deploy-langs
+
+The 2026-09-08 change already split the set: `en gen`, `pdf en`, jekyll rebuild are FATAL (`build_fail`, exit 5), toolchain-absent is `build_undet` (exit 2), and `gen <lang> vasic|milos` and `pdf <lang>` stay `build_warn` by design (a half-written language is an expected state, the previous generation is republished). `grep -n build_warn _tools/deploy-langs.sh` shows the remaining tolerated call sites at the `gen <lang>` pair and the `pdf <lang>` step in the per-language loop. The residual defect found is the misreport above. There is no remaining silent-success path for the fatal steps. Not changed: whether the tolerated steps should be fatal for a language the cycle itself declares COMPLETE. That is a product decision; backlog B4.
+
+### UG-03 claims
+
+`bash scripts/verify-claim-ledger.sh` rc 0: `every one of the 11 recorded claim(s) is still made and still agrees`. The gate states its own limit: the ledger is a slice. `zero-gap-class-stale-figures` reports 478 findings (`CONTINUATION.md` 520 figures with no re-measure command, `README.md` 3 including `'20 owned'`). Finding count is a coverage measure, not a defect count. The carrier statements fixed in this session sit outside the ledger: the webkit claim (UG-01) and the three sweep FAILs named in the carrier (UG-10) were both stale and neither was a ledger row.
+
+### UG-05 and UG-06 upstream-sync
+
+`config/upstream-parity-exemptions.tsv` carries one row (`submodules/doc_processor`, mirror `HelixDevelopment/DocProcessor`). The decision record `OPERATOR-DECISION-DOC-PROCESSOR-BRANCH-MASTER-2026-11-24.md` states the consequence itself: the row exempts that URL for the whole submodule check, so its `master` is no longer read back either. That is the gap: the exempt mirror's `master` could drift without any verifier noticing. Smallest closing change (not made, it changes an instrument that reads an operator decision): exempt only the `main` ref, keep reading `master`. Recorded as an operator decision candidate.
+
+In a worktree, `bash scripts/verify-upstream-sync.sh` printed `RESULT: BEHIND-OR-DIVERGED (1 finding(s), 20 undetermined)` with rows `CANNOT-DETERMINE <path> declared submodule is not initialised` (including six nested constitution submodules). The 1 finding is the root itself, `DIFFERS … tip 3a46674 not in the local object store`, because other PRs landed after the worktree was cut. The instrument is honest (rc 2 rows are not passes); the gap is that a fresh worktree cannot reach a verdict without `git submodule update --init --recursive`.
+
+### UG-07 content boundary
+
+RED by design. Reading from a fully initialised worktree (all 23 submodules, `env -u GITHUB_TOKEN`): reading recorded in the section at the end of this file (completed 2026-11-25: LEAK 27310, corpus STABLE).
+
+### UG-08 audits (owned by agent a3ac97ad, not fixed here)
+
+Fully initialised worktree, captured logs: `audit-hardcoded-paths.sh` `❌ 11011 occurrence(s) across 853 file(s)` (728 of the flagged files are inside `submodules/constitution`, 119 in `workshop`, 3 in `job_seeker`); `audit-environment-assumptions.sh` `❌ 8943 frozen environment assumption(s)` (1560 files, 417 in `submodules/constitution`, 272 `workshop`, 244 `submodules/llms_verifier`, 194 `submodules/qa`, 167 `job_seeker`). Both counts moved by orders of magnitude against the carrier's 2026-09 readings (1 and 0) because the fleet population grew to 23 submodules and the constitution pin moved. Whether a regression exists in umbrella-owned files is UNDETERMINED here: no per-file comparison against the previous baseline was made. Next step for the owner: filter to umbrella-owned paths.
+
+### UG-09 docs-chain
+
+`verify-docs-chain.sh` prints `UNDETERMINED: no docs_chain binary is resolvable`. Root cause: `submodules/constitution/submodules/docs_chain` is a nested submodule, uninitialised in this worktree, and its binary is not built. Build recipe is printed by the gate. A 2 is not a pass; the C-checks have no reading here.
+
+### UG-10 sweep
+
+`verify-all-constitution-rules.sh` was started and measured for about 50 minutes; it had reported 11 PASS, 5 FAIL, 7 ERROR when stopped being useful: `cm_agent_type_label_mutation_test.sh` ERROR rc=124 after 900223 ms (the sweep's own gate timeout), and four `cm_anchor_*` gates ERROR rc=4 because `submodules/constitution/submodules/continuum` has no `go.mod` (nested submodule uninitialised, `REFUSE … carries no go.mod`, which the gate itself says decides nothing). The three gates named in the carrier now PASS when run directly: `cm_readme_badge_row_at_top` rc 0 (12 badges), `cm_zero_findings_audit_sweep` rc 0, `cm_zero_findings_monotone_ratchet` rc 0 (`live=7 <= ceiling=7`). The carrier's "none acted on" sentence is stale. A complete sweep split is NOT claimed.
+
+### UG-11 continuation
+
+`bash scripts/continuation-check.sh` after initialising `workshop`: 7 PASS, 1 DRIFT, 0 UNDET, rc 1. The one DRIFT is C3: commits `74889b2dd5b4`, `6fc143d974ce`, `178cc2ba525b` changed watched governance files without updating `CONTINUATION.md` (§12.10 protection 2). (Before `workshop` was initialised the same run read 22 DRIFT, 21 of them C5 entry points inside `workshop/`; that is the uninitialised-submodule effect again, not a document defect.)
+
+### UG-12 vacuous-mutant sampling (§11.4.201)
+
+Method one (rejected): a blanket `sed` turning every `exit 1` into `exit 0` outside proof lines, then running `--prove-failure`. For `verify-manifest-pins.sh` the 11 changed lines were all inside fake-`stat` shims and the proof stayed green. That is evidence the mutation was off target, not that the proof is vacuous, so no claim is made from it.
+
+Method two (targeted, verdict-computation edits, `--prove-failure` rc under the mutant, captured in `targeted-mutants.txt`):
+
+| Gate | Mutation | Proof rc under mutant |
+|---|---|---|
+| `verify-manifest-pins.sh` | final `exit "$_rc"` becomes `exit 0` | 1 (caught) |
+| `verify-claim-ledger.sh` | finding branch threshold `-gt 0` becomes `-gt 9999` | 1 (caught) |
+| `verify-claim-ledger.sh` | UNDETERMINED branch `-gt 0` becomes `-gt 9999` | 1 (caught) |
+| `verify-claim-ledger.sh` | vacuity guard `ROWS -eq 0` becomes `-eq 9999` | 1 (caught) |
+| `verify-submodule-remote-sync.sh` | revert `own_repo` fix | proof P18 fails rc 2 (caught) |
+
+No vacuous mutant found in this sample of 3 gates. The static class `zero-gap-class-vacuous-gates` read `INSPECTED 79`, 0 findings, 2 COULD-NOT-INSPECT (the two `pre-push-gates.sh` non-shell gates, 1 and 6). Earlier reviewer findings of vacuous mutants are not reproduced here. The sample is 3 of 79 registered checks; it does not bound the rest. `check-registry` structure: 164 PASS, 0 FAIL, 0 DEBT (structure only; `--run-proofs` takes about an hour and was not run).
+
+### UG-13 containers tests
+
+`go test ./...` in `_tools/containers`: `cmd/site-build` and `internal/orchestrate` `[no test files]`; `cmd/runtime-probe`, `cmd/port-discover`, `internal/runnersel`, `cmd/distribute-helixtranslate` pass. 477 lines of untested code sit on the only local Jekyll build path.
+
+### UG-17 rollback
+
+`deploy-langs.sh` regenerates, commits and pushes each site, then validates live. There is no step that reverts a pushed deployment when live validation fails. `milosvasic.ru` publishes through the active `pages.yml` and must not be changed. A rollback is `git revert` of the pushed commit through the normal PR path (merge commit, never force); no automation or test exists for it.
+
+## Top risks
+
+The ten highest, in order (identifiers refer to the backlog in the matrix companion):
+
+1. B1 fleet gates reaching a verdict in a fresh worktree (UG-04 fixed here, UG-06 and UG-09 open).
+2. B2 no tests on the Jekyll build path `site-build` and `internal/orchestrate` (UG-13).
+3. B3 evidence that churns: `perf-budget.json` and homepage screenshots (UG-15).
+4. B4 no rollback path for a failed live validation on two production sites (UG-17), and a tolerated per-language failure that republishes a stale generation (UG-02).
+5. B5 nested constitution submodules uninitialised: sweep REFUSE rc 4, docs-chain UNDETERMINED (UG-06, UG-09, UG-10).
+6. B6 stale carrier text that already misled (webkit libs, three sweep gates) and a `CONTINUATION.md` C3 DRIFT (UG-01, UG-10, UG-11).
+7. B7 sweep never completes in a session; one gate hits its 900 s timeout (UG-10).
+8. B8 paired-proof coverage sampled on 3 of 79 gates, no vacuous mutant found, the rest unmeasured (UG-12).
+9. UG-19 a test that fails on a file the pinned submodule does not ship (`vault.js`).
+10. UG-05 an exemption row that stops a mirror's `master` from being read back.
+
+## Content-boundary reading (UG-07)
+
+**Completed reading, 2026-11-25.** The earlier attempt was killed at the default `bounded-run -T 3600` (`VERDICT=timeout`, rc 2, never a pass). This run used the wrapper's own documented tunable, `AGENT_ADMIT_TIMEOUT` (header of `scripts/agent-admit.sh`: `-T` / `$AGENT_ADMIT_TIMEOUT`, default 3600), set to 14400. No guard was edited, the memory cap stayed `-m 6G`, and the admission pre-checks ran and admitted.
+
+Command (worktree `vasic-wt-gapreg`, all 23 submodules initialised, no writer in that worktree during the run; PR edits were made in a separate worktree):
+
+```
+CB_TRACE=1 AGENT_ADMIT_TIMEOUT=14400 AGENT_ADMIT_WAIT=1800 nice -n 10 ionice -c3 \
+  bash scripts/agent-admit.sh --verdict3 --tag content-boundary -- \
+  env -u GITHUB_TOKEN bash scripts/verify-content-boundary.sh
+```
+
+Gate lines, verbatim from the log (`agent-admit: ADMITTED ... -> bounded-run -m 6G -T 14400`):
+
+```
+corpus STABLE (34867 files, digest 5d956f51) — re-measured after the analysis; the counts below describe one unmoving tree
+LEAK — 27310 surviving match(es) (prose 21812, short 2040, name 501, fingerprint 2957); 3 row(s) also could not be determined
+```
+
+| Figure | Value |
+|---|---|
+| LEAK surviving matches | 27310 = prose 21812, short 2040, name 501, fingerprint 2957 |
+| rows that could not be determined | 3 (two PDFs where `pdftotext` extracted nothing; one direction-UNDETERMINED summary row for 5043 rows) |
+| corpus fingerprint | 34867 files, digest `5d956f51`; MOVED: no ("corpus STABLE") |
+| scan population | public scan raw matches L=235591 S=27654 N=13069 A=11831; 1076560 surviving rows after exemptions |
+| direction subtraction | 1049121 rows subtracted as provably public-first of 55391 eligible keys; 18809 dated and kept (private-first or same second); 5043 direction-UNDETERMINED and kept |
+| already-public subtraction | 10907 keys in >= 2 public repositories (prose 9240, short 1552, name 52, fingerprint 63) |
+| declared exemptions | 9 pairs in `.content-boundary-allow`, 4808 matches pardoned |
+| not indexed | 173 files over the 524288-byte cap or machine-generated; untracked public files not scanned |
+
+Wall clock from the trace: corpus fingerprint at 24 s, public scan done at 2173 s, exemptions at 2289 s, direction dating 2299 s to 7836 s (5537 s, the dominant stage), corpus re-fingerprint at 7839 s. Total about 2 h 11 min, which is why the 3600 s default cannot complete this gate on a 23-submodule fleet. Log: `<scratch>/ev/content-boundary-long.log` (3861463 bytes; scratchpad, not tracked).
+
+Comparability: the carrier's 2026-09-09 reading was `LEAK 5267 (prose 4291, short 450, name 257, fingerprint 269)` over 15098 files. This reading is over 34867 files and 55391 eligible keys (3.7 times the earlier eligible population), so the totals are not comparable and no cleanup or regression is inferred from the difference.
+
+Not done, by instruction: no row was judged, allow-listed, redacted or re-baselined, and the gate stays RED by design (rc 1, a reading assignment). The operator-level option for future runs is to set `AGENT_ADMIT_TIMEOUT` (at least 8000 s, 14400 s used here) on the documented wrapper; the direction stage has no resume or per-submodule split flag (`--no-direction` skips it but removes the subtraction, giving a different, much larger number).
+
+## Status at the 2026-11-25 wrap-up
+
+Measured or cited on 2026-11-25 at umbrella `main` `34044af73f2a` (merge of PR #105). "Re-run today" means the command ran in the wrap-up worktree with all 23 declared submodules initialised by `scripts/worktree-bootstrap.sh`; "cited" means the status comes from a merged PR and was not re-run in the wrap-up.
+
+| ID | Status now | Basis |
+|---|---|---|
+| UG-01 | CLOSED in the carriers; gate 6 `_site` build step landed, not re-run in the wrap-up | PR #96 corrected the carrier text; PR #101 builds `milosvasic.ru/_site` with `site-build -workload jekyll` when absent (cited) |
+| UG-02 | PARTLY CLOSED, unchanged | the tolerated per-language set is deliberate; the misreport was fixed by PR #89 (cited) |
+| UG-03 | GREEN, slice only | re-run today: `bash scripts/verify-claim-ledger.sh` rc 0, 11 VERIFIED / 0 FALSE / 0 ORPHAN / 0 UNDETERMINED; the ledger says itself it is a slice of 11 and not complete |
+| UG-04 | FIXED | PR #89 (cited) |
+| UG-05 | OPEN, operator decision | exemption row design unchanged |
+| UG-06 | MITIGATED for worktrees | PR #102 `worktree-bootstrap.sh`; re-run today: `post-condition: 23 declared, 0 uninitialised, 0 step(s) failed`. `bash scripts/verify-upstream-sync.sh` was not re-run in the wrap-up |
+| UG-07 | READING RECORDED, RED by design | PR #105 (LEAK 27310, corpus STABLE); needs `AGENT_ADMIT_TIMEOUT` of at least 8000 for any run |
+| UG-08 | OPEN, partly worked | PRs #78, #80, #81, #84, #85, #87, #95 fixed or exempted classes; the full-tree counts were not re-measured in the wrap-up |
+| UG-09 | MEASURABLE after one extra init | the nested `submodules/constitution/submodules/docs_chain` is not initialised by `worktree-bootstrap.sh`. After `git submodule update --init submodules/docs_chain` and `go build -o docs_chain ./cmd/docs_chain` in it, `bash scripts/verify-docs-chain.sh` ran: C1, C2, C4, C5 PASS, C3 FAIL (6 documents missing from the contexts). `bash scripts/gen-docs-chain-contexts.sh` regenerated `.docs_chain/contexts/umbrella-docs.yaml` in this PR |
+| UG-10 | OPEN | the sweep never finishes in one session; nested constitution submodules uninitialised by the bootstrap give REFUSE rc 4; PR #94 and the ratchet repair of PR #96 are cited, the sweep was not re-run |
+| UG-11 | CLOSED | PR #92; re-run today: `bash scripts/continuation-check.sh` rc 0 (8 PASS, 0 DRIFT, 0 UNDET) before and after this wrap-up edit |
+| UG-12 | OPEN, sample only | 3 of 79 gates sampled; no new sampling in the wrap-up. `bash scripts/verify-check-registry.sh` re-run today: rc 0, 168 PASS / 0 FAIL / 0 DEBT / 0 UNDET (structure only; `--run-proofs` not run) |
+| UG-13 | FIXED | PR #93 (`internal/orchestrate`) and PR #99 (`cmd/site-build`) (cited) |
+| UG-14 | MITIGATED | `worktree-bootstrap.sh --link-node-modules DIR` exists (PR #102); the harness self-validation was not re-run in the wrap-up |
+| UG-15 | FIXED | PR #90 (cited) |
+| UG-16 | FIXED | PR #89 (cited) |
+| UG-17 | OPEN | no rollback tool or test; `git revert` through the normal PR path is the only route |
+| UG-18 | DETERMINED, procedural | merge `github/main` before the PR |
+| UG-19 | MITIGATED | PR #91 skips with a reason when `vault.js` is absent; the owner of the vault feature still decides whether the submodule ships the file |
+
+Workable-items gate, re-run today: `bash scripts/verify-workable-items.sh` rc 1 with 2 findings, both pre-existing (G5 70 validator findings: 50 `V-G2` classification-recheck dates elapsed, 19 `V-G10` plan_due dates elapsed, 1 missing-provenance finding for 5 items; G6 3 canonical violations: VSC-028 title read-back, VSC-285 and WSP-151 "BLOCKED in title, status Queued"). Not fixed: each needs a per-item re-judgement or a zero-gap `gap` CLI action, which is not a cheap, safe edit. `Issues.md` and `Fixed.md` regenerate from the database with a 0-line diff, and the `Issues_Summary.md` counts (289 open) equal the database.

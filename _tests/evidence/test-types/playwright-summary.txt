@@ -1,3 +1,6 @@
+# HISTORICAL SNAPSHOT (2026-08-05). The per-page numbers below are a dated, hand-recorded reading and
+# are NOT regenerated; they legitimately differ from perf-budget.json (UG-15). The authoritative, machine-
+# written figures are in perf-budget.json, rewritten only by `EVIDENCE_REFRESH=1` runs.
 # Playwright full suite — 3 browsers (chromium, firefox, webkit)
 # config: _tests/playwright.config.js (projects: chromium / firefox / webkit)
 # webServer: vasic.digital @ :8401, milosvasic.ru/_site @ :8082

@@ -1,11 +1,20 @@
 # Docs Chain in this repository
 
-**Revision:** 1
-**Last modified:** 2026-09-03T00:00:00Z
+**Revision:** 2
+**Last modified:** 2026-11-24T00:00:00Z
 **Status:** ACTIVE — the umbrella's own Markdown is bound; the fleet determination below is deliberate and states what is NOT bound and why.
 **Authority:** constitution §11.4.106 (Docs Chain is the canonical sync engine), §11.4.65 (the export mandate), §11.4.28(B) (submodule decoupling)
 
 ---
+
+> **AMENDED 2026-11-24 (operator decision, Markdown-only).** The umbrella no
+> longer derives, tracks or checks `.html`/`.pdf` exports. The contexts under
+> `.docs_chain/contexts/` carry `markdown` nodes only (`edges: []`,
+> `transforms: {}`); `scripts/gen-docs-chain-contexts.sh` still derives the
+> roster from the tree, and `scripts/verify-docs-chain.sh` check C5 now FAILS
+> if an export node or `derive-from` edge reappears (paired mutations M1, M2,
+> M2b in `--prove-failure`). Sections below that describe the md -> html -> pdf
+> chain describe the RETIRED design and are kept for history.
 
 ## 1. What is mandated, and by which rule
 

@@ -2383,3 +2383,200 @@ workshop/curriculum/learning/95-evidence-gates-and-anti-bluff.json ENDPOINT //12
 # REASON: (c) recorded measurement — the deployed answer model named in a
 # record of what was running, same as 92 above.
 workshop/curriculum/learning/95-evidence-gates-and-anti-bluff.json MODEL qwen2.5:3b-instruct-q4_K_M
+
+# ---- 2026-11-24 operator-approved standing exemptions (line-by-line verified; see docs/operator/env-assumption-exemption-proposals-2026-11-24.md) ----
+
+# REASON: the port is KERNEL-ASSIGNED (bind to port 0, _free_port, or a port file written by a mock server after bind) or read from the service-registry state file; 127.0.0.1 is the loopback constant of a throwaway local server/probe. Verified line by line; see docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 1.
+_tests/prove-horizontal-overflow.sh ENDPOINT ( cd "$HERE" && VD_BASE="http://127.0.0.1:$PORT"
+
+# REASON: the port is KERNEL-ASSIGNED (bind to port 0, _free_port, or a port file written by a mock server after bind) or read from the service-registry state file; 127.0.0.1 is the loopback constant of a throwaway local server/probe. Verified line by line; see docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 1.
+_tools/career/test_expertise_tile_geometry.py ENDPOINT cls.base = f"http://127.0.0.1:{cls.srv.server_ad
+
+# REASON: the port is KERNEL-ASSIGNED (bind to port 0, _free_port, or a port file written by a mock server after bind) or read from the service-registry state file; 127.0.0.1 is the loopback constant of a throwaway local server/probe. Verified line by line; see docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 1.
+_tools/career/test_vault_browser.js ENDPOINT const base = `http://127.0.0.1:${server.address(
+
+# REASON: the port is KERNEL-ASSIGNED (bind to port 0, _free_port, or a port file written by a mock server after bind) or read from the service-registry state file; 127.0.0.1 is the loopback constant of a throwaway local server/probe. Verified line by line; see docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 1.
+_tools/career/vault_browser_harness.js ENDPOINT return { base: `http://127.0.0.1:${server.addres
+
+# REASON: the port is KERNEL-ASSIGNED (bind to port 0, _free_port, or a port file written by a mock server after bind) or read from the service-registry state file; 127.0.0.1 is the loopback constant of a throwaway local server/probe. Verified line by line; see docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 1.
+scripts/verify-live-site.py ENDPOINT B = f"http://127.0.0.1:{port}"
+
+# REASON: the port is KERNEL-ASSIGNED (bind to port 0, _free_port, or a port file written by a mock server after bind) or read from the service-registry state file; 127.0.0.1 is the loopback constant of a throwaway local server/probe. Verified line by line; see docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 1.
+scripts/verify-live-site.py ENDPOINT rep, rc = run_once(f"http://127.0.0.1:{port}", b
+
+# REASON: the port is KERNEL-ASSIGNED (bind to port 0, _free_port, or a port file written by a mock server after bind) or read from the service-registry state file; 127.0.0.1 is the loopback constant of a throwaway local server/probe. Verified line by line; see docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 1.
+scripts/verify-live-site.py ENDPOINT version_url_prefix=f"http://127.0.0.1:{port}/rel
+
+# REASON: the port is KERNEL-ASSIGNED (bind to port 0, _free_port, or a port file written by a mock server after bind) or read from the service-registry state file; 127.0.0.1 is the loopback constant of a throwaway local server/probe. Verified line by line; see docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 1.
+scripts/verify-live-site.py ENDPOINT rep, rc = run_once(f"http://127.0.0.1:{_free_por
+
+# REASON: the port is KERNEL-ASSIGNED (bind to port 0, _free_port, or a port file written by a mock server after bind) or read from the service-registry state file; 127.0.0.1 is the loopback constant of a throwaway local server/probe. Verified line by line; see docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 1.
+scripts/zero-gap-class-live-vs-source.sh ENDPOINT probe_static "$tok" "$QA_REL" "$ROOT/$doc" "$doc
+
+# REASON: the port is KERNEL-ASSIGNED (bind to port 0, _free_port, or a port file written by a mock server after bind) or read from the service-registry state file; 127.0.0.1 is the loopback constant of a throwaway local server/probe. Verified line by line; see docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 1.
+scripts/zero-gap-class-live-vs-source.sh ENDPOINT stack)   probe_stack "$a" "$a" "$b" fixture-repo
+
+# REASON: the port is KERNEL-ASSIGNED (bind to port 0, _free_port, or a port file written by a mock server after bind) or read from the service-registry state file; 127.0.0.1 is the loopback constant of a throwaway local server/probe. Verified line by line; see docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 1.
+scripts/zero-gap-class-live-vs-source.sh ENDPOINT static)  if [ "${b%/_site}" != "$b" ]; then prob
+
+# REASON: the port is KERNEL-ASSIGNED (bind to port 0, _free_port, or a port file written by a mock server after bind) or read from the service-registry state file; 127.0.0.1 is the loopback constant of a throwaway local server/probe. Verified line by line; see docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 1.
+scripts/zero-gap-class-live-vs-source.sh ENDPOINT else probe_static "$a" "$a" "$b" fixture-repo "h
+
+# REASON: `--port=8080` is TEXT in a list of ordinary arguments fed to an argv policy as test INPUT (it must be allowed, not bound); no port is opened. See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 2.
+_tools/zero-gap-chain/fix3_test.go ENDPOINT {"x", "--prove-failure"}, {"x", "--port=8080"},
+
+# REASON: `--port=8080` is TEXT in a list of ordinary arguments fed to an argv policy as test INPUT (it must be allowed, not bound); no port is opened. See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 2.
+scripts/zero-gap-evidence.sh ENDPOINT for a in --prove-failure --port=8080 --output-di
+
+# REASON: `--port=8080` is TEXT in a list of ordinary arguments fed to an argv policy as test INPUT (it must be allowed, not bound); no port is opened. See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 2.
+scripts/zero-gap-evidence.sh ENDPOINT [ "$fp" -eq 0 ] && ok "E27b false-positive contr
+
+# REASON: Linux /proc read that is fail-closed by design: unreadable yields a refusing error, a skip that says NOT a pass, or the conservative minimum (1 job), never a guessed value. See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 3.
+_tools/zero-gap-chain/store.go OSPATH b, err := os.ReadFile(fmt.Sprintf("/proc/self/fd
+
+# REASON: Linux /proc read that is fail-closed by design: unreadable yields a refusing error, a skip that says NOT a pass, or the conservative minimum (1 job), never a guessed value. See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 3.
+_tools/zero-gap-chain/store.go OSPATH return "", fmt.Errorf("cannot read the held lock
+
+# REASON: Linux /proc read that is fail-closed by design: unreadable yields a refusing error, a skip that says NOT a pass, or the conservative minimum (1 job), never a guessed value. See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 3.
+_tools/career/test_vault_concurrency.py OSPATH process raises BlockingIOError, and (b) ``/proc/
+
+# REASON: Linux /proc read that is fail-closed by design: unreadable yields a refusing error, a skip that says NOT a pass, or the conservative minimum (1 job), never a guessed value. See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 3.
+_tools/career/test_vault_concurrency.py OSPATH """PIDs listed as BLOCKED waiters ('->') in /pro
+
+# REASON: Linux /proc read that is fail-closed by design: unreadable yields a refusing error, a skip that says NOT a pass, or the conservative minimum (1 job), never a guessed value. See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 3.
+_tools/career/test_vault_concurrency.py OSPATH txt = Path("/proc/locks").read_text()
+
+# REASON: Linux /proc read that is fail-closed by design: unreadable yields a refusing error, a skip that says NOT a pass, or the conservative minimum (1 job), never a guessed value. See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 3.
+_tools/career/test_vault_concurrency.py OSPATH self.skipTest("/proc/locks unreadable: cannot ob
+
+# REASON: Linux /proc read that is fail-closed by design: unreadable yields a refusing error, a skip that says NOT a pass, or the conservative minimum (1 job), never a guessed value. See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 3.
+_tools/career/buildlib.py OSPATH """MemAvailable from /proc/meminfo, in MiB (0 wh
+
+# REASON: Linux /proc read that is fail-closed by design: unreadable yields a refusing error, a skip that says NOT a pass, or the conservative minimum (1 job), never a guessed value. See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 3.
+_tools/career/buildlib.py OSPATH for line in Path("/proc/meminfo").read_text().sp
+
+# REASON: the /proc path is DETECTION DATA (the guard's list of stdin file names) or a deliberately NONEXISTENT negative fixture, not an assumption about the host. See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 4.
+scripts/hooks/guard-project-catalogue.sh OSPATH STDIN = ("-", "/dev/stdin", "/dev/fd/0", "/proc/
+
+# REASON: the /proc path is DETECTION DATA (the guard's list of stdin file names) or a deliberately NONEXISTENT negative fixture, not an assumption about the host. See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 4.
+scripts/hooks/guard-project-catalogue.sh OSPATH printf '%s' "$j2" | AGENT_TMPFS_OK_LOG=/proc/non
+
+# REASON: the /proc path is DETECTION DATA (the guard's list of stdin file names) or a deliberately NONEXISTENT negative fixture, not an assumption about the host. See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 4.
+scripts/hooks/guard-project-catalogue.sh OSPATH stdin-fd0|        STDIN = ("-", "/dev/stdin", "/
+
+# REASON: the /proc path is DETECTION DATA (the guard's list of stdin file names) or a deliberately NONEXISTENT negative fixture, not an assumption about the host. See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 4.
+scripts/agent-scratch.sh OSPATH run /proc/agent-scratch-nonexistent df-check >/d
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+_tools/deploy-langs.sh GITREF Publish guard: each site must be on branch main
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+_tools/deploy-langs.sh GITREF pushed as <sha>:refs/heads/main.
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+_tools/deploy-langs.sh GITREF if [ "$ref" != "refs/heads/main" ]; then
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+_tools/deploy-langs.sh GITREF DEPLOY_WHY="HEAD is '${ref:-detached}', not refs
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+_tools/deploy-langs.sh GITREF if deploy_site_publishable s10 origin; then ds_o
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+_tools/deploy-langs.sh GITREF if grep -q 'push "\$r" "\$NEW_SHA:refs/heads/mai
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+_tools/deploy-langs.sh GITREF ds_ok "P10f push-refspec" "push uses \$NEW_SHA:r
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+_tools/deploy-langs.sh GITREF else ds_bad "P10f push-refspec" "push line is no
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+_tools/deploy-langs.sh GITREF PUSH_OUT="$(git -C "$s" push "$r" "$NEW_SHA:refs
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+scripts/verify-submodule-remote-sync.sh GITREF if [ "$nh_ok" -eq 1 ] && [ -n "$(git ls-remote "
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+scripts/verify-submodule-remote-sync.sh GITREF git -C "${sandbox}/up/trunkrepo" update-ref refs
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+scripts/verify-upstream-sync.sh GITREF git -C "$W/root/sub" checkout -q main 2>/dev/nul
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+scripts/verify-upstream-sync.sh GITREF git -C "$W/root/sub" fetch -q origin; git -C "$W
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+scripts/zero-gap-class-pointer-drift.sh GITREF bgit -C "${SRC[$path]}" update-ref refs/heads/ma
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+scripts/zero-gap-class-guard-gaps.sh GITREF for want_cmd in 'reboot' 'halt' 'git push origin
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+scripts/hooks/guard-project-catalogue.sh GITREF "remote-branch-delete-refspec": "deleting a remo
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+scripts/hooks/guard-project-catalogue.sh GITREF local benign=("git status" "git add specs/010-ze
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+scripts/hooks/guard-project-catalogue.sh GITREF local forced=("git push -f" "git push -fu origin
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+scripts/hooks/guard-project-catalogue.sh GITREF forced+=("git push origin +HEAD:main" "git push
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+scripts/hooks/guard-project-catalogue.sh GITREF forced+=("git push --forc origin main" "git push
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+scripts/hooks/guard-project-catalogue.sh GITREF forced+=("bash -c 'git push -f'" "sh -c \"git pu
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+scripts/hooks/guard-project-catalogue.sh GITREF forced+=("git -C /tmp/x push -f" "cd x && git pu
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+scripts/hooks/guard-project-catalogue.sh GITREF local pushok=("git push" "git push -u origin fea
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+scripts/hooks/guard-project-catalogue.sh GITREF pushok+=("git push -v -n origin main" "git push
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+scripts/hooks/guard-project-catalogue.sh GITREF pushok+=('echo "git push -f"' "grep -n 'git push
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+scripts/zero-gap-guard-checks.sh GITREF for c in "$up" origin/main github/main; do
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+scripts/zero-gap-guard-checks.sh GITREF [ -n "$BASE" ] || { echo "COULD-NOT-DETERMINE no
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+scripts/zero-gap-third-party-guard.sh GITREF for c in "$up" origin/main github/main; do
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+scripts/zero-gap-third-party-guard.sh GITREF [ -n "$BASE" ] || { echo "COULD-NOT-DETERMINE no
+
+# REASON: 11.4.288 - all work lands on main; the literal names the branch main by design (publish refspec, guard text, a sandbox repository the script itself creates, test data of forbidden commands, a fallback after @{upstream}, or a history note in a comment). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 5.
+helix-deps.yaml GITREF ref: "94e666d416f0bde022d784555ec81ddd4389bb04"
+
+# REASON: planted-violation FIXTURE or fixture text: the file exists to contain the violation so the gate that scans it can be proved to catch it (or the literal is an input line of a self-test or a mutation that deliberately re-freezes a value). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 6.
+_tests/fixtures/zero-gap/untracked-blind-window/planted/audit-piped-list.sh GNUBSD list_files "${1:-.}" | xargs -r grep -l 'passwor
+
+# REASON: planted-violation FIXTURE or fixture text: the file exists to contain the violation so the gate that scans it can be proved to catch it (or the literal is an input line of a self-test or a mutation that deliberately re-freezes a value). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 6.
+_tests/fixtures/zero-gap/untracked-blind-window/planted/xargs-in-assignment.sh GNUBSD sizes=$(git ls-files | xargs stat -c '%s %n')
+
+# REASON: planted-violation FIXTURE or fixture text: the file exists to contain the violation so the gate that scans it can be proved to catch it (or the literal is an input line of a self-test or a mutation that deliberately re-freezes a value). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 6.
+scripts/normalise-evidence-paths.sh OSPATH @U@/bob/Library/Android/sdk|<home>/Library/Andro
+
+# REASON: planted-violation FIXTURE or fixture text: the file exists to contain the violation so the gate that scans it can be proved to catch it (or the literal is an input line of a self-test or a mutation that deliberately re-freezes a value). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 6.
+scripts/zero-gap-class-live-vs-source.sh OSPATH else path=/usr/local/bin/server; mounts=""; fi
+
+# REASON: the port is KERNEL-ASSIGNED (bind to port 0, _free_port, or a port file written by a mock server after bind) or read from the service-registry state file; 127.0.0.1 is the loopback constant of a throwaway local server/probe. Verified line by line; see docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 1.
+scripts/zero-gap-qa-readiness.sh ENDPOINT probe "$svc" "http://127.0.0.1:$port/"
+
+# REASON: the port is KERNEL-ASSIGNED (bind to port 0, _free_port, or a port file written by a mock server after bind) or read from the service-registry state file; 127.0.0.1 is the loopback constant of a throwaway local server/probe. Verified line by line; see docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 1.
+scripts/zero-gap-qa-readiness.sh ENDPOINT printf '{"http": "http://127.0.0.1:%s"}\n' "${ports[2]}"
+
+# REASON: the port is KERNEL-ASSIGNED (bind to port 0, _free_port, or a port file written by a mock server after bind) or read from the service-registry state file; 127.0.0.1 is the loopback constant of a throwaway local server/probe. Verified line by line; see docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 1.
+scripts/zero-gap-qa-readiness.sh ENDPOINT printf '{"http": "http://127.0.0.1:%s"}\n' "${ports[3]}"
+
+# REASON: planted-violation FIXTURE or fixture text: the file exists to contain the violation so the gate that scans it can be proved to catch it (or the literal is an input line of a self-test or a mutation that deliberately re-freezes a value). See docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 6.
+scripts/zero-gap-qa-readiness.sh ENDPOINT mutant m2 's/port=

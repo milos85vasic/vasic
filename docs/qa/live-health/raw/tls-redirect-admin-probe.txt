@@ -1,0 +1,22 @@
+# 2026-11-24 ~16:12-16:16Z, read-only GET/HEAD from one client, curl + openssl
+## TLS
+milosvasic.ru       subject=CN=milosvasic.ru       issuer=Let's Encrypt YR2  notBefore=2026-10-21  notAfter=2027-01-19  SAN: milosvasic.ru, www.milosvasic.ru
+digital.vasic.dev   subject=CN=digital.vasic.dev   issuer=Let's Encrypt YR1  notBefore=2026-10-27  notAfter=2027-01-25  SAN: digital.vasic.dev
+## redirects
+milosvasic.ru      http://  -> 301 https://milosvasic.ru/ ; https://www. -> 301 https://milosvasic.ru/ ; http://www. -> 301 https://milosvasic.ru/
+digital.vasic.dev  http://  -> 301 https://digital.vasic.dev/ ; www.digital.vasic.dev does not resolve (curl code 000, no www expected)
+vasic.digital (legacy apex)  resolves to 31.177.76.32 / 31.177.80.32 (not GitHub Pages); https connect refused/failed (curl code 000)
+## admin / vault / private-path probe (status codes; booleans = served?)
+milosvasic.ru: /admin /admin/ /admin/index.html /admin/vault/ /vault /vault/ /console /console/ /downloads/vault/ /assets/js/vault.js /assets/js/vault-console.js
+  /assets/css/admin-console.css /matrix.tsv /_layouts/admin_console.html /.env /.git/config /.git/HEAD /_config.yml /Gemfile /Gemfile.lock /README.md /CONTINUATION.md
+  /Upstreamable/ /Upstreams/ /_data/ /_tools/ /docs/qa/ /downloads/ /login /wp-admin/ /server-status /id_rsa /backup.zip /_site/ /_article_src/   => all 404
+  /CLAUDE.md /AGENTS.md => 200 (committed governance carriers of a public repo; 3.5 KB each; contain no credential pattern)
+digital.vasic.dev: same probe set => 404, except /CLAUDE.md /AGENTS.md /README.md => 200 (public carriers/README),
+  and a subset returned GitHub/Fastly 503 "Unicorn" instead of 404 on a rapid burst (see defect D1); on re-probe each returned 404.
+admin_console_served=false  vault_console_served=false  vault_downloads_served=false  (both sites)
+sitemap entries containing admin|vault: 0 (both sites)
+## D1 repro (digital.vasic.dev only)
+40 distinct non-existent URLs, sequential:  digital.vasic.dev -> 25x404 15x503 ; milosvasic.ru -> 40x404
+20 distinct non-existent /products/*.html: digital.vasic.dev -> 17x404 3x503
+25 repeats of ONE non-existent URL: 25x404 (both). 40 existing /ru/?q=N: 40x200.
+503 headers: server: Varnish, retry-after: 0, content-type text/html, body = GitHub "Unicorn!" page (54887 bytes)

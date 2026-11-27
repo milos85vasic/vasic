@@ -40,14 +40,18 @@
 #    correct is a check that will not be.
 #
 # ============================================================================
-# THE FORMAT SET IS .html + .pdf, AND THE CITATION IS §11.4.65
+# THE FORMAT SET IS MARKDOWN ONLY (operator decision 2026-11-24)
 # ============================================================================
 #
-# Constitution §11.4.65, mandatory protection 1: "Every INCLUDED `.md` file has
-# `.html` and `.pdf` siblings." DOCX is not in that set — §11.4.153 adds it for
-# the per-feature Status document class only, and this repository has no
-# document of that class. This check therefore asserts html+pdf and would be a
-# §11.4.201(1) false-positive refusal if it demanded docx.
+# Constitution 11.4.65 used to require `.html` + `.pdf` siblings for every
+# included `.md`. The operator amended that for this repository on 2026-11-24
+# (Markdown-only): exports are no longer derived, tracked or checked. The
+# contexts therefore carry `markdown` nodes ONLY, with no edges and no
+# transforms, and check C5 below inverts its old meaning: it FAILS if any
+# `html`/`pdf`/`docx` node or `derive-from` edge reappears in a context,
+# because a regenerated roster that silently resumed deriving exports would
+# re-create 900+ tracked renderings of Markdown that already is the source of
+# truth.
 #
 # ============================================================================
 # THREE-VALUED EXIT, and rc=2 is NEVER a pass
@@ -197,18 +201,32 @@ if [ "$PROVE" -eq 1 ]; then
     G="$(run_lab)"; sed 's/^/    | /' "$LAB/out.txt" | head -10
     printf '    rc=%s (expected 0)\n\n' "$G"
 
-    printf -- '--- M1 DRIFT: edit a source, do not re-sync ---\n'
-    printf '# Guide\n\nAn EDITED lab guide.\n' > "$LAB/docs/guide.md"
-    M1="$(run_lab)"; grep -i 'drift\|out of sync\|C4' "$LAB/out.txt" | head -3 | sed 's/^/    | /'
-    printf '    rc=%s (expected 1)\n\n' "$M1"
-    printf '# Guide\n\nA lab guide.\n' > "$LAB/docs/guide.md"
-    "$BIN" sync --all --root "$LAB" >/dev/null 2>&1
+    printf -- '--- M1 EXPORT NODE: a context re-introduces an html node (C5) ---\n'
+    cp "$LAB/.docs_chain/contexts/umbrella-docs.yaml" "$LAB/ctx.save"
+    awk '/^nodes:/{print; print "  g_html: { kind: html,     path: docs/guide.html }"; next} {print}' \
+        "$LAB/ctx.save" > "$LAB/.docs_chain/contexts/umbrella-docs.yaml"
+    M1="$(run_lab)"; M1C5="$(grep -c 'EXPORT DERIVATION RESUMED' "$LAB/out.txt")"; grep -i 'C5' "$LAB/out.txt" | head -3 | sed 's/^/    | /'
+    printf '    rc=%s (expected 1), C5 fired %s time(s) (expected 1)\n\n' "$M1" "$M1C5"
+    cp "$LAB/ctx.save" "$LAB/.docs_chain/contexts/umbrella-docs.yaml"
 
-    printf -- '--- M2 MISSING EXPORT: delete a .pdf sibling ---\n'
-    rm -f "$LAB/docs/guide.pdf"
-    M2="$(run_lab)"; grep -i 'missing\|absent\|C5' "$LAB/out.txt" | head -3 | sed 's/^/    | /'
-    printf '    rc=%s (expected 1)\n\n' "$M2"
-    "$BIN" sync --all --root "$LAB" >/dev/null 2>&1
+    printf -- '--- M2 EXPORT EDGE: a context re-introduces a pdf node and a derive-from edge (C5) ---\n'
+    awk '/^nodes:/{print; print "  g_pdf: { kind: pdf,      path: docs/guide.pdf }"; next} /^edges:/{print; print "  - { type: derive-from, from: docs_guide_md, to: g_pdf, transform: html2pdf }"; next} {print}' \
+        "$LAB/ctx.save" > "$LAB/.docs_chain/contexts/umbrella-docs.yaml"
+    M2="$(run_lab)"; M2C5="$(grep -c 'EXPORT DERIVATION RESUMED' "$LAB/out.txt")"; grep -i 'C5' "$LAB/out.txt" | head -3 | sed 's/^/    | /'
+    printf '    rc=%s (expected 1), C5 fired %s time(s) (expected 1)\n\n' "$M2" "$M2C5"
+    cp "$LAB/ctx.save" "$LAB/.docs_chain/contexts/umbrella-docs.yaml"
+
+    printf -- '--- M2b GENERATOR REGRESSION: the generator itself emits export nodes (C5) ---\n'
+    # The lab generator is edited so its emitter writes an html node again; the
+    # roster it derives must be refused by C5.
+    sed 's|^\(  *\)printf .  %s_md:   { kind: markdown, path: %s }\\n.   "\$id" "\$f"$|&\n\1printf "  %s_html: { kind: html, path: %s }\\n" "$id" "${f%.md}.html"|' \
+        "$SELF_DIR/gen-docs-chain-contexts.sh" > "$LAB/scripts/gen-docs-chain-contexts.sh"
+    GENDIFF="$(diff "$SELF_DIR/gen-docs-chain-contexts.sh" "$LAB/scripts/gen-docs-chain-contexts.sh" | grep -c '_html')"
+    bash "$LAB/scripts/gen-docs-chain-contexts.sh" --root "$LAB" >/dev/null 2>&1
+    M2B="$(run_lab)"; M2BC5="$(grep -c 'EXPORT DERIVATION RESUMED' "$LAB/out.txt")"
+    printf '    mutation applied to %s line(s) (expected 1); rc=%s (expected 1), C5 fired %s time(s) (expected 1)\n\n' "$GENDIFF" "$M2B" "$M2BC5"
+    cp "$SELF_DIR/gen-docs-chain-contexts.sh" "$LAB/scripts/gen-docs-chain-contexts.sh"
+    bash "$LAB/scripts/gen-docs-chain-contexts.sh" --root "$LAB" >/dev/null 2>&1
 
     printf -- '--- M3 ROT: add a document and leave it unbound ---\n'
     printf '# Orphan\n\nAdded later, bound by nobody.\n' > "$LAB/docs/orphan.md"
@@ -276,8 +294,10 @@ LEAKY
     [ "$T_OK" -eq 1 ] || { printf 'PROBLEM: the docs_chain exit-code translation table is wrong; a CONFLICT\n' >&2
                            printf 'could be reported as could-not-determine, downgrading a real finding\n' >&2; FAILS=1; }
     [ "$G"  -eq 0 ] || { printf 'PROBLEM: a clean lab did not yield 0 (got %s) — false-positive refusal\n' "$G"  >&2; FAILS=1; }
-    [ "$M1" -eq 1 ] || { printf 'PROBLEM: DRIFT did not yield 1 (got %s)\n'          "$M1" >&2; FAILS=1; }
-    [ "$M2" -eq 1 ] || { printf 'PROBLEM: a MISSING EXPORT did not yield 1 (got %s)\n' "$M2" >&2; FAILS=1; }
+    [ "$M1" -eq 1 ] && [ "$M1C5" -eq 1 ] || { printf 'PROBLEM: an html node did not trip C5 (rc=%s, C5 hits=%s)\n' "$M1" "$M1C5" >&2; FAILS=1; }
+    [ "$M2" -eq 1 ] && [ "$M2C5" -eq 1 ] || { printf 'PROBLEM: a pdf node + derive-from edge did not trip C5 (rc=%s, C5 hits=%s)\n' "$M2" "$M2C5" >&2; FAILS=1; }
+    [ "${GENDIFF:-0}" -eq 1 ] || { printf 'PROBLEM: the generator mutation was not applied (diff lines=%s); M2b would be vacuous\n' "${GENDIFF:-0}" >&2; FAILS=1; }
+    [ "$M2B" -eq 1 ] && [ "$M2BC5" -eq 1 ] || { printf 'PROBLEM: a generator that emits export nodes did not trip C5 (rc=%s, C5 hits=%s)\n' "$M2B" "$M2BC5" >&2; FAILS=1; }
     [ "$M3" -eq 1 ] || { printf 'PROBLEM: an UNBOUND document did not yield 1 (got %s)\n' "$M3" >&2; FAILS=1; }
     [ "$M4" -eq 1 ] || { printf 'PROBLEM: a SUBMODULE-SOURCED node did not yield 1 (got %s) — the leak\n' "$M4" >&2
                          printf 'invariant is not enforced, which is the one that can cause real harm\n' >&2; FAILS=1; }
@@ -288,9 +308,9 @@ LEAKY
         exit 1
     fi
 
-    printf 'MUTATION PROOF: PASS — 5 mutations caught, 1 undetermined state demonstrated,\n'
-    printf 'and 1 translation table pinned, over 13 assertions: golden-FALSE control 0;\n'
-    printf 'M1 drift 1; M2 missing export 1; M3 unbound document 1; M4 submodule-sourced\n'
+    printf 'MUTATION PROOF: PASS — 6 mutations caught, 1 undetermined state demonstrated,\n'
+    printf 'and 1 translation table pinned, over 16 assertions: golden-FALSE control 0;\n'
+    printf 'M1 html node 1; M2 pdf node + derive-from edge 1; M2b generator regression 1; M3 unbound document 1; M4 submodule-sourced\n'
     printf 'node 1 (the leak invariant); M5 ".." escape 1; M6 absent binary 2; M7 the six\n'
     printf 'docs_chain->project exit-code mappings, including the 2=CONFLICT collision that\n'
     printf 'must map to FAIL and never to could-not-determine. Every mutation was seeded\n'
@@ -418,7 +438,7 @@ TMPCTX="$(mktemp -d)" || { printf 'UNDETERMINED: cannot create a temp directory\
 trap 'rm -rf "$TMPCTX"' EXIT
 if bash "$SELF_DIR/gen-docs-chain-contexts.sh" --root "$ROOT" --out "$TMPCTX" >/dev/null 2>&1; then
     if diff -r -q "$TMPCTX" "$CTXDIR" >/dev/null 2>&1; then
-        green "C3" "coverage: the registered roster equals the tree ($(($NP / 3)) document(s) bound)"
+        green "C3" "coverage: the registered roster equals the tree ($NP document(s) bound)"
     else
         bad "C3" "UNBOUND or STALE — the registered contexts disagree with the tree"
         diff -r -u "$TMPCTX" "$CTXDIR" 2>/dev/null | grep -E '^[+-] +[a-z0-9_]+_md:' | head -12 \
@@ -450,41 +470,35 @@ case "$(translate_docs_chain_rc "$VRC")" in
 esac
 
 # ---------------------------------------------------------------------------
-# C5  EXPORTS PRESENT AND NON-DEGENERATE — §11.4.65 protection 1.
+# C5  MARKDOWN-ONLY - no context may derive an export (decision 2026-11-24).
 #
-# `verify` compares hashes against recorded state. A zero-byte or absent export
-# is a distinct failure worth naming on its own: an empty PDF that "matches its
-# recorded hash" is still not an export anybody can read (§11.4.38 —
-# non-degenerate, not merely present).
+# Any `kind: html` / `kind: pdf` / `kind: docx` node, or any `derive-from`
+# edge, is a regression to the retired export derivation. Measured against the
+# CONTEXT FILES rather than the tree, because the contexts are what would
+# re-create the exports on the next `docs_chain sync`.
 # ---------------------------------------------------------------------------
-C5_BAD=""; C5_OK=0
-while IFS= read -r p; do
-    [ -n "$p" ] || continue
-    case "$p" in *.html|*.pdf) ;; *) continue ;; esac
-    f="$ROOT/$p"
-    if [ ! -f "$f" ]; then
-        C5_BAD="$C5_BAD  $p  (absent)"$'\n'
-    elif [ ! -s "$f" ]; then
-        C5_BAD="$C5_BAD  $p  (zero bytes — degenerate)"$'\n'
-    else
-        C5_OK=$((C5_OK+1))
-    fi
+C5_BAD=""
+while IFS= read -r c; do
+    [ -n "$c" ] || continue
+    hits="$(grep -nE 'kind:[[:space:]]*(html|pdf|docx)([^A-Za-z]|$)|type:[[:space:]]*derive-from' "$c" 2>/dev/null | head -3)"
+    [ -z "$hits" ] || C5_BAD="$C5_BAD  $(basename "$c"): $(printf '%s' "$hits" | head -1 | cut -c1-110)"$'\n'
 done <<EOF
-$ALLPATHS
+$CTXS
 EOF
 if [ -n "$C5_BAD" ]; then
-    bad "C5" "MISSING EXPORT — $(printf '%s' "$C5_BAD" | grep -c .) sibling(s) absent or degenerate"
-    printf '%s' "$C5_BAD" | sed 's/^/             /' | head -12
+    bad "C5" "EXPORT DERIVATION RESUMED - $(printf '%s' "$C5_BAD" | grep -c .) context(s) carry html/pdf/docx nodes or derive-from edges"
+    printf '%s' "$C5_BAD" | sed 's/^/             /' | head -6
+    printf '             Markdown-only is the standing operator decision (2026-11-24).\n'
 else
-    green "C5" "exports: all $C5_OK .html/.pdf sibling(s) exist and are non-empty (§11.4.65 protection 1)"
+    green "C5" "markdown-only: no context derives an html/pdf/docx export (decision 2026-11-24)"
 fi
 
 printf '\n=== CM-DOCS-CHAIN-SYNC: %d FAIL, %d UNDET over 5 checks ===\n' "$FAIL" "$UNDET"
 
 # A CONFIRMED FAILURE OUTRANKS AN UNDETERMINED.
 if [ "$FAIL" -gt 0 ]; then
-    printf '\033[31m❌ docs chain: %d finding(s). A divergent export is the exact PASS-bluff\n' "$FAIL"
-    printf '   §11.4.65 forbids: an operator reads the HTML or PDF while the .md is right.\033[0m\n'
+    printf '\033[31m❌ docs chain: %d finding(s). Markdown is the only\n' "$FAIL"
+    printf '   source of truth; a context that resumes export derivation re-creates what was retired.\033[0m\n'
     exit 1
 fi
 if [ "$UNDET" -gt 0 ]; then

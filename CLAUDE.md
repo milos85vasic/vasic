@@ -27,7 +27,7 @@ Nothing is copied here. This file is a pointer; the authority is the submodule.
 
 | What | Canonical path in this repository |
 |---|---|
-| The universal constitution (13,108 lines, 279 `### §` anchors, 2,261,551 bytes, blob `931d4494c24a`, sha256 `4a40a85ae7e6…`, re-measured 2026-11-24 at the index pin `6d93ccd19e1c` with `wc -l`, `grep -c '^### §'`, `wc -c`, `git rev-parse HEAD:Constitution.md` and `sha256sum` on `Constitution.md`; re-derive, do not quote; historical and withdrawn as current: 11,965 lines, 257 anchors, 1,908,339 bytes at `a71b1767b402` (2026-10-12), and the 11,787 lines, 255 anchors, 1,801,862 bytes, sha256 `973e473c823b4a13…` of 2026-09-03) | `submodules/constitution/Constitution.md` |
+| The universal constitution (13,174 lines, 281 `### §` anchors, 2,283,524 bytes, blob `1cab1d0726bb`, sha256 `d72bd3b45236…`, re-measured 2026-11-25 at the index pin `0d9e638f69d9` with `wc -l`, `grep -c '^### §'`, `wc -c`, `git rev-parse HEAD:Constitution.md` and `sha256sum` on `Constitution.md`; re-derive, do not quote; historical and withdrawn as current: 11,965 lines, 257 anchors, 1,908,339 bytes at `a71b1767b402` (2026-10-12), and the 11,787 lines, 255 anchors, 1,801,862 bytes, sha256 `973e473c823b4a13…` of 2026-09-03) | `submodules/constitution/Constitution.md` |
 | Claude Code carrier | `submodules/constitution/CLAUDE.md` |
 | Codex / Cursor / Aider / OpenCode / Crush / Kimi CLI carrier | `submodules/constitution/AGENTS.md` |
 | Qwen Code carrier | `submodules/constitution/QWEN.md` |
@@ -266,14 +266,14 @@ above, a `--fetch` may then be run to classify WHICH WAY:
 git -C submodules/constitution rev-parse HEAD                   # the local pin
 git ls-remote git@github.com:HelixDevelopment/HelixConstitution.git HEAD
 git -C submodules/constitution rev-parse HEAD:Constitution.md   # blob identity
-grep -c '^### §' submodules/constitution/Constitution.md        # 279 (re-measured 2026-11-24 at pin 6d93ccd19e1c; 257 SUPERSEDED)
-wc -l < submodules/constitution/Constitution.md                 # 13108 (re-measured 2026-11-24 at pin 6d93ccd19e1c; 11965 SUPERSEDED)
+grep -c '^### §' submodules/constitution/Constitution.md        # 281 (re-measured 2026-11-25 at pin 0d9e638f69d9; 280, 279 and 257 SUPERSEDED)
+wc -l < submodules/constitution/Constitution.md                 # 13174 (re-measured 2026-11-25 at pin 0d9e638f69d9; 13142, 13108 and 11965 SUPERSEDED)
 bash scripts/verify-manifest-pins.sh                            # 0 = ref == gitlink
 ```
 
 **Current gitlinks of the five modules whose pins this carrier narrates — a dated reading, 2026-11-24, from the index.**
 Re-derive each with `git ls-files -s <path>`; these move with every bump and the `pointer-drift` sweep class
-reports the carrier again when one does: `submodules/constitution` `6d93ccd19e1c`, `design-toolkit` `1b9abac8ca50`, `submodules/containers` `22b49707f9bb`, `submodules/curriculum-kit` `277b96efcca4`, `workshop` `d58ae75d2d7b`.
+reports the carrier again when one does: `submodules/constitution` `0d9e638f69d9`, `design-toolkit` `e5fee6c660b9`, `submodules/containers` `ec32935dbed6`, `submodules/curriculum-kit` `277b96efcca4`, `workshop` `ccb7aeecc64a`.
 
 **Re-measured 2026-09-09, and the whole fleet is level — no move was made and
 none was needed.** `git -C submodules/constitution rev-parse HEAD` and
@@ -366,12 +366,14 @@ with or without approval. Where the two disagree, §11.4.113 governs; the scaffo
 upstream (`submodules/constitution/templates/`) and is reproduced verbatim on purpose, so this
 note corrects the reading without editing the quotation.
 
+**Binding addition (2026-11-24, §11.4.299): merged is not delivered until it is on EVERY upstream.** After a pull request is merged and the main repository (and every own-org submodule touched) is updated, everything brought into `main` MUST be fast-forward pushed to ALL declared upstreams and read back per upstream with `git ls-remote`; a partial push is a defect, a blocked push is reported BLOCKED and never bypassed, force stays forbidden (§11.4.113), and a public mirror is exempt only by a recorded operator decision declared as data. The constitution submodule itself MUST be the latest upstream `main` with its nested submodules current. Check: `bash scripts/verify-upstream-sync.sh`.
+
 Anything not covered by those nine items is covered by the canonical files. Go
 read them; do not guess.
 
 ## Anchors 11.4.289 through 11.4.299, and the recorded PR-delivery decision
 
-Re-measured 2026-11-24 at the pin `6d93ccd19e1c`: `Constitution.md` defines anchors through `11.4.298`; the pin moved on 2026-11-24 to a constitution that also defines `11.4.299` (see the bullet below and the section after this list). Read each block in
+Re-measured 2026-11-25 at the pin `0d9e638f69d9`: `Constitution.md` defines anchors through `11.4.300`. Read each block in
 `submodules/constitution/Constitution.md` before relying on it; this list is a pointer, not the rule (the canon wins).
 
 - `11.4.289` no stub, mock or fixture server as evidence: results are validated LIVE; a test double proves only the
@@ -386,6 +388,7 @@ Re-measured 2026-11-24 at the pin `6d93ccd19e1c`: `Constitution.md` defines anch
 - `11.4.297` pull-request delivery, binding only where a recorded operator decision declares it.
 - `11.4.298` release gate per product: deploy or tag only after a full live run on connected target hardware.
 - `11.4.299` merged is not delivered until fast-forward pushed to EVERY declared upstream and read back per upstream with `git ls-remote`, for the root and every own-org submodule touched (submodule first, then the parent pointer plus `helix-deps.yaml` ref); a partial push is a defect; a blocked push is reported BLOCKED, never bypassed; the constitution submodule itself is always the latest upstream `main` with nested submodules current.
+- `11.4.300` workable items are mirrored one way, database to the Issues of every declared upstream, as a mechanism that is default OFF until a project turns it on; an undetermined or write-unproven leg is UNCONFIRMED, never in sync. Present in the pin `71c5e178707d` (since 2026-11-25). This repository has turned it on PLAN-ONLY (`.workable-items-sync.yaml`, `mode: dry-run`, no `apply_decision`); see the 2026-11-25 operator decision below. Read the block before relying on it.
 
 **Recorded operator decision (the §11.4.297(A) declaration), 2026-11-23/24:** "PR-driven work: task branch, one PR per
 task, independent review agents, merge to main by the agent." Record:
@@ -396,6 +399,8 @@ commit (`gh pr merge --merge`); squash and rebase merges are forbidden and force
 guard, so no part of PR delivery is claimed ENFORCED. This does not weaken §11.4.288 for any path the decision does not cover.
 
 **Operator directive of 2026-11-24 (§11.4.299), and how this repository wires it.** After PRs are merged and the main repositories updated, everything brought into `main` MUST be fully pushed to ALL UPSTREAMS. Read-only instruments: `bash scripts/verify-upstream-sync.sh` (the fleet derived from `.gitmodules`; exit 0 every upstream current, 1 behind or diverged, 2 cannot determine, never a pass; registered as `upstream-sync` in `scripts/check-registry.tsv` with `--prove-failure`) and `bash submodules/constitution/scripts/sync/verify_constitution_latest.sh --root .` (the constitution pin equals upstream `main` and its nested submodules are initialised and current). The guarded helper is `submodules/constitution/scripts/sync/push_all_upstreams.sh --repo <dir> --sha <merged-sha> [--apply]` (dry run by default, fast-forward only, no force construct, ends with a read-back). Declared mirror exemptions live as data in `config/upstream-parity-exemptions.tsv` (none today; a row needs a recorded operator decision). Honest boundary (§11.4.297(G)): the wiring is PROVISIONAL, not ENFORCED, until a delivery step runs the verifier after every merge; no part of it is claimed ENFORCED here.
+
+**Operator decision of 2026-11-25 (§11.4.300), and how this umbrella wires it: ENABLED, PLAN-ONLY.** `.workable-items-sync.yaml` is tracked at the root with `enabled: true`, `mode: dry-run` and NO `apply_decision`; the engine is the constitution's (`submodules/constitution/scripts/issue_sync/`), never copied. The upstream set is derived per repository from its `upstreams/*.sh` recipes and remotes (`trackers: []`); a private item goes only to its owner's own private tracker (visibility is read live and an undetermined one blocks); GitFlic and GitVerse are written only behind a recorded live create-and-read-back in the constitution's `config/forge/issue_sync_proven.tsv`, which is EMPTY, so every write leg is UNCONFIRMED and `apply` refuses to write. Read-only instruments: `bash scripts/verify-issues-sync.sh` (registered as `issues-sync` in `scripts/check-registry.tsv` with `--prove-failure`; exit 2 while no host is proven, by design) and the recorded plan counts in `docs/qa/issue_sync/plan_2026-11-25.txt`. Honest boundary (§11.4.297(G)): PROVISIONAL, nothing has been written to any tracker, and the Docs Chain `issues-sync` context is not wired because the umbrella carries no `Issues.md`/`Fixed.md` status documents for it to derive.
 
 Exactly ONE operator override is in force (`Override §11.4.279-§11.4.286`, hosted Jev only; see "Project overrides of
 universal rules" below). PR delivery is a declared delivery MODE, not an override: it amends nothing beyond the three
@@ -956,7 +961,7 @@ false in the direction that flattered the tree.**
 
 - *"The submodule is present for the workload `specs/001-…` plans."* **It has a
   real consumer now.** `_tools/containers/` was committed 2026-09-03 (`460266c`)
-  with **23** tracked files as re-measured 2026-11-24 (21 on 2026-09-22, 18 on 2026-09-09, SUPERSEDED) — among them `go.mod`
+  with **23** tracked files as re-measured 2026-11-25 (22 earlier that day, before `cmd/site-build/main_test.go`; 21 on 2026-11-24 and 23 earlier the same day, SUPERSEDED; 21 on 2026-09-22, 18 on 2026-09-09, SUPERSEDED) — among them `go.mod`
   requiring `digital.vasic.containers`, `go.sum`, `cmd/site-build/main.go`,
   `compose/compose.sites.yml` and `compose/jekyll-build.sh`. **The "7 tracked
   files" this sentence carried is WITHDRAWN BY MEASUREMENT, and it was true when
@@ -1710,7 +1715,8 @@ in THIS tree, unlike the two classes below: `cm_readme_badge_row_at_top`
 (§11.4.259, no badge row atop `README.md`), `cm_zero_findings_audit_sweep`
 (§11.4.261, no `scripts/audit/zero_findings_sweep.sh`) and
 `cm_zero_findings_monotone_ratchet` (§11.4.261(C), no
-`docs/findings/zero_findings_ratchet.tsv`). **None was acted on this session.**
+`docs/findings/zero_findings_ratchet.tsv`). **None was acted on this session.
+(historical: that sentence is SUPERSEDED. Re-measured 2026-11-25 at pin `f9eb835e03db`, each run directly, all three exit 0: `cm_readme_badge_row_at_top` PASS with 12 badges, `cm_zero_findings_audit_sweep` PASS, `cm_zero_findings_monotone_ratchet` PASS at `live=7 <= ceiling=7`. The files those FAILs named now exist. A complete sweep split is still NOT claimed.)**
 
 Two classes of failure inside the run are known and **cannot be cleared by any
 commit this repository can make**:
@@ -1854,7 +1860,8 @@ find milosvasic.ru/_site -name '*.html' | wc -l                        # 705
 node _tests/preflight.js                                               # rc 2 — "routes checked: 66", no route failure   # historical
 ```
 
-**Gate 6's remaining blocker is WEBKIT, not the site.** The preflight now fails
+**Gate 6's remaining blocker is WEBKIT, not the site. (historical, SUPERSEDED 2026-11-25: `dpkg -s libmanette-0.2-0 libwoff1` reports `install ok installed` for both, webkit launches, and `vasic-digital-a11y` passes 12/12 on the webkit project. What still blocks gate 6 on a fresh worktree is an absent `milosvasic.ru/_site`, which the preflight reports as rc 2; build it with `_tools/containers/bin/site-build -workload jekyll`. The remedy below stays valid for a host that lacks the libraries.)**
+The preflight then failed
 on exactly one line — `browser BLOCKED webkit: Host system is missing
 dependencies`; chromium and firefox launch. The host is **Ubuntu 26.04 LTS**
 (an earlier comment in `_tools/containers/compose/jekyll-build.sh` called it
@@ -1917,7 +1924,8 @@ gate 6 SKIPs with a stated reason instead of emitting 69 content failures, and
 **Two holes in that gate's own precondition are closed with it.** It tested for
 `milosvasic.ru/_site/index.html` — *the one file a fragment is guaranteed to
 have* — so the fragment passed it. And nothing asked whether a browser could
-START: `@playwright/test` is installed here and **webkit cannot launch at all**
+START: `@playwright/test` is installed here and **webkit could not launch at all
+on 2026-09-06** (historical, since fixed by the host libraries above)
 (`Host system is missing dependencies to run browsers`), the failure being in
 system libraries rather than npm, so a package-presence check was checking the
 wrong thing.

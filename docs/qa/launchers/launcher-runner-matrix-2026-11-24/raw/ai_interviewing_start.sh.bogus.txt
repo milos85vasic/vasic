@@ -1,0 +1,3 @@
+$ (cd <scratchpad>/umf/ai_interviewing/platform/scripts) : bash ./start.sh --runner=bogus
+runner: unknown container runner "bogus" (from --runner): supported runners are podman, docker, nerdctl, cri-o, lxd, kubernetes, or "auto" for the default order
+rc=2

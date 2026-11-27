@@ -1,0 +1,641 @@
+{
+ "lang": "be",
+ "verdict": "FIX",
+ "summary": "Belarusian orthography is mostly correct (ў, і, ' used properly), but there are real defects: a wrong word in 'Часткі статус' (partial instead of honest), gender mismatches (footer.suffix, aria.primaryNav), Russianisms and a misspelt participle in pf.summary, inconsistent 'флот'/'сістэмы' terminology, 'Праца'/'Экспертыза' calques in nav, 'у вытворчасці' for production, English city names and glossary violations.",
+ "checks": {
+  "meaning_idiom_register": "FIX for status.2 (meaning error), status.3 (meaning shift), whywebuilt.0/.3, gamechanger.0/.1, nav.work, nav.expertise, prod.source, status.production.",
+  "script": "Belarusian Cyrillic orthography respected (ў, і, apostrophe); no Russian spellings found apart from the lexical Russianism 'прыкладанні' and 'завяршана' (be: завершаны). 'Belgrade · Dubna' left in Latin English.",
+  "rtl": "n/a",
+  "plural": "No plural-bearing keys; confirmed none.",
+  "date_number": "None present; confirmed. 'Версія сайта: v2.0.0' correct.",
+  "glossary": "Constitution (Канстытуцыяй) and Miloš Vasić (Мілаша Васіча) were localized; fixed with verbatim term. AI kept verbatim in kw.vasic. Brands preserved.",
+  "footer_length": "footer.suffix 32 chars, footer.version 13 — OK. mv footer.text ~71 chars — long by nature."
+ },
+ "items": [
+  {
+   "src": "gen",
+   "key": "skip",
+   "verdict": "FIX",
+   "current": "Прапусціце да зместу",
+   "proposed": "Перайсці да зместу",
+   "rationale": "'Прапусціце да зместу' is a calque of 'skip to' and switches to plural imperative while all other labels are infinitives; matches mv a11y.skip wording."
+  },
+  {
+   "src": "gen",
+   "key": "nav.home",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.products",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.portfolio",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "toggle",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "footer.suffix",
+   "verdict": "FIX",
+   "current": "пабудавана на сістэме OpenDesign",
+   "proposed": "пабудаваны на сістэме OpenDesign",
+   "rationale": "Feminine 'пабудавана' has no antecedent; the implied subject is the site (сайт, masculine)."
+  },
+  {
+   "src": "gen",
+   "key": "footer.version",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.download",
+   "verdict": "FIX",
+   "current": "Спампаваць Партфоліа (PDF)",
+   "proposed": "Спампаваць партфоліа (PDF)",
+   "rationale": "Common noun must be lowercase mid-phrase."
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.products",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.tiers",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.helix",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.readmore",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.lede",
+   "verdict": "FIX",
+   "current": "Аб'яднанае, заснаванае на доказах партфоліа сям'і Helix, утыліт Vasic Digital, і інструментальнага ланцуга Server Factory.",
+   "proposed": "Аб'яднанае, заснаванае на доказах партфоліа сям'і Helix, утыліт Vasic Digital і інструментарыю Server Factory.",
+   "rationale": "Comma before 'і' in a simple enumeration is a punctuation error in Belarusian; 'інструментальнага ланцуга' is a calque."
+  },
+  {
+   "src": "gen",
+   "key": "pf.summary",
+   "verdict": "FIX",
+   "current": "Адзін флот: буйныя прыкладанні прадуктаў на базе дзясяткаў малых, аддзеленых, незалежна тэставаных модуляў — кіруемых агульнай інжынернай Канстытуцыяй і верыфікаваных анты-блэфавай QA. Дамінуючая мова — Go, з Kotlin/KMP, TypeScript/React, Python, Swift, і Shell, дзе яны лепш за ўсё падыходзяць. Аб'ядноўваючая тэза: функцыя завяршана толькі тады, калі рэальны карыстальнік можа яе выкарыстоўваць, і ёсць захаваны доказ, які яе пацвярджае.",
+   "proposed": "Адзін флот: буйныя прадуктовыя праграмы на базе дзясяткаў невялікіх, слаба звязаных, незалежна пратэставаных модуляў — пад кіраваннем агульнай інжынернай канстытуцыі (Constitution) і з праверкай праз анты-блеф QA. Асноўная мова — Go, а Kotlin/KMP, TypeScript/React, Python, Swift і Shell выкарыстоўваюцца там, дзе яны падыходзяць найлепш. Асноўная тэза: функцыя лічыцца гатовай толькі тады, калі рэальны карыстальнік можа ёю карыстацца і ёсць зафіксаваны доказ гэтага.",
+   "rationale": "Misspelt participle 'завяршана' (be: завершаны); Russianism 'прыкладанні'; comma before 'і'; glossary Constitution verbatim."
+  },
+  {
+   "src": "gen",
+   "key": "tier1.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier1.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier2.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier2.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier3.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier3.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.tier",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.order",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.source",
+   "verdict": "FIX",
+   "current": "Крыніца",
+   "proposed": "Зыходны код",
+   "rationale": "Heading over the source-repository list; 'Крыніца' means 'source of information'."
+  },
+  {
+   "src": "gen",
+   "key": "prod.license",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.architecture",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "kw.vasic",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "kw.milos",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "aria.primaryNav",
+   "verdict": "FIX",
+   "current": "Асноўнае",
+   "proposed": "Асноўная навігацыя",
+   "rationale": "Neuter 'Асноўнае' agrees with nothing; navigation (навігацыя) is feminine."
+  },
+  {
+   "src": "gen",
+   "key": "aria.backToTop",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "aria.toggleTheme",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.work",
+   "verdict": "FIX",
+   "current": "Праца",
+   "proposed": "Праекты",
+   "rationale": "'Праца' means job/labour; portfolio 'Work' = projects (ru uses 'Проекты')."
+  },
+  {
+   "src": "gen",
+   "key": "nav.contact",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.0",
+   "verdict": "FIX",
+   "current": "Праблема, якую мы паставілі перад сабой вырашыць",
+   "proposed": "Праблема, якую мы ўзяліся вырашыць",
+   "rationale": "'паставілі перад сабой вырашыць' is ungrammatical."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.3",
+   "verdict": "FIX",
+   "current": "Свёрб, які трэба было пачасаць",
+   "proposed": "Задача, якая не давала нам спакою",
+   "rationale": "Literal 'Свёрб, які трэба было пачасаць' is unnatural."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.4",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.0",
+   "verdict": "FIX",
+   "current": "Чаму гэта мяняе правілы гульні",
+   "proposed": "Чаму гэта змяняе правілы гульні",
+   "rationale": "In Belarusian 'мяняць' primarily means 'to exchange'; the idiom uses 'змяняць'."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.1",
+   "verdict": "FIX",
+   "current": "Які крок яно забяспечвае",
+   "proposed": "Якасны скачок",
+   "rationale": "'Які крок яно забяспечвае' is awkward and weakens 'leap'."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.2",
+   "verdict": "FIX",
+   "current": "Часткі статус",
+   "proposed": "Шчыры статус",
+   "rationale": "'Часткі статус' means 'partial status' — meaning error (honest → шчыры)."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.3",
+   "verdict": "FIX",
+   "current": "Статус без лішніх слоў",
+   "proposed": "Статус без прыхарошвання",
+   "rationale": "'без лішніх слоў' means 'concisely', not 'no spin'."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.1",
+   "verdict": "FIX",
+   "current": "Што яно дае ўсім сістэмам",
+   "proposed": "Што яно дае ўсяму флоту",
+   "rationale": "'fleet' rendered as 'сістэмы' here but 'флот' in pf.overview.title/pf.summary — inconsistent terminology."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.2",
+   "verdict": "FIX",
+   "current": "Як сістэмы абапіраюцца на яго",
+   "proposed": "Як флот абапіраецца на яго",
+   "rationale": "Same terminology inconsistency (сістэмы vs флот)."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.summary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.short",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.long",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.desc.fallback",
+   "verdict": "FIX",
+   "current": "%s — %s прадукт.",
+   "proposed": "%s — прадукт %s.",
+   "rationale": "English word order; Belarusian needs 'прадукт <brand>'. Placeholder order preserved."
+  },
+  {
+   "src": "gen",
+   "key": "alt.portrait",
+   "verdict": "FIX",
+   "current": "Партрэт Мілаша Васіча",
+   "proposed": "Miloš Vasić — партрэт",
+   "rationale": "Glossary requires the name verbatim (Latin)."
+  },
+  {
+   "src": "gen",
+   "key": "alt.brandLogo",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.beta",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.active",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.production",
+   "verdict": "FIX",
+   "current": "у вытворчасці",
+   "proposed": "у эксплуатацыі",
+   "rationale": "'у вытворчасці' means 'being manufactured'."
+  },
+  {
+   "src": "gen",
+   "key": "status.in-development",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.shipped",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.scaffold",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.roadmap",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.stable",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.mixed",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.helix-primary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.vasic-util-secondary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.serverfactory-tertiary",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "a11y.skip",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.expertise",
+   "verdict": "FIX",
+   "current": "Экспертыза",
+   "proposed": "Кампетэнцыі",
+   "rationale": "'Экспертыза' means expert examination/appraisal, not a person's expertise."
+  },
+  {
+   "src": "mv",
+   "key": "nav.work",
+   "verdict": "FIX",
+   "current": "Праца",
+   "proposed": "Праекты",
+   "rationale": "'Праца' means job/labour; consistency with gen nav.work."
+  },
+  {
+   "src": "mv",
+   "key": "nav.experience",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.skills",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.contact",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "dl.heading",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "dl.choose",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "footer.text",
+   "verdict": "FIX",
+   "current": "Belgrade · Dubna. Зроблена як статычны сайт, разгорнута на GitHub Pages.",
+   "proposed": "Бялград · Дубна. Зроблена як статычны сайт, разгорнута на GitHub Pages.",
+   "rationale": "City names left in English Latin inside a Cyrillic sentence; Belarusian forms are Бялград, Дубна."
+  },
+  {
+   "src": "mv",
+   "key": "footer.version",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.changeLang",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.toggleTheme",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.menu",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.close",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.backToTop",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.primaryNav",
+   "verdict": "FIX",
+   "current": "Асноўнае",
+   "proposed": "Асноўная навігацыя",
+   "rationale": "Neuter 'Асноўнае' agrees with nothing; consistency with gen aria.primaryNav."
+  },
+  {
+   "src": "mv",
+   "key": "title.language",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "title.theme",
+   "verdict": "OK"
+  }
+ ],
+ "glossary_violation_judgements": [
+  {
+   "key": "pf.summary",
+   "term": "Constitution",
+   "real": true,
+   "why": "Rendered as 'Канстытуцыяй'; fixed with verbatim term in parentheses."
+  },
+  {
+   "key": "alt.portrait",
+   "term": "Miloš Vasić",
+   "real": true,
+   "why": "Transliterated 'Мілаша Васіча'; glossary requires verbatim Latin."
+  }
+ ],
+ "spotcheck": [
+  "A Belarusian native should confirm pf.summary wording ('слаба звязаных', 'анты-блеф QA', 'канстытуцыі (Constitution)').",
+  "prod.head.innovative.3 'Ідэі, якія варта скрасці' kept (playful, as in English) — confirm register.",
+  "status.roadmap 'у плане' kept; 'у планах' is arguably more natural.",
+  "Footer: 'Бялград' is the standard Belarusian name of Belgrade — confirm.",
+  "prod.head.gamechanger.name 'Чаму гэта пераломны момант' kept."
+ ]
+}

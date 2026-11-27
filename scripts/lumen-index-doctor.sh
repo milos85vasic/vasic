@@ -452,7 +452,7 @@ MKPY
 fi
 
 PROJ="$PROJ" STORE="$STORE" CONFIG="$CONFIG" REQUIRE_BACKEND="$REQUIRE_BACKEND" python3 - <<'PY'
-import os, sqlite3, glob, collections, sys, re, json, hashlib, signal
+import os, sqlite3, glob, collections, sys, re, json, hashlib, signal, struct, math
 
 proj   = os.path.realpath(os.environ["PROJ"])
 store  = os.environ["STORE"]
@@ -914,6 +914,11 @@ except Exception:
     pass   # older schema without the shadow table: fall back to counting all
 
 counts = collections.Counter(); total = 0; ragged = 0; freed = 0
+# Per-vector stats accumulators (computed during the first pass below).
+import struct, math
+nan = zero = badnorm = offscale = 0
+scale_unestablished = None
+tops = collections.Counter()
 try:
     rows = c.execute("SELECT rowid, vectors FROM %s" % vec_table)
 except Exception as e:
@@ -928,12 +933,28 @@ for brow, blob in rows:
         if vbits is not None and not ((vbits[i // 8] >> (i % 8)) & 1):
             freed += 1        # allocated but not live - not data
             continue
-        # Hash the vector instead of storing raw bytes: a 3.2M-vector index
-        # holds ~2.4GB of vector data, which would OOM a Counter keyed on
-        # raw bytes. A 16-byte blake2b digest is collision-safe for duplicate
-        # detection and cuts memory by ~48x.
-        h = hashlib.blake2b(blob[i*VB:(i+1)*VB], digest_size=16).digest()
+        vec_bytes = blob[i*VB:(i+1)*VB]
+        # Hash for duplicate detection (memory-efficient), then per-vector
+        # stats from the raw bytes in the same pass - no second scan needed.
+        h = hashlib.blake2b(vec_bytes, digest_size=16).digest()
         counts[h] += 1; total += 1
+        if packfmt == "b":
+            f = struct.unpack("<%db" % DIM, vec_bytes)
+            mx = max(abs(x) for x in f)
+            if mx == 0:
+                zero += 1
+            else:
+                tops[mx] += 1
+        else:
+            f = struct.unpack("<%df" % DIM, vec_bytes)
+            if any(math.isnan(x) or math.isinf(x) for x in f):
+                nan += 1
+                continue
+            n = math.sqrt(sum(x*x for x in f))
+            if n == 0.0:
+                zero += 1
+            elif not (nmin <= n <= nmax):
+                badnorm += 1
 print("slots: %d live, %d freed/unwritten (excluded from every check below)"
       % (total, freed))
 
@@ -968,11 +989,10 @@ else:
     print("✅ every stored vector is distinct")
 
 # Conventional checks, retained because they catch the louder failure modes.
-import struct, math
-nmin = envfloat("LUMEN_NORM_MIN", 0.99)
-nmax = envfloat("LUMEN_NORM_MAX", 1.01)
-nan = zero = badnorm = offscale = 0
-scale_unestablished = None
+# Per-vector stats (zero, NaN/Inf, off-norm, off-scale) were computed during
+# the first pass above. Here we only evaluate the scale invariant.
+live = sum(tops.values()) if packfmt == "b" else total
+mode_top, mode_n = tops.most_common(1)[0] if tops else (0, 0)
 if packfmt == "b":
     # int8 STORAGE. The float unit-norm band does not hold for it, and applying
     # it made EVERY vector of a healthy index "off-norm" and the verdict
@@ -985,19 +1005,9 @@ if packfmt == "b":
     # ("off-scale"). If none dominates, the scale check is NOT applied and the
     # output says so — it never claims a check it did not run. Duplicates,
     # all-zero and ragged blocks are unaffected. (NaN/Inf cannot exist in int8.)
-    import collections
-    tops = collections.Counter()
-    for v in counts:
-        f = struct.unpack("<%d%s" % (DIM, packfmt), v)
-        if not any(f):
-            zero += 1
-            continue
-        tops[max(abs(x) for x in f)] += 1
-    live = sum(tops.values())
     dom = envfloat("LUMEN_INT8_SCALE_DOMINANCE", 0.90)
     scale_top = envint("LUMEN_INT8_SCALE_TOP", 127)
     min_live = envint("LUMEN_INT8_MIN_VECTORS", 10)
-    mode_top, mode_n = tops.most_common(1)[0] if live else (0, 0)
     # The invariant is ESTABLISHED only when all three hold; anything else is
     # COULD NOT DETERMINE (rc 2), never a clean bill — the same principle as the
     # width / no-vector-table cases. Each condition closes a false-negative
@@ -1028,12 +1038,6 @@ if packfmt == "b":
         print("per-vector: NaN/Inf n/a (int8), %d all-zero, int8 scale invariant not established "
               "(see below), %d ragged block(s)" % (zero, ragged))
 else:
-    for v in counts:
-        f = struct.unpack("<%d%s" % (DIM, packfmt), v)
-        if any(math.isnan(x) or math.isinf(x) for x in f): nan += 1; continue
-        n = math.sqrt(sum(x*x for x in f))
-        if n == 0.0: zero += 1
-        elif not (nmin <= n <= nmax): badnorm += 1
     print("per-vector: %d NaN/Inf, %d all-zero, %d off-norm (band %.3f-%.3f), %d ragged block(s)"
           % (nan, zero, badnorm, nmin, nmax, ragged))
 if nan or zero or badnorm or offscale or ragged: bad = True

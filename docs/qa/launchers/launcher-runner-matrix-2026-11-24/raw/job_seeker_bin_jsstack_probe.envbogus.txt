@@ -1,0 +1,3 @@
+$ (cd <scratchpad>/umf/job_seeker) CONTAINERS_RUNNER=bogus ./bin/jsstack probe
+jsstack: unknown container runner "bogus" (from $CONTAINERS_RUNNER): supported runners are podman, docker, nerdctl, cri-o, lxd, kubernetes, or "auto" for the default order
+rc=2

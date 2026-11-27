@@ -1146,7 +1146,7 @@ if check_command wozcode; then
     print_success "WOZCODE present ($(command -v wozcode))."
 elif [[ -n "${WOZCODE_INSTALL_CMD:-}" ]]; then
     print_info "Installing WOZCODE from WOZCODE_INSTALL_CMD..."
-    eval "$WOZCODE_INSTALL_CMD" || true
+    eval "$WOZCODE_INSTALL_CMD" || true  # DANGER-OK: operator-supplied install command, by design: it runs only when the operator exports WOZCODE_INSTALL_CMD
     if check_command wozcode; then
         record_action wozcode "# no automatic undo - installed via WOZCODE_INSTALL_CMD"
         print_success "WOZCODE installed."

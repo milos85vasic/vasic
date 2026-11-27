@@ -46,7 +46,7 @@
 #                         a §11.4.40 pre-tag sweep, where a SKIP is not good
 #                         enough)
 #   PREPUSH_ONLY="E 0 1"  run only the listed gate ids (debugging / mutation
-#                         proofs); ids are E Z0 Z1 0 1 2 3 4 5 6
+#                         proofs); ids are E Z0 Z1 C 0 1 2 3 4 5 6
 #
 #   There is deliberately NO switch that skips gate E. §11.4.156 states: "No
 #   escape hatch — no --allow-ci, --enable-workflow, --keep-pipeline,
@@ -171,12 +171,13 @@ CI_PROBE_RE='^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$'
 
 # ---- Gate table --------------------------------------------------------------
 # id | short name | provenance
-GATE_IDS=(E Z0 Z1 0 1 2 3 4 5 6)
+GATE_IDS=(E Z0 Z1 C 0 1 2 3 4 5 6)
 gate_name() {
     case "$1" in
         E) echo "§11.4.156(E) no active root CI config" ;;
         Z0) echo "zero-gap: no check weakened (FR-023)" ;;
         Z1) echo "zero-gap: no third-party edit (FR-021)" ;;
+        C) echo "CONTINUATION.md in sync (§12.10)" ;;
         0) echo "hardcoded path audit" ;;
         1) echo "Go unit tests (_tools/gen)" ;;
         2) echo "hardcoding audit (builds the Go generator)" ;;
@@ -192,6 +193,7 @@ gate_cmd_text() {
         E) echo "git ls-files | grep -E '${CI_PROBE_RE}'   (must be EMPTY)" ;;
         Z0) echo "bash scripts/zero-gap-guard-checks.sh" ;;
         Z1) echo "bash scripts/zero-gap-third-party-guard.sh" ;;
+        C) echo "bash scripts/continuation-check.sh" ;;
         0) echo "./scripts/audit-hardcoded-paths.sh" ;;
         1) echo "cd _tools/gen && go test ./..." ;;
         2) echo "bash _tools/audit-hardcoding.sh" ;;
@@ -203,12 +205,80 @@ gate_cmd_text() {
     esac
 }
 
+# ---- Gate 6 site artifact ----------------------------------------------------
+# Gate 6 serves milosvasic.ru/_site, which is git-ignored and untracked, so a
+# fresh clone or worktree has none and the preflight can only say "cannot
+# determine". This host has no bundle/jekyll either, so the one build path is
+# _tools/containers/bin/site-build (Jekyll in the ruby image through the
+# Containers Submodule, §11.4.76). It is run here, BOUNDED: through
+# scripts/agent-admit.sh (slot + pressure pre-checks + bounded-run cgroup scope
+# with a memory cap and a wall clock, §12.6/§12.7), and the compose service
+# itself carries mem_limit. Returns, in precondition()'s vocabulary:
+#   0  _site/index.html present (already, or freshly built and verified)
+#   1  SKIP with a stated reason (cannot build here; PREPUSH_STRICT=1 promotes it)
+#   2  the build RAN and failed (a real failure; never hidden behind a SKIP)
+# PREPUSH_BUILD_SITE=0 opts out of the build (the gate then SKIPs naming why).
+ensure_site_built() {
+    local idx="$ROOT/milosvasic.ru/_site/index.html"
+    [[ -f "$idx" ]] && return 0
+    if [[ "${PREPUSH_BUILD_SITE:-1}" != "1" ]]; then
+        echo "milosvasic.ru/_site/index.html is absent and PREPUSH_BUILD_SITE=0 forbids building it — run: _tools/containers/bin/site-build -workload jekyll"
+        return 1
+    fi
+    local sb="$ROOT/_tools/containers/bin/site-build"
+    local cdir="$ROOT/_tools/containers"
+    if [[ -d "$cdir/cmd/site-build" ]] && command -v go >/dev/null 2>&1 \
+       && { [[ ! -x "$sb" ]] || [[ -n "$(find "$cdir" -path "$cdir/bin" -prune -o -type f -newer "$sb" -print -quit 2>/dev/null)" ]]; }; then
+        if ! ( cd "$cdir" && GOPROXY=off go build -o bin/site-build ./cmd/site-build ) >/dev/null 2>&1; then
+            echo "milosvasic.ru/_site is absent and the site-build binary could not be compiled (go build ./cmd/site-build failed; is submodules/containers initialised?) — COULD NOT DETERMINE"
+            return 1
+        fi
+    fi
+    if [[ ! -x "$sb" ]]; then
+        echo "milosvasic.ru/_site is absent and there is no _tools/containers/bin/site-build to build it — COULD NOT DETERMINE"
+        return 1
+    fi
+    if [[ ! -f "$ADMIT" ]]; then
+        echo "milosvasic.ru/_site is absent and the memory-bounding admission controller is missing ($ADMIT); an unbounded Jekyll build is refused — COULD NOT DETERMINE"
+        return 1
+    fi
+    local b_out b_rc
+    b_out="$(bash "$ADMIT" --verdict3 --tag gate-6-site-build -m "${PREPUSH_SITE_BUILD_MEM:-6G}" -T "${PREPUSH_SITE_BUILD_TIMEOUT:-1500}" -- "$sb" -workload jekyll 2>&1)"; b_rc=$?
+    case "$b_rc" in
+        0)
+            if [[ ! -f "$idx" ]]; then
+                echo "site-build exited 0 but milosvasic.ru/_site/index.html still does not exist — a zero exit is not evidence (§11.4); COULD NOT DETERMINE"
+                printf '%s\n' "$b_out" | tail -5 | sed 's/^/    /'
+                return 1
+            fi
+            return 0 ;;
+        1)
+            echo "site-build RAN and FAILED (rc 1) — a real build failure, not an environment gap:"
+            printf '%s\n' "$b_out" | tail -15 | sed 's/^/    /'
+            return 2 ;;
+        *)
+            echo "site-build could not run to a verdict (rc $b_rc; no runtime, refused by pressure, or timed out) — COULD NOT DETERMINE:"
+            printf '%s\n' "$b_out" | tail -8 | sed 's/^/    /'
+            return 1 ;;
+    esac
+}
+
 # ---- Preconditions -----------------------------------------------------------
 # A gate whose toolchain is absent must SKIP with a stated reason (§11.4.3),
 # never silently pass. `precondition` echoes the reason and returns 1 when the
 # gate cannot honestly run (SKIP), or 2 when a host-dependency INSTALL ran and
 # failed (a hard FAIL — see the hostdeps note below).
 precondition() {
+    case "$1" in
+        C)
+            local _unin
+            _unin="$(git -C "$ROOT" submodule status 2>/dev/null | sed -n 's/^-[0-9a-f]* \([^ ]*\).*/\1/p' | tr '\n' ' ')"
+            if [[ -n "$_unin" ]]; then
+                echo "submodule(s) not initialised, so continuation-check's entry-point check (C5) cannot judge the document: ${_unin}— run: git submodule update --init"
+                return 1
+            fi
+            ;;
+    esac
     case "$1" in
         5|6)
             if [[ ! -d "$ROOT/_tests/node_modules/@playwright/test" ]]; then
@@ -285,6 +355,12 @@ precondition() {
             # Its exit 2 is a CANNOT-DETERMINE, which is exactly what a stated
             # SKIP reason means here; it never returns 1, because a preflight
             # has read no site content and may make no claim about it.
+            local sb_out sb_rc
+            sb_out="$(ensure_site_built)"; sb_rc=$?
+            if [[ "$sb_rc" != "0" ]]; then
+                printf '%s\n' "$sb_out"
+                return "$sb_rc"
+            fi
             local pf_out pf_rc
             pf_out="$(cd "$ROOT/_tests" && node preflight.js --project=chromium 2>&1)"
             pf_rc=$?
@@ -455,6 +531,16 @@ gate_Z0() { bash "$ROOT/scripts/zero-gap-guard-checks.sh" --root "$ROOT"; }
 # refused. Same three-valued contract as Z0; rc 2 (e.g. classification data absent from HEAD) is UNDET.
 gate_Z1() { bash "$ROOT/scripts/zero-gap-third-party-guard.sh" --root "$ROOT"; }
 
+# Gate C — §12.10 protection 2: CONTINUATION.md must move with every watched
+# governance change. scripts/continuation-check.sh (0 in sync / 1 drift / 2 could
+# not determine) existed and was registered but no gate ran it, so drift went
+# unenforced until a reading found it (UG-11). Its rc maps straight onto this
+# runner's contract (run_gate maps 2 to UNDET). Its C5 check reads entry points
+# INSIDE submodules, so an uninitialised submodule produces DRIFT rows about a
+# checkout state, not about the document; precondition() therefore SKIPs the gate
+# with a stated reason in that case rather than accusing the tree.
+gate_C() { bash "$ROOT/scripts/continuation-check.sh"; }
+
 gate_0() { "$ROOT/scripts/audit-hardcoded-paths.sh"; }
 
 # Host-safety admission (2026-10-14 host-hang fix WP1): the heavy gates (1: go test, 6: Playwright) run
@@ -587,7 +673,7 @@ run_gate() {
     if [[ $prc -eq 2 ]]; then
         # An install RAN and failed: a real failure, never a SKIP (see precondition).
         printf '%s✖ FAIL%s  gate %-2s %s\n' "$RED" "$NC" "$id" "$name"
-        printf '        a host dependency install failed: %s\n' "$reason"
+        printf '        a precondition step failed (host dependency install or site build): %s\n' "$reason"
         FAILED=$((FAILED + 1))
         SUMMARY+=("FAIL|$id|$name|host dependency install failed: $reason")
         return 1
@@ -1027,8 +1113,81 @@ STUBHD
     assert "M7d hostdeps-rc2-strict    " 1 "PREPUSH_STRICT=1 and the gate cannot run" \
            PREPUSH_ONLY="5" PREPUSH_STRICT=1 --
     printf '1\n' > "$SPEC/scripts/hostdeps.sh.rc"
-    assert "M7e hostdeps-rc1-is-FAIL   " 1 "a host dependency install failed" PREPUSH_ONLY="5" --
+    assert "M7e hostdeps-rc1-is-FAIL   " 1 "a precondition step failed" PREPUSH_ONLY="5" --
     rm -rf "$SPEC/_tests/node_modules" "$SPEC/scripts/hostdeps.sh" "$SPEC/scripts/hostdeps.sh.rc"
+
+    # ---- M10  gate 6 builds milosvasic.ru/_site when absent, bounded, and a
+    # zero exit alone is not evidence. The specimen carries a stub admission
+    # controller (it just execs after `--`) and a stub site-build whose rc and
+    # whether it writes the artifact are DATA in sidecar files; this proves the
+    # WIRING (which verdict each outcome maps to), not that a real Jekyll build
+    # works — that is shown by a live run recorded in the PR, not here.
+    mkdir -p "$SPEC/_tests/node_modules/@playwright/test" "$SPEC/_tools/containers/bin"
+    cat > "$SPEC/scripts/agent-admit.sh" <<'STUBAA'
+#!/usr/bin/env bash
+while [ $# -gt 0 ] && [ "$1" != "--" ]; do shift; done
+shift
+exec "$@"
+STUBAA
+    cat > "$SPEC/_tools/containers/bin/site-build" <<'STUBSB'
+#!/usr/bin/env bash
+d="$(dirname "${BASH_SOURCE[0]}")"; rc=0; [ -f "$d/site-build.rc" ] && rc="$(cat "$d/site-build.rc")"
+if [ -f "$d/site-build.make" ]; then
+    mkdir -p "$d/../../../milosvasic.ru/_site"; echo built > "$d/../../../milosvasic.ru/_site/index.html"
+fi
+echo "synthetic site-build rc=${rc}"
+exit "$rc"
+STUBSB
+    chmod 755 "$SPEC/scripts/agent-admit.sh" "$SPEC/_tools/containers/bin/site-build"
+    local SBD="$SPEC/_tools/containers/bin" SITE_IDX="$SPEC/milosvasic.ru/_site/index.html"
+    printf '2\n' > "$SBD/site-build.rc"
+    assert "M10 build-rc2-is-SKIP      " 0 "site-build could not run to a verdict" PREPUSH_ONLY="6" --
+    assert "M10b build-rc2-strict      " 1 "PREPUSH_STRICT=1 and the gate cannot run" PREPUSH_ONLY="6" PREPUSH_STRICT=1 --
+    printf '1\n' > "$SBD/site-build.rc"
+    assert "M10c build-rc1-is-FAIL     " 1 "site-build RAN and FAILED" PREPUSH_ONLY="6" --
+    printf '0\n' > "$SBD/site-build.rc"
+    assert "M10d zero-exit-no-artifact " 0 "a zero exit is not evidence" PREPUSH_ONLY="6" --
+    : > "$SBD/site-build.make"
+    assert "M10e build-ok-reaches-preflight" 0 "preflight.js exited" PREPUSH_ONLY="6" --
+    if [[ -f "$SITE_IDX" ]]; then p_ok "M10e artifact-was-built    " "the stub produced _site/index.html and the gate went on to the preflight"
+    else p_bad "M10e artifact-was-built   " "no _site/index.html after a successful build"; fi
+    rm -rf "$SPEC/milosvasic.ru"
+    assert "M10f opt-out-does-not-build" 0 "forbids building it" PREPUSH_ONLY="6" PREPUSH_BUILD_SITE=0 --
+    if [[ ! -f "$SITE_IDX" ]]; then p_ok "M10f nothing-was-built     " "PREPUSH_BUILD_SITE=0 ran no build"
+    else p_bad "M10f nothing-was-built    " "a build ran despite PREPUSH_BUILD_SITE=0"; fi
+    rm -rf "$SPEC/milosvasic.ru" "$SPEC/_tests/node_modules" "$SPEC/_tools" "$SPEC/scripts/agent-admit.sh"
+    # ---- M11  gate C (CONTINUATION.md) maps the checker's rc onto the verdicts.
+    # The specimen's scripts/continuation-check.sh is a stub whose rc is DATA; this
+    # proves the WIRING (1 -> FAIL and blocks, 2 -> UNDET and blocks without
+    # accusing, an uninitialised submodule -> SKIP), not the checker itself, whose
+    # own proof is registered as `continuation-sync`.
+    cat > "$SPEC/scripts/continuation-check.sh" <<'STUBCC'
+#!/usr/bin/env bash
+f="${BASH_SOURCE[0]}.rc"; rc=0; [ -f "$f" ] && rc="$(cat "$f")"
+echo "synthetic continuation-check rc=${rc}"
+exit "$rc"
+STUBCC
+    chmod 755 "$SPEC/scripts/continuation-check.sh"
+    assert "M11 continuation-green     " 0 "ALL RUN GATES PASSED" PREPUSH_ONLY="C" --
+    printf '1\n' > "$SPEC/scripts/continuation-check.sh.rc"
+    assert "M11b continuation-drift    " 1 "PUSH BLOCKED" PREPUSH_ONLY="C" --
+    out="$(run_spec PREPUSH_ONLY="C" --)"
+    if grep -qE 'passed=0[[:space:]]+failed=1[[:space:]]+undetermined=0' <<<"$out"; then
+        p_ok "M11c drift-counted-as-FAIL" "counters read failed=1"
+    else
+        p_bad "M11c drift-counted-as-FAIL" "a drifting CONTINUATION.md was not counted as a FAIL"
+    fi
+    printf '2\n' > "$SPEC/scripts/continuation-check.sh.rc"
+    assert "M11d continuation-undet    " 1 "COULD NOT DETERMINE a verdict" PREPUSH_ONLY="C" --
+    printf '0\n' > "$SPEC/scripts/continuation-check.sh.rc"
+    # an uninitialised submodule: a gitlink with no checkout, registered in .gitmodules
+    printf '[submodule "uninit"]\n\tpath = uninit\n\turl = git@github.com:synthetic-org/uninit.git\n' >> "$SPEC/.gitmodules"
+    sgit -C "$SPEC" update-index --add --cacheinfo 160000,1111111111111111111111111111111111111111,uninit >/dev/null 2>&1
+    assert "M11e uninit-submodule-SKIPs" 0 "not initialised" PREPUSH_ONLY="C" --
+    assert "M11f uninit-strict-fails   " 1 "PREPUSH_STRICT=1 and the gate cannot run" PREPUSH_ONLY="C" PREPUSH_STRICT=1 --
+    sgit -C "$SPEC" update-index --force-remove uninit >/dev/null 2>&1
+    sgit -C "$SPEC" checkout -q -- .gitmodules >/dev/null 2>&1
+    rm -f "$SPEC/scripts/continuation-check.sh" "$SPEC/scripts/continuation-check.sh.rc"
 
     # ---- M8  the runner cannot create its workspace -> rc 2, never 0 --------
     assert "M8 no-log-dir-is-rc2       " 2 "cannot create a log directory" TMPDIR=/nonexistent --

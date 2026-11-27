@@ -1,0 +1,51 @@
+  ok    real_path resolves a file symlink (oracle: the GNU resolver)
+  ok    real_path resolves a directory symlink
+  ok    real_path of a missing path fails
+  ok    file_mode_octal 644 (fallback=0)
+  ok    file_mode_octal 600 (fallback=0)
+  ok    file_mode_octal 755 (fallback=0)
+  ok    file_mode_octal 4755 (fallback=0)
+  ok    file_inode (fallback=0)
+  ok    file_devino follows the symlink (fallback=0)
+  ok    file_mode_octal 644 (fallback=1)
+  ok    file_mode_octal 600 (fallback=1)
+  ok    file_mode_octal 755 (fallback=1)
+  ok    file_mode_octal 4755 (fallback=1)
+  ok    file_inode (fallback=1)
+  ok    file_devino follows the symlink (fallback=1)
+  ok    file_inode differs between distinct files
+  ok    sed_inplace edits in place
+  ok    sed_inplace keeps the mode
+  ok    sed_inplace keeps the inode
+  ok    sed_inplace leaves no temp file
+  ok    sed_inplace fails on a bad program
+  ok    sed_inplace leaves the file intact after a failed program
+  ok    sed_inplace on a missing file is rc 2
+  ok    mktemp_in creates inside the dir
+  ok    mktemp_in on a missing dir is rc 2
+  ok    sha256_manifest_write matches sha256sum
+  ok    sha256_manifest_check passes a good manifest
+  ok    sha256_manifest_check fails a tampered file
+  ok    sha256_manifest_check names the tampered file
+  ok    sha256_manifest_check of an empty manifest is rc 2 (never a pass)
+  ok    sha256_manifest_check of a missing manifest is rc 2
+  ok    lexical_path collapses // . ..
+  ok    lexical_path does NOT follow symlinks
+  ok    lexical_path of / is /
+  ok    lexical_path of /.. stays /
+  ok    lexical_path relative uses PWD
+  ok    lexical_path of a missing path works
+  ok    lexical_path empty -> rc 1
+  ok    resolve_path_m follows a relative link
+  ok    resolve_path_m follows an absolute link
+  ok    resolve_path_m follows a link chain
+  ok    resolve_path_m: .. pops the RESOLVED dir
+  ok    resolve_path_m: missing tail is lexical
+  ok    resolve_path_m of / is /
+  ok    resolve_path_m relative uses PWD
+  ok    resolve_path_m symlink loop -> rc 1
+  ok    resolve_path_m empty -> rc 1
+  ok    run-isolated: legal --root validated (rc 0)
+  ok    run-isolated: /proc root refused (rc 2)
+  ok    run-isolated: system root refused (rc 2)
+OK 50 assertion(s)

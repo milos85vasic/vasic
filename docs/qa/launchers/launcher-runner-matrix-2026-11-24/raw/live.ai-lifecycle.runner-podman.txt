@@ -1,0 +1,42 @@
+$ start.sh --runner=podman
+runner: podman (selected by flag)
+runner: podman (no containers used by this launcher)
+>> starting server ...
+UP: http://localhost:8099  (pid 156666)
+    https://localhost:8444  (HTTP/2 + HTTP/3, self-signed)
+{"curriculum":1,"lesson":435,"module":77,"plan":74,"question":2488,"track":3},"version":"1.0.0"}
+rc=0
+$ status.sh --runner=podman
+runner: podman (selected by flag)
+runner: podman (no containers used by this launcher)
+RUNNING (pid 156666)
+  http:  http://localhost:8099
+  https: https://localhost:8444
+{"identity_source":"ldflags","ok":true,"proto":"HTTP/1.1","source_commit":"d508b8e16697e19490b3b8d24f08669a70b6bc0f","source_dirty":true,"stats":{"curriculum":1,"lesson":435,"module":77,"plan":74,"question":2488,"track":3},"version":"1.0.0"}
+rc=0
+$ restart.sh --runner podman
+runner: podman (selected by flag)
+runner: podman (no containers used by this launcher)
+>> starting server ...
+UP: http://localhost:8099  (pid 173380)
+    https://localhost:8444  (HTTP/2 + HTTP/3, self-signed)
+{"curriculum":1,"lesson":435,"module":77,"plan":74,"question":2488,"track":3},"version":"1.0.0"}
+rc=0
+$ status.sh --runner=podman
+runner: podman (selected by flag)
+runner: podman (no containers used by this launcher)
+RUNNING (pid 173380)
+  http:  http://localhost:8099
+  https: https://localhost:8444
+{"identity_source":"ldflags","ok":true,"proto":"HTTP/1.1","source_commit":"d508b8e16697e19490b3b8d24f08669a70b6bc0f","source_dirty":true,"stats":{"curriculum":1,"lesson":435,"module":77,"plan":74,"question":2488,"track":3},"version":"1.0.0"}
+rc=0
+$ stop.sh --runner=podman
+runner: podman (selected by flag)
+runner: podman (no containers used by this launcher)
+stopped pid 173380
+rc=0
+$ status.sh --runner=podman
+runner: podman (selected by flag)
+runner: podman (no containers used by this launcher)
+STOPPED
+rc=0

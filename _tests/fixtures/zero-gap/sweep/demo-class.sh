@@ -25,7 +25,7 @@
 # Fix round 2 modes: nulbyte / c1ctrl / bidi / linesep (a NUL, U+0085, U+202E, U+2028 in a
 # description), envdump (writes the NAMES of its received environment to $TMPDIR/zg-env.txt and the
 # values of a few to $TMPDIR/zg-envval.txt), escaper (starts a TERM-ignoring grandchild in its OWN
-# session via setsid, pid in $TMPDIR/zg-escaper.pid), flood (200000 findings), badref (evidence_ref
+# session via setsid, pid in $TMPDIR/zg-escaper.pid), flood (200000 findings), flood20k (20000, the load-normalising baseline of the flood case), badref (evidence_ref
 # names no real path), rawref (unencoded blank in evidence_ref), trackedloc (location = a tracked
 # file outside the population, with a line suffix), ghostloc (location neither population nor
 # tracked), dotslash (population items start with ./), dotfix (./ plus corpus fixtures), dotloc (location ./notes/ok.txt), colonfix
@@ -74,7 +74,7 @@ done
 
 self=$(basename "$0"); mode=${self#zero-gap-class-}; mode=${mode%.sh}
 case "$mode" in
-    demo|quotes|blind|nondet|zeropop|mover|malformed|partial|rawspace|hostile|badutf8|restorer|ignwriter|tmpwriter|committer|configer|emitwriter|sleeper|orphaner|nap|sameset|fixturepop|nulbyte|c1ctrl|bidi|linesep|envdump|escaper|flood|badref|rawref|trackedloc|ghostloc|dotslash|dotfix|dotloc|colonfix|svclog|dotref|absref|alm|dirref|gitref|linkref|fixref|ignrm|igncpp|hookwriter|excludewriter|spawner) ;;
+    demo|flood20k|quotes|blind|nondet|zeropop|mover|malformed|partial|rawspace|hostile|badutf8|restorer|ignwriter|tmpwriter|committer|configer|emitwriter|sleeper|orphaner|nap|sameset|fixturepop|nulbyte|c1ctrl|bidi|linesep|envdump|escaper|flood|badref|rawref|trackedloc|ghostloc|dotslash|dotfix|dotloc|colonfix|svclog|dotref|absref|alm|dirref|gitref|linkref|fixref|ignrm|igncpp|hookwriter|excludewriter|spawner) ;;
     *) echo "COULD-NOT-INSPECT - demo-class copied under an unknown mode name"; exit 2 ;;
 esac
 if [ -z "$ROOT" ] || [ ! -d "$ROOT" ]; then echo "COULD-NOT-INSPECT - --root is not a directory"; exit 2; fi
@@ -163,6 +163,7 @@ if [ -z "$CORPUS" ]; then
         ghostloc) echo "FINDING $mode low other nowhere/x.txt neither a population item nor tracked notes/ok.txt"; found=$((found + 1)) ;;
         dotloc)  echo "FINDING $mode low other ./notes/ok.txt a dot-slash location notes/ok.txt"; found=$((found + 1)) ;;
         colonfix) echo "FINDING $mode low other notes/ok.txt:_tests/fixtures/zero-gap/x a fixture path after a colon notes/ok.txt"; found=$((found + 1)) ;;
+        flood20k) seq 1 20000 | awk -v m="$mode" '{ print "FINDING " m " low other notes/ok.txt:" $1 " flood finding notes/ok.txt:" $1 }'; found=$((found + 1)) ;;
         flood)   seq 1 200000 | awk -v m="$mode" '{ print "FINDING " m " low other notes/ok.txt:" $1 " flood finding notes/ok.txt:" $1 }'; found=$((found + 1)) ;;
         envdump) tr '\0' '\n' </proc/$$/environ | cut -d= -f1 | LC_ALL=C sort >"$TMPDIR/zg-env.txt"
                  for v in GIT_CONFIG_GLOBAL GIT_CONFIG_SYSTEM GOTOOLCHAIN GOMAXPROCS PYTHONDONTWRITEBYTECODE LC_ALL LANG; do printf '%s=%s\n' "$v" "${!v:-<unset>}"; done >"$TMPDIR/zg-envval.txt" ;;

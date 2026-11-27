@@ -1,0 +1,65 @@
+$ (cd <scratchpad>/umf/workshop) : env WORKSHOP_PROJECT_NAME=zzz-runner-matrix WORKSHOP_HTTP_PORT=18087 bash scripts/restart.sh --help
+# ==============================================================================
+# restart.sh — stop the curriculum stack, then start it again.
+#
+# Contracted in specs/001-workshop-curriculum-platform/contracts/pipeline-cli.md
+# §2.1 and §4.8. It did not exist; this is it.
+#
+# IT IS A FULL DOWN/UP, NOT A COMPOSE `restart`
+# ----------------------------------------------
+# `compose restart` re-execs the same container from the same image with the
+# same configuration. That makes it silently useless for the two reasons anyone
+# actually restarts this stack: picking up a changed compose file, and picking
+# up a rebuilt binary. A restart that appears to succeed while running the old
+# thing is worse than no restart at all, so this does the honest expensive
+# thing every time.
+#
+# THE SHORT CIRCUIT, AND WHY IT IS THE WHOLE POINT
+# -------------------------------------------------
+# If stop.sh returns 1 or 2, this script STOPS THERE and propagates that code
+# unchanged. It does not start.
+#
+#   rc 1 from stop  the stack was found and would not go down. Starting on top
+#                   of it would produce a second attempt at the same port and
+#                   report whichever outcome came back as "restarted".
+#   rc 2 from stop  we do not know whether anything is still running. Starting
+#                   would be a guess, and a green start over an unknown stop is
+#                   exactly the false pass the three-state contract exists to
+#                   prevent.
+#
+# Only a clean stop (rc 0 — which INCLUDES "it was already stopped", because
+# the desired state was reached) is allowed to proceed to start.
+#
+# Exit: start.sh's exit, unless stop.sh short-circuited, in which case stop.sh's.
+#
+#   ./restart.sh              stop, then start
+#   ./restart.sh --dry-run    print what it would do; touch nothing
+#   ./restart.sh --runner=NAME  force the container runner for BOTH the stop and
+#                             the start (precedence: flag > $CONTAINERS_RUNNER >
+#                             $WORKSHOP_CONTAINER_RUNTIME (diagnostics only) >
+#                             default order). Unknown or not-installed => rc 2,
+#                             never a fallback. See docs/RUNNER_FLAG.md.
+#
+# --destroy-volumes IS DELIBERATELY REFUSED HERE. The search index and the
+# transcripts are hours of compute; a "restart" must never be the command that
+# takes them. stop.sh --destroy-volumes remains available, with its typed
+# confirmation, for the operator who genuinely means it.
+#
+# QUIESCENCE, BEFORE STOP EVEN RUNS (T569, spec 008, was 006/T056)
+# -------------------------------------------------------------------------
+# A restart on this stack triggers a real, ~45-minute cross-reference
+# derivation over the whole corpus once it comes back up. Restarting while an
+# agent is mid-edit does not merely interrupt them: the derivation then runs
+# over a HALF-WRITTEN tree and has to be repeated once they finish. Before
+# calling stop.sh at all, this script takes two `git status --porcelain`
+# readings of the module root, WORKSHOP_RESTART_QUIESCE_SECONDS apart
+# (default 30 — see `ws_git_quiescent` in _common.sh for the single-pass
+# contract). If they differ, this script refuses to proceed (exit 2 —
+# UNDETERMINED whether it is currently safe, not a claim the stack is
+# broken), rather than guessing that whatever was mid-write is done.
+# `--skip-quiescence-check` opts out explicitly, for a caller that has
+# already established quiescence some other way.
+# ==============================================================================
+set -uo pipefail
+
+rc=0

@@ -48,7 +48,7 @@ module.exports = defineConfig({
   //     npx playwright test --config=playwright.live.config.js
   // which is where live-production verification belongs — alongside deployment,
   // not gating a push of source that has not been deployed yet.
-  testIgnore: /(restyle-seo-regression|v170-fixes|v171-hardcoding)\.spec\.js/,
+  testIgnore: /(restyle-seo-regression|v170-fixes|v171-hardcoding)\.spec\.js/, // SKIP-OK: VSC-434 deferred, not dropped: these three specs run post-deploy via playwright.live.config.js and _tools/deploy-langs.sh LIVE_SPECS
   timeout: 60000,
   expect: { timeout: 7000 },
   fullyParallel: true,

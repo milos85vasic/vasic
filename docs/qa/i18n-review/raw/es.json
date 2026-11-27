@@ -1,0 +1,599 @@
+{
+ "lang": "es",
+ "verdict": "FIX",
+ "summary": "Spanish is mostly sound and natural. Real defects: glossary violations ('Constitución', 'inteligencia artificial'), calques ('comezón que rascar', 'cambio de juego'), 'herencia' for heritage, a wrong capital in the %s fallback, and the untranslated exonym 'Belgrade'. Register (tú) is consistent.",
+ "checks": {
+  "meaning_idiom_register": "Professional-neutral, tú consistent. Defects: calques in two headings, herencia, notas de honestidad.",
+  "script": "Latin, accents correct.",
+  "rtl": "n/a",
+  "plural": "No plural-bearing keys. Confirmed.",
+  "date_number": "None present. Confirmed.",
+  "glossary": "Two real violations (Constitution, AI). Brands and products otherwise verbatim.",
+  "footer_length": "footer.suffix 37 chars OK; mv footer.text about 77 chars (EN 66), wraps like EN."
+ },
+ "items": [
+  {
+   "src": "gen",
+   "key": "skip",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.home",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.products",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.portfolio",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "toggle",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "footer.suffix",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "footer.version",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.download",
+   "verdict": "FIX",
+   "current": "Descargar Portafolio (PDF)",
+   "proposed": "Descargar portafolio (PDF)",
+   "rationale": "Spanish does not title-case common nouns mid-label."
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.products",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.tiers",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.helix",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.readmore",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.lede",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.summary",
+   "verdict": "FIX",
+   "current": "Una flota: grandes aplicaciones de productos sobre decenas de módulos pequeños, desacoplados, probados de forma independiente — gobernados por una Constitución de ingeniería compartida y verificados por QA anti-engaño. El lenguaje dominante es Go, con Kotlin/KMP, TypeScript/React, Python, Swift y Shell donde mejor se adapten. La tesis unificadora: una característica está terminada solo cuando un usuario real puede usarla y hay evidencia capturada para probarlo.",
+   "proposed": "Una flota: grandes aplicaciones de producto sobre decenas de módulos pequeños, desacoplados y probados de forma independiente, todo ello regido por una Constitution de ingeniería compartida y verificado mediante QA anti-engaño. El lenguaje dominante es Go, con Kotlin/KMP, TypeScript/React, Python, Swift y Shell donde mejor encajan. La tesis unificadora: una funcionalidad está terminada solo cuando un usuario real puede usarla y hay evidencia capturada que lo demuestra.",
+   "rationale": "Glossary violation: 'Constitución' must stay 'Constitution'; 'gobernados' wrongly agrees with 'módulos'; 'funcionalidad' is the standard software term for feature."
+  },
+  {
+   "src": "gen",
+   "key": "tier1.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier1.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier2.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier2.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier3.eyebrow",
+   "verdict": "FIX",
+   "current": "nivel 3 — herencia",
+   "proposed": "nivel 3 — legado",
+   "rationale": "'herencia' means inheritance; 'heritage' (legacy line) is 'legado'."
+  },
+  {
+   "src": "gen",
+   "key": "tier3.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.tier",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.order",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.source",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.license",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.architecture",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "kw.vasic",
+   "verdict": "FIX",
+   "current": "ingeniería de software, plataformas de desarrollo de inteligencia artificial, orquestación LLM, código abierto, herramientas para desarrolladores, SDK",
+   "proposed": "ingeniería de software, plataformas de desarrollo de AI, orquestación LLM, código abierto, herramientas para desarrolladores, SDK",
+   "rationale": "Glossary: 'AI' must appear verbatim ('inteligencia artificial' replaced it)."
+  },
+  {
+   "src": "gen",
+   "key": "kw.milos",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "aria.primaryNav",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "aria.backToTop",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "aria.toggleTheme",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.work",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.contact",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.3",
+   "verdict": "FIX",
+   "current": "La comezón que teníamos que rascar",
+   "proposed": "El problema que nos quitaba el sueño",
+   "rationale": "Literal calque of 'itch to scratch' ('comezón ... rascar') is not idiomatic Spanish."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.4",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.name",
+   "verdict": "FIX",
+   "current": "Por qué es un cambio de juego",
+   "proposed": "Por qué marca un antes y un después",
+   "rationale": "'cambio de juego' is a calque; idiomatic equivalent (not reusing gamechanger.0)."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.name",
+   "verdict": "FIX",
+   "current": "Estado y notas de honestidad",
+   "proposed": "Estado y notas de transparencia",
+   "rationale": "'notas de honestidad' is awkward; 'transparencia' is the natural register."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.summary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.short",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.long",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.desc.fallback",
+   "verdict": "FIX",
+   "current": "%s — Producto %s.",
+   "proposed": "%s — producto %s.",
+   "rationale": "Capital 'Producto' mid-sentence after a dash is wrong; placeholders kept in order."
+  },
+  {
+   "src": "gen",
+   "key": "alt.portrait",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "alt.brandLogo",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.beta",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.active",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.production",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.in-development",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.shipped",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.scaffold",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.roadmap",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.stable",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.mixed",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.helix-primary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.vasic-util-secondary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.serverfactory-tertiary",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "a11y.skip",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.expertise",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.work",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.experience",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.skills",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.contact",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "dl.heading",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "dl.choose",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "footer.text",
+   "verdict": "FIX",
+   "current": "Belgrade · Dubna. Construido como sitio estático, desplegado en GitHub Pages.",
+   "proposed": "Belgrado · Dubna. Construido como sitio estático, desplegado en GitHub Pages.",
+   "rationale": "English exonym 'Belgrade' left untranslated; Spanish is 'Belgrado'."
+  },
+  {
+   "src": "mv",
+   "key": "footer.version",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.changeLang",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.toggleTheme",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.menu",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.close",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.backToTop",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.primaryNav",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "title.language",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "title.theme",
+   "verdict": "OK"
+  }
+ ],
+ "glossary_violation_judgements": [
+  {
+   "key": "pf.summary",
+   "term": "Constitution",
+   "real": true,
+   "why": "Localized to 'Constitución'; glossary requires 'Constitution' verbatim (fixed in proposal)."
+  },
+  {
+   "key": "kw.vasic",
+   "term": "AI",
+   "real": true,
+   "why": "Replaced by 'inteligencia artificial'; glossary requires 'AI' verbatim. Whether SEO keywords should also add 'IA' is a policy call for the owner."
+  }
+ ],
+ "spotcheck": [
+  "Portafolio (LatAm) vs Portfolio (Spain): pick the target variant.",
+  "prod.source 'Fuente': if it links to a repo, 'Código fuente' is clearer.",
+  "'QA anti-engaño' as the rendering of 'anti-bluff QA'.",
+  "'Ideas dignas de robar': is the playful tone acceptable?",
+  "Dubna: Spanish sources also spell it 'Dubná'."
+ ]
+}

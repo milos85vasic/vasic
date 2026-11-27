@@ -1,0 +1,3 @@
+$ (cd <scratchpad>/umf/job_seeker) : ./bin/jsstack --runner podman probe
+runtime=podman version=5.7.0 compose=available
+rc=0

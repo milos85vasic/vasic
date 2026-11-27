@@ -1,0 +1,3 @@
+$ (cd <scratchpad>/umf/job_seeker) : ./bin/jsstack --runner=docker probe
+jsstack: COULD NOT DETERMINE: no container runtime: forced container runner is not available: "docker" (selected via flag) is not installed or not reachable on this host; refusing to fall back to another runner
+rc=2

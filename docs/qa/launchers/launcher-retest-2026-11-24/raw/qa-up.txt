@@ -105,7 +105,7 @@ HTTP 200
 === [stop] $ bash scripts/qa-up.sh --stop
 >> vd: stopped pid 397181
 >> mv: stopped pid 410370
->> workshop: not started by qa-up.sh — left running (stop it with /home/milosvasic/Projects/vasic/workshop/scripts/stop.sh)
+>> workshop: not started by qa-up.sh — left running (stop it with <repo>/workshop/scripts/stop.sh)
 stopped pid 415073
 --- rc=0
 === [snap after-stop] podman ps (ours)
@@ -115,14 +115,14 @@ listeners:
 === [stop-again] $ bash scripts/qa-up.sh --stop
 >> vd: nothing of ours running
 >> mv: nothing of ours running
->> workshop: not started by qa-up.sh — left running (stop it with /home/milosvasic/Projects/vasic/workshop/scripts/stop.sh)
->> ai: not started by qa-up.sh — left running (stop it with /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/aiwt/platform/scripts/stop.sh)
+>> workshop: not started by qa-up.sh — left running (stop it with <repo>/workshop/scripts/stop.sh)
+>> ai: not started by qa-up.sh — left running (stop it with <scratchpad>/aiwt/platform/scripts/stop.sh)
 --- rc=0
 === [runner-bogus-stop] $ bash scripts/qa-up.sh --stop --runner=bogus
 runner: unknown container runner "bogus" (from --runner): supported runners are podman, docker, nerdctl, cri-o, lxd, kubernetes, or "auto" for the default order
 !! runner not selected on --stop (stopping needs none); the stack scripts decide
 >> vd: nothing of ours running
 >> mv: nothing of ours running
->> workshop: not started by qa-up.sh — left running (stop it with /home/milosvasic/Projects/vasic/workshop/scripts/stop.sh)
->> ai: not started by qa-up.sh — left running (stop it with /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/aiwt/platform/scripts/stop.sh)
+>> workshop: not started by qa-up.sh — left running (stop it with <repo>/workshop/scripts/stop.sh)
+>> ai: not started by qa-up.sh — left running (stop it with <scratchpad>/aiwt/platform/scripts/stop.sh)
 --- rc=0

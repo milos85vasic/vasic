@@ -1,0 +1,4 @@
+$ (cd <scratchpad>/umf/job_seeker) : bash gates/live_h3.sh --runner=docker
+jsstack: COULD NOT DETERMINE: no container runtime: forced container runner is not available: "docker" (selected via env) is not installed or not reachable on this host; refusing to fall back to another runner
+UNDETERMINED: no runtime/compose (or the forced runner is refused)
+rc=2
