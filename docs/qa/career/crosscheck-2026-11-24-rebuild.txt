@@ -1,0 +1,6 @@
+# cross-extractor and structure checks, all 300 PDFs (pypdf) + samples
+pdfs=300 tagged=300 xmp=300 with_links=300 bad=0 []
+cv-ai-engineering-ar pdftotext_words=1083 mutool_words=1007 ocr_ara+eng_words_p1=463
+cover-ai-engineering-ja pdftotext_words=85 mutool_words=88 ocr_jpn+eng_words_p1=210
+cv-ai-engineering-ru pdftotext_words=927 mutool_words=933 ocr_rus+eng_words_p1=329
+cv-ai-engineering-hi pdftotext_words=1002 mutool_words=1010 ocr_hin+eng_words_p1=443

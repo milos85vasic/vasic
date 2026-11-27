@@ -1,0 +1,584 @@
+{
+ "lang": "fr",
+ "verdict": "FIX",
+ "summary": "French is good overall, with correct NBSP before ':' in footer.version. Real defects: pf.summary lacks mandatory elision (lorsqu'un) and NBSP before colons and uses 'un QA'; 'commande' mistranslates order; wrong word order in the %s fallback and logo alt; 'IA' instead of verbatim 'AI'; a calque heading.",
+ "checks": {
+  "meaning_idiom_register": "Professional, vous consistent. Defects: 'commande', calque heading, word order in two keys.",
+  "script": "Latin, accents correct; straight and curly apostrophes mixed (typographic, not blocking).",
+  "rtl": "n/a",
+  "plural": "No plural-bearing keys. Confirmed.",
+  "date_number": "None present. Confirmed. footer.version uses U+00A0 before ':', correct.",
+  "glossary": "One real violation (IA → AI). Constitution, brands and products verbatim.",
+  "footer_length": "footer.suffix 35 chars OK; mv footer.text about 75 chars (EN 66), wraps like EN."
+ },
+ "items": [
+  {
+   "src": "gen",
+   "key": "skip",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.home",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.products",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.portfolio",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "toggle",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "footer.suffix",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "footer.version",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.download",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.products",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.tiers",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.helix",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.readmore",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.lede",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.summary",
+   "verdict": "FIX",
+   "current": "Une flotte : de grandes applications de produits basées sur des dizaines de petits modules découplés, indépendamment testés — gouvernés par une Constitution d'ingénierie partagée et vérifiés par un QA anti-bluff. Le langage dominant est Go, avec Kotlin/KMP, TypeScript/React, Python, Swift et Shell là où ils conviennent le mieux. La thèse unificatrice : une fonctionnalité n'est terminée que lorsque un utilisateur réel peut l'utiliser et qu'il existe des preuves capturées pour le prouver.",
+   "proposed": "Une flotte : de grandes applications produit reposant sur des dizaines de petits modules découplés et testés indépendamment — le tout régi par une Constitution d'ingénierie commune et vérifié par une QA anti-bluff. Le langage dominant est Go, avec Kotlin/KMP, TypeScript/React, Python, Swift et Shell là où ils conviennent le mieux. La thèse unificatrice : une fonctionnalité n'est terminée que lorsqu'un utilisateur réel peut l'utiliser et que des preuves recueillies l'attestent.",
+   "rationale": "Missing mandatory elision 'lorsque un' → 'lorsqu'un'; regular spaces before ':' (needs NBSP); 'un QA' (QA is feminine); redundant 'preuves ... prouver'; agreement of 'gouvernés'."
+  },
+  {
+   "src": "gen",
+   "key": "tier1.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier1.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier2.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier2.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier3.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier3.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.tier",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.order",
+   "verdict": "FIX",
+   "current": "commande",
+   "proposed": "ordre",
+   "rationale": "'commande' means a purchase order; sort/sequence order is 'ordre'."
+  },
+  {
+   "src": "gen",
+   "key": "prod.source",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.license",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.architecture",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "kw.vasic",
+   "verdict": "FIX",
+   "current": "ingénierie logicielle, plateformes de développement d'IA, orchestration LLM, open source, outils de développement, SDK",
+   "proposed": "ingénierie logicielle, plateformes de développement AI, orchestration LLM, open source, outils de développement, SDK",
+   "rationale": "Glossary: 'AI' must appear verbatim (was localized to 'IA')."
+  },
+  {
+   "src": "gen",
+   "key": "kw.milos",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "aria.primaryNav",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "aria.backToTop",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "aria.toggleTheme",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.work",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.contact",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.3",
+   "verdict": "FIX",
+   "current": "La démangeaison qu’il nous fallait gratter",
+   "proposed": "Le besoin qu'il nous fallait combler",
+   "rationale": "Literal calque of 'itch to scratch' ('démangeaison ... gratter') is not idiomatic French."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.4",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.summary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.short",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.long",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.desc.fallback",
+   "verdict": "FIX",
+   "current": "%s — %s produit.",
+   "proposed": "%s — produit %s.",
+   "rationale": "French word order: noun before its modifier ('produit Helix'), not '%s produit'; placeholders kept in order."
+  },
+  {
+   "src": "gen",
+   "key": "alt.portrait",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "alt.brandLogo",
+   "verdict": "FIX",
+   "current": "Vasic Digital logo",
+   "proposed": "Logo de Vasic Digital",
+   "rationale": "English word order; French is 'Logo de Vasic Digital'."
+  },
+  {
+   "src": "gen",
+   "key": "status.beta",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.active",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.production",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.in-development",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.shipped",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.scaffold",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.roadmap",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.stable",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.mixed",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.helix-primary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.vasic-util-secondary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.serverfactory-tertiary",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "a11y.skip",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.expertise",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.work",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.experience",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.skills",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.contact",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "dl.heading",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "dl.choose",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "footer.text",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "footer.version",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.changeLang",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.toggleTheme",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.menu",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.close",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.backToTop",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.primaryNav",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "title.language",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "title.theme",
+   "verdict": "OK"
+  }
+ ],
+ "glossary_violation_judgements": [
+  {
+   "key": "kw.vasic",
+   "term": "AI",
+   "real": true,
+   "why": "Localized to 'IA'; glossary requires 'AI' verbatim. A French searcher types 'IA', so the owner may want to exempt kw.* (policy decision, not a linguistic error)."
+  }
+ ],
+ "spotcheck": [
+  "Mixed straight (') and curly (’) apostrophes across keys: normalize.",
+  "Dubna: French spelling is usually 'Doubna'.",
+  "gen footer.version 'Version du site web :' vs mv 'Version du site :': harmonize if wanted.",
+  "'stack technique' anglicism (vs 'pile technologique'), common in French tech.",
+  "kw.vasic: confirm the policy of 'AI' vs 'IA' in SEO keywords."
+ ]
+}

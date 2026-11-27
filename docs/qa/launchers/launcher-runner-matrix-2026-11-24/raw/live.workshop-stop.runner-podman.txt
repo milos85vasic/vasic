@@ -1,0 +1,8 @@
+$ stop.sh --runner podman (isolated)
+>> stopping the workshop curriculum stack ...
+2026/11/24 15:27:19 [INFO]  workshop-boot: compose down: podman-compose -f <repo>/workshop/platform/compose.yml --project-name zzz-runner-matrix down --timeout 20
+2026/11/24 15:27:19 [DEBUG] workshop-boot: executing: podman-compose -f <repo>/workshop/platform/compose.yml --project-name zzz-runner-matrix down --timeout 20 (dir: <repo>/workshop/platform)
+2026/11/24 15:27:20 [DEBUG] workshop-boot: compose command completed successfully
+STOPPED
+named volumes preserved (search index and transcripts intact)
+rc=0

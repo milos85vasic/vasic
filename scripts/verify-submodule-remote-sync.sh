@@ -305,11 +305,23 @@ read_remote_ref() {
 }
 
 mask_url() { printf '%s' "$1" | sed -E 's#(https?://)[^/@]*@#\1***@#'; }
+# own_repo DIR -- true only when DIR is the top level of its OWN git repository. An
+# uninitialised submodule is an empty directory inside the superproject, so a bare
+# `git -C DIR rev-parse --git-dir` WALKS UP and succeeds against the superproject;
+# every probe after it then reads the SUPERPROJECT's remotes and reports a false DRIFT
+# for a submodule that was never checked out (measured 2026-11-24, worktree with
+# uninitialised submodules: 10 false DRIFT rows naming the umbrella's own push URL).
+own_repo() {
+    local d="$1" top
+    [ -d "$d" ] || return 1
+    top="$(git -C "$d" rev-parse --show-toplevel 2>/dev/null)" || return 1
+    [ "$(cd "$d" && pwd -P)" = "$(cd "$top" && pwd -P)" ]
+}
 probe_pushurls() {
     local path="$1" local_sha="$2" fetch_url="$3" ref_label="$4" owned="$5"
     local sub_dir="${root}/${path}" pushes pu i=0 out prc rsha rref direction mu
     [ "$owned" -eq 1 ] || return 0
-    if [ ! -d "$sub_dir" ] || ! git -C "$sub_dir" rev-parse --git-dir >/dev/null 2>&1; then
+    if ! own_repo "$sub_dir"; then
         inf "REMOTE-SYNC · ${path} — not checked out, so its push targets (remote.origin.pushurl) cannot be read; the fetch URL is the only remote compared"
         return 0
     fi
@@ -452,7 +464,7 @@ check_remote_sync() {
         direction="DIFFERS"
         sub_dir="${root}/${path}"
         have_local=""; have_remote=""
-        if [ -d "$sub_dir" ] && git -C "$sub_dir" rev-parse --git-dir >/dev/null 2>&1; then
+        if own_repo "$sub_dir"; then
             git -C "$sub_dir" cat-file -e "${local_sha}^{commit}"  2>/dev/null && have_local="1"
             git -C "$sub_dir" cat-file -e "${remote_sha}^{commit}" 2>/dev/null && have_remote="1"
             if [ -z "$have_remote" ] && [ -n "$do_fetch" ]; then
@@ -780,6 +792,14 @@ prove_failure() {
         echo "❌ P10-P14 no-HEAD-symref fixtures could not be built (or did not reproduce rc 0 with zero lines)"
         mut_fails=$((mut_fails+1))
     fi
+
+    # P18 (2026-11-24): an UNINITIALISED submodule (empty dir inside the superproject) must not inherit the SUPERPROJECT's
+    # pushurl. Before the own_repo fix `rev-parse --git-dir` walked up, read the superproject's pushurl (here unreachable)
+    # and the row came out UNDETERMINED / false DRIFT; the correct reading is the NOTE "not checked out" and rc 0.
+    build_specimen "${sandbox}/p18" "mod|mod|${tip}|" || { echo "${GATE}: cannot verify — specimen p18" >&2; return 2; }
+    mkdir -p "${sandbox}/p18/mod"
+    git -C "${sandbox}/p18" config --add remote.origin.pushurl "file://${sandbox}/up/does_not_exist"
+    assert_case "P18 uninitialised sub — must not read the superproject's pushurl; rc 0 + NOTE   " 0 "not checked out" "${sandbox}/p18"
 
     # ── RESTORED CONTROL ─────────────────────────────────────────────────────
     assert_case "CONTROL restored      — the P1 specimen is still green                      " 0 "PASS" "${sandbox}/p1"

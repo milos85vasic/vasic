@@ -23,6 +23,7 @@ TARGET=""
 
 while [ $# -gt 0 ]; do
     case "$1" in
+        --help|-h) printf 'Usage: _tools/hawkscan/run.sh [--target <base-url>] [--runner=NAME]\n%s\n' '  Container runner: --runner=NAME (or --runner NAME, or env CONTAINERS_RUNNER; flag wins; unknown or not-installed runner exit 2, no fallback). See docs/RUNNER_FLAG.md.'; exit 0 ;;
         --target) TARGET="$2"; shift 2 ;;
         *) echo "unknown argument: $1" >&2; exit 2 ;;
     esac

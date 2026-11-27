@@ -299,7 +299,7 @@ func TestLegacyItemsAreNotGapItems(t *testing.T) {
 // finding elsewhere still outranks it.
 func TestUnreadableEvidenceIsUndeterminedAndAFindingOutranksIt(t *testing.T) {
 	if os.Geteuid() == 0 {
-		t.Skip("SKIPPED (not passed): running as root, file permissions cannot make a file unreadable")
+		t.Skip("SKIPPED (not passed): running as root, file permissions cannot make a file unreadable") // SKIP-OK: VSC-433 conditional on not running as root (root ignores file permissions)
 	}
 	// Round 3 (M2): evidence must lie inside the repository root, so the
 	// unreadable GREEN is made unreadable IN PLACE inside the test root.

@@ -70,6 +70,7 @@ IN="" OUT=""
 FWD=()   # forwarded engine flags (provider/model/langs/script/api-key/timeout/verify)
 while [ $# -gt 0 ]; do
   case "$1" in
+    --help|-h) printf 'Usage: _tools/helixtranslate-local.sh -i IN -o OUT [engine flags] [--runner=NAME]\n%s\n' '  Container runner: --runner=NAME (or --runner NAME, or env CONTAINERS_RUNNER; flag wins; unknown or not-installed runner exit 2, no fallback). See docs/RUNNER_FLAG.md.'; exit 0 ;;
     -i|-input)  IN="$2"; shift 2 ;;
     -o|-output) OUT="$2"; shift 2 ;;
     -provider|-model|-source-lang|-target-lang|-script|-api-key|-base-url|-timeout|-chunk-size|-concurrency)

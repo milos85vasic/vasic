@@ -1,0 +1,3 @@
+$ (cd <scratchpad>/umf) : bash _tools/od/start-daemon.sh --runner=
+start-daemon: --runner needs a value
+rc=2

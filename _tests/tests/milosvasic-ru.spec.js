@@ -9,7 +9,9 @@ const path = require('path');
 // TWICE, tracked and byte-different, at _tests/evidence/<name>.png and
 // _tests/evidence/homepages/<name>.png. Anchoring on __dirname makes the
 // destination a property of the repository layout instead of the invocation.
-const SHOTS = path.join(__dirname, '..', 'evidence', 'homepages');
+const { evidenceDir } = require('../tools/evidence-paths.cjs');
+// Tracked evidence/homepages/ ONLY under EVIDENCE_REFRESH=1 (UG-15).
+const SHOTS = evidenceDir('homepages');
 
 // milosvasic.ru — AI-engineer personal site, reframed on the OpenDesign system while
 // keeping the Jekyll `default` layout chrome (nav, footer, theme + MV_I18N, download popup).
@@ -139,7 +141,7 @@ test.describe('milosvasic.ru — AI engineer site (OpenDesign + Jekyll)', () => 
   });
 
   test('evidence screenshots (chromium)', async ({ page }, testInfo) => {
-    if (testInfo.project.name !== 'chromium') test.skip();
+    if (testInfo.project.name !== 'chromium') test.skip(); // SKIP-OK: VSC-433 conditional on the browser project: evidence screenshots are taken in chromium only
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(BASE);
     // Settle any JS count-up before capturing. milosvasic.ru carries no

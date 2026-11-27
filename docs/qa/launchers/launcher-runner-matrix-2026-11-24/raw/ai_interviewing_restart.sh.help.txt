@@ -1,0 +1,4 @@
+$ (cd <scratchpad>/umf/ai_interviewing/platform/scripts) : bash ./restart.sh --help
+Usage: restart.sh [--runner=NAME]
+  --runner=NAME  accepted and validated (no containers are used by this launcher)
+rc=0

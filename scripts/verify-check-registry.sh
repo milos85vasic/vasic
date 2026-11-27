@@ -185,7 +185,7 @@ _fact_set_digest() {   # _fact_set_digest <root> <comma-separated specs>  -> std
         if [[ "${spec:0:1}" == "!" ]]; then exc+=("${spec:1}"); else inc+=("$spec"); fi
     done
     [[ ${#inc[@]} -gt 0 ]] || { echo "fact set names no include spec"; return 1; }
-    local oldnull; oldnull="$(shopt -p nullglob)"
+    local had_nullglob=0; shopt -q nullglob && had_nullglob=1
     shopt -s nullglob
     for pat in "${inc[@]}"; do
         matched=0
@@ -200,10 +200,11 @@ _fact_set_digest() {   # _fact_set_digest <root> <comma-separated specs>  -> std
             files+=("$rel"); matched=1
         done
         if [[ $matched -eq 0 ]]; then
-            eval "$oldnull"; echo "covered path matches no file: $pat"; return 1
+            [[ $had_nullglob -eq 1 ]] || shopt -u nullglob
+            echo "covered path matches no file: $pat"; return 1
         fi
     done
-    eval "$oldnull"
+    [[ $had_nullglob -eq 1 ]] || shopt -u nullglob
     sorted="$(printf '%s\n' "${files[@]}" | LC_ALL=C sort -u)"
     while IFS= read -r f; do
         [[ -n "$f" ]] || continue
@@ -591,7 +592,7 @@ FAKE
             printf 'while [[ $# -gt 0 ]]; do\n    case "$1" in\n'
             printf '        --root) shift; [[ -d "${1:-}" ]] || exit 2 ;;\n'
             [[ "$with_proof" == "1" ]] && \
-            printf '        --prove-failure) T="$(mktemp -d)"; trap %s EXIT; rm -rf "$T"; exit 0 ;;\n' "'rm -rf \"\$T\"'"
+            printf '        --prove-failure) T="$(mktemp -d)"; trap %s EXIT; rm -rf "$T"; exit 0 ;;\n' "'rm -rf \"\$T\"'"  # DANGER-OK: this printf WRITES the text of a throwaway stub gate into a temp file; nothing here deletes anything
             printf '    esac\n    shift\ndone\nexit 0\n'
         } >"$path"
         chmod 755 "$path"

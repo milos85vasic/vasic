@@ -32,7 +32,7 @@ const PAGES = [
 ];
 
 test.describe('milosvasic.css HEAD vs working tree — existing pages', () => {
-  test.skip(!baseCss, 'cannot read HEAD stylesheet from milosvasic.ru submodule — UNDETERMINED, not a pass');
+  test.skip(!baseCss, 'cannot read HEAD stylesheet from milosvasic.ru submodule — UNDETERMINED, not a pass'); // SKIP-OK: VSC-433 conditional on the milosvasic.ru submodule HEAD stylesheet being readable; the skip text says UNDETERMINED, not a pass
   fs.mkdirSync(OUT, { recursive: true });
   for (const scheme of ['light', 'dark']) for (const vw of [1280, 400]) for (const [name, url] of PAGES) {
     test(`${name} ${scheme} ${vw}px`, async ({ browser }, info) => {

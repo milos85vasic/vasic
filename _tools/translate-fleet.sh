@@ -22,6 +22,7 @@ set -uo pipefail
 . "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/lib/translation-fleet.sh"
 ht_runner_parse "$@" || exit 2
 set -- "${HT_ARGS[@]+"${HT_ARGS[@]}"}"
+case "${1:-}" in --help|-h) printf 'Usage: _tools/translate-fleet.sh TAG [lang ...] [--runner=NAME]   (fleet declared in HT_FLEET)\n%s\n' '  Container runner: --runner=NAME (or --runner NAME, or env CONTAINERS_RUNNER; flag wins; unknown or not-installed runner exit 2, no fallback). See docs/RUNNER_FLAG.md.'; exit 0 ;; esac
 TAG="${1:?tag required}"; shift
 LANGS="$*"
 # ROOT (the repository root) is DERIVED from this script's own location

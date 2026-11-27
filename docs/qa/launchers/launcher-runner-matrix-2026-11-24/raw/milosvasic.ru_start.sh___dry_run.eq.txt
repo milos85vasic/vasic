@@ -1,0 +1,5 @@
+$ (cd <scratchpad>/umf/milosvasic.ru) : bash ./start.sh --runner=podman --dry-run
+runner: podman (selected by flag)
+serving Jekyll in a container via: podman-compose (runner podman)
+podman-compose -p milosvasic-ru-serve -f <scratchpad>/umf/milosvasic.ru/_container/compose.serve.yml up
+rc=0

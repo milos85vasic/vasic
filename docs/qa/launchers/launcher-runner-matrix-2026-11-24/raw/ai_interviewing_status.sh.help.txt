@@ -1,0 +1,4 @@
+$ (cd <scratchpad>/umf/ai_interviewing/platform/scripts) : bash ./status.sh --help
+Usage: status.sh [--runner=NAME]
+  --runner=NAME  accepted and validated (no containers are used by this launcher)
+rc=0

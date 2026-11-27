@@ -1,0 +1,702 @@
+{
+ "lang": "tr",
+ "verdict": "FIX",
+ "summary": "Most navigation, aria, badge and section labels are correct, natural Turkish with correct vowel harmony and apostrophe suffixation (Miloš Vasić'in, Go'dur). Real defects: pf.summary leaves 'shared engineering' in English, translates 'Constitution' (glossary violation) and has a case error; 'order' was mistranslated as a purchase order; 'fleet' is calqued as 'filo'; several rotating headings are literal idiom calques or change meaning (how vs why); 'Belgrade' kept in its English form.",
+ "checks": {
+  "meaning_idiom_register": "Professional-neutral register throughout. FIX: idiom calques in prod.head.whywebuilt.3, gamechanger.0/.name, techstack.2; meaning error prod.order; incomplete/ambiguous headings whywebuilt.1/.2, status.2; fleet calque in pf.overview.title, pf.summary, powers.1/.2; status.scaffold.",
+  "script": "Latin Turkish alphabet with correct ç ğ ı İ ö ş ü; no foreign-script garbage.",
+  "rtl": "n/a",
+  "plural": "No plural-form strings; confirmed none carry plural variants.",
+  "date_number": "No dates or numbers inside strings (version number and year are injected outside the translated text); confirmed.",
+  "glossary": "One real violation: pf.summary 'Anayasası' for Constitution (fixed as 'anayasası (Constitution)'). Brands/products (Helix, Vasic Digital, Server Factory, OpenDesign, GitHub Pages, Miloš Vasić, AI, LLM, SDK) are verbatim elsewhere.",
+  "footer_length": "footer.suffix 42 chars, footer.version 18 chars: fine. footer.text (mv) is ~85 chars vs 66 in English; it is a full sentence line, not a narrow label, but flag for a narrow-viewport visual check."
+ },
+ "items": [
+  {
+   "src": "gen",
+   "key": "skip",
+   "verdict": "OK",
+   "current": "İçeriğe atla"
+  },
+  {
+   "src": "gen",
+   "key": "nav.home",
+   "verdict": "OK",
+   "current": "Ana Sayfa"
+  },
+  {
+   "src": "gen",
+   "key": "nav.products",
+   "verdict": "OK",
+   "current": "Ürünler"
+  },
+  {
+   "src": "gen",
+   "key": "nav.portfolio",
+   "verdict": "OK",
+   "current": "Portföy"
+  },
+  {
+   "src": "gen",
+   "key": "toggle",
+   "verdict": "OK",
+   "current": "Temayı değiştir"
+  },
+  {
+   "src": "gen",
+   "key": "footer.suffix",
+   "verdict": "OK",
+   "current": "OpenDesign sistemi üzerine inşa edilmiştir"
+  },
+  {
+   "src": "gen",
+   "key": "footer.version",
+   "verdict": "OK",
+   "current": "Web sitesi sürümü:"
+  },
+  {
+   "src": "gen",
+   "key": "pf.eyebrow",
+   "verdict": "OK",
+   "current": "birleştirilmiş portföy"
+  },
+  {
+   "src": "gen",
+   "key": "pf.title",
+   "verdict": "OK",
+   "current": "Portföy"
+  },
+  {
+   "src": "gen",
+   "key": "pf.download",
+   "verdict": "OK",
+   "current": "Portföyü indir (PDF)"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.products",
+   "verdict": "OK",
+   "current": "Ürünler"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.tiers",
+   "verdict": "OK",
+   "current": "Seviyeler"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.helix",
+   "verdict": "OK",
+   "current": "Helix ürünleri"
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.eyebrow",
+   "verdict": "OK",
+   "current": "genel bakış"
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.title",
+   "verdict": "FIX",
+   "current": "Tek filo, tek disiplin",
+   "proposed": "Tek ekosistem, tek disiplin",
+   "rationale": "'filo' (ship/vehicle fleet) is a calque for a family of software modules; 'ekosistem' is the natural Turkish tech term. Applied consistently to pf.summary and prod.head.powers.1/.2."
+  },
+  {
+   "src": "gen",
+   "key": "pf.readmore",
+   "verdict": "OK",
+   "current": "Daha fazla oku"
+  },
+  {
+   "src": "gen",
+   "key": "pf.lede",
+   "verdict": "OK",
+   "current": "Helix ailesi, Vasic Digital araçları ve Server Factory araç zincirinin birleştirilmiş, kanıtlara dayalı portföyü."
+  },
+  {
+   "src": "gen",
+   "key": "pf.summary",
+   "verdict": "FIX",
+   "current": "Tek bir filo: shared engineering Anayasası tarafından yönetilen ve anti-bluff QA tarafından doğrulanan düzinelerce küçük, ayrıştırılmış, bağımsız olarak test edilmiş modüllerin üzerine inşa edilmiş büyük ürün uygulamaları. Baskın dil Go'dur, Kotlin/KMP, TypeScript/React, Python, Swift ve Shell en uygun yerlerde kullanılır. Birleştirici tezin: bir özellik, yalnızca gerçek bir kullanıcı tarafından kullanılabildiğinde ve bunu kanıtlamak için somut kanıt olduğunda tamamlanmış sayılır.",
+   "proposed": "Tek bir ekosistem: düzinelerce küçük, birbirinden bağımsız ve ayrı ayrı test edilmiş modülün üzerine kurulu büyük ürün uygulamaları — ortak bir mühendislik anayasası (Constitution) ile yönetilir ve blöfe yer vermeyen kalite güvencesiyle (QA) doğrulanır. Baskın dil Go'dur; Kotlin/KMP, TypeScript/React, Python, Swift ve Shell en uygun oldukları yerlerde kullanılır. Birleştirici tez: bir özellik ancak gerçek bir kullanıcı onu kullanabildiğinde ve bunu gösteren kayıt altına alınmış kanıt bulunduğunda tamamlanmış sayılır.",
+   "rationale": "Current leaves 'shared engineering' in English, translates the glossary term Constitution as 'Anayasası' (glossary violation), keeps 'anti-bluff QA' as an opaque calque, has a case error 'Birleştirici tezin' (should be 'tez:'), and the tautology 'kanıtlamak için somut kanıt'."
+  },
+  {
+   "src": "gen",
+   "key": "tier1.eyebrow",
+   "verdict": "OK",
+   "current": "seviye 1 — amiral gemisi"
+  },
+  {
+   "src": "gen",
+   "key": "tier1.title",
+   "verdict": "OK",
+   "current": "Helix ailesi ve LLM altyapısı"
+  },
+  {
+   "src": "gen",
+   "key": "tier2.eyebrow",
+   "verdict": "OK",
+   "current": "seviye 2 — araçlar"
+  },
+  {
+   "src": "gen",
+   "key": "tier2.title",
+   "verdict": "OK",
+   "current": "Vasic Digital araçları"
+  },
+  {
+   "src": "gen",
+   "key": "tier3.eyebrow",
+   "verdict": "OK",
+   "current": "seviye 3 — miras"
+  },
+  {
+   "src": "gen",
+   "key": "tier3.title",
+   "verdict": "OK",
+   "current": "Server Factory"
+  },
+  {
+   "src": "gen",
+   "key": "prod.tier",
+   "verdict": "OK",
+   "current": "seviye"
+  },
+  {
+   "src": "gen",
+   "key": "prod.order",
+   "verdict": "FIX",
+   "current": "sipariş",
+   "proposed": "sıra",
+   "rationale": "Rendered next to a sort-position number (e.Order); 'sipariş' means a purchase order: mistranslation."
+  },
+  {
+   "src": "gen",
+   "key": "prod.source",
+   "verdict": "OK",
+   "current": "Kaynak"
+  },
+  {
+   "src": "gen",
+   "key": "prod.license",
+   "verdict": "OK",
+   "current": "lisans"
+  },
+  {
+   "src": "gen",
+   "key": "prod.architecture",
+   "verdict": "OK",
+   "current": "mimari"
+  },
+  {
+   "src": "gen",
+   "key": "kw.vasic",
+   "verdict": "OK",
+   "current": "yazılım mühendisliği, AI geliştirme platformları, LLM orkestrasyonu, açık kaynak, geliştirici araçları, SDK"
+  },
+  {
+   "src": "gen",
+   "key": "kw.milos",
+   "verdict": "OK",
+   "current": "platform mühendisi, SDK uzmanı, Kotlin, Go, yazılım mimarisi, dağıtılmış sistemler, açık kaynak"
+  },
+  {
+   "src": "gen",
+   "key": "aria.primaryNav",
+   "verdict": "OK",
+   "current": "Ana"
+  },
+  {
+   "src": "gen",
+   "key": "aria.backToTop",
+   "verdict": "OK",
+   "current": "Başa dön"
+  },
+  {
+   "src": "gen",
+   "key": "aria.toggleTheme",
+   "verdict": "OK",
+   "current": "Koyu / açık temayı değiştir"
+  },
+  {
+   "src": "gen",
+   "key": "nav.work",
+   "verdict": "OK",
+   "current": "İşler"
+  },
+  {
+   "src": "gen",
+   "key": "nav.contact",
+   "verdict": "OK",
+   "current": "İletişim"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.0",
+   "verdict": "OK",
+   "current": "Çözmeyi amaçladığımız sorun"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.1",
+   "verdict": "FIX",
+   "current": "Neden var",
+   "proposed": "Varlık nedeni",
+   "rationale": "'Neden var' reads as 'why is there [something]' — ambiguous as a heading; 'Varlık nedeni' (raison d'être) is the natural heading."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.2",
+   "verdict": "FIX",
+   "current": "Onu inşa etmeye iten şey",
+   "proposed": "Bizi bunu geliştirmeye iten şey",
+   "rationale": "Missing the object 'bizi' (us): 'Onu inşa etmeye iten şey' is an incomplete clause."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.3",
+   "verdict": "FIX",
+   "current": "Gidermek zorunda hissettiğimiz kaşıntı",
+   "proposed": "Bizi rahat bırakmayan ihtiyaç",
+   "rationale": "Literal calque of the English idiom 'itch to scratch' plus a grammar error ('zorunda hissettiğimiz'); replaced with an idiomatic equivalent."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.4",
+   "verdict": "OK",
+   "current": "Köken hikâyesi"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.0",
+   "verdict": "FIX",
+   "current": "Oyunu nasıl değiştiriyor",
+   "proposed": "Oyunun kurallarını neden değiştiriyor",
+   "rationale": "Current says 'how' (nasıl) instead of 'why'; the Turkish idiom is 'oyunun kurallarını değiştirmek'."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.1",
+   "verdict": "OK",
+   "current": "Sağladığı sıçrama"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.2",
+   "verdict": "OK",
+   "current": "Onu farklı kılan şey"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.3",
+   "verdict": "OK",
+   "current": "Neden önemli"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.0",
+   "verdict": "OK",
+   "current": "Yeniliğin nerede yattığı"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.1",
+   "verdict": "OK",
+   "current": "Gerçekten yeni olan ne"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.2",
+   "verdict": "OK",
+   "current": "İçindeki yenilikler"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.3",
+   "verdict": "OK",
+   "current": "Çalınmaya değer fikirler"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.0",
+   "verdict": "OK",
+   "current": "Zorlu sorunlar, dürüst çözümler"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.1",
+   "verdict": "OK",
+   "current": "Zor kısımlar — ve çözümleri"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.2",
+   "verdict": "OK",
+   "current": "Zorlu mühendislik detayları"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.3",
+   "verdict": "OK",
+   "current": "Zorlandığımız yerler ve nasıl üstesinden geldiğimiz"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.0",
+   "verdict": "OK",
+   "current": "Teknoloji yığını ve nedeni"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.1",
+   "verdict": "OK",
+   "current": "Nasıl inşa edildi"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.2",
+   "verdict": "FIX",
+   "current": "Motor bölümü",
+   "proposed": "Perde arkası",
+   "rationale": "'Motor bölümü' (engine compartment) is a literal rendering of 'under the hood' and reads oddly; 'Perde arkası' is the idiomatic heading."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.3",
+   "verdict": "OK",
+   "current": "Mühendislik altyapısı"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.0",
+   "verdict": "OK",
+   "current": "Durum, açık ve net"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.1",
+   "verdict": "OK",
+   "current": "Gerçekte nerede olduğu"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.2",
+   "verdict": "FIX",
+   "current": "Dürüst durum",
+   "proposed": "Durumun dürüst değerlendirmesi",
+   "rationale": "'Dürüst durum' ('an honest situation') is unnatural; honesty applies to the assessment, not the state."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.3",
+   "verdict": "OK",
+   "current": "Abartısız durum"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.0",
+   "verdict": "OK",
+   "current": "Sağladığı güçler"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.1",
+   "verdict": "FIX",
+   "current": "Tüm filoya neyi açtığı",
+   "proposed": "Tüm ekosisteme neler kazandırdığı",
+   "rationale": "Consistency with the 'fleet' -> 'ekosistem' fix; 'neyi açtığı' for 'unlocks' is literal."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.2",
+   "verdict": "FIX",
+   "current": "Filonun ona nasıl dayandığı",
+   "proposed": "Ekosistemin ona nasıl dayandığı",
+   "rationale": "Consistency with the 'fleet' -> 'ekosistem' fix."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.name",
+   "verdict": "OK",
+   "current": "Neden inşa ettik"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.name",
+   "verdict": "FIX",
+   "current": "Neden bir oyun değiştirici",
+   "proposed": "Neden çığır açıcı",
+   "rationale": "'oyun değiştirici' is an English calque; 'çığır açıcı' is the established Turkish equivalent of game-changer."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.name",
+   "verdict": "OK",
+   "current": "Yenilikçi olan ne"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.name",
+   "verdict": "OK",
+   "current": "Zorluklar ve çözümler"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.name",
+   "verdict": "OK",
+   "current": "Teknoloji yığını"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.name",
+   "verdict": "OK",
+   "current": "Durum ve dürüstlük notları"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.name",
+   "verdict": "OK",
+   "current": "Tüm ürünlerde nasıl kullanılıyor (sağladığı güçler)"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.summary",
+   "verdict": "OK",
+   "current": "Özet"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.short",
+   "verdict": "OK",
+   "current": "Kısa açıklama"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.long",
+   "verdict": "OK",
+   "current": "Uzun açıklama"
+  },
+  {
+   "src": "gen",
+   "key": "prod.desc.fallback",
+   "verdict": "OK",
+   "current": "%s — %s ürünü."
+  },
+  {
+   "src": "gen",
+   "key": "alt.portrait",
+   "verdict": "OK",
+   "current": "Miloš Vasić'in portresi"
+  },
+  {
+   "src": "gen",
+   "key": "alt.brandLogo",
+   "verdict": "OK",
+   "current": "Vasic Digital logosu"
+  },
+  {
+   "src": "gen",
+   "key": "status.beta",
+   "verdict": "OK",
+   "current": "beta"
+  },
+  {
+   "src": "gen",
+   "key": "status.active",
+   "verdict": "OK",
+   "current": "aktif"
+  },
+  {
+   "src": "gen",
+   "key": "status.production",
+   "verdict": "OK",
+   "current": "üretimde"
+  },
+  {
+   "src": "gen",
+   "key": "status.in-development",
+   "verdict": "OK",
+   "current": "geliştirilme aşamasında"
+  },
+  {
+   "src": "gen",
+   "key": "status.shipped",
+   "verdict": "OK",
+   "current": "dağıtıldı"
+  },
+  {
+   "src": "gen",
+   "key": "status.scaffold",
+   "verdict": "FIX",
+   "current": "çatı",
+   "proposed": "iskelet",
+   "rationale": "Standard Turkish term for a project scaffold is 'iskelet'; 'çatı' (roof) is misleading."
+  },
+  {
+   "src": "gen",
+   "key": "status.roadmap",
+   "verdict": "OK",
+   "current": "yol haritasında"
+  },
+  {
+   "src": "gen",
+   "key": "status.stable",
+   "verdict": "OK",
+   "current": "kararlı"
+  },
+  {
+   "src": "gen",
+   "key": "status.mixed",
+   "verdict": "OK",
+   "current": "karışık"
+  },
+  {
+   "src": "gen",
+   "key": "tier.helix-primary",
+   "verdict": "OK",
+   "current": "helix-primary"
+  },
+  {
+   "src": "gen",
+   "key": "tier.vasic-util-secondary",
+   "verdict": "OK",
+   "current": "vasic-util-secondary"
+  },
+  {
+   "src": "gen",
+   "key": "tier.serverfactory-tertiary",
+   "verdict": "OK",
+   "current": "serverfactory-tertiary"
+  },
+  {
+   "src": "mv",
+   "key": "a11y.skip",
+   "verdict": "OK",
+   "current": "Ana içeriğe geç"
+  },
+  {
+   "src": "mv",
+   "key": "nav.expertise",
+   "verdict": "OK",
+   "current": "Uzmanlık"
+  },
+  {
+   "src": "mv",
+   "key": "nav.work",
+   "verdict": "OK",
+   "current": "İşler"
+  },
+  {
+   "src": "mv",
+   "key": "nav.experience",
+   "verdict": "OK",
+   "current": "Deneyim"
+  },
+  {
+   "src": "mv",
+   "key": "nav.skills",
+   "verdict": "OK",
+   "current": "Yetenekler"
+  },
+  {
+   "src": "mv",
+   "key": "nav.contact",
+   "verdict": "OK",
+   "current": "İletişim"
+  },
+  {
+   "src": "mv",
+   "key": "dl.heading",
+   "verdict": "OK",
+   "current": "İndir"
+  },
+  {
+   "src": "mv",
+   "key": "dl.choose",
+   "verdict": "OK",
+   "current": "Dilinizi seçin"
+  },
+  {
+   "src": "mv",
+   "key": "footer.text",
+   "verdict": "FIX",
+   "current": "Belgrade · Dubna. Statik bir site olarak oluşturuldu, GitHub Pages üzerinde dağıtıldı.",
+   "proposed": "Belgrad · Dubna. Statik bir site olarak oluşturuldu, GitHub Pages üzerinde dağıtıldı.",
+   "rationale": "City name must use the Turkish exonym 'Belgrad' (as already used in _content_tr/docs/cv.md); 'Belgrade' is the English form."
+  },
+  {
+   "src": "mv",
+   "key": "footer.version",
+   "verdict": "OK",
+   "current": "Web sitesi sürümü:"
+  },
+  {
+   "src": "mv",
+   "key": "aria.changeLang",
+   "verdict": "OK",
+   "current": "Dili değiştir"
+  },
+  {
+   "src": "mv",
+   "key": "aria.toggleTheme",
+   "verdict": "OK",
+   "current": "Koyu / açık temayı değiştir"
+  },
+  {
+   "src": "mv",
+   "key": "aria.menu",
+   "verdict": "OK",
+   "current": "Menü"
+  },
+  {
+   "src": "mv",
+   "key": "aria.close",
+   "verdict": "OK",
+   "current": "Kapat"
+  },
+  {
+   "src": "mv",
+   "key": "aria.backToTop",
+   "verdict": "OK",
+   "current": "Başa dön"
+  },
+  {
+   "src": "mv",
+   "key": "aria.primaryNav",
+   "verdict": "OK",
+   "current": "Ana"
+  },
+  {
+   "src": "mv",
+   "key": "title.language",
+   "verdict": "OK",
+   "current": "Dil"
+  },
+  {
+   "src": "mv",
+   "key": "title.theme",
+   "verdict": "OK",
+   "current": "Tema"
+  }
+ ],
+ "glossary_violation_judgements": [
+  {
+   "key": "pf.summary",
+   "term": "Constitution",
+   "real": true,
+   "why": "The governance document name was translated to 'Anayasası' and preceded by untranslated English 'shared engineering'; the glossary requires the verbatim term — fixed as 'ortak bir mühendislik anayasası (Constitution)'."
+  }
+ ],
+ "spotcheck": [
+  "pf.summary rewrite: does 'blöfe yer vermeyen kalite güvencesi (QA)' carry the intended 'anti-bluff QA' meaning naturally?",
+  "'ekosistem' as the rendering of the author's 'fleet' metaphor across pf.overview.title, pf.summary, prod.head.powers.1/.2.",
+  "Rotating headings prod.head.* (nominalised forms like 'Yeniliğin nerede yattığı', 'Gerçekte nerede olduğu') read naturally as headings.",
+  "status.shipped 'dağıtıldı' vs 'yayınlandı' for a 'shipped' badge.",
+  "prod.source 'Kaynak' over a repository list (vs 'Kaynak kod').",
+  "pf.eyebrow 'birleştirilmiş portföy' vs the more natural 'birleşik portföy'."
+ ]
+}

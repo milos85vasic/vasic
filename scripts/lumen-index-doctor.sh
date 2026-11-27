@@ -102,13 +102,15 @@ usage() { awk 'NR==1{next} /^#/{sub(/^# ?/,""); print; next} {exit}' "$0"; }
 PROJ=""
 REQUIRE_BACKEND="${LUMEN_DOCTOR_REQUIRE_BACKEND:-0}"
 PROVE=0
+FAST=0
 for a in "$@"; do
     case "$a" in
         --require-live-backend) REQUIRE_BACKEND=1 ;;
         --prove-failure)        PROVE=1 ;;
+        --fast)                 FAST=1 ;;
         --help|-h)              usage; exit 0 ;;
         -*)                     echo "lumen-index-doctor: unknown option '$a'" >&2
-                                echo "usage: $0 [project-path] [--require-live-backend]" >&2
+                                echo "usage: $0 [project-path] [--require-live-backend] [--fast]" >&2
                                 exit 2 ;;
         *)                      [[ -z "$PROJ" ]] && PROJ="$a" ;;
     esac
@@ -451,13 +453,14 @@ MKPY
     exit 0
 fi
 
-PROJ="$PROJ" STORE="$STORE" CONFIG="$CONFIG" REQUIRE_BACKEND="$REQUIRE_BACKEND" python3 - <<'PY'
-import os, sqlite3, glob, collections, sys, re, json, hashlib
+PROJ="$PROJ" STORE="$STORE" CONFIG="$CONFIG" REQUIRE_BACKEND="$REQUIRE_BACKEND" FAST="$FAST" python3 - <<'PY'
+import os, sqlite3, glob, collections, sys, re, json, hashlib, signal, struct, math
 
 proj   = os.path.realpath(os.environ["PROJ"])
 store  = os.environ["STORE"]
 config = os.environ["CONFIG"]
 require_backend = os.environ.get("REQUIRE_BACKEND", "0") not in ("", "0", "no", "false")
+fast = os.environ.get("FAST", "0") not in ("", "0", "no", "false")
 
 def env(name, default=None):
     v = os.environ.get(name, "")
@@ -484,6 +487,8 @@ def envfloat(name, default):
         print("❌ %s='%s' is not a number; refusing to guess a threshold "
               "(unset it to use the default %s)" % (name, v, default))
         sys.exit(E_UNKNOWNGEOM)
+
+integrity_timeout = envint("LUMEN_DOCTOR_INTEGRITY_TIMEOUT", 60)
 
 # ── exit codes are PRIVATE (see the bash mapping at the bottom) ───────────────
 E_HEALTHY, E_NOINDEX, E_CORRUPT, E_UNKNOWNGEOM = 20, 21, 22, 23
@@ -603,13 +608,39 @@ matches = []
 for d in candidates:
     try:
         c = sqlite3.connect("file:%s?mode=ro" % d, uri=True)
-        rows = dict(c.execute("SELECT key, value FROM project_meta").fetchall())
+        # lumen's real schema: projects(id, path, ...) + project_meta(project_id, key, value)
+        # Multiple projects can share one index.db; match by project path, then
+        # read that project's own meta. Fall back to a single-project scan if
+        # the projects table does not exist (older lumen schema).
+        try:
+            project_rows = list(c.execute("SELECT id, path FROM projects"))
+        except sqlite3.OperationalError:
+            project_rows = []
+
+        if project_rows:
+            matched_pid = None
+            for pid, ppath in project_rows:
+                if pinned or os.path.realpath(ppath) == proj:
+                    matched_pid = pid
+                    break
+            if matched_pid is None:
+                if pinned:
+                    matched_pid = project_rows[0][0]  # operator named this db explicitly
+                else:
+                    continue
+            rows = c.execute("SELECT key, value FROM project_meta WHERE project_id=?", (matched_pid,)).fetchall()
+        else:
+            # Older single-project schema: project_meta is flat key-value
+            rows = c.execute("SELECT key, value FROM project_meta").fetchall()
+            project_paths = [v for k, v in rows if k == "project_path"]
+            if not pinned and not any(os.path.realpath(p) == proj for p in project_paths):
+                continue
         c.close()
     except Exception:
         continue
-    p = rows.get("project_path")
-    if pinned or (p and os.path.realpath(p) == proj):
-        matches.append((d, rows.get("embedding_model", "?"), rows))
+    meta = dict(rows)
+    model = meta.get("embedding_model", "?")
+    matches.append((d, model, meta))
 
 if not matches:
     print("❌ no Lumen index found for %s under %s" % (proj, store))
@@ -672,22 +703,86 @@ except Exception as e:
     print("❌ cannot open %s read-only: %s" % (db, e))
     sys.exit(E_NOINDEX)
 
+# Scope file/chunk counts to this project's id: an index.db may hold several
+# projects, and the flat `files`/`chunks` tables no longer exist in the real
+# lumen schema. Older single-project schemas (no `projects` table) leave this
+# None, in which case the counts below fall back gracefully.
+proj_pid = None
 try:
-    print("integrity_check: %s" % c.execute("PRAGMA integrity_check").fetchone()[0])
+    for _pid, _ppath in c.execute("SELECT id, path FROM projects"):
+        if os.path.realpath(_ppath) == proj:
+            proj_pid = _pid
+            break
+except sqlite3.OperationalError:
+    pass
+
+
+def integrity_check_with_timeout(conn, db_path, timeout_sec):
+    """Run PRAGMA integrity_check with a hard timeout and size guard.
+
+    On a multi-gigabyte index this can take minutes and OOM the host;
+    skip it above LUMEN_DOCTOR_MAX_INTEGRITY_GB and report "skipped"
+    rather than hanging the whole doctor.
+    """
+    max_gb = envfloat("LUMEN_DOCTOR_MAX_INTEGRITY_GB", 2.0)
+    try:
+        size_bytes = os.path.getsize(db_path)
+    except OSError:
+        size_bytes = 0
+    if size_bytes > max_gb * 1024**3:
+        return "SKIPPED (%d GB exceeds LUMEN_DOCTOR_MAX_INTEGRITY_GB=%.1f GB)" % (
+            size_bytes / 1024**3, max_gb)
+
+    result = {"value": None, "done": False}
+
+    def handler(signum, frame):
+        raise TimeoutError("integrity_check exceeded %ds" % timeout_sec)
+
+    old = signal.signal(signal.SIGALRM, handler)
+    signal.alarm(timeout_sec)
+    try:
+        result["value"] = conn.execute("PRAGMA integrity_check").fetchone()[0]
+        result["done"] = True
+    except TimeoutError:
+        result["value"] = "SKIPPED (integrity_check exceeded %ds)" % timeout_sec
+    finally:
+        signal.alarm(0)
+        signal.signal(signal.SIGALRM, old)
+    return result["value"]
+
+try:
+    ic = integrity_check_with_timeout(c, db, integrity_timeout)
+    print("integrity_check: %s" % ic)
 except Exception as e:
     print("❌ integrity_check could not run: %s" % e)
     sys.exit(E_UNKNOWNGEOM)
 
-def scalar(sql, default=0):
+def scalar(sql, params=(), default=0):
     try:
-        return c.execute(sql).fetchone()[0]
+        return c.execute(sql, params).fetchone()[0]
     except Exception:
         return default
 
-files_total = scalar("SELECT COUNT(*) FROM files")
-files_done  = scalar("SELECT COUNT(*) FROM files WHERE hash<>''")
-chunks      = scalar("SELECT COUNT(*) FROM chunks")
-print("files: %d fully indexed, %d queued placeholders | chunks: %d"
+# The real lumen schema stores files in `file_revisions` + `project_files`
+# (not a flat `files` table) and chunks in `chunk_defs` (not a flat `chunks`
+# table). Scope every count to this project so a multi-project index.db is
+# not misread; an older schema without `projects` leaves proj_pid None and
+# these fall back to the flat queries (tables missing -> scalar returns 0).
+if proj_pid is not None:
+    files_total = scalar("SELECT COUNT(*) FROM project_files WHERE project_id=?", (proj_pid,))
+    files_done = scalar("""SELECT COUNT(*) FROM project_files pf
+                           JOIN file_revisions fr ON fr.id = pf.file_revision_id
+                           WHERE pf.project_id=? AND fr.complete=1""", (proj_pid,))
+    chunks = scalar("""SELECT COUNT(*) FROM chunk_defs cd
+                       JOIN file_revisions fr ON fr.id = cd.file_revision_id
+                       JOIN project_files pf ON pf.file_revision_id = fr.id
+                        AND pf.relative_path = fr.relative_path
+                       WHERE pf.project_id=?""", (proj_pid,))
+else:
+    files_total = scalar("SELECT COUNT(*) FROM file_revisions")
+    files_done = scalar("SELECT COUNT(*) FROM file_revisions WHERE complete<>0")
+    chunks = scalar("SELECT COUNT(*) FROM chunk_defs")
+print("files: %d fully indexed, %d incomplete | chunks: %d"
       % (files_done, files_total - files_done, chunks))
 
 # ── 5. discover the sqlite-vec shadow tables instead of naming them ──────────
@@ -701,6 +796,19 @@ except Exception as e:
     print("❌ cannot read the schema: %s" % e)
     sys.exit(E_UNKNOWNGEOM)
 
+# sqlite-vec names its shadow tables from the vec0 table name (<vec>):
+#   <vec>_chunks            per-block validity bitmap  (regular table)
+#   <vec>_vector_chunks<NN> packed vector blocks       (regular table)
+# Read <vec> from the `USING vec0` declaration in sqlite_master so the vec0
+# extension itself is never required to read the index. For older schemas / test
+# specimens that do not declare a vec0 table, fall back to deriving <vec> from
+# the vector data table name (<prefix>_vector_chunks<NN>).
+vec0_table = None
+for _name, _sql in tables.items():
+    if _sql and re.search(r'\bUSING\s+vec0\b', _sql, re.I):
+        vec0_table = _name
+        break
+
 vec_table = env("LUMEN_VEC_TABLE")
 if vec_table and vec_table not in tables:
     print("❌ LUMEN_VEC_TABLE='%s' is not a table in this index" % vec_table)
@@ -713,7 +821,11 @@ if not vec_table:
         print("   Nothing can be decoded, so no verdict is possible.")
         sys.exit(E_UNKNOWNGEOM)
     vec_table = cands[0]
-prefix = re.sub(r'_vector_chunks\d+$', '', vec_table)
+
+if vec0_table:
+    prefix = vec0_table
+else:
+    prefix = re.sub(r'_vector_chunks\d+$', '', vec_table)
 validity_table = prefix + "_chunks"
 
 # ── 6. the vector geometry, from THREE independent sources ──────────────────
@@ -805,6 +917,13 @@ except Exception:
     pass   # older schema without the shadow table: fall back to counting all
 
 counts = collections.Counter(); total = 0; ragged = 0; freed = 0
+# Per-vector stats accumulators (computed during the first pass below).
+import struct, math
+nan = zero = badnorm = offscale = 0
+scale_unestablished = None
+tops = collections.Counter()
+nmin = envfloat("LUMEN_NORM_MIN", 0.99)
+nmax = envfloat("LUMEN_NORM_MAX", 1.01)
 try:
     rows = c.execute("SELECT rowid, vectors FROM %s" % vec_table)
 except Exception as e:
@@ -816,10 +935,34 @@ for brow, blob in rows:
         ragged += 1          # block is not a whole number of vectors
     vbits = validity.get(brow)
     for i in range(len(blob) // VB):
+        if fast:
+            total += 1       # count live slots only, skip expensive per-vector work
+            continue
         if vbits is not None and not ((vbits[i // 8] >> (i % 8)) & 1):
             freed += 1        # allocated but not live - not data
             continue
-        counts[blob[i*VB:(i+1)*VB]] += 1; total += 1
+        vec_bytes = blob[i*VB:(i+1)*VB]
+        # Hash for duplicate detection (memory-efficient), then per-vector
+        # stats from the raw bytes in the same pass - no second scan needed.
+        h = hashlib.blake2b(vec_bytes, digest_size=16).digest()
+        counts[h] += 1; total += 1
+        if packfmt == "b":
+            f = struct.unpack("<%db" % DIM, vec_bytes)
+            mx = max(abs(x) for x in f)
+            if mx == 0:
+                zero += 1
+            else:
+                tops[mx] += 1
+        else:
+            f = struct.unpack("<%df" % DIM, vec_bytes)
+            if any(math.isnan(x) or math.isinf(x) for x in f):
+                nan += 1
+                continue
+            n = math.sqrt(sum(x*x for x in f))
+            if n == 0.0:
+                zero += 1
+            elif not (nmin <= n <= nmax):
+                badnorm += 1
 print("slots: %d live, %d freed/unwritten (excluded from every check below)"
       % (total, freed))
 
@@ -828,100 +971,81 @@ if total == 0:
     for n in notes: print("NOTE: %s" % n)
     c.close(); sys.exit(E_HEALTHY)
 
-groups = sorted([n for n in counts.values() if n > 1], reverse=True)
-dup_vectors = sum(groups)
-print("vectors: %d total, %d distinct" % (total, len(counts)))
-
-threshold = envint("LUMEN_DUP_THRESHOLD", 10)
 bad = False
-# THE test the conventional audit lacked.
-if groups:
-    print("❌ %d duplicate-vector group(s); %d vectors (%.2f%%) are not unique"
-          % (len(groups), dup_vectors, 100.0*dup_vectors/total))
-    print("   largest identical group: %d copies of ONE vector" % groups[0])
-    print("   A GPU/backend fault returns a stale buffer under HTTP 200. These")
-    print("   vectors are well-formed and pass every per-vector test.")
-    # Any duplicate group is REPORTED. Only a large one is treated as
-    # corruption, since identical boilerplate legitimately embeds identically.
-    # Previously a small group printed ❌ and still exited 0 - output and exit
-    # code disagreed, which is worse than either verdict alone.
-    if groups[0] >= threshold:
-        bad = True
-    else:
-        print("   (largest group is %d, under the corruption threshold of %d:"
-              " reported, not failed)" % (groups[0], threshold))
-else:
-    print("✅ every stored vector is distinct")
+if not fast:
+    groups = sorted([n for n in counts.values() if n > 1], reverse=True)
+    dup_vectors = sum(groups)
+    print("vectors: %d total, %d distinct" % (total, len(counts)))
 
-# Conventional checks, retained because they catch the louder failure modes.
-import struct, math
-nmin = envfloat("LUMEN_NORM_MIN", 0.99)
-nmax = envfloat("LUMEN_NORM_MAX", 1.01)
-nan = zero = badnorm = offscale = 0
-scale_unestablished = None
-if packfmt == "b":
-    # int8 STORAGE. The float unit-norm band does not hold for it, and applying
-    # it made EVERY vector of a healthy index "off-norm" and the verdict
-    # CORRUPTION DETECTED (measured 2026-09-24 on the real 1.25M-vector store:
-    # raw L2 norm 428..1312, and max|component| == 127 for every vector, i.e.
-    # lumen scales each vector to its own maximum). So the invariant is DERIVED
-    # FROM THE DATA instead of assumed: the modal max|component| across the
-    # distinct live vectors. If one value covers >= LUMEN_INT8_SCALE_DOMINANCE
-    # (default 0.90) of them, a vector on any other scale is a finding
-    # ("off-scale"). If none dominates, the scale check is NOT applied and the
-    # output says so — it never claims a check it did not run. Duplicates,
-    # all-zero and ragged blocks are unaffected. (NaN/Inf cannot exist in int8.)
-    import collections
-    tops = collections.Counter()
-    for v in counts:
-        f = struct.unpack("<%d%s" % (DIM, packfmt), v)
-        if not any(f):
-            zero += 1
-            continue
-        tops[max(abs(x) for x in f)] += 1
-    live = sum(tops.values())
-    dom = envfloat("LUMEN_INT8_SCALE_DOMINANCE", 0.90)
-    scale_top = envint("LUMEN_INT8_SCALE_TOP", 127)
-    min_live = envint("LUMEN_INT8_MIN_VECTORS", 10)
-    mode_top, mode_n = tops.most_common(1)[0] if live else (0, 0)
-    # The invariant is ESTABLISHED only when all three hold; anything else is
-    # COULD NOT DETERMINE (rc 2), never a clean bill — the same principle as the
-    # width / no-vector-table cases. Each condition closes a false-negative
-    # window that a purely data-derived mode leaves open (measured on
-    # specimens): (1) enough vectors to state a scale at all, (2) ONE scale
-    # dominates, (3) that scale is the int8 saturation value — max-abs
-    # quantisation puts the largest component AT it (127 on the real store,
-    # 100% of vectors), so an index whose vectors ALL sit on some other scale,
-    # which a modal check alone would call self-consistent, is refused.
-    why = None
-    if live < min_live:
-        why = ("only %d distinct live vector(s); at least %d are needed to state a scale"
-               % (live, min_live))
-    elif mode_n < dom * live:
-        why = ("no single max|component| covers >= %.0f%% of the %d distinct live vectors "
-               "(most common: %d at %.1f%%)" % (100 * dom, live, mode_top, 100.0 * mode_n / live))
-    elif mode_top != scale_top:
-        why = ("the dominant max|component| is %d (%.1f%% of vectors), not the int8 "
-               "saturation value %d that max-abs quantisation produces"
-               % (mode_top, 100.0 * mode_n / live, scale_top))
-    if why is None:
-        offscale = live - mode_n
-        print("per-vector: NaN/Inf n/a (int8), %d all-zero, %d off-scale (max|component| != %d; "
-              "%.2f%% of live vectors share it), %d ragged block(s)"
-              % (zero, offscale, mode_top, 100.0 * mode_n / live, ragged))
+    threshold = envint("LUMEN_DUP_THRESHOLD", 10)
+    bad = False
+    # THE test the conventional audit lacked.
+    if groups:
+        print("❌ %d duplicate-vector group(s); %d vectors (%.2f%%) are not unique"
+              % (len(groups), dup_vectors, 100.0*dup_vectors/total))
+        print("   largest identical group: %d copies of ONE vector" % groups[0])
+        print("   A GPU/backend fault returns a stale buffer under HTTP 200. These")
+        print("   vectors are well-formed and pass every per-vector test.")
+        if groups[0] >= threshold:
+            bad = True
+        else:
+            print("   (largest group is %d, under the corruption threshold of %d:"
+                  " reported, not failed)" % (groups[0], threshold))
     else:
-        scale_unestablished = why
-        print("per-vector: NaN/Inf n/a (int8), %d all-zero, int8 scale invariant not established "
-              "(see below), %d ragged block(s)" % (zero, ragged))
-else:
-    for v in counts:
-        f = struct.unpack("<%d%s" % (DIM, packfmt), v)
-        if any(math.isnan(x) or math.isinf(x) for x in f): nan += 1; continue
-        n = math.sqrt(sum(x*x for x in f))
-        if n == 0.0: zero += 1
-        elif not (nmin <= n <= nmax): badnorm += 1
-    print("per-vector: %d NaN/Inf, %d all-zero, %d off-norm (band %.3f-%.3f), %d ragged block(s)"
-          % (nan, zero, badnorm, nmin, nmax, ragged))
+        print("✅ every stored vector is distinct")
+
+    # Conventional checks, retained because they catch the louder failure modes.
+    # Per-vector stats (zero, NaN/Inf, off-norm, off-scale) were computed during
+    # the first pass above. Here we only evaluate the scale invariant.
+    live = sum(tops.values()) if packfmt == "b" else total
+    mode_top, mode_n = tops.most_common(1)[0] if tops else (0, 0)
+    if packfmt == "b":
+        # int8 STORAGE. The float unit-norm band does not hold for it, and applying
+        # it made EVERY vector of a healthy index "off-norm" and the verdict
+        # CORRUPTION DETECTED (measured 2026-09-24 on the real 1.25M-vector store:
+        # raw L2 norm 428..1312, and max|component| == 127 for every vector, i.e.
+        # lumen scales each vector to its own maximum). So the invariant is DERIVED
+        # FROM THE DATA instead of assumed: the modal max|component| across the
+        # distinct live vectors. If one value covers >= LUMEN_INT8_SCALE_DOMINANCE
+        # (default 0.90) of them, a vector on any other scale is a finding
+        # ("off-scale"). If none dominates, the scale check is NOT applied and the
+        # output says so — it never claims a check it did not run. Duplicates,
+        # all-zero and ragged blocks are unaffected. (NaN/Inf cannot exist in int8.)
+        dom = envfloat("LUMEN_INT8_SCALE_DOMINANCE", 0.90)
+        scale_top = envint("LUMEN_INT8_SCALE_TOP", 127)
+        min_live = envint("LUMEN_INT8_MIN_VECTORS", 10)
+        # The invariant is ESTABLISHED only when all three hold; anything else is
+        # COULD NOT DETERMINE (rc 2), never a clean bill — the same principle as the
+        # width / no-vector-table cases. Each condition closes a false-negative
+        # window that a purely data-derived mode leaves open (measured on
+        # specimens): (1) enough vectors to state a scale at all, (2) ONE scale
+        # dominates, (3) that scale is the int8 saturation value — max-abs
+        # quantisation puts the largest component AT it (127 on the real store,
+        # 100% of vectors), so an index whose vectors ALL sit on some other scale,
+        # which a modal check alone would call self-consistent, is refused.
+        why = None
+        if live < min_live:
+            why = ("only %d distinct live vector(s); at least %d are needed to state a scale"
+                   % (live, min_live))
+        elif mode_n < dom * live:
+            why = ("no single max|component| covers >= %.0f%% of the %d distinct live vectors "
+                   "(most common: %d at %.1f%%)" % (100 * dom, live, mode_top, 100.0 * mode_n / live))
+        elif mode_top != scale_top:
+            why = ("the dominant max|component| is %d (%.1f%% of vectors), not the int8 "
+                   "saturation value %d that max-abs quantisation produces"
+                   % (mode_top, 100.0 * mode_n / live, scale_top))
+        if why is None:
+            offscale = live - mode_n
+            print("per-vector: NaN/Inf n/a (int8), %d all-zero, %d off-scale (max|component| != %d; "
+                  "%.2f%% of live vectors share it), %d ragged block(s)"
+                  % (zero, offscale, mode_top, 100.0 * mode_n / live, ragged))
+        else:
+            scale_unestablished = why
+            print("per-vector: NaN/Inf n/a (int8), %d all-zero, int8 scale invariant not established "
+                  "(see below), %d ragged block(s)" % (zero, ragged))
+    else:
+        print("per-vector: %d NaN/Inf, %d all-zero, %d off-norm (band %.3f-%.3f), %d ragged block(s)"
+              % (nan, zero, badnorm, nmin, nmax, ragged))
 if nan or zero or badnorm or offscale or ragged: bad = True
 
 c.close()

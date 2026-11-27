@@ -284,10 +284,26 @@ def build_messages(src, tr, langname, verified_terms, missing_terms):
     return system, user
 
 
-def call_reviewer(url, key, provider, model, system, user):
+# Reasoning models (e.g. groq gpt-oss) spend max_tokens on hidden reasoning and return an EMPTY visible reply at the old fixed
+# 1400, which surfaced as "no parseable verdict". The budget is now env-configurable and escalates (bounded) on a truncated or
+# unparseable reply: REVIEW_MAX_TOKENS (start, default 1400), REVIEW_MAX_TOKENS_CAP (ceiling, default 8000).
+def _token_budgets():
+    try:
+        start = int(os.environ.get("REVIEW_MAX_TOKENS", "1400"))
+        cap = int(os.environ.get("REVIEW_MAX_TOKENS_CAP", "8000"))
+    except ValueError:
+        start, cap = 1400, 8000
+    out, b = [], max(256, start)
+    while b < cap:
+        out.append(b); b *= 2
+    out.append(cap)
+    return out
+
+
+def call_reviewer(url, key, provider, model, system, user, max_tokens=1400):
     """One request; returns (data_dict or None, err_str)."""
     payload = json.dumps({
-        "model": model, "temperature": 0, "max_tokens": 1400,
+        "model": model, "temperature": 0, "max_tokens": max_tokens,
         "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
     }).encode("utf-8")
     req = urllib.request.Request(url, data=payload, headers={
@@ -356,8 +372,10 @@ def main():
 
     # Outer RETRY (up to 2 extra) on transient ERROR / unparseable verdict.
     data, err = None, ""
-    for outer in range(3):
-        data, err = call_reviewer(url, key, a.provider, model, system, user)
+    budgets = _token_budgets()
+    for outer in range(max(3, len(budgets))):
+        # a failed/unparseable attempt escalates the token budget one step (bounded by REVIEW_MAX_TOKENS_CAP)
+        data, err = call_reviewer(url, key, a.provider, model, system, user, budgets[min(outer, len(budgets) - 1)])
         if data is not None and data.get("verdict") != "ERROR" and "accuracy" in data:
             break
         time.sleep(6 * (outer + 1))

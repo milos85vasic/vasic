@@ -14,8 +14,9 @@ import os
 import re
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 from contextlib import contextmanager
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Iterable, Iterator
+from typing import Iterable, Iterator, Mapping
 
 KINDS = ("cv", "cover")
 MANIFEST_NAME = "manifest.json"
@@ -175,18 +176,55 @@ def sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
-def manifest_bytes(outdir: Path, names: Iterable[str], epoch: int) -> bytes:
-    """Deterministic manifest: sorted keys, no wall-clock, one trailing newline."""
-    files = {n: {"sha256": sha256_file(outdir / n), "bytes": (outdir / n).stat().st_size}
-             for n in sorted(names) if (outdir / n).is_file()}
-    doc = {"schema": MANIFEST_SCHEMA, "epoch": int(epoch), "count": len(files), "files": files}
+def cover_date(epoch: int) -> str:
+    """ISO date (UTC) of the build epoch: the date the cover letter prints.
+
+    ``resolve._localized_date`` formats the same UTC date, so the manifest
+    declares exactly what the rendered cover shows (job_seeker compares it with
+    the day of live approval and refuses a cover from another day).
+    """
+    return datetime.fromtimestamp(int(epoch), tz=timezone.utc).date().isoformat()
+
+
+def manifest_bytes(outdir: Path, names: Iterable[str], epoch: int, *,
+                   overlay_sha: str = "", gate_rc: Mapping[str, int] | None = None) -> bytes:
+    """Deterministic manifest: sorted keys, no wall-clock, one trailing newline.
+
+    Contract consumed by job_seeker (``internal/templates``, JSK-T172/T160):
+
+    * top level ``epoch`` (build time) and ``overlay_sha`` (sha256 of the
+      overlay.yaml the set was built from; ``""`` when built without one);
+    * every ``.pdf`` entry carries ``gate``: ``"pass"`` only when ``gate_rc``
+      holds rc 0 for its stem, otherwise ``"fail"`` (``"undetermined"`` for
+      rc 2, ``"unknown"`` when no verdict was supplied) -- the consumer
+      refuses anything but ``"pass"``;
+    * every ``cover-*.pdf`` entry carries ``cover_date`` (the date printed in
+      the cover), ``company`` and ``role``.  These covers are generic (no
+      posting is substituted), so company and role are the empty string.
+    """
+    files = {}
+    for n in sorted(names):
+        path = outdir / n
+        if not path.is_file():
+            continue
+        entry = {"sha256": sha256_file(path), "bytes": path.stat().st_size}
+        if n.endswith(".pdf"):
+            rc = None if gate_rc is None else gate_rc.get(n[:-4])
+            entry["gate"] = ("unknown" if rc is None else "pass" if rc == 0
+                             else "undetermined" if rc == 2 else "fail")
+            if n.startswith("cover-"):
+                entry.update(cover_date=cover_date(epoch), company="", role="")
+        files[n] = entry
+    doc = {"schema": MANIFEST_SCHEMA, "epoch": int(epoch), "overlay_sha": overlay_sha,
+           "count": len(files), "files": files}
     return (json.dumps(doc, ensure_ascii=False, sort_keys=True, indent=1) + "\n").encode("utf-8")
 
 
-def write_manifest(outdir: Path, names: Iterable[str], epoch: int) -> Path:
+def write_manifest(outdir: Path, names: Iterable[str], epoch: int, *,
+                   overlay_sha: str = "", gate_rc: Mapping[str, int] | None = None) -> Path:
     path = outdir / MANIFEST_NAME
     tmp = path.with_name(f".{MANIFEST_NAME}.{os.getpid()}.tmp")
-    tmp.write_bytes(manifest_bytes(outdir, names, epoch))
+    tmp.write_bytes(manifest_bytes(outdir, names, epoch, overlay_sha=overlay_sha, gate_rc=gate_rc))
     os.replace(tmp, path)
     return path
 

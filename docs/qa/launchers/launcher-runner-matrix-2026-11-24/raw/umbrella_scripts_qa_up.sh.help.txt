@@ -1,0 +1,73 @@
+$ (cd <scratchpad>/umf) : bash scripts/qa-up.sh --help
+# =============================================================================
+# qa-up.sh — boot every local website and service for a manual QA session,
+# on ports that are DISCOVERED, never assumed.
+#
+# WHAT IT BOOTS
+#   vd        vasic.digital          static, served from vasic.digital/
+#   mv        milosvasic.ru          static, served from milosvasic.ru/_site/
+#                                    (rebuilt first, in a container, when any
+#                                    tracked source file is newer than it)
+#   workshop  workshop curriculum    workshop/scripts/start.sh --port <P>
+#   ai        ai_interviewing        ai_interviewing/platform/scripts/start.sh,
+#                                    HTTP and HTTPS ports passed through its own
+#                                    AICUR_HTTP / AICUR_HTTPS variables
+#
+# WHY PORTS ARE DISCOVERED (operator directive, 2026-09-22)
+#   A service's historical default port may be held by ANOTHER service on this
+#   host — measured: an unrelated llama-server holds 8082. Binding a literal
+#   then fails, or worse, a tester lands on the wrong program. Every port here
+#   comes from _tools/containers/cmd/port-discover, the thin CLI front for the
+#   Containers Submodule's pkg/serviceregistry (§11.4.76(1)/(4): discovery is
+#   consumed from that module, never reimplemented). It returns the default
+#   when free, the previously registered port when that is still free, and
+#   otherwise a genuinely free port near the default — and records the choice
+#   in the shared registry ($ROOT/.service-registry) so other tools can look
+#   it up by name.
+#
+# IDEMPOTENT. A static server counts as OURS only when its recorded pid is
+#   alive, its cmdline names the port, AND the kernel reports that pid as the
+#   owner of the port's listener (ss -ltnp) — so a foreign program that won a
+#   discovery->bind race is never reported as our site (§11.4.174). Ours and
+#   answering: reused, not restarted. The workshop and ai stacks are reused
+#   when the address their own state file publishes answers /api/health, and
+#   are always checked at THAT address, not the port that was requested.
+#
+# USAGE
+#   bash scripts/qa-up.sh              boot everything, print the URLs
+#   bash scripts/qa-up.sh --only vd    boot one service (vd | mv | workshop | ai)
+#   bash scripts/qa-up.sh --stop       stop what this script started; a workshop/ai
+#                                      stack it merely reused is left running
+#   bash scripts/qa-up.sh --no-rebuild never rebuild milosvasic.ru/_site
+#   bash scripts/qa-up.sh --runner=podman   FORCE the container runner for every
+#                                      container workload it starts (the mv
+#                                      rebuild; also exported to the workshop
+#                                      and ai stacks as CONTAINERS_RUNNER).
+#                                      flag > $CONTAINERS_RUNNER > default order;
+#                                      unknown / not-installed runner -> exit 2,
+#                                      never a fallback. See docs/RUNNER_FLAG.md.
+#                                      Needed ONLY when a container is used (mv
+#                                      rebuild, workshop/ai boot): vd/mv static
+#                                      servers and --stop work with no Go and no
+#                                      runner. A FORCED unknown/malformed name is refused rc 2 at parse time (typo), also with --stop.
+#
+# ENVIRONMENT (all optional)
+#   QA_VD_DEFAULT_PORT        preferred port for vd        (default 8401)
+#   QA_MV_DEFAULT_PORT        preferred port for mv        (default 8084)
+#   QA_WORKSHOP_DEFAULT_PORT  preferred port for workshop  (default 8087)
+#   QA_AI_HTTP_DEFAULT_PORT   preferred HTTP port for ai   (default 8099)
+#   QA_AI_HTTPS_DEFAULT_PORT  preferred HTTPS port for ai  (default 8443)
+#   QA_BIND                   address every service binds  (default 127.0.0.1;
+#                             0.0.0.0 exposes ALL of them to the LAN, including
+#                             the workshop's recording of a third party)
+#   QA_NAME_PREFIX            registry name prefix         (default vasic-qa)
+#   QA_STATE_DIR              pid/port files               (default $ROOT/.service-registry/qa)
+#   QA_REGISTRY_DIR           port-discover registry       (default $ROOT/.service-registry)
+#   QA_AI_HOME                ai_interviewing platform dir (default $ROOT/ai_interviewing/platform)
+#
+# EXIT: 0 every requested service is up and answering on its discovered port
+#       1 a service genuinely failed to come up or does not answer
+#       2 could not determine (no go / curl / ss, port-discover unbuildable,
+#         bad argument) — NEVER a pass
+# =============================================================================
+rc=0

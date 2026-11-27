@@ -80,6 +80,7 @@ set -- "${HT_ARGS[@]+"${HT_ARGS[@]}"}"
 IN="" OUT="" PROVIDER="" MODEL="" SL="en" TL="" SCRIPT="cyrillic"
 while [ $# -gt 0 ]; do
   case "$1" in
+    --help|-h) printf 'Usage: _tools/helixtranslate-container.sh -i IN -o OUT -target-lang L [flags] [--runner=NAME]\n%s\n' '  Container runner: --runner=NAME (or --runner NAME, or env CONTAINERS_RUNNER; flag wins; unknown or not-installed runner exit 2, no fallback). See docs/RUNNER_FLAG.md.'; exit 0 ;;
     -i|-input)        IN="$2"; shift 2 ;;
     -o|-output)       OUT="$2"; shift 2 ;;
     -provider)        PROVIDER="$2"; shift 2 ;;

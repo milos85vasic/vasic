@@ -1,0 +1,5 @@
+# scrambled-ToUnicode copies of fresh PDFs: OCR recall and the OCR segment of the validate_pdf verdict
+en recall(original)=0.985 recall(scrambled)=0.000 rc 1
+  OCR segment: ["OCR recall 0% below 90% for 'en' (eng)"]
+ru recall(original)=0.964 recall(scrambled)=0.728 rc 1
+  OCR segment: ["OCR recall 73% below 90% for 'ru' (rus+eng)"]

@@ -1,0 +1,3 @@
+$ (cd <scratchpad>/umf/workshop) CONTAINERS_RUNNER=bogus env WORKSHOP_ISOLATED_VALIDATE_ONLY=1 bash scripts/run-isolated.sh
+validated
+rc=0

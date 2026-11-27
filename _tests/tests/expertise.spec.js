@@ -98,15 +98,15 @@ test.describe('expertise — colour contrast, light and dark', () => {
 });
 
 test.describe('expertise — admin console is private', () => {
-  test('admin console is noindex and not in the sitemap', async ({ page, request }) => {
-    const errs = [];
-    page.on('console', (m) => { if (m.type() === 'error') errs.push(m.text()); });
-    const resp = await page.goto(MV_BASE + '/admin/console.html', { waitUntil: 'domcontentloaded' });
-    expect(resp.status()).toBe(200);
-    expect(await page.getAttribute('meta[name="robots"]', 'content')).toMatch(/noindex/);
+  // Since milosvasic.ru commit 14b2d8b the operator-private console is listed in
+  // _config.yml `exclude:` and is never published. The earlier premise of this
+  // test (served, 200, noindex) is obsolete; the invariant that matters is that
+  // it is NOT served and NOT advertised.
+  test('admin console is not published and not in the sitemap', async ({ request }) => {
+    const resp = await request.get(MV_BASE + '/admin/console.html');
+    expect(resp.status(), 'the operator-private console must not be served').toBe(404);
     const sm = await (await request.get(MV_BASE + '/sitemap.xml')).text();
     expect(sm).not.toContain('/admin/');
-    expect(errs, 'admin console: no console errors (CSP violations included)').toEqual([]);
   });
   test('sitemap lists the hub and every area (derived, floored)', async ({ request }) => {
     const sm = await (await request.get(MV_BASE + '/sitemap.xml')).text();

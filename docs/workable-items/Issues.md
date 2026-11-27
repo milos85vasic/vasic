@@ -539,7 +539,7 @@ ACCEPTANCE CRITERIA — the obligation the decision states is discharged with ca
 STATUS BASIS — the source row records a DECISION, not an execution: the decision is made and the work is not evidenced complete
 
 SUB-PROJECT BASIS — no sub-project path named in the source row.
-## VSC-028 — operator decision 2026-09-08 #16 — 264 pre-existing citations of unverified relevance
+## VSC-028 — Decision 2026-09-08 #16 (audit 264 citations of unverified relevance) decided but not executed
 
 **Status:** Queued
 **Type:** Task
@@ -3627,16 +3627,6 @@ Owned gitlink not bumped after upstream commits; 4 remotes (github, gitlab, orig
 
 Owned gitlink not bumped. Observation: HelixDevelopment/LLMProvider and vasic-digital/LLMProvider (submodules/LLMProvider) report the SAME tip e05ec64ebc48; whether two gitlinks of one history are intended is UNCONFIRMED. Operator decides per bump; separately decide whether both gitlinks should exist (never remove without an explicit operator decision, §11.4.122).
 
-## LMV-001 — submodules/llms_verifier gitlink 2c6602c78931 behind origin 8f2090acb907
-
-**Status:** Operator-blocked
-**Type:** Task
-**Severity:** medium
-**Created-By:** AI
-**Assigned-To:** zero-gap-sweep
-
-Owned gitlink not bumped. Operator decides per bump (ff-only; gitlink + helix-deps.yaml ref staged together).
-
 ## CON-002 — submodules/constitution pin f8afb98ab0eb differs from all 8 remotes (direction undetermined at baseline)
 
 **Status:** Queued
@@ -3871,16 +3861,6 @@ both scripts guard the build with an existence test of the binary and no freshne
 
 `if [ ! -f/-x BIN ]` then go build, no freshness guard; the challenge harness then scores providers with a stale binary fix in vasic-digital/LLMsVerifier (always go build, or freshness test), return as a gitlink bump
 
-## WSP-169 — workshop platform serves build 185fb15 while workshop HEAD is e076fa6: the stack was not redeployed after the last commit
-
-**Status:** Operator-blocked
-**Type:** Bug
-**Severity:** medium
-**Created-By:** AI
-**Assigned-To:** zero-gap-sweep
-
-container 42c12e533a91 started 2026-09-25T09:06:32Z serving source_commit 185fb158c4f4; e076fa6 was committed 10:18:12Z and nothing redeployed; scripts/qa-up.sh reuses a running stack without restarting it (header line 32). Measured: git diff --name-only 185fb158c4f4 e076fa6aa26f lists 3 *_test.go files only, so the production source is equal (identical binary output UNCONFIRMED) OPERATOR: redeploy the workshop stack from the committed tree (bash workshop/scripts/restart.sh, answering stays OFF by default). AGENT (follow-up): qa-up warns or refuses when it adopts a stack whose /api/health source_commit differs from workshop HEAD
-
 ## AII-005 — ai_interviewing's running build carries no source identity: the served binary cannot be tied to its source
 
 **Status:** Operator-blocked
@@ -4027,7 +4007,7 @@ os.WriteFile truncates then writes. A writer stopped between the truncate and th
 **Type:** Task
 **Severity:** medium
 
-Evidence owed before answering waivers WVR-2026-10-27-deepseek-qa (expires 2026-11-26) and WVR-2026-10-28-deepseek-qa-llm (expires 2026-11-27) lapse: see workshop docs/work-items/WSP-170.md. Row created 2026-10-29 at hand-off; id 170 matches the waiver roster tracked_item.
+Operator decision 2026-11-25 (Let it lapse): waiver WVR-2026-10-27-deepseek-qa lapses 2026-11-27 00:00Z, not renewed; the llm record WVR-2026-10-28-deepseek-qa-llm ends at its own date; answering stays OFF (live platform runs -answer-provider none). Evidence owed is not produced. Close after the lapse is checked; see workshop docs/work-items/WSP-170.md and docs/qa/WSP-169-170-tracker-2026-11-25.md.
 
 ## WSP-176 — workshop admin password is operator-held: student-surface gate checks C05 C13 C14 C15 stay UNDETERMINED
 
@@ -4297,30 +4277,6 @@ WHAT: the collaborator invite sent 2026-11-23 for the private career repository 
 
 WHAT: the vault v1 passphrase must be backed up by the operator outside the repository and outside any agent session; losing it makes sealed content unrecoverable. Closes when the operator confirms a backup exists. The value is never recorded here.
 
-## VSC-422 — operator item: zero-gap ratchet baseline 63 versus 23
-
-**Status:** Operator-blocked
-**Type:** Task
-**Operator-Block-Details:** WHAT: ratchet shows 63 where 23 was expected; which is authoritative is an operator decision UNBLOCK: Choose one:
-- [1] adopt 63 after a re-measured run (cost: higher baseline)
-- [2] investigate and restore 23 (cost: investigation time) WHO: Claude
-**Severity:** medium
-**Created-By:** Claude
-
-WHAT: the zero-findings ratchet records 63 where 23 was expected; which figure is authoritative is undecided. Closes when the figures are reconciled with a re-measured run and the ratchet file is updated or the discrepancy is explained.
-
-## VSC-423 — operator item: per-language footer review of the website-version footer
-
-**Status:** Operator-blocked
-**Type:** Task
-**Operator-Block-Details:** WHAT: per-language footer review needs independent per-language reviewers and an operator choice of method UNBLOCK: Choose one:
-- [1] machine review per language with recorded verdicts (cost: model spend)
-- [2] native-speaker review for priority languages only (cost: operator effort) WHO: Claude
-**Severity:** medium
-**Created-By:** Claude
-
-WHAT: the website-version footer text exists in every localized page but each language rendering has not been reviewed by an independent per-language reviewer (11.4.256). Closes when a review verdict is recorded per language.
-
 ## VSC-424 — operator item: stale remote and local branches cleanup
 
 **Status:** Queued
@@ -4346,4 +4302,30 @@ WHAT: operator-requested research programme whose outputs live under docs/resear
 **Severity:** low
 
 Deferred from wave 1: a new artifact suffix touches ENGINE_FORMATS, expected_files, the verify matrix, manifest.json and vault packing, and job_seeker accepts pdf slots only. Needs a design pass first. See docs/qa/career/career-engine-wave1-2026-11-24.md
+
+## VSC-433 — register of environment-conditional honest skips (SKIP-OK tracker)
+
+**Status:** Queued
+**Type:** Task
+**Severity:** low
+**Created-By:** Claude
+
+WHAT: tracker referenced by SKIP-OK markers on test skips conditional on an absent tool or host condition that print an explicit SKIPPED, not-a-pass reason. Acceptance: no unconditional skip carries this marker.
+
+## VSC-434 — three live-production specs deferred from gate 6 to the post-deploy live config (SKIP-OK tracker)
+
+**Status:** Queued
+**Type:** Task
+**Severity:** low
+**Created-By:** Claude
+
+WHAT: _tests/playwright.config.js testIgnore defers three specs to playwright.live.config.js, run by _tools/deploy-langs.sh LIVE_SPECS after each deploy. Acceptance: the specs stay in the live testMatch and LIVE_SPECS.
+
+## VSC-435 — job_seeker public snapshot repository job_seeker_public published on public hosts
+
+**Status:** Queued
+**Type:** Task
+**Severity:** medium
+
+WHAT: one-way fresh-history snapshot of vasic-digital/job_seeker (publish_snapshot.sh, PR job_seeker #82; AUDIT-GO + evidence job_seeker PR #94). Public (provider-reported 2026-11-24): https://github.com/vasic-digital/job_seeker_public , https://gitlab.com/vasic-digital/job_seeker_public , https://codeberg.org/vasic-digital/job_seeker_public , https://gitverse.ru/vasic-digital/job_seeker_public . m3w https://git.m3w.org/vasic-digital/job_seeker_public private by decision. GitFlic https://gitflic.ru/project/milosvasic/job_seeker_public still private: documented API cannot change visibility, operator must switch it in the project settings. Remaining: next snapshot after job_seeker gitlink removal lands; licences for containers/challenges/security are operator decisions. Acceptance: GitFlic public, updated snapshot, anonymous clone proof on every public host.
 

@@ -49,6 +49,7 @@
 [submodule "submodules/doc_processor"]
 	path = submodules/doc_processor
 	url = git@github.com:vasic-digital/DocProcessor.git
+	branch = master
 [submodule "submodules/llm_orchestrator"]
 	path = submodules/llm_orchestrator
 	url = git@github.com:vasic-digital/LLMOrchestrator.git
@@ -67,3 +68,6 @@
 [submodule "job_seeker"]
 	path = job_seeker
 	url = git@github.com:vasic-digital/job_seeker.git
+[submodule "submodules/_private"]
+	path = submodules/_private
+	url = git@github.com:vasic-digital/milosvasic_ru_private.git

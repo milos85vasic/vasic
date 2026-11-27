@@ -1,0 +1,5 @@
+$ (cd <scratchpad>/umf/workshop) CONTAINERS_RUNNER=bogus env WORKSHOP_PROJECT_NAME=zzz-runner-matrix WORKSHOP_HTTP_PORT=18087 bash scripts/status.sh
+STOPPED
+  no containers exist for this project
+PROBLEM: STOPPED: no containers exist for this project
+rc=1

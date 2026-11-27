@@ -1,0 +1,5 @@
+$ (cd <scratchpad>/umf/ai_interviewing/platform/scripts) : bash ./stop.sh --runner podman
+runner: podman (selected by flag)
+runner: podman (no containers used by this launcher)
+not running
+rc=0

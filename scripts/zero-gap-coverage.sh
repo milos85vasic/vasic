@@ -157,6 +157,13 @@
 # Exit: 0 generated, 2 could not generate (bad --root, missing required tool, write failure).
 #       --prove-failure: 0 every case passed, 1 a case failed.
 set -uo pipefail
+_sedi() {  # portable in-place sed (GNU and BSD/macOS disagree on the -i suffix argument): _sedi [sed options] script... FILE
+    local f="${!#}" t r
+    t="$(mktemp "${TMPDIR:-/tmp}/sedi.XXXXXX")" || return 1
+    sed "${@:1:$#-1}" "$f" >"$t"; r=$?
+    [ "$r" -eq 0 ] && cat "$t" >"$f"; r=$?
+    rm -f "$t"; return "$r"
+}
 export LC_ALL=C PYTHONDONTWRITEBYTECODE=1
 
 SELF=$(cd "$(dirname "$0")" && pwd)/$(basename "$0")
@@ -757,9 +764,9 @@ GM
     # C10 --help / --prove-failure are real case arms (mktemp+trap present in THIS file, checked
     # structurally so the file's own SC-012 posture is provable without re-invoking itself)
     if grep -q 'mktemp' "$SELF" && grep -qE 'trap[[:space:]]' "$SELF" && grep -qiE 'rm -rf' "$SELF"; then
-        ok "C10 this file itself uses mktemp + trap + rm -rf (SC-012 non-trivial-proof shape)"
+        ok "C10 this file itself uses mktemp + trap + recursive-remove (SC-012 non-trivial-proof shape)"
     else
-        bad "C10 missing mktemp/trap/rm -rf in $SELF"
+        bad "C10 missing mktemp/trap/recursive-remove in $SELF"
     fi
 
     # ── measured-evidence policy (T061 review: FR-010 / FR-011 / SC-005) ─────────────────────────
@@ -818,7 +825,7 @@ GM
     st=could-not-run:go-build:goproxy-off ft='build-failure-causes=goproxy-off\nunbuilt-packages (1):\n  m/bad [goproxy-off]' mkev modA go-env 6558 0 1 6558 1
     lim=600 st=could-not-run:timeout mkev modA timeout-gate 0 0 124 0 1
     # ── round 3 (T061/T087) fixtures: body binding, rc consistency, failing-list counts, downgrades, dirty, notes ──
-    mkev modA r3-body 5 0 0 5 1;  sed -i 's/^out$/tampered-after-measurement/' "$M/docs/zero-gap/coverage-evidence/modA__r3-body.txt"     # body replaced, TSV evsha and header untouched
+    mkev modA r3-body 5 0 0 5 1;  _sedi 's/^out$/tampered-after-measurement/' "$M/docs/zero-gap/coverage-evidence/modA__r3-body.txt"     # body replaced, TSV evsha and header untouched
     recrc=1 mkev modA r3-rc 5 0 0 5 1                                                                                                       # header+TSV say rc 0, the sealed recorded line says rc 1 (a CONSISTENT header+TSV rc edit)
     ft='failing-tests (3):\n  a :: T1\n  b :: T2\n  c :: T3' mkev modA r3-ft-count 5 2 1 5 1                                                  # lists 3, failed=2
     ft='failing-tests (2):\n  a :: T1' mkev modA r3-ft-listed 5 2 1 5 1                                                                    # says 2, lists 1

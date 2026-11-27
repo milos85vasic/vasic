@@ -1,0 +1,5 @@
+$ (cd <scratchpad>/umf) : bash _tools/od/start-daemon.sh --help
+Usage: start-daemon.sh [--runner=NAME]
+  --runner=NAME  accepted and ignored: this launcher starts a native Electron process and uses no container (docs/RUNNER_FLAG.md)
+  env: OD_PORT (default 4321)
+rc=0

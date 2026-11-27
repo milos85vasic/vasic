@@ -9,6 +9,7 @@ errors name keys and paths, never values.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
@@ -41,11 +42,13 @@ ALLOWED: dict[str, str] = {
     "allowed_onsite_cities": "strlist",
     "blocked_companies": "strlist",
     "eligible_countries": "iso3166list",
+    "work_auth_countries": "iso3166list",
+    "languages": "iso639list",
 }
 #: scoring-only keys: validated and readable, never merged into PDF/vault identity
 SCORING_KEYS: tuple[str, ...] = (
     "salary_min", "salary_currency", "salary_period", "tz_window",
-    "allowed_onsite_cities", "blocked_companies", "eligible_countries",
+    "allowed_onsite_cities", "blocked_companies", "eligible_countries", "work_auth_countries", "languages",
 )
 _PERIODS = ("year", "month", "hour")
 _CCY = re.compile(r"[A-Z]{3}")
@@ -95,6 +98,8 @@ def _kind_ok(kind: str, v: Any) -> bool:
                 and all(_is_int(x) and 0 <= x <= 24 for x in v.values()))
     if kind == "strlist":
         return isinstance(v, list) and all(isinstance(x, str) and x.strip() for x in v)
+    if kind == "iso639list":
+        return isinstance(v, list) and len(v) > 0 and all(isinstance(x, str) and re.fullmatch(r"[a-z]{2}", x) for x in v)
     if kind == "iso3166list":
         return isinstance(v, list) and all(isinstance(x, str) and _CC.fullmatch(x) for x in v)
     return False
@@ -106,6 +111,7 @@ _KIND_MSG = {
     "period": "must be one of year, month, hour",
     "tz_window": "must be a mapping of exactly start_utc and end_utc, integers 0..24",
     "strlist": "must be a list of non-empty strings",
+    "iso639list": "must be a non-empty list of lower-case ISO 639-1 codes",
     "iso3166list": "must be a list of upper-case ISO 3166 alpha-2 codes",
 }
 
@@ -141,6 +147,20 @@ def load_overlay(env: Optional[Mapping[str, str]] = None) -> Optional[dict[str, 
     except yaml.YAMLError:
         raise OverlayError(f"{OVERLAY_FILE}: not valid YAML") from None
     return validate(raw)
+
+
+def overlay_sha(env: Optional[Mapping[str, str]] = None) -> str:
+    """sha256 (hex) of the raw ``overlay.yaml`` bytes, ``""`` when no overlay is configured.
+
+    Same digest job_seeker computes (``match.OverlayFileSHA``); a digest, never content.
+    """
+    d = private_dir(env)
+    if d is None:
+        return ""
+    try:
+        return hashlib.sha256((d / OVERLAY_FILE).read_bytes()).hexdigest()
+    except OSError:
+        return ""
 
 
 def apply_identity(identity: Mapping[str, Any], ov: Optional[Mapping[str, Any]]) -> dict[str, Any]:

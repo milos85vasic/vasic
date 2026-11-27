@@ -1,0 +1,31 @@
+# .workable-items-sync.yaml -- umbrella declaration of the workable-items Issues mirror (anchor §11.4.300).
+# The engine lives in submodules/constitution/scripts/issue_sync/; this file is the ONLY thing the umbrella carries.
+# STATE: ENABLED but PLAN-ONLY. mode stays dry-run; there is no apply_decision and config/forge/issue_sync_proven.tsv in
+# the constitution submodule is EMPTY, so no tracker is written to. Turning on apply is a separate recorded operator decision.
+# Decisions in force (operator, 2026-11-25): the upstream set is derived per repository from its upstreams/*.sh recipes and
+# existing remotes (trackers: []); a private item goes only to the owner's own private tracker (visibility_policy: owning-repo,
+# enforced by the engine from the LIVE provider answer); GitFlic and GitVerse are written only behind a recorded live proof in
+# issue_sync_proven.tsv; the issue text is a generated public summary (no description or body text of the database is mirrored).
+enabled: true
+scope:
+  recursive: true         # own-org submodules, fleet derived from .gitmodules + helix-deps.yaml; third-party (superspec) never synced
+mode: dry-run
+trackers: []              # derive per repo from declared upstreams/*.sh and remotes
+visibility_policy: owning-repo
+interval_hours: 24
+inbound:
+  enabled: false
+  assignees: []
+# docs_chain: the issues-sync context IS installed (.docs_chain/contexts/issues-sync.yaml, 2026-11-25); see
+# docs/governance/ISSUE-SYNC-FACADE-WIRING-2026-11-25.md for the measured `run` result and the binary/CLI caveats.
+# mirrors (anchor §11.4.300(D), constitution PR for the key): declared mirror -> the owning repository it mirrors. The umbrella
+# (github.com/milos85vasic/vasic, public) is mirrored by empty PUBLIC repositories created 2026-11-25 (docs/governance/ISSUE-SYNC-HOST-REPOS-2026-11-25.md).
+# Codeberg, GitFlic and GitVerse use the owner name `milosvasic`, so without this map the engine answers not-owning-repo for them.
+# Declared targets are still plan-only here: mode stays dry-run, and a write needs the host in config/forge/issue_sync_proven.tsv.
+mirrors:
+  gitlab.com/milos85vasic/vasic: github.com/milos85vasic/vasic
+  codeberg.org/milosvasic/vasic: github.com/milos85vasic/vasic
+  git.m3w.org/milos85vasic/vasic: github.com/milos85vasic/vasic
+  gitflic.ru/milosvasic/vasic: github.com/milos85vasic/vasic
+  gitverse.ru/milosvasic/vasic: github.com/milos85vasic/vasic
+token_vars: {}            # NAMES only; defaults come from the constitution's config/forge/hosts.tsv

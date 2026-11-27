@@ -1,0 +1,48 @@
+podman: stopped machine is started BEFORE the availability probe (the reported defect)
+  ok    Darwin, machine stopped, --runner=podman: rc 0 and selected
+  ok    cold start ends with WORKSHOP_NETWORK_MODE=bridge (detected AFTER the machine started)
+  ok    machine start was issued
+  ok    clean cold start needed no stop/start recovery
+  ok    --runner=Podman (mixed case): same result
+  ok    --runner PODMAN (two words, upper case)
+  ok    env Podman: rc 0 selected
+podman: idempotent / other states
+  ok    already running: rc 0
+  ok    running machine: nothing is started/initialised/stopped
+  ok    starting: awaited, rc 0
+  ok    starting machine: no second start issued
+  ok    errored/stuck machine: stop+start recovery, rc 0
+  ok    recovery issued stop
+  ok    not initialised: init then start, rc 0
+  ok    init and start issued
+  ok    Linux, no machine: no VM is created, selector refuses honestly (rc 2)
+  ok    Linux: no machine init
+podman: /Volumes/<vol> must be mounted into the machine
+  ok    fresh init under /Volumes/T7: rc 0
+  ok    init passed -v /Volumes/T7 and kept the default /Users mount
+  ok    existing machine WITHOUT the mount: refused rc 2 (no silent destroy)
+  ok    machine not removed without opt-in
+  ok    refusal names the exact remedy
+  ok    opt-in recreate: rc 0
+  ok    recreated with the mount
+  ok    home under /Users: no extra mount needed, rc 0
+  ok    volume name with a space: rc 0
+  ok    spaced mount passed as ONE argument pair
+other forced runner must not boot podman (ensure_podman_machine)
+  ok    forced docker + stopped podman machine: podman VM not started
+  ok    no forced runner: stopped podman machine is started
+read-only / dry paths never boot anything
+  ok    --help does not start the VM
+  ok    --dry-run does not start the VM
+  ok    WORKSHOP_RUNNER_PREPARE=0 (stop/status paths) does not start the VM
+docker: Docker Desktop / colima are started on macOS
+  ok    Darwin docker down: Docker Desktop opened, rc 0
+  ok    open -ga Docker issued
+  ok    colima context: colima start issued (case-insensitive name)
+  ok    Linux docker: no macOS starter used
+PATH for non-login shells
+  ok    Homebrew dir appended to a bare PATH on Darwin
+  ok    PATH untouched on Linux
+  ok    default dirs cover Apple Silicon (/opt/homebrew) and Intel (/usr/local)
+
+39 passed, 0 failed

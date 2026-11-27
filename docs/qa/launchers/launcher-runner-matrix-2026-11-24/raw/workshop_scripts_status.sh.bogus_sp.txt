@@ -1,0 +1,5 @@
+$ (cd <scratchpad>/umf/workshop) : env WORKSHOP_PROJECT_NAME=zzz-runner-matrix WORKSHOP_HTTP_PORT=18087 bash scripts/status.sh --runner bogus
+STOPPED
+  no containers exist for this project
+PROBLEM: STOPPED: no containers exist for this project
+rc=1

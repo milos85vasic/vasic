@@ -20,7 +20,7 @@ reason).
 | 3 | **security** | **ADDED** | Per key page: no inline secrets in shipped HTML, no `http://` mixed-content subresources, no inline `on*=` handlers, `rel=noopener` on every `target=_blank`, and CSP-`<meta>` presence recorded. `_tests/tests/security-hardening.spec.js`. Server-header security (CSP/HSTS response headers, WAF) is **N/A** — GitHub Pages does not let you set response headers; the only static-site lever is a `<meta>` CSP, which is checked. |
 | 4 | **performance** | **ADDED** | Real transferred-bytes + request-count budget measured from Playwright's network layer (not a faked Lighthouse score), plus LCP-candidate presence and a render-blocking-`<head>`-script check. Lighthouse/LHCI is **not** a declared/installable dependency here, so a **documented lighter proxy** is used per the task allowance. `_tests/tests/perf-budget.spec.js` → real numbers in `evidence/test-types/perf-budget.json` (e.g. vasic home 221 KB / 10 req / LCP 28 ms; budget 1.5 MB / 45 req). |
 | 5 | **e2e** | PRESENT | Feature/behaviour specs: `_tests/tests/vasic-digital.spec.js`, `milosvasic-ru.spec.js`, `*-features.spec.js` (nav, hero, theme toggle + persistence, product-card links, responsive overflow). |
-| 6 | **accessibility (a11y)** | PRESENT | `@axe-core/playwright` audit + keyboard/skip-link/contrast checks: `_tests/tests/milosvasic-ru-a11y.spec.js`. |
+| 6 | **accessibility (a11y)** | PRESENT | `@axe-core/playwright` audit + keyboard/skip-link/contrast checks: `_tests/tests/milosvasic-ru-a11y.spec.js` and `_tests/tests/vasic-digital-a11y.spec.js` (both sites; the second spec passed 12 of 12 on webkit and on chromium, 2026-11-24). |
 | 7 | **i18n** | PRESENT | `_tests/tests/i18n-completeness.spec.js`, `vasic-digital-i18n-articles.spec.js`, `milosvasic-ru-i18n-articles.spec.js`; hreflang reciprocity is additionally asserted by the new `seo-meta.spec.js`. |
 | 8 | **visual** | PRESENT | Visual oracle + evidence screenshots: `_tests/visual/visual-oracle.js`, `_tests/visual/self-validate.sh`, per-site full-page screenshots under `evidence/homepages/`. |
 | 9 | **export** | PRESENT | PDF/asset export validation: `_tests/export/validate-pdf.js`, `make-image.js`, `self-validate.sh`, fixtures. |
@@ -77,3 +77,7 @@ node _tests/tools/validate.mutation.test.mjs
 # without them that one spec fails with "Expected: 200 / Received: 0".
 ( cd _tests && npx playwright test --config=playwright.live.config.js )
 ```
+
+## Volatile evidence is refreshed deliberately (UG-15)
+
+`evidence/test-types/perf-budget.json` and `evidence/homepages/*.png` depend on what the sites serve and on the host, so an ordinary run no longer rewrites them: it writes to the git-ignored `_tests/test-results/evidence-scratch/`. A deliberate refresh is `EVIDENCE_REFRESH=1 npx playwright test ...`. `scripts/verify-evidence-stability.sh` (check `evidence-stability`) enforces this; the single decision point is `_tests/tools/evidence-paths.cjs`. `evidence/test-types/playwright-summary.txt` is a dated historical snapshot and is not expected to match the JSON.

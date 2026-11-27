@@ -354,9 +354,9 @@ load_reuse() {
     local f="$HERE/verify-manifest-pins.sh" g="$HERE/verify-governance-cascade.sh" body
     [ -r "$f" ] && [ -r "$g" ] || return 1
     body=$(sed -n '/^manifest_entries() {$/,/^}$/p' "$f"); [ -n "$body" ] || return 1
-    eval "$body" || return 1
+    eval "$body" || return 1  # DANGER-OK: body is a function definition sed-extracted from a tracked in-repo script; same trust as sourcing it
     body=$(sed -n '/^helix_excluded_paths() {$/,/^}$/p' "$g"); [ -n "$body" ] || return 1
-    eval "$body" || return 1
+    eval "$body" || return 1  # DANGER-OK: body is a function definition sed-extracted from a tracked in-repo script; same trust as sourcing it
     declare -F manifest_entries >/dev/null && declare -F helix_excluded_paths >/dev/null
 }
 

@@ -156,6 +156,13 @@
 #
 # Usage: --root <abs dir> [--corpus <abs dir>] [--emit-population]      |   --prove-failure
 set -uo pipefail
+_sedi() {  # portable in-place sed (GNU and BSD/macOS disagree on the -i suffix argument): _sedi [sed options] script... FILE
+    local f="${!#}" t r
+    t="$(mktemp "${TMPDIR:-/tmp}/sedi.XXXXXX")" || return 1
+    sed "${@:1:$#-1}" "$f" >"$t"; r=$?
+    [ "$r" -eq 0 ] && cat "$t" >"$f"; r=$?
+    rm -f "$t"; return "$r"
+}
 export LC_ALL=C PYTHONDONTWRITEBYTECODE=1
 ID=unproven-checks
 
@@ -218,7 +225,8 @@ zg_drop_excluded() {
 }
 # <<< zg_thirdparty
 
-SELF=$(readlink -f "$0" 2>/dev/null || echo "$0")
+SELF="$0"; while [ -L "$SELF" ]; do _sl="$(readlink -- "$SELF")"; case "$_sl" in /*) SELF="$_sl" ;; *) SELF="$(dirname -- "$SELF")/$_sl" ;; esac; done  # portable realpath
+SELF="$(cd -P -- "$(dirname -- "$SELF")" && pwd -P)/$(basename -- "$SELF")"
 EMPTY_SHA=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855   # sha256 of the empty population
 ROOT="" CORPUS="" EMIT=0 PROVE=0
 # fail_early <part> <reason>: nothing was enumerated. An inspection run still prints INSPECTED 0 and
@@ -310,7 +318,7 @@ if [ "$PROVE" -eq 1 ]; then
     mut() { # location description target expr(@chmod|@rm|sed script)
         local loc=$1 desc=$2 tgt=$3 expr=$4
         k=$((k + 1)); muts=$((muts + 1)); mk "m$k" clean
-        if [ "$expr" = "@chmod" ]; then chmod -x "$T/m$k/$tgt"; elif [ "$expr" = "@rm" ]; then rm -f "$T/m$k/$tgt"; else sed -i "$expr" "$T/m$k/$tgt"; fi
+        if [ "$expr" = "@chmod" ]; then chmod -x "$T/m$k/$tgt"; elif [ "$expr" = "@rm" ]; then rm -f "$T/m$k/$tgt"; else _sedi "$expr" "$T/m$k/$tgt"; fi
         run "$T/m$k"
         if [ "$RC" -eq 1 ] && has "^FINDING $ID [a-z]* [a-z-]* $loc "; then ok "M$k $desc => finding at $loc"; else bad "M$k $desc rc=$RC (want 1 with a finding at $loc)"; fi
     }
@@ -427,8 +435,8 @@ if [ "$PROVE" -eq 1 ]; then
     # sx <name> <description> <assertion> <edit...>: one property edited, then the assertion is evaluated
     sx() {
         local nm=$1 desc=$2 cond=$3; shift 3
-        k=$((k + 1)); muts=$((muts + 1)); mk "$nm" clean; ( cd "$T/$nm" && eval "$*" ); run "$T/$nm"
-        if eval "$cond"; then ok "M$k $desc"; else bad "M$k $desc rc=$RC: $(grep -E '^(FINDING|COULD)' <<<"$OUT" | tr '\n' '|')"; fi
+        k=$((k + 1)); muts=$((muts + 1)); mk "$nm" clean; ( cd "$T/$nm" && eval "$*" ); run "$T/$nm"  # DANGER-OK: harness-authored literal mutation commands applied to a throwaway fixture under mktemp
+        if eval "$cond"; then ok "M$k $desc"; else bad "M$k $desc rc=$RC: $(grep -E '^(FINDING|COULD)' <<<"$OUT" | tr '\n' '|')"; fi  # DANGER-OK: harness-authored literal assertion condition, never external input
     }
     k=$((k + 1)); muts=$((muts + 1)); mk sx0 clean; run "$T/sx0"
     pop0=$(cd "$T/sx0" && env -i PATH="$PATH" HOME="${HOME:-/}" TMPDIR="$T" LC_ALL=C bash "$SELF" --root "$T/sx0" --corpus "$T/sx0" --emit-population 2>/dev/null)
@@ -436,19 +444,19 @@ if [ "$PROVE" -eq 1 ]; then
     else bad "M$k honoured exemption rc=$RC: $OUT"; fi
     sx sxa "exemption without a reason => not honoured, the script is flagged and the row is a finding" \
         '[ "$RC" -eq 1 ] && flagged && has "^FINDING $ID high governance-drift subregistry:$SR:4 "' \
-        "sed -i 's/^\(exempt\ttools\/stage_audit.sh\)\t.*/\1/' $SR"
+        "_sedi 's/^\(exempt\ttools\/stage_audit.sh\)\t.*/\1/' $SR"
     sx sxa2 "exemption whose reason is only blanks => not honoured, flagged, row reported" \
         '[ "$RC" -eq 1 ] && flagged && has "^FINDING $ID high governance-drift subregistry:$SR:4 "' \
-        "sed -i 's/^\(exempt\ttools\/stage_audit.sh\)\t.*/\1\t   /' $SR"
+        "_sedi 's/^\(exempt\ttools\/stage_audit.sh\)\t.*/\1\t   /' $SR"
     sx sxb "exemption naming a DIFFERENT existing file => the real script is still flagged, the other is not" \
         '[ "$RC" -eq 1 ] && flagged && ! has "^FINDING [^ ]* [^ ]* [^ ]* mods/owned/tools/stage_audit2.sh " && ! has "^FINDING .*subregistry:"' \
-        "cp -p mods/owned/tools/stage_audit.sh mods/owned/tools/stage_audit2.sh; sed -i 's|tools/stage_audit.sh|tools/stage_audit2.sh|' $SR"
+        "cp -p mods/owned/tools/stage_audit.sh mods/owned/tools/stage_audit2.sh; _sedi 's|tools/stage_audit.sh|tools/stage_audit2.sh|' $SR"
     sx sxb2 "exemption naming the script's DIRECTORY (a blanket allow) => not honoured, flagged, row reported" \
         '[ "$RC" -eq 1 ] && flagged && has "^FINDING $ID high governance-drift subregistry:$SR:4 "' \
-        "sed -i 's|^exempt\ttools/stage_audit.sh|exempt\ttools|' $SR"
+        "_sedi 's|^exempt\ttools/stage_audit.sh|exempt\ttools|' $SR"
     sx sxb3 "exemption naming a PREFIX of the file name (not the exact file) => not honoured, flagged" \
         '[ "$RC" -eq 1 ] && flagged && has "^FINDING $ID high governance-drift subregistry:$SR:4 "' \
-        "sed -i 's|^exempt\ttools/stage_audit.sh|exempt\ttools/stage_aud|' $SR"
+        "_sedi 's|^exempt\ttools/stage_audit.sh|exempt\ttools/stage_aud|' $SR"
     sx sxc "registry missing => the exemption is gone and the script is flagged (never a silent pass)" \
         '[ "$RC" -eq 1 ] && flagged' "rm -f $SR"
     sx sxc2 "registry unreadable => COULD-NOT-INSPECT naming it, exemption not honoured" \
@@ -457,13 +465,13 @@ if [ "$PROVE" -eq 1 ]; then
         '[ "$RC" -eq 2 ] && voided && has "^COULD-NOT-INSPECT subregistry:$SR "' "printf 'bogus\tx\n' >>$SR"
     sx sxd2 "registry malformed and nothing else to report => rc 2 exactly, never 0" \
         '[ "$RC" -eq 2 ] && has "^COULD-NOT-INSPECT subregistry:$SR " && ! has "^FINDING"' \
-        "rm -f mods/owned/tools/stage_audit.sh; sed -i '/^exempt/d' $SR; printf 'bogus\tx\n' >>$SR"
+        "rm -f mods/owned/tools/stage_audit.sh; _sedi '/^exempt/d' $SR; printf 'bogus\tx\n' >>$SR"
     sx sxd3 "registry malformed (exempt row with an extra field) => COULD-NOT-INSPECT, not honoured" \
-        '[ "$RC" -eq 2 ] && voided && has "^COULD-NOT-INSPECT subregistry:$SR "' "sed -i 's/^\(exempt\t.*\)$/\1\textra/' $SR"
+        '[ "$RC" -eq 2 ] && voided && has "^COULD-NOT-INSPECT subregistry:$SR "' "_sedi 's/^\(exempt\t.*\)$/\1\textra/' $SR"
     sx sxd4 "registry malformed (an exempt path escaping the submodule with ..) => COULD-NOT-INSPECT" \
         '[ "$RC" -eq 2 ] && voided && has "^COULD-NOT-INSPECT subregistry:$SR "' "printf 'exempt\t../../scripts/ok-real.sh\tescape\n' >>$SR"
     sx sxd5 "registry malformed (a CR line ending) => COULD-NOT-INSPECT, not honoured" \
-        '[ "$RC" -eq 2 ] && voided && has "^COULD-NOT-INSPECT subregistry:$SR "' "sed -i 's/\$/\r/' $SR"
+        '[ "$RC" -eq 2 ] && voided && has "^COULD-NOT-INSPECT subregistry:$SR "' "_sedi \"s/\\\$/$(printf '\r')/\" $SR"
     sx sxe "exemption for a file that does not exist => the row itself is a finding" \
         '[ "$RC" -eq 1 ] && ! flagged && has "^FINDING $ID high governance-drift subregistry:$SR:5 "' \
         "printf 'exempt\ttools/ghost_audit.sh\treason given\n' >>$SR"
@@ -488,11 +496,11 @@ if [ "$PROVE" -eq 1 ]; then
         'U+3164:\xe3\x85\xa4' 'U+115F:\xe1\x85\x9f' 'U+1160:\xe1\x85\xa0' 'U+FFA0:\xef\xbe\xa0' 'combining-mark:\xcc\x81' 'symbols:\xe2\x82\xac+=\xc2\xa9'; do
         sx "sxi${inv%%:*}" "a reason made only of ${inv%%:*} (no visible letter or digit) => not honoured, row reported" \
             '[ "$RC" -eq 1 ] && flagged && has "^FINDING $ID high governance-drift subregistry:$SR:4 "' \
-            "sed -i '4d' $SR; printf 'exempt\ttools/stage_audit.sh\t%b\n' '${inv#*:}' >>$SR"
+            "_sedi '4d' $SR; printf 'exempt\ttools/stage_audit.sh\t%b\n' '${inv#*:}' >>$SR"
     done
     for vis in 'e-acute:\xc3\xa9' 'cjk:\xe4\xb8\xad' 'digit:7'; do
         sx "sxv${vis%%:*}" "a reason holding one visible ${vis%%:*} character => honoured (the rule is not over-strict)" \
-            '[ "$RC" -eq 0 ] && ! flagged' "sed -i '4d' $SR; printf 'exempt\ttools/stage_audit.sh\t%b\n' '${vis#*:}' >>$SR"
+            '[ "$RC" -eq 0 ] && ! flagged' "_sedi '4d' $SR; printf 'exempt\ttools/stage_audit.sh\t%b\n' '${vis#*:}' >>$SR"
     done
     sx sxu "a registry that is not valid UTF-8 => COULD-NOT-INSPECT (malformed), not honoured" \
         '[ "$RC" -eq 2 ] && voided && has "^COULD-NOT-INSPECT subregistry:$SR "' "printf '# \xff\xfe\n' >>$SR"
@@ -554,7 +562,7 @@ if [ "$PROVE" -eq 1 ]; then
     for sh in shimP shimL; do
         k=$((k + 1)); muts=$((muts + 1)); mk "sx$sh" clean
         OUT=$(cd "$T/sx$sh" && env -i PATH="$T/$sh:$PATH" HOME="${HOME:-/}" TMPDIR="$T" LC_ALL=C bash "$SELF" --root "$T/sx$sh" --corpus "$T/sx$sh" 2>&1); RC=$?
-        if [ "$RC" -eq 2 ] && has "^COULD-NOT-INSPECT subregistry:$SR reason-classifier-unavailable" && voided; then ok "M$k reason classifier unusable ($sh: no grep -P / no UTF-8 locale) => every registry COULD-NOT-INSPECT, script undetermined, rc 2"
+        if [ "$RC" -eq 2 ] && has "^COULD-NOT-INSPECT subregistry:$SR reason-classifier-unavailable" && voided; then ok "M$k reason classifier unusable ($sh: no PCRE grep / no UTF-8 locale) => every registry COULD-NOT-INSPECT, script undetermined, rc 2"
         else bad "M$k $sh rc=$RC: $OUT"; fi
     done
     # INFO: free text that fits the path byte set (@ , = ~ +) is refused unless a real file carries those bytes
@@ -1205,9 +1213,19 @@ sub_exempt() {
 # resolves to; rc 1 unless that file lies inside BASE, is a regular non-symlink file and (live mode) belongs to the
 # SAME git repository as the link.
 BASE_REAL=$(cd "$BASE" 2>/dev/null && pwd -P)
+_realpath() {  # portable realpath (BSD/macOS readlink has no GNU canonicalise flag): follow every link, then canonicalise the directory
+    local p="$1" n=0 l d
+    while [ -L "$p" ]; do
+        n=$((n+1)); [ "$n" -le 40 ] || return 1
+        l="$(readlink -- "$p")" || return 1
+        case "$l" in /*) p="$l" ;; *) p="$(dirname -- "$p")/$l" ;; esac
+    done
+    d="$(cd -P -- "$(dirname -- "$p")" 2>/dev/null && pwd -P)" || return 1
+    printf '%s/%s\n' "${d%/}" "$(basename -- "$p")"
+}
 alias_target() {
     local real t1 t2
-    real=$(readlink -f -- "$BASE/$1" 2>/dev/null) || return 1
+    real=$(_realpath "$BASE/$1" 2>/dev/null) || return 1
     [ -f "$real" ] && [ ! -L "$real" ] || return 1
     case "$real" in "$BASE_REAL"/*) ;; *) return 1 ;; esac
     if [ -z "$CORPUS" ]; then

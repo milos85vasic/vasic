@@ -1,0 +1,17 @@
+$ start.sh --runner=podman (isolated project zzz-runner-matrix, port 18087)
+>> stamping workshop-server: build=5a7acdd1-20261124T142612Z dirty=true src_dirty=false (8 input module(s))
+>> building workshop-server (static) from <repo>/workshop/platform/backend/./cmd/workshop-server ...
+>>    -> <repo>/workshop/platform/bin/workshop-server (5a7acdd1-20261124T142612Z, src_dirty=false)
+api_keys: ApiKey_DeepSeek present=yes (env file)
+>> starting the workshop curriculum stack ...
+2026/11/24 15:26:24 [INFO]  workshop-boot: compose up: podman-compose -f <repo>/workshop/platform/compose.yml --project-name zzz-runner-matrix up -d --no-recreate
+2026/11/24 15:26:24 [DEBUG] workshop-boot: executing: podman-compose -f <repo>/workshop/platform/compose.yml --project-name zzz-runner-matrix up -d --no-recreate (dir: <repo>/workshop/platform)
+2026/11/24 15:26:26 [DEBUG] workshop-boot: compose command completed successfully
+2026/11/24 15:26:26 [DEBUG] workshop-boot: podman-compose wait: all requested services ready (1)
+  platform                     running
+>> oomd protection applied while the stack was still booting
+HEALTHY: http://127.0.0.1:18087/api/health (22ms)
+UP: http://127.0.0.1:18087
+>> oomd protection: libpod-8b237cc2ca4d3bf3a7acdbc8a35d6d9527c417e7f38172bbd867b8ddf30beb7c.scope ManagedOOMPreference=avoid, cgroup user.oomd_avoid=1, drop-in present
+WORKSHOP_OOMD_OUTCOME=applied
+rc=0

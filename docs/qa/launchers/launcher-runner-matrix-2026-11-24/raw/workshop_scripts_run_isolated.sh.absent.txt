@@ -1,0 +1,3 @@
+$ (cd <scratchpad>/umf/workshop) : env WORKSHOP_ISOLATED_VALIDATE_ONLY=1 bash scripts/run-isolated.sh --runner=
+run-isolated: REFUSED: unknown argument: --runner= (see --help)
+rc=2

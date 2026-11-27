@@ -1,25 +1,25 @@
-=== [runtime-probe-default] $ /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/gobin/runtime-probe
+=== [runtime-probe-default] $ <scratchpad>/gobin/runtime-probe
 runtime=podman version=5.7.0 runner=podman source=default
 --- rc=0
-=== [runtime-probe-runner-podman] $ /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/gobin/runtime-probe --runner=podman
+=== [runtime-probe-runner-podman] $ <scratchpad>/gobin/runtime-probe --runner=podman
 runtime=podman version=5.7.0 runner=podman source=flag
 --- rc=0
-=== [runtime-probe-runner-docker] $ /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/gobin/runtime-probe --runner=docker
+=== [runtime-probe-runner-docker] $ <scratchpad>/gobin/runtime-probe --runner=docker
 runtime-probe: COULD NOT DETERMINE — no container runtime is available here: forced container runner is not available: "docker" (selected via flag) is not installed or not reachable on this host; refusing to fall back to another runner
 --- rc=2
-=== [runtime-probe-runner-bogus] $ /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/gobin/runtime-probe --runner=bogus
+=== [runtime-probe-runner-bogus] $ <scratchpad>/gobin/runtime-probe --runner=bogus
 runtime-probe: runner refused: unknown container runner "bogus" (from --runner): supported runners are podman, docker, nerdctl, cri-o, lxd, kubernetes, or "auto" for the default order
 --- rc=2
-=== [runtime-probe-runner-novalue] $ /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/gobin/runtime-probe --runner
+=== [runtime-probe-runner-novalue] $ <scratchpad>/gobin/runtime-probe --runner
 runtime-probe: runner refused: malformed --runner flag: --runner needs a value (one of: podman, docker, nerdctl, cri-o, lxd, kubernetes, auto)
 --- rc=2
-=== [runtime-probe-env-docker] $ env CONTAINERS_RUNNER=docker /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/gobin/runtime-probe
+=== [runtime-probe-env-docker] $ env CONTAINERS_RUNNER=docker <scratchpad>/gobin/runtime-probe
 runtime-probe: COULD NOT DETERMINE — no container runtime is available here: forced container runner is not available: "docker" (selected via env) is not installed or not reachable on this host; refusing to fall back to another runner
 --- rc=2
-=== [runtime-probe-flag-auto-over-env-docker] $ env CONTAINERS_RUNNER=docker /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/gobin/runtime-probe --runner=auto
+=== [runtime-probe-flag-auto-over-env-docker] $ env CONTAINERS_RUNNER=docker <scratchpad>/gobin/runtime-probe --runner=auto
 runtime=podman version=5.7.0 runner=podman source=flag
 --- rc=0
-=== [site-build-help] $ /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/gobin/site-build -h
+=== [site-build-help] $ <scratchpad>/gobin/site-build -h
   -root string
     	Umbrella repository root (default: derived from this file's location, then $PWD)
   -timeout duration
@@ -27,16 +27,16 @@ runtime=podman version=5.7.0 runner=podman source=flag
   -workload string
     	Which workload to run: jekyll | gen-test (default "jekyll")
 --- rc=0
-=== [site-build-runner-docker] $ /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/gobin/site-build -workload jekyll --runner=docker
+=== [site-build-runner-docker] $ <scratchpad>/gobin/site-build -workload jekyll --runner=docker
 site-build: COULD NOT DETERMINE — no container runtime available: forced container runner is not available: "docker" (selected via flag) is not installed or not reachable on this host; refusing to fall back to another runner
 --- rc=2
-=== [site-build-runner-bogus] $ /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/gobin/site-build -workload jekyll --runner=bogus
+=== [site-build-runner-bogus] $ <scratchpad>/gobin/site-build -workload jekyll --runner=bogus
 site-build: runner refused: unknown container runner "bogus" (from --runner): supported runners are podman, docker, nerdctl, cri-o, lxd, kubernetes, or "auto" for the default order
 --- rc=2
-=== [site-build-env-docker] $ env CONTAINERS_RUNNER=docker /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/gobin/site-build -workload jekyll
+=== [site-build-env-docker] $ env CONTAINERS_RUNNER=docker <scratchpad>/gobin/site-build -workload jekyll
 site-build: COULD NOT DETERMINE — no container runtime available: forced container runner is not available: "docker" (selected via env) is not installed or not reachable on this host; refusing to fall back to another runner
 --- rc=2
-=== [port-discover-help] $ /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/gobin/port-discover -h
+=== [port-discover-help] $ <scratchpad>/gobin/port-discover -h
   -registry-dir string
     	Shared registry directory (default: $VASIC_ROOT/.service-registry, resolved from this binary's own working directory's git toplevel)
   -timeout duration
@@ -44,7 +44,7 @@ site-build: COULD NOT DETERMINE — no container runtime available: forced conta
   -udp
     	Also require the port to be free on UDP (HTTPS + HTTP/3 bind one port on both)
 --- rc=1
-=== [port-discover-lookup] $ /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/gobin/port-discover -registry /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/pdreg -name retest-x -default 18555
+=== [port-discover-lookup] $ <scratchpad>/gobin/port-discover -registry <scratchpad>/pdreg -name retest-x -default 18555
   -registry-dir string
     	Shared registry directory (default: $VASIC_ROOT/.service-registry, resolved from this binary's own working directory's git toplevel)
   -timeout duration
@@ -52,7 +52,7 @@ site-build: COULD NOT DETERMINE — no container runtime available: forced conta
   -udp
     	Also require the port to be free on UDP (HTTPS + HTTP/3 bind one port on both)
 --- rc=1
-=== [ocr-help] $ /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/gobin/ocr -h
+=== [ocr-help] $ <scratchpad>/gobin/ocr -h
   -psm string
     	tesseract --psm value (default "6")
   -root string
@@ -60,12 +60,12 @@ site-build: COULD NOT DETERMINE — no container runtime available: forced conta
   -timeout duration
     	Overall wall-clock budget (default 10m0s)
 --- rc=0
-=== [ocr-runner-docker] $ /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/gobin/ocr --runner=docker
+=== [ocr-runner-docker] $ <scratchpad>/gobin/ocr --runner=docker
 ocr: COULD NOT DETERMINE — no container runtime available: forced container runner is not available: "docker" (selected via flag) is not installed or not reachable on this host; refusing to fall back to another runner
 --- rc=2
-=== [ocr-runner-bogus] $ /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/gobin/ocr --runner=bogus
+=== [ocr-runner-bogus] $ <scratchpad>/gobin/ocr --runner=bogus
 ocr: runner refused: unknown container runner "bogus" (from --runner): supported runners are podman, docker, nerdctl, cri-o, lxd, kubernetes, or "auto" for the default order
 --- rc=2
-=== [ocr-env-docker] $ env CONTAINERS_RUNNER=docker /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/gobin/ocr
+=== [ocr-env-docker] $ env CONTAINERS_RUNNER=docker <scratchpad>/gobin/ocr
 ocr: COULD NOT DETERMINE — no container runtime available: forced container runner is not available: "docker" (selected via env) is not installed or not reachable on this host; refusing to fall back to another runner
 --- rc=2
