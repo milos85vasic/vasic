@@ -477,6 +477,12 @@ deps:
     why: "Private single-operator job-search tool: job-source adapters, per-position ATS CVs, human-in-the-loop applying (dry-run default). Personal data only in the git-ignored career_private overlay."
     layout: flat
 
+  - name: _private
+    ssh_url: git@github.com:vasic-digital/milosvasic_ru_private.git
+    ref: "8abff3de6cc11608cd201e686f32c16ca0436f3d"   # hoisted from milosvasic.ru/_private per C7 fix, 2026-11-27
+    why: "Private job-search tool / vault for milosvasic.ru — hoisted to umbrella root to break the own-org nesting chain flagged by C7 cascade (§11.4.28(C))."
+    layout: grouped
+
   - name: monetization
     ssh_url: git@github.com:vasic-digital/monetization.git
     ref: "35efbe8329b1276b36e82444c5d4ea7cf8271305"   # bumped 2026-11-27 per operator decision (ALL 25 drift rows), ff-only, 0 divergent
