@@ -452,7 +452,7 @@ MKPY
 fi
 
 PROJ="$PROJ" STORE="$STORE" CONFIG="$CONFIG" REQUIRE_BACKEND="$REQUIRE_BACKEND" python3 - <<'PY'
-import os, sqlite3, glob, collections, sys, re, json, hashlib
+import os, sqlite3, glob, collections, sys, re, json, hashlib, signal
 
 proj   = os.path.realpath(os.environ["PROJ"])
 store  = os.environ["STORE"]
@@ -484,6 +484,8 @@ def envfloat(name, default):
         print("❌ %s='%s' is not a number; refusing to guess a threshold "
               "(unset it to use the default %s)" % (name, v, default))
         sys.exit(E_UNKNOWNGEOM)
+
+integrity_timeout = envint("LUMEN_DOCTOR_INTEGRITY_TIMEOUT", 60)
 
 # ── exit codes are PRIVATE (see the bash mapping at the bottom) ───────────────
 E_HEALTHY, E_NOINDEX, E_CORRUPT, E_UNKNOWNGEOM = 20, 21, 22, 23
@@ -603,13 +605,39 @@ matches = []
 for d in candidates:
     try:
         c = sqlite3.connect("file:%s?mode=ro" % d, uri=True)
-        rows = dict(c.execute("SELECT key, value FROM project_meta").fetchall())
+        # lumen's real schema: projects(id, path, ...) + project_meta(project_id, key, value)
+        # Multiple projects can share one index.db; match by project path, then
+        # read that project's own meta. Fall back to a single-project scan if
+        # the projects table does not exist (older lumen schema).
+        try:
+            project_rows = list(c.execute("SELECT id, path FROM projects"))
+        except sqlite3.OperationalError:
+            project_rows = []
+
+        if project_rows:
+            matched_pid = None
+            for pid, ppath in project_rows:
+                if pinned or os.path.realpath(ppath) == proj:
+                    matched_pid = pid
+                    break
+            if matched_pid is None:
+                if pinned:
+                    matched_pid = project_rows[0][0]  # operator named this db explicitly
+                else:
+                    continue
+            rows = c.execute("SELECT key, value FROM project_meta WHERE project_id=?", (matched_pid,)).fetchall()
+        else:
+            # Older single-project schema: project_meta is flat key-value
+            rows = c.execute("SELECT key, value FROM project_meta").fetchall()
+            project_paths = [v for k, v in rows if k == "project_path"]
+            if not pinned and not any(os.path.realpath(p) == proj for p in project_paths):
+                continue
         c.close()
     except Exception:
         continue
-    p = rows.get("project_path")
-    if pinned or (p and os.path.realpath(p) == proj):
-        matches.append((d, rows.get("embedding_model", "?"), rows))
+    meta = dict(rows)
+    model = meta.get("embedding_model", "?")
+    matches.append((d, model, meta))
 
 if not matches:
     print("❌ no Lumen index found for %s under %s" % (proj, store))
@@ -672,22 +700,86 @@ except Exception as e:
     print("❌ cannot open %s read-only: %s" % (db, e))
     sys.exit(E_NOINDEX)
 
+# Scope file/chunk counts to this project's id: an index.db may hold several
+# projects, and the flat `files`/`chunks` tables no longer exist in the real
+# lumen schema. Older single-project schemas (no `projects` table) leave this
+# None, in which case the counts below fall back gracefully.
+proj_pid = None
 try:
-    print("integrity_check: %s" % c.execute("PRAGMA integrity_check").fetchone()[0])
+    for _pid, _ppath in c.execute("SELECT id, path FROM projects"):
+        if os.path.realpath(_ppath) == proj:
+            proj_pid = _pid
+            break
+except sqlite3.OperationalError:
+    pass
+
+
+def integrity_check_with_timeout(conn, db_path, timeout_sec):
+    """Run PRAGMA integrity_check with a hard timeout and size guard.
+
+    On a multi-gigabyte index this can take minutes and OOM the host;
+    skip it above LUMEN_DOCTOR_MAX_INTEGRITY_GB and report "skipped"
+    rather than hanging the whole doctor.
+    """
+    max_gb = envfloat("LUMEN_DOCTOR_MAX_INTEGRITY_GB", 2.0)
+    try:
+        size_bytes = os.path.getsize(db_path)
+    except OSError:
+        size_bytes = 0
+    if size_bytes > max_gb * 1024**3:
+        return "SKIPPED (%d GB exceeds LUMEN_DOCTOR_MAX_INTEGRITY_GB=%.1f GB)" % (
+            size_bytes / 1024**3, max_gb)
+
+    result = {"value": None, "done": False}
+
+    def handler(signum, frame):
+        raise TimeoutError("integrity_check exceeded %ds" % timeout_sec)
+
+    old = signal.signal(signal.SIGALRM, handler)
+    signal.alarm(timeout_sec)
+    try:
+        result["value"] = conn.execute("PRAGMA integrity_check").fetchone()[0]
+        result["done"] = True
+    except TimeoutError:
+        result["value"] = "SKIPPED (integrity_check exceeded %ds)" % timeout_sec
+    finally:
+        signal.alarm(0)
+        signal.signal(signal.SIGALRM, old)
+    return result["value"]
+
+try:
+    ic = integrity_check_with_timeout(c, db, integrity_timeout)
+    print("integrity_check: %s" % ic)
 except Exception as e:
     print("❌ integrity_check could not run: %s" % e)
     sys.exit(E_UNKNOWNGEOM)
 
-def scalar(sql, default=0):
+def scalar(sql, params=(), default=0):
     try:
-        return c.execute(sql).fetchone()[0]
+        return c.execute(sql, params).fetchone()[0]
     except Exception:
         return default
 
-files_total = scalar("SELECT COUNT(*) FROM files")
-files_done  = scalar("SELECT COUNT(*) FROM files WHERE hash<>''")
-chunks      = scalar("SELECT COUNT(*) FROM chunks")
-print("files: %d fully indexed, %d queued placeholders | chunks: %d"
+# The real lumen schema stores files in `file_revisions` + `project_files`
+# (not a flat `files` table) and chunks in `chunk_defs` (not a flat `chunks`
+# table). Scope every count to this project so a multi-project index.db is
+# not misread; an older schema without `projects` leaves proj_pid None and
+# these fall back to the flat queries (tables missing -> scalar returns 0).
+if proj_pid is not None:
+    files_total = scalar("SELECT COUNT(*) FROM project_files WHERE project_id=?", (proj_pid,))
+    files_done = scalar("""SELECT COUNT(*) FROM project_files pf
+                           JOIN file_revisions fr ON fr.id = pf.file_revision_id
+                           WHERE pf.project_id=? AND fr.complete=1""", (proj_pid,))
+    chunks = scalar("""SELECT COUNT(*) FROM chunk_defs cd
+                       JOIN file_revisions fr ON fr.id = cd.file_revision_id
+                       JOIN project_files pf ON pf.file_revision_id = fr.id
+                        AND pf.relative_path = fr.relative_path
+                       WHERE pf.project_id=?""", (proj_pid,))
+else:
+    files_total = scalar("SELECT COUNT(*) FROM file_revisions")
+    files_done = scalar("SELECT COUNT(*) FROM file_revisions WHERE complete<>0")
+    chunks = scalar("SELECT COUNT(*) FROM chunk_defs")
+print("files: %d fully indexed, %d incomplete | chunks: %d"
       % (files_done, files_total - files_done, chunks))
 
 # ── 5. discover the sqlite-vec shadow tables instead of naming them ──────────
@@ -701,6 +793,19 @@ except Exception as e:
     print("❌ cannot read the schema: %s" % e)
     sys.exit(E_UNKNOWNGEOM)
 
+# sqlite-vec names its shadow tables from the vec0 table name (<vec>):
+#   <vec>_chunks            per-block validity bitmap  (regular table)
+#   <vec>_vector_chunks<NN> packed vector blocks       (regular table)
+# Read <vec> from the `USING vec0` declaration in sqlite_master so the vec0
+# extension itself is never required to read the index. For older schemas / test
+# specimens that do not declare a vec0 table, fall back to deriving <vec> from
+# the vector data table name (<prefix>_vector_chunks<NN>).
+vec0_table = None
+for _name, _sql in tables.items():
+    if _sql and re.search(r'\bUSING\s+vec0\b', _sql, re.I):
+        vec0_table = _name
+        break
+
 vec_table = env("LUMEN_VEC_TABLE")
 if vec_table and vec_table not in tables:
     print("❌ LUMEN_VEC_TABLE='%s' is not a table in this index" % vec_table)
@@ -713,7 +818,11 @@ if not vec_table:
         print("   Nothing can be decoded, so no verdict is possible.")
         sys.exit(E_UNKNOWNGEOM)
     vec_table = cands[0]
-prefix = re.sub(r'_vector_chunks\d+$', '', vec_table)
+
+if vec0_table:
+    prefix = vec0_table
+else:
+    prefix = re.sub(r'_vector_chunks\d+$', '', vec_table)
 validity_table = prefix + "_chunks"
 
 # ── 6. the vector geometry, from THREE independent sources ──────────────────
@@ -819,7 +928,12 @@ for brow, blob in rows:
         if vbits is not None and not ((vbits[i // 8] >> (i % 8)) & 1):
             freed += 1        # allocated but not live - not data
             continue
-        counts[blob[i*VB:(i+1)*VB]] += 1; total += 1
+        # Hash the vector instead of storing raw bytes: a 3.2M-vector index
+        # holds ~2.4GB of vector data, which would OOM a Counter keyed on
+        # raw bytes. A 16-byte blake2b digest is collision-safe for duplicate
+        # detection and cuts memory by ~48x.
+        h = hashlib.blake2b(blob[i*VB:(i+1)*VB], digest_size=16).digest()
+        counts[h] += 1; total += 1
 print("slots: %d live, %d freed/unwritten (excluded from every check below)"
       % (total, freed))
 
