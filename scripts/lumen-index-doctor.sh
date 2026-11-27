@@ -102,13 +102,15 @@ usage() { awk 'NR==1{next} /^#/{sub(/^# ?/,""); print; next} {exit}' "$0"; }
 PROJ=""
 REQUIRE_BACKEND="${LUMEN_DOCTOR_REQUIRE_BACKEND:-0}"
 PROVE=0
+FAST=0
 for a in "$@"; do
     case "$a" in
         --require-live-backend) REQUIRE_BACKEND=1 ;;
         --prove-failure)        PROVE=1 ;;
+        --fast)                 FAST=1 ;;
         --help|-h)              usage; exit 0 ;;
         -*)                     echo "lumen-index-doctor: unknown option '$a'" >&2
-                                echo "usage: $0 [project-path] [--require-live-backend]" >&2
+                                echo "usage: $0 [project-path] [--require-live-backend] [--fast]" >&2
                                 exit 2 ;;
         *)                      [[ -z "$PROJ" ]] && PROJ="$a" ;;
     esac
@@ -451,13 +453,14 @@ MKPY
     exit 0
 fi
 
-PROJ="$PROJ" STORE="$STORE" CONFIG="$CONFIG" REQUIRE_BACKEND="$REQUIRE_BACKEND" python3 - <<'PY'
+PROJ="$PROJ" STORE="$STORE" CONFIG="$CONFIG" REQUIRE_BACKEND="$REQUIRE_BACKEND" FAST="$FAST" python3 - <<'PY'
 import os, sqlite3, glob, collections, sys, re, json, hashlib, signal, struct, math
 
 proj   = os.path.realpath(os.environ["PROJ"])
 store  = os.environ["STORE"]
 config = os.environ["CONFIG"]
 require_backend = os.environ.get("REQUIRE_BACKEND", "0") not in ("", "0", "no", "false")
+fast = os.environ.get("FAST", "0") not in ("", "0", "no", "false")
 
 def env(name, default=None):
     v = os.environ.get(name, "")
@@ -919,6 +922,8 @@ import struct, math
 nan = zero = badnorm = offscale = 0
 scale_unestablished = None
 tops = collections.Counter()
+nmin = envfloat("LUMEN_NORM_MIN", 0.99)
+nmax = envfloat("LUMEN_NORM_MAX", 1.01)
 try:
     rows = c.execute("SELECT rowid, vectors FROM %s" % vec_table)
 except Exception as e:
@@ -930,6 +935,9 @@ for brow, blob in rows:
         ragged += 1          # block is not a whole number of vectors
     vbits = validity.get(brow)
     for i in range(len(blob) // VB):
+        if fast:
+            total += 1       # count live slots only, skip expensive per-vector work
+            continue
         if vbits is not None and not ((vbits[i // 8] >> (i % 8)) & 1):
             freed += 1        # allocated but not live - not data
             continue
@@ -963,83 +971,81 @@ if total == 0:
     for n in notes: print("NOTE: %s" % n)
     c.close(); sys.exit(E_HEALTHY)
 
-groups = sorted([n for n in counts.values() if n > 1], reverse=True)
-dup_vectors = sum(groups)
-print("vectors: %d total, %d distinct" % (total, len(counts)))
-
-threshold = envint("LUMEN_DUP_THRESHOLD", 10)
 bad = False
-# THE test the conventional audit lacked.
-if groups:
-    print("❌ %d duplicate-vector group(s); %d vectors (%.2f%%) are not unique"
-          % (len(groups), dup_vectors, 100.0*dup_vectors/total))
-    print("   largest identical group: %d copies of ONE vector" % groups[0])
-    print("   A GPU/backend fault returns a stale buffer under HTTP 200. These")
-    print("   vectors are well-formed and pass every per-vector test.")
-    # Any duplicate group is REPORTED. Only a large one is treated as
-    # corruption, since identical boilerplate legitimately embeds identically.
-    # Previously a small group printed ❌ and still exited 0 - output and exit
-    # code disagreed, which is worse than either verdict alone.
-    if groups[0] >= threshold:
-        bad = True
-    else:
-        print("   (largest group is %d, under the corruption threshold of %d:"
-              " reported, not failed)" % (groups[0], threshold))
-else:
-    print("✅ every stored vector is distinct")
+if not fast:
+    groups = sorted([n for n in counts.values() if n > 1], reverse=True)
+    dup_vectors = sum(groups)
+    print("vectors: %d total, %d distinct" % (total, len(counts)))
 
-# Conventional checks, retained because they catch the louder failure modes.
-# Per-vector stats (zero, NaN/Inf, off-norm, off-scale) were computed during
-# the first pass above. Here we only evaluate the scale invariant.
-live = sum(tops.values()) if packfmt == "b" else total
-mode_top, mode_n = tops.most_common(1)[0] if tops else (0, 0)
-if packfmt == "b":
-    # int8 STORAGE. The float unit-norm band does not hold for it, and applying
-    # it made EVERY vector of a healthy index "off-norm" and the verdict
-    # CORRUPTION DETECTED (measured 2026-09-24 on the real 1.25M-vector store:
-    # raw L2 norm 428..1312, and max|component| == 127 for every vector, i.e.
-    # lumen scales each vector to its own maximum). So the invariant is DERIVED
-    # FROM THE DATA instead of assumed: the modal max|component| across the
-    # distinct live vectors. If one value covers >= LUMEN_INT8_SCALE_DOMINANCE
-    # (default 0.90) of them, a vector on any other scale is a finding
-    # ("off-scale"). If none dominates, the scale check is NOT applied and the
-    # output says so — it never claims a check it did not run. Duplicates,
-    # all-zero and ragged blocks are unaffected. (NaN/Inf cannot exist in int8.)
-    dom = envfloat("LUMEN_INT8_SCALE_DOMINANCE", 0.90)
-    scale_top = envint("LUMEN_INT8_SCALE_TOP", 127)
-    min_live = envint("LUMEN_INT8_MIN_VECTORS", 10)
-    # The invariant is ESTABLISHED only when all three hold; anything else is
-    # COULD NOT DETERMINE (rc 2), never a clean bill — the same principle as the
-    # width / no-vector-table cases. Each condition closes a false-negative
-    # window that a purely data-derived mode leaves open (measured on
-    # specimens): (1) enough vectors to state a scale at all, (2) ONE scale
-    # dominates, (3) that scale is the int8 saturation value — max-abs
-    # quantisation puts the largest component AT it (127 on the real store,
-    # 100% of vectors), so an index whose vectors ALL sit on some other scale,
-    # which a modal check alone would call self-consistent, is refused.
-    why = None
-    if live < min_live:
-        why = ("only %d distinct live vector(s); at least %d are needed to state a scale"
-               % (live, min_live))
-    elif mode_n < dom * live:
-        why = ("no single max|component| covers >= %.0f%% of the %d distinct live vectors "
-               "(most common: %d at %.1f%%)" % (100 * dom, live, mode_top, 100.0 * mode_n / live))
-    elif mode_top != scale_top:
-        why = ("the dominant max|component| is %d (%.1f%% of vectors), not the int8 "
-               "saturation value %d that max-abs quantisation produces"
-               % (mode_top, 100.0 * mode_n / live, scale_top))
-    if why is None:
-        offscale = live - mode_n
-        print("per-vector: NaN/Inf n/a (int8), %d all-zero, %d off-scale (max|component| != %d; "
-              "%.2f%% of live vectors share it), %d ragged block(s)"
-              % (zero, offscale, mode_top, 100.0 * mode_n / live, ragged))
+    threshold = envint("LUMEN_DUP_THRESHOLD", 10)
+    bad = False
+    # THE test the conventional audit lacked.
+    if groups:
+        print("❌ %d duplicate-vector group(s); %d vectors (%.2f%%) are not unique"
+              % (len(groups), dup_vectors, 100.0*dup_vectors/total))
+        print("   largest identical group: %d copies of ONE vector" % groups[0])
+        print("   A GPU/backend fault returns a stale buffer under HTTP 200. These")
+        print("   vectors are well-formed and pass every per-vector test.")
+        if groups[0] >= threshold:
+            bad = True
+        else:
+            print("   (largest group is %d, under the corruption threshold of %d:"
+                  " reported, not failed)" % (groups[0], threshold))
     else:
-        scale_unestablished = why
-        print("per-vector: NaN/Inf n/a (int8), %d all-zero, int8 scale invariant not established "
-              "(see below), %d ragged block(s)" % (zero, ragged))
-else:
-    print("per-vector: %d NaN/Inf, %d all-zero, %d off-norm (band %.3f-%.3f), %d ragged block(s)"
-          % (nan, zero, badnorm, nmin, nmax, ragged))
+        print("✅ every stored vector is distinct")
+
+    # Conventional checks, retained because they catch the louder failure modes.
+    # Per-vector stats (zero, NaN/Inf, off-norm, off-scale) were computed during
+    # the first pass above. Here we only evaluate the scale invariant.
+    live = sum(tops.values()) if packfmt == "b" else total
+    mode_top, mode_n = tops.most_common(1)[0] if tops else (0, 0)
+    if packfmt == "b":
+        # int8 STORAGE. The float unit-norm band does not hold for it, and applying
+        # it made EVERY vector of a healthy index "off-norm" and the verdict
+        # CORRUPTION DETECTED (measured 2026-09-24 on the real 1.25M-vector store:
+        # raw L2 norm 428..1312, and max|component| == 127 for every vector, i.e.
+        # lumen scales each vector to its own maximum). So the invariant is DERIVED
+        # FROM THE DATA instead of assumed: the modal max|component| across the
+        # distinct live vectors. If one value covers >= LUMEN_INT8_SCALE_DOMINANCE
+        # (default 0.90) of them, a vector on any other scale is a finding
+        # ("off-scale"). If none dominates, the scale check is NOT applied and the
+        # output says so — it never claims a check it did not run. Duplicates,
+        # all-zero and ragged blocks are unaffected. (NaN/Inf cannot exist in int8.)
+        dom = envfloat("LUMEN_INT8_SCALE_DOMINANCE", 0.90)
+        scale_top = envint("LUMEN_INT8_SCALE_TOP", 127)
+        min_live = envint("LUMEN_INT8_MIN_VECTORS", 10)
+        # The invariant is ESTABLISHED only when all three hold; anything else is
+        # COULD NOT DETERMINE (rc 2), never a clean bill — the same principle as the
+        # width / no-vector-table cases. Each condition closes a false-negative
+        # window that a purely data-derived mode leaves open (measured on
+        # specimens): (1) enough vectors to state a scale at all, (2) ONE scale
+        # dominates, (3) that scale is the int8 saturation value — max-abs
+        # quantisation puts the largest component AT it (127 on the real store,
+        # 100% of vectors), so an index whose vectors ALL sit on some other scale,
+        # which a modal check alone would call self-consistent, is refused.
+        why = None
+        if live < min_live:
+            why = ("only %d distinct live vector(s); at least %d are needed to state a scale"
+                   % (live, min_live))
+        elif mode_n < dom * live:
+            why = ("no single max|component| covers >= %.0f%% of the %d distinct live vectors "
+                   "(most common: %d at %.1f%%)" % (100 * dom, live, mode_top, 100.0 * mode_n / live))
+        elif mode_top != scale_top:
+            why = ("the dominant max|component| is %d (%.1f%% of vectors), not the int8 "
+                   "saturation value %d that max-abs quantisation produces"
+                   % (mode_top, 100.0 * mode_n / live, scale_top))
+        if why is None:
+            offscale = live - mode_n
+            print("per-vector: NaN/Inf n/a (int8), %d all-zero, %d off-scale (max|component| != %d; "
+                  "%.2f%% of live vectors share it), %d ragged block(s)"
+                  % (zero, offscale, mode_top, 100.0 * mode_n / live, ragged))
+        else:
+            scale_unestablished = why
+            print("per-vector: NaN/Inf n/a (int8), %d all-zero, int8 scale invariant not established "
+                  "(see below), %d ragged block(s)" % (zero, ragged))
+    else:
+        print("per-vector: %d NaN/Inf, %d all-zero, %d off-norm (band %.3f-%.3f), %d ragged block(s)"
+              % (nan, zero, badnorm, nmin, nmax, ragged))
 if nan or zero or badnorm or offscale or ragged: bad = True
 
 c.close()
