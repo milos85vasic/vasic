@@ -369,9 +369,9 @@ note corrects the reading without editing the quotation.
 Anything not covered by those nine items is covered by the canonical files. Go
 read them; do not guess.
 
-## Anchors 11.4.289 through 11.4.298, and the recorded PR-delivery decision
+## Anchors 11.4.289 through 11.4.299, and the recorded PR-delivery decision
 
-Re-measured 2026-11-24 at the pin `6d93ccd19e1c`: `Constitution.md` defines anchors through `11.4.298`. Read each block in
+Re-measured 2026-11-24 at the pin `6d93ccd19e1c`: `Constitution.md` defines anchors through `11.4.298`; the pin moved on 2026-11-24 to a constitution that also defines `11.4.299` (see the bullet below and the section after this list). Read each block in
 `submodules/constitution/Constitution.md` before relying on it; this list is a pointer, not the rule (the canon wins).
 
 - `11.4.289` no stub, mock or fixture server as evidence: results are validated LIVE; a test double proves only the
@@ -385,6 +385,7 @@ Re-measured 2026-11-24 at the pin `6d93ccd19e1c`: `Constitution.md` defines anch
 - `11.4.296` GitHub Issues assigned to a declared account are a source of workable items.
 - `11.4.297` pull-request delivery, binding only where a recorded operator decision declares it.
 - `11.4.298` release gate per product: deploy or tag only after a full live run on connected target hardware.
+- `11.4.299` merged is not delivered until fast-forward pushed to EVERY declared upstream and read back per upstream with `git ls-remote`, for the root and every own-org submodule touched (submodule first, then the parent pointer plus `helix-deps.yaml` ref); a partial push is a defect; a blocked push is reported BLOCKED, never bypassed; the constitution submodule itself is always the latest upstream `main` with nested submodules current.
 
 **Recorded operator decision (the §11.4.297(A) declaration), 2026-11-23/24:** "PR-driven work: task branch, one PR per
 task, independent review agents, merge to main by the agent." Record:
@@ -393,6 +394,8 @@ declaration as DATA: [`docs/governance/pr-delivery.yaml`](docs/governance/pr-del
 commit (`gh pr merge --merge`); squash and rebase merges are forbidden and force-push stays absolute (§11.4.113).
 **Honest boundary (§11.4.297(G)):** the declaration is PROVISIONAL; this repository ships no delivery tool and no direct-push
 guard, so no part of PR delivery is claimed ENFORCED. This does not weaken §11.4.288 for any path the decision does not cover.
+
+**Operator directive of 2026-11-24 (§11.4.299), and how this repository wires it.** After PRs are merged and the main repositories updated, everything brought into `main` MUST be fully pushed to ALL UPSTREAMS. Read-only instruments: `bash scripts/verify-upstream-sync.sh` (the fleet derived from `.gitmodules`; exit 0 every upstream current, 1 behind or diverged, 2 cannot determine, never a pass; registered as `upstream-sync` in `scripts/check-registry.tsv` with `--prove-failure`) and `bash submodules/constitution/scripts/sync/verify_constitution_latest.sh --root .` (the constitution pin equals upstream `main` and its nested submodules are initialised and current). The guarded helper is `submodules/constitution/scripts/sync/push_all_upstreams.sh --repo <dir> --sha <merged-sha> [--apply]` (dry run by default, fast-forward only, no force construct, ends with a read-back). Declared mirror exemptions live as data in `config/upstream-parity-exemptions.tsv` (none today; a row needs a recorded operator decision). Honest boundary (§11.4.297(G)): the wiring is PROVISIONAL, not ENFORCED, until a delivery step runs the verifier after every merge; no part of it is claimed ENFORCED here.
 
 Exactly ONE operator override is in force (`Override §11.4.279-§11.4.286`, hosted Jev only; see "Project overrides of
 universal rules" below). PR delivery is a declared delivery MODE, not an override: it amends nothing beyond the three

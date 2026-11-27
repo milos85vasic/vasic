@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-11-24T20:30:00Z
+    Last-Updated: 2026-11-27T20:20:18Z
     Synced-Commit: d1aeb48
     Authority-Root: submodules/constitution
 
@@ -11341,7 +11341,7 @@ verified 2026-09-02 in its own log:
 endpoints in fixtures`, and `fix(settings): the frozen-default class was 3x
 bigger than the MODEL column`. **That is not the same as LLMProvider being
 clean**: it still contributes **14 files to the 728-row BASELINE** (13 under
-`pkg/providers/`, plus `challenges/scripts/host_no_auto_suspend_challenge.sh`).
+`pkg/providers/`, plus `challenges/challenges/scripts/host_no_auto_suspend_challenge.sh`).
 A finding fixed upstream and a baselined debt row are different states, and the
 audit prints them in different sections — do not read the empty findings list as
 a clean submodule. Then the 728-row baseline, worked down file by file, deriving
