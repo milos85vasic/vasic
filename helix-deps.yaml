@@ -416,7 +416,7 @@ deps:
 
   - name: milosvasic.ru
     ssh_url: git@github.com:milos85vasic/milosvasic.ru.git
-    ref: "805111bad2595eb9d80a52cfb5a6d057660ba292"   # bumped 2026-11-27 per operator decision (ALL 25 drift rows), ff-only, 0 divergent
+    ref: "fb1ca3cf4cfbd8dcc8d15dfe2d16732bd3cb657b"   # bumped 2026-11-27 per operator decision (C7 _private hoist), ff-only, 0 divergent
     # Moved 2026-09-08 from f5f13a25eaebb4d8023717040425992a43c53de1 by operator
     # decision #13: `_site/` was UNTRACKED there (8 files, one rendered page).
     # The `why:` below has said "its rendered _site/ is git-ignored" all along;
@@ -479,7 +479,7 @@ deps:
 
   - name: _private
     ssh_url: git@github.com:vasic-digital/milosvasic_ru_private.git
-    ref: "8abff3de6cc11608cd201e686f32c16ca0436f3d"   # hoisted from milosvasic.ru/_private per C7 fix, 2026-11-27
+    ref: "678b924254633576458660bd02a82a6e20412fac"   # hoisted from milosvasic.ru/_private per C7 fix, 2026-11-27; carriers added
     why: "Private job-search tool / vault for milosvasic.ru — hoisted to umbrella root to break the own-org nesting chain flagged by C7 cascade (§11.4.28(C))."
     layout: grouped
 
