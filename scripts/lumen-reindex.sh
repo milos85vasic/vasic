@@ -7,8 +7,10 @@
 # On 2026-08-26 this project's Lumen index was found to contain 758 stale
 # duplicate vectors spanning 695 distinct texts across 55 files. Root cause was
 # ollama running library=Vulkan on an Intel iGPU: a large embedding batch causes
-# a GPU fence timeout, and the result buffer is read anyway. The GPU path has
-# FOUR failure modes, in increasing order of nastiness:
+# a GPU fence timeout, and the result buffer is read anyway. The same class of bug
+# (llama.cpp #18969, #26044; ollama #13086, #15248) affects CUDA, ROCm, and any other
+# GPU-backed embedding path. The GPU path has FOUR failure modes,
+# in increasing order of nastiness:
 #
 #   1. HTTP 500 {"error":"...unsupported value: NaN"}   - loud, easy to see
 #   2. HTTP 200 with all-zero vectors                   - silent
@@ -33,11 +35,11 @@
 #              an interrupted rebuild into an unforced resume that skipped
 #              exactly the corrupt files - see the note above the retry loop.
 #              Budget MAX_ROUNDS as whole-rebuild attempts when using --force.
-# --allow-gpu  proceed even if the backend is on a GPU/Vulkan path. Off by
+# --allow-gpu  proceed even if the backend is on a GPU path. Off by
 #              default precisely because that is what caused the corruption.
 #
 # Exit 0 = indexed · 1 = gave up after MAX_ROUNDS · 2 = bad usage
-#      3 = refused (GPU/Vulkan backend) · 4 = backend not safe to index with
+#      3 = refused (GPU backend) · 4 = backend not safe to index with
 #      5 = a prerequisite is missing (lumen or python3 not runnable)
 #
 # EVERYTHING IS DERIVED FROM THE ENVIRONMENT, and every derivation has an
@@ -328,12 +330,12 @@ lib=$(backend_library)
 # Lowercase via tr, not ${lib,,}: the latter is a syntax error on bash 3.2,
 # which is still /bin/bash on macOS, and a syntax error fails the whole file.
 lib_lc=$(printf '%s' "$lib" | tr '[:upper:]' '[:lower:]')
-if [[ "$lib_lc" == "vulkan" ]]; then
+if [[ "$lib_lc" != "cpu" && -n "$lib_lc" ]]; then
     if [[ $ALLOW_GPU -eq 1 ]]; then
         log "WARNING: backend library=$lib - proceeding only because --allow-gpu was given"
     else
         log "REFUSING TO START: ollama reports library=$lib."
-        log "That path silently writes stale duplicate vectors. Fix it first:"
+        log "GPU-backed embedding paths silently write stale duplicate vectors. Fix it first:"
         log "  ./scripts/ollama-vulkan-remediation.sh --apply"
         log "Override with --allow-gpu if you accept the risk."
         exit 3

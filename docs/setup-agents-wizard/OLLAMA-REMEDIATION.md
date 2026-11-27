@@ -1,17 +1,20 @@
-# Runbook: ollama embeddings on a Vulkan iGPU
+# Runbook: ollama embeddings on GPU-backed backends
 
 **Audience:** the operator of the machine running the embedding backend.
-**Applies to:** any host where `ollama` serves the Lumen embedding model from a GPU driven by
-Vulkan — in practice an Intel iGPU (`library=Vulkan`, `type=iGPU`) with the i915 kernel driver.
+**Applies to:** any host where `ollama` serves the Lumen embedding model from a GPU —
+Vulkan (Intel iGPU), CUDA (NVIDIA), ROCm (AMD), or any other GPU compute library
+reported by ollama's `inference compute` line. The upstream bugs
+(ggml-org/llama.cpp#18969, #26044; ollama#13086, #15248) affect every GPU path,
+not just Vulkan.
 **Does not apply to:** hosts where `ollama ps` reports `100% CPU`, or where `inference compute`
-reports a library other than `Vulkan`.
+reports `library=cpu`.
 
 This is the *what to do about it* document. The evidence, the harness, the controlled
 conditions and the upstream bug links live in
 [OLLAMA-NAN-WEDGE.md](./OLLAMA-NAN-WEDGE.md) — read that if you want to know *why*; read this
 if you want to know *what to type*.
 
-**One-line verdict:** take the iGPU out of the embedding path. Do not upgrade ollama hoping it
+**One-line verdict:** take the GPU out of the embedding path. Do not upgrade ollama hoping it
 is fixed — it is not fixed upstream, and on ALT Sisyphus there is no newer package anyway.
 
 ---
@@ -55,7 +58,7 @@ Full flag reference, exit codes and the list of things it deliberately will not 
 
 ## 1. The symptom, as a user experiences it
 
-You do not see "Vulkan". You see one of these, in roughly this order of escalation:
+You do not see "Vulkan" or "CUDA". You see one of these, in roughly this order of escalation:
 
 **a. Lumen prints its usage text after a failed index.** This is the one that wastes the most
 time, because it reads like *you* mistyped the command:
@@ -145,7 +148,7 @@ grep -F 'unsupported value: NaN' ~/.local/share/lumen/debug.log | tail -3
 | What you saw | Verdict |
 | :--- | :--- |
 | `100% GPU` **and** `library=Vulkan` | Affected. Pick a tier below. |
-| `100% GPU`, library is something else (CUDA, ROCm) | Not this defect. The tiers still work but you probably do not want them. |
+| `100% GPU`, library is CUDA, ROCm, or anything else | **Affected too — same upstream bug class.** Pick a tier below. |
 | `100% CPU` | Already remediated (or the model was never offloaded). Nothing to do. |
 | Step 4 returned `NaN` | Wedged **right now**. `ollama stop <model>` unblocks you this minute; then fix it properly. |
 | Step 3 non-zero, step 4 healthy | Silent corruption is in progress. Step 4 passing proves nothing — see §3. |
@@ -393,14 +396,20 @@ removes **all** indexes for that project, both models — you will reindex from 
 
 ---
 
-## 7. Tier 3 — disable Vulkan service-wide (recommended)
+## 7. Tier 3 — disable GPU service-wide (recommended)
 
-**What it is:** ollama never discovers the Vulkan device, so it never offloads anything to it.
+**What it is:** ollama never discovers the GPU device, so it never offloads anything to it.
 The model name does not change, so **the existing index is preserved and keeps resuming**.
 
-`OLLAMA_VULKAN=0` and `OLLAMA_LLM_LIBRARY=cpu` were both tested and both do **nothing** on this
-build — `OLLAMA_VULKAN` is already `false` in the running service and Vulkan is used anyway.
-`GGML_VK_VISIBLE_DEVICES=-1` is the only variable that works.
+On Vulkan hosts the working variable is `GGML_VK_VISIBLE_DEVICES=-1`. On CUDA hosts the
+equivalent is `CUDA_VISIBLE_DEVICES=-1`. `OLLAMA_VULKAN=0`, `OLLAMA_LLM_LIBRARY=cpu`,
+and `OLLAMA_VULKAN=false` do **nothing** on current builds — they are already false/no-op
+and the GPU is still used anyway.
+
+`scripts/ollama-vulkan-remediation.sh --apply` detects the GPU vendor from
+`/sys/class/drm` and writes the correct flag (`CUDA_VISIBLE_DEVICES=-1` for NVIDIA/CUDA,
+`GGML_VK_VISIBLE_DEVICES=-1` for Vulkan/Intel iGPU) to the ollama EnvironmentFile,
+then restarts the service and verifies `library=cpu`.
 
 **This tier requires `sudo`. There is no passwordless sudo on this machine** (`sudo -n true` →
 `sudo: a password is required`), so it cannot be automated and the wizard will never attempt
@@ -443,14 +452,18 @@ file and without a drop-in**. Nothing packaged is modified.
 
 ```bash
 sudo tee /etc/sysconfig/ollama >/dev/null <<'EOF'
-# Intel iGPU + Mesa Vulkan corrupts embeddings at full context and wedges the
-# ollama runner (i915 fence timeouts -> GPU hang). Upstream, still open:
+# GPU-backed embedding paths silently write stale duplicate vectors under HTTP 200.
+# Upstream, still open:
 #   https://github.com/ggml-org/llama.cpp/issues/18969
 #   https://github.com/ggml-org/llama.cpp/issues/26044
+#   https://github.com/ollama/ollama/issues/13086
+#   https://github.com/ollama/ollama/issues/15248
 # NOTE: OLLAMA_VULKAN=0 does NOT work on this build - it is already false and
-# Vulkan is used anyway. GGML_VK_VISIBLE_DEVICES=-1 is what actually disables it.
+# the GPU is still used anyway.
+# On Vulkan/Intel iGPU hosts: GGML_VK_VISIBLE_DEVICES=-1
+# On CUDA/NVIDIA hosts: CUDA_VISIBLE_DEVICES=-1
 # See docs/setup-agents-wizard/OLLAMA-REMEDIATION.md
-GGML_VK_VISIBLE_DEVICES=-1
+CUDA_VISIBLE_DEVICES=-1
 EOF
 sudo chmod 0644 /etc/sysconfig/ollama
 ```
@@ -466,18 +479,18 @@ sudo systemctl restart ollama
 
 ```bash
 journalctl -u ollama --no-pager --since '2 min ago' | grep -F 'inference compute'
-#   must now show library=cpu, and no Vulkan device line at all.
+#   must now show library=cpu, and no GPU device line at all.
 
 ollama ps
 #   after the next embed, PROCESSOR must read "100% CPU".
 
-journalctl -k --no-pager --since '10 min ago' | grep -c 'Fence expiration time out'
+journalctl -k --no-pager --since '10 min ago' | grep -cE 'Fence expiration time out|GPU HANG'
 #   must stay at 0 while indexing runs.
 ```
 
-If `inference compute` still says `library=Vulkan`, the environment file was not read — check
-for a typo in the path (`/etc/sysconfig/ollama`, no extension) and that `systemctl show ollama
--p EnvironmentFiles` still lists it.
+If `inference compute` still shows a GPU library (Vulkan, CUDA, ROCm, ...), the environment
+file was not read — check for a typo in the path (`/etc/sysconfig/ollama`, no extension) and
+that `systemctl show ollama -p EnvironmentFiles` still lists it.
 
 **Cost:** one `sudo`, one restart, and the same ~3–4x CPU slowdown on embeddings — now applied
 to everything the daemon serves, including any chat model you also run through it. If you use
@@ -490,10 +503,10 @@ daemon — see §9.
 **Rollback:**
 
 ```bash
-sudo rm /etc/sysconfig/ollama          # or comment the GGML_VK_VISIBLE_DEVICES line out
+sudo rm /etc/sysconfig/ollama          # or comment the GPU-visible-devices line out
 sudo systemctl restart ollama
 journalctl -u ollama --no-pager --since '2 min ago' | grep -F 'inference compute'
-#   -> library=Vulkan again
+#   -> library=<GPU> again (Vulkan, CUDA, or ROCm)
 ```
 
 Rollback restores the defect. It does not damage the index, because the model name never
@@ -523,11 +536,11 @@ Be explicit about the boundaries, so nobody reports these back as "the fix did n
 - **Throughput.** At the parallelism this host was running (`1`), embeddings serialise no
   matter which compute library is in use. CPU embeddings are slower per request; on a large
   corpus that is hours, not minutes. Plan the reindex. Concurrency is a **separate** knob from
-  the Vulkan fix and has its own tool — `bash scripts/ollama-tune.sh` measures this host's
+  the GPU fix and has its own tool — `bash scripts/ollama-tune.sh` measures this host's
   CPU/RAM/model facts and reports what its concurrency should be, `--apply` sets it. Do not
   copy a number out of this document: it was measured on one machine.
-- **Other GPU workloads.** Tier 3 disables Vulkan for the whole daemon. If something else on
-  this host needs iGPU acceleration through ollama, Tier 3 takes it away.
+- **Other GPU workloads.** Tier 3 disables GPU compute for the whole daemon. If something else on
+  this host needs GPU acceleration through ollama, Tier 3 takes it away.
 
 ### Partial mitigations that are *not* fixes
 
@@ -548,7 +561,7 @@ Listed so you do not rediscover them and mistake them for solutions:
 
 ## 9. After you apply a tier: check, then reindex clean
 
-Any index built against the Vulkan path may contain zero-norm, subtly-wrong, or **stale
+Any index built against a GPU path may contain zero-norm, subtly-wrong, or **stale
 duplicate** vectors. All of them were written under HTTP 200 and are invisible to every
 status-code check — and the stale ones are invisible to every *per-vector* check as well.
 

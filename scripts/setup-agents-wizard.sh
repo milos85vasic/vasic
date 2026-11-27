@@ -564,13 +564,13 @@ warn_if_gpu_embedding_backend() {
             | grep -oE 'library=[A-Za-z0-9_.-]+' | cut -d= -f2 || true)
     fi
 
-    if [[ "$lib" == "Vulkan" ]]; then
-        print_warning "Embedding model is GPU-offloaded and ollama reports library=Vulkan."
-        print_warning "That path can return all-zero vectors under HTTP 200, then wedge into NaN."
+    if [[ -n "$lib" && "$lib" != "CPU" && "$lib" != "cpu" ]]; then
+        print_warning "Embedding model is GPU-offloaded and ollama reports library=$lib."
+        print_warning "GPU-backed embedding paths silently write stale duplicate vectors under HTTP 200 — well-formed and invisible to per-vector checks."
         print_info "Remediation tiers (operator; the durable one needs sudo and a restart):"
-        print_info "  docs/setup-agents-wizard/OLLAMA-REMEDIATION.md"
-    elif [[ -n "$lib" ]]; then
-        print_info "Embedding model is GPU-offloaded (library=$lib) - not the Vulkan path."
+        print_info "  scripts/ollama-vulkan-remediation.sh --apply"
+elif [[ -n "$lib" ]]; then
+    print_info "Embedding model runs on CPU (library=$lib) - no GPU embedding risk."
     else
         print_warning "Embedding model is GPU-offloaded; ollama's compute library is UNKNOWN here."
         print_info "The 'inference compute' line was unreadable, so Vulkan is neither confirmed nor ruled out."
