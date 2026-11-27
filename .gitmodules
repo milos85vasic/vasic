@@ -67,3 +67,6 @@
 [submodule "job_seeker"]
 	path = job_seeker
 	url = git@github.com:vasic-digital/job_seeker.git
+[submodule "submodules/_private"]
+	path = submodules/_private
+	url = git@github.com:vasic-digital/milosvasic_ru_private.git
