@@ -479,7 +479,7 @@ deps:
 
   - name: _private
     ssh_url: git@github.com:vasic-digital/milosvasic_ru_private.git
-    ref: "7f7080f"   # hoisted from milosvasic.ru/_private per C7 fix, 2026-11-27; C8 lockstep aligned
+    ref: "688bb61"   # hoisted from milosvasic.ru/_private per C7 fix, 2026-11-27; C8 lockstep aligned
     why: "Private job-search tool / vault for milosvasic.ru — hoisted to umbrella root to break the own-org nesting chain flagged by C7 cascade (§11.4.28(C))."
     layout: grouped
 
