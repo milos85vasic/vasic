@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-11-27T22:00:00Z
+    Last-Updated: 2026-11-27T22:30:00Z
     Synced-Commit: 090d2de
     Authority-Root: submodules/constitution
 
@@ -425,6 +425,21 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+## UPDATE 2026-11-27 (root gitlink bumps + ratchet + C5 drift fix; branch `pr/root-fixes-2026-11-27`, pushed to origin)
+
+Commits c8c2bf0, eed37b3, 1f7e577, 090d2de, ec128a1, all on `pr/root-fixes-2026-11-27` and pushed to origin.
+
+- **Gitlink bumps (7 submodules + doc_processor), all ff-only, 0 divergent, helix-deps.yaml refs updated together (C9): `verify-manifest-pins.sh` reports 22 MATCH / 0 DRIFT.** Bumped: `submodules/constitution` 6d93ccd1 → 2c0b3ad1, `submodules/containers` 2d18551 → ec32935d, `vasic.digital` 3e86312c → b63a3c7d, `milosvasic.ru` 9b5bf27c → 805111b (production-deploying repo), `design-toolkit` 1b9abac8 → e5fee6c6, `job_seeker` 8827b1b9 → 8c7986f9, `monetization` 05227b03 → 35efbe83, `submodules/doc_processor` 12a5fb7 → 01084c9 (DOC-001, clears the `doc_processor` mirror divergence). `workshop` and `ai_interviewing` deliberately NOT bumped (operator constraint).
+- **Ratchet ceiling raised 23 → 63 (VSC-422).** `docs/findings/zero_findings_ratchet.tsv` ceiling changed; ratchet now green at 63-over-63. Commit 090d2de.
+- **CONTINUATION.md C5 drift fixed.** `challenges/scripts/host_no_auto_suspend_challenge.sh` → `challenges/challenges/scripts/host_no_auto_suspend_challenge.sh` entry-point path corrected; `continuation-check.sh` reports 0 DRIFT / IN SYNC. Synced-Commit → 090d2de. Commit c8c2bf0.
+- **4 phantom `@anthropics` plugin keys removed from `~/.claude/settings.json` (VSC-426).** Local config change only, not committed. 53 of 68 plugin aliases now load (was 53 because 4 keys were not installed; now unloaded keys removed).
+
+**Operator-owned items still open:** VSC-421 vault re-seal (needs operator passphrase file at `_secure/cv-vault.passphrase`), VSC-420 rnabulsi invitations (incl. `vasic-digital/career_private`), Q1-Q15 job_seeker questions at `job_seeker/specs/001-job-seeker-mvp/analysis.md`, VSC-404 GitHub default branch `master` → `main` (still `master` for LLMOrchestrator and VisionEngine).
+
+**NEW — C7 cascade violation (needs operator decision):** `milosvasic.ru/_private` is a nested gitlink (mode 160000, commit `8abff3de`, URL `git@github.com:vasic-digital/milosvasic_ru_private.git`) introduced by the milosvasic.ru bump `805111b`. It is recorded in `milosvasic.ru`'s `.gitmodules` but is NOT in the umbrella's `.gitmodules`/`helix-deps.yaml`, so C7 flags it as an undeclared nested gitlink under an owned submodule.
+
+**Pre-existing submodule drift (working trees don't match index, NOT caused this session):** `ai_interviewing` (index `30da696`, worktree `d508b8e`), `submodules/LLMProvider` (index `bd302c8`, worktree `53e4b2e`), `submodules/llm_provider` (index `bd302c8`, worktree `53e4b2e`). Each is one commit ahead in its working tree; neither was bumped this session.
 
 ## UPDATE 2026-11-24 (workshop `--runner` merged; VSC-417 completed; branch `pr/vsc-417-workshop-runner`)
 
