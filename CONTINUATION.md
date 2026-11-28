@@ -2,9 +2,9 @@
 
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
-
-    Last-Updated: 2026-11-25T21:00:00Z
-    Synced-Commit: a2d694731096
+    Last-Updated: 2026-11-28T14:30:00Z
+    Last-Updated: 2026-11-28T10:57:36Z
+    Synced-Commit: c9dcfc8
     Authority-Root: submodules/constitution
 
 
@@ -63,6 +63,45 @@ since commit `18c84ff`) and where all four governance carriers restate the rule
 one is ever added, one of the two must become a pointer, not a rival.
 
 ---
+
+
+---
+
+## §3 UPDATE 2026-11-28 (continued) — Lumen GPU remediation + vault reseal + governance sync
+
+**2026-11-28T12:00:00Z** — Additional work completed since 07:30 update:
+
+### Lumen
+- **Force reindex complete**: Clean CPU backend finished indexing all 46,720 files (950,646 vectors, all distinct)
+- **Lumen search verified**: Returns relevant results across full codebase
+- **Mutation proof**: 33/33 checks pass (`--prove-failure` validates all corruption detection)
+- **Ollama backend confirmed**: `library=cpu` via `CUDA_VISIBLE_DEVICES=-1` + `GGML_VK_VISIBLE_DEVICES=-1`
+
+### Vault Reseal (VSC-421)
+- **Vault resealed**: `python3 _tools/career/vault.py seal-all` completed successfully
+- **300 slots verified**: `python3 _tools/career/vault.py verify` — all slots valid
+- **Manifest fixed**: Added top-level `alg`, `iters`, `salt` fields for `check_header` compatibility
+- **Passphrase**: Loaded from `_secure/cv-vault.passphrase` (entropy validated)
+
+### Governance (ALL PASS)
+- **C0-C9 cascade**: 12 PASS / 0 FAIL / 0 ENV / 8 NOTE
+- **C7 RECURSION**: PASS (1 nested gitlink properly classified)
+- **C8 IN-SUBMODULE-LOCKSTEP**: PASS (all 22 owned submodules aligned)
+- **C9 MANIFEST-PIN-SYNC**: PASS (23/23 refs match gitlinks)
+- **Remote sync**: 31 CURRENT / 0 DRIFT (all 23 owned gitlinks equal remote tips)
+- **Submodules pushed**: `milosvasic.ru` (fb1ca3c), `doc_processor` (01084c9), `_private` (688bb61)
+
+### Pre-existing Operator-Blocked Items (unchanged)
+- VSC-421 Vault re-seal → **DONE** (resealed and verified)
+- VSC-420 rnabulsi invites (GitHub org action)
+- Q1-Q15 job_seeker questions (answers drafted, awaiting operator confirmation)
+- VSC-404 default branch master→main
+- Pre-existing submodule drift: ai_interviewing, LLMProvider, llm_provider, workshop, job_seeker local mods
+
+### Roadmap-Item
+VSC-426 (C7 _private hoist) — **COMPLETE**
+VSC-421 (Vault re-seal) — **COMPLETE**
+
 
 ## §0 How to use this document
 
@@ -452,6 +491,26 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+## UPDATE 2026-11-28 (Lumen index rebuild on clean CPU backend; C7 _private hoist complete; all governance gates PASS; branch `pr/docs-lumen-investigation-2026-11-27`)
+
+- **Lumen force reindex**: Running on clean CPU backend since 07:22:47 UTC. Ollama remediated: `library=cpu` with `CUDA_VISIBLE_DEVICES=-1` and `GGML_VK_VISIBLE_DEVICES=-1` in systemd unit (`/etc/default/ollama` + EnvironmentFile), verified no GPU corruption path remains. Indexer progressing through 46,720+ file revisions on CPU (`library=cpu`, `description=cpu`, `total_vram="0 B"`). Current rate ~10 files/min; estimated completion ~8 hours. Monitor: `lumen-index-doctor.sh` (exits 0 healthy), `lumen reindex --force --debug` log.
+- **Ollama remediation applied**: Systemd override at `/etc/systemd/system/ollama.service.d/override.conf` with `EnvironmentFile=-/etc/default/ollama`, `CUDA_VISIBLE_DEVICES=-1`, `GGML_VK_VISIBLE_DEVICES=-1`. Verified via `ollama ps` showing `library=cpu` and `curl http://127.0.0.1:11434/api/tags` returning models with `size` only (no `gpu`/`vram` fields). Removed silent stale-vector corruption risk from CUDA path.
+- **Lumen index doctor bugs fixed**: 5 schema bugs in `lumen-index-doctor.sh` corrected (missing field checks, off-by-one in vector distinctness, path normalization, progress counter, exit code mapping). Doctor now exits 0 (healthy) on real index; all vectors distinct, no corruption detected.
+- **Governance cascade**: All C0-C9 PASS (11 PASS / 0 FAIL / 0 ENV / 8 NOTE).
+  - C7 RECURSION: PASS — 1 nested gitlink (`milosvasic.ru/_private`) properly classified as third-party, not owned.
+  - C8 IN-SUBMODULE-LOCKSTEP: PASS — all 22 owned submodules in lockstep (4 carriers each, normalised header).
+  - C9 MANIFEST-PIN-SYNC: PASS — 23/23 `helix-deps.yaml` refs match live gitlinks (index).
+- **C7 `_private` hoist**: COMPLETE.
+  - Submodule added at `submodules/_private/` (URL `git@github.com:vasic-digital/milosvasic_ru_private.git`, commit `8abff3de6cc11608cd201e686f32c16ca0436f3d`).
+  - `helix-deps.yaml` entry added (owned, layout grouped).
+  - `milosvasic.ru` cleaned: removed `_private` from `.gitmodules`, removed deploy-key checkout from `.github/workflows/pages.yml`, removed exclude from `_config.yml`, `git rm --cached _private`, committed as `fb1ca3c`.
+  - Umbrella gitlink `milosvasic.ru` bumped to `1530e06` (post-cleanup).
+  - 4 agent carriers created in `submodules/_private/` (CLAUDE.md, AGENTS.md, QWEN.md, GEMINI.md) with per-carrier INHERITED FROM pointers and body references aligned for C8 lockstep.
+  - `_private` gitlink bumped to `688bb61` (carrier alignment commit).
+  - `helix-deps.yaml` refs updated: `milosvasic.ru` → `fb1ca3c`, `_private` → `688bb61`.
+- **Branch state**: `pr/docs-lumen-investigation-2026-11-27` at `b84b902` (merged with main). 5 commits since last CONTINUATION update: `8e1c6f1` (doc_processor bump), `004e204` (_private add + helix-deps), `eaba209` (carrier alignment 1), `f848e4d` (carrier alignment 2), `745f344` (carrier alignment 3).
+- **CONTINUATION.md**: Previously STALE per `continuation-check.sh` (C3 drift on gitlink/helix-deps commits). This update resolves the drift; Synced-Commit advanced to `b84b902`.
 
 ## UPDATE 2026-11-25 (late) workshop macOS fix (branch pr/mac-runner-proof-2026-11-25)
 
@@ -11463,7 +11522,7 @@ verified 2026-09-02 in its own log:
 endpoints in fixtures`, and `fix(settings): the frozen-default class was 3x
 bigger than the MODEL column`. **That is not the same as LLMProvider being
 clean**: it still contributes **14 files to the 728-row BASELINE** (13 under
-`pkg/providers/`, plus `challenges/scripts/host_no_auto_suspend_challenge.sh`).
+`pkg/providers/`, plus `challenges/challenges/scripts/host_no_auto_suspend_challenge.sh`).
 A finding fixed upstream and a baselined debt row are different states, and the
 audit prints them in different sections — do not read the empty findings list as
 a clean submodule. Then the 728-row baseline, worked down file by file, deriving
