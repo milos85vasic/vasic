@@ -473,7 +473,7 @@ deps:
 
   - name: job_seeker
     ssh_url: git@github.com:vasic-digital/job_seeker.git
-    ref: "0f2c1b16a52ac95265c800137cadd88bd85b8475"   # bumped 2026-11-28 fresh gate evidence (JSK-T032); ff-only, 0 divergent; prior pin 8c7986f94dc57da128f9d0148a152abfab159a26
+    ref: "6e3e4827de73a29ac2e582c8bf6522b609f85c3a"   # bumped 2026-11-28 merge remote main into evidence branch (JSK-T032 evidence + hook-ssh-keepalive); ff-only, 0 divergent; prior pin 0f2c1b16a52ac95265c800137cadd88bd85b8475
     why: "Private single-operator job-search tool: job-source adapters, per-position ATS CVs, human-in-the-loop applying (dry-run default). Personal data only in the git-ignored career_private overlay."
     layout: flat
 
