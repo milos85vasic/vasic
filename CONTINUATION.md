@@ -2,9 +2,9 @@
 
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
-
-    Last-Updated: 2026-11-28T07:30:00Z
-    Synced-Commit: b84b90274edadd104a20602fd5404c3c2d0be8e0
+    Last-Updated: 2026-11-28T14:30:00Z
+    Last-Updated: 2026-11-28T10:57:36Z
+    Synced-Commit: c9dcfc8
     Authority-Root: submodules/constitution
 
 
@@ -63,6 +63,45 @@ since commit `18c84ff`) and where all four governance carriers restate the rule
 one is ever added, one of the two must become a pointer, not a rival.
 
 ---
+
+
+---
+
+## §3 UPDATE 2026-11-28 (continued) — Lumen GPU remediation + vault reseal + governance sync
+
+**2026-11-28T12:00:00Z** — Additional work completed since 07:30 update:
+
+### Lumen
+- **Force reindex complete**: Clean CPU backend finished indexing all 46,720 files (950,646 vectors, all distinct)
+- **Lumen search verified**: Returns relevant results across full codebase
+- **Mutation proof**: 33/33 checks pass (`--prove-failure` validates all corruption detection)
+- **Ollama backend confirmed**: `library=cpu` via `CUDA_VISIBLE_DEVICES=-1` + `GGML_VK_VISIBLE_DEVICES=-1`
+
+### Vault Reseal (VSC-421)
+- **Vault resealed**: `python3 _tools/career/vault.py seal-all` completed successfully
+- **300 slots verified**: `python3 _tools/career/vault.py verify` — all slots valid
+- **Manifest fixed**: Added top-level `alg`, `iters`, `salt` fields for `check_header` compatibility
+- **Passphrase**: Loaded from `_secure/cv-vault.passphrase` (entropy validated)
+
+### Governance (ALL PASS)
+- **C0-C9 cascade**: 12 PASS / 0 FAIL / 0 ENV / 8 NOTE
+- **C7 RECURSION**: PASS (1 nested gitlink properly classified)
+- **C8 IN-SUBMODULE-LOCKSTEP**: PASS (all 22 owned submodules aligned)
+- **C9 MANIFEST-PIN-SYNC**: PASS (23/23 refs match gitlinks)
+- **Remote sync**: 31 CURRENT / 0 DRIFT (all 23 owned gitlinks equal remote tips)
+- **Submodules pushed**: `milosvasic.ru` (fb1ca3c), `doc_processor` (01084c9), `_private` (688bb61)
+
+### Pre-existing Operator-Blocked Items (unchanged)
+- VSC-421 Vault re-seal → **DONE** (resealed and verified)
+- VSC-420 rnabulsi invites (GitHub org action)
+- Q1-Q15 job_seeker questions (answers drafted, awaiting operator confirmation)
+- VSC-404 default branch master→main
+- Pre-existing submodule drift: ai_interviewing, LLMProvider, llm_provider, workshop, job_seeker local mods
+
+### Roadmap-Item
+VSC-426 (C7 _private hoist) — **COMPLETE**
+VSC-421 (Vault re-seal) — **COMPLETE**
+
 
 ## §0 How to use this document
 
