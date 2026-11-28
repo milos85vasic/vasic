@@ -123,7 +123,7 @@ deps:
   # ─── Governance submodule (grouped layout, submodules/<name>/) ──────────
   - name: constitution
     ssh_url: git@github.com:HelixDevelopment/HelixConstitution.git
-    ref: "eaf106992643d83c777f53ac429b280286b14a51"   # bumped 2026-11-25 per standing authorization, ff-only, 0 divergent / 3 behind from 0d9e638f69d9 (PR #47: section 11.4.151 decimal-carry clause + CM-RELEASE-TAG-CARRY gate; Constitution.md blob 1cab1d07 -> bfb1759f, 13174 lines both, 281 anchors both) -- prior: bumped 2026-11-25 per standing authorization, ff-only, 0 divergent / 11 behind from 71c5e178707d (PR #46 issues-sync pipeline facade: scripts/issues_sync_pipeline.sh, inbound intake, Docs Chain context; Constitution.md UNCHANGED, blob 1cab1d0726bb, 13174 lines, 281 anchors, 2283524 bytes, sha256 d72bd3b4…; diff --stat 17 files, 1454 insertions, 28 deletions); prior: bumped 2026-11-25 per standing authorization, ff-only, 0 divergent / 7 behind from f92868dd7036 (PR #44 + #45 GitVerse list query: GitFlic issue adapter proven, `mirrors` config key; Constitution.md UNCHANGED, blob 1cab1d0726bb, 13174 lines, 281 anchors, 2283524 bytes, sha256 d72bd3b4…); prior: bumped 2026-11-25 per standing authorization, ff-only, 0 divergent / 34 behind from f9eb835e03db (anchor 11.4.300 issues mirror engine, PR #41; Constitution.md CHANGED: blob ab5dcf28e1df -> 1cab1d0726bb, 13142 -> 13174 lines, 280 -> 281 anchors (adds 11.4.300), 2275160 -> 2283524 bytes); prior: bumped 2026-11-24 per standing authorization, ff-only, 0 divergent / 2 behind from 7ac2926fa727 (nested submodule re-pins, PR #34; Constitution.md unchanged); prior: bumped 2026-11-24 per standing authorization, ff-only, 0 divergent / 13 behind from 6d93ccd19e1c (cff7e92b595d = 10 behind, then 74c415d3d694 = 3 more; Constitution.md unchanged between them) (adds §11.4.299 upstream parity + 11.4.288 landing-parity note); prior pin 6d93ccd19e1c; was: bumped 2026-10-23 per standing authorization, ff-only, 0 divergent / 4 behind (tag helixconstitution-v71); Constitution.md blob 3c3c71f6 -> 79f733ed (12252 -> 12420 lines, 259 -> 267 anchors, sha256 1c75391f -> 846fac65); adds Jev decision layer §11.4.279-286; prior pin 5f8503b4f4f0
+    ref: "2c0b3ad16a12799eefa7d8a59cdd5544857ce277"   # bumped 2026-11-28 to match index gitlink; ff-only, 0 divergent; prior pin eaf106992643d83c777f53ac429b280286b14a51
     # REF FIELD RESYNCED 2026-09-19: this field had drifted from the live gitlink,
     # which the umbrella's own commit 026a95e ("gitlink: bump constitution —
     # §11.4.184(I) HawkScan/ZAP/gitleaks/Trivy security tooling") had already
@@ -416,7 +416,7 @@ deps:
 
   - name: milosvasic.ru
     ssh_url: git@github.com:milos85vasic/milosvasic.ru.git
-    ref: "805111bad2595eb9d80a52cfb5a6d057660ba292"   # bumped 2026-11-25 (private submodule _private wired + setup-ruby SHA pin; ff-only; PRs milosvasic.ru#6,#7; prior pin cc7853480d55) -- prior: bumped 2026-11-24 batch2 (ff-only, 0 divergent; PR pr/gitlink-bumps-batch2-2026-11-24; prior pin 74c554c9bfce) -- prior: bumped 2026-11-24 (ff-only, 0 divergent, target on the repo's main; PR pr/gitlink-bumps-2026-11-24; prior pin 9b5bf27c087e) -- prior: v2.0.0 tag (footer Website version); sha is exact
+    ref: "fb1ca3cf4cfbd8dcc8d15dfe2d16732bd3cb657b"   # bumped 2026-11-28 to match index gitlink (post-_private-removal commit fb1ca3c); ff-only, 0 divergent; prior pin 805111bad2595eb9d80a52cfb5a6d057660ba292
     # Moved 2026-09-08 from f5f13a25eaebb4d8023717040425992a43c53de1 by operator
     # decision #13: `_site/` was UNTRACKED there (8 files, one rendered page).
     # The `why:` below has said "its rendered _site/ is git-ignored" all along;
@@ -477,6 +477,12 @@ deps:
     why: "Private single-operator job-search tool: job-source adapters, per-position ATS CVs, human-in-the-loop applying (dry-run default). Personal data only in the git-ignored career_private overlay."
     layout: flat
 
+  - name: _private
+    ssh_url: git@github.com:vasic-digital/milosvasic_ru_private.git
+    ref: "688bb610cefba7be0b9cc5be1207ec518d9c45f7"   # hoisted from milosvasic.ru/_private per C7 fix 2026-11-27; C8 lockstep aligned; ff-only, 0 divergent
+    why: "Private repository hoisted from milosvasic.ru/_private per C7 fix. Contains private career/vault data overlay (career_private/), vault passphrases, and operator-sensitive configs. No personal data in git (§11.4.10). Declared as owned submodule at umbrella root, not nested in milosvasic.ru."
+    layout: grouped
+
   - name: monetization
     ssh_url: git@github.com:vasic-digital/monetization.git
     ref: "35efbe8329b1276b36e82444c5d4ea7cf8271305"   # bumped 2026-11-24 (ff-only, 0 divergent, target on the repo's main; PR pr/gitlink-bumps-2026-11-24; prior pin 05227b03f49a) -- prior: NO tag exists anywhere in this repository; gitlink tracks heads/main
@@ -520,7 +526,7 @@ deps:
   #     task-2-report.md for the full account. ────────────────────────────
   - name: doc_processor
     ssh_url: git@github.com:vasic-digital/DocProcessor.git
-    ref: "12a5fb76381a6bb9a1a668c67211ff073967ea44"   # bumped 2026-10-15 VSC-369 operator-approved pass-rate floors + down-replica finding (ff-only, local) -- bumped 2026-10-15 VSC-369 review follow-ups (stub loopback binding measured, fresh HOME, harness self-test, host A1, 0 % threshold cases, ff-only, local) -- bumped 2026-10-15 VSC-369 (CONST-050(B) family --prove-failure convention, ff-only, local) -- bumped 2026-10-15 VSC-368 (CONST-033 scanner paired proof, ff-only, local) -- gitlink tracks heads/master; bumped 2026-09-18 to add GEMINI.md and bring the four agent carriers into lockstep (closes C2+C8)
+    ref: "01084c9ef060549121d5304ada0adceb4c4481db"   # bumped 2026-11-28 to match index gitlink; ff-only, 0 divergent; prior pin 12a5fb76381a6bb9a1a668c67211ff073967ea44
     why: "Document-processing dependency consumed by submodules/qa via go.mod replace digital.vasic.docprocessor => ../doc_processor. A standalone, project-not-aware Go module (Go 1.25) that loads project documentation, builds structured feature maps, and tracks verification coverage for QA automation; imported directly by cmd/helixqa/main.go and several of qa's core packages."
     layout: grouped
 
