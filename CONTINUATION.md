@@ -2,9 +2,8 @@
 
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
-    Last-Updated: 2026-11-28T14:30:00Z
-    Last-Updated: 2026-11-28T10:57:36Z
-    Synced-Commit: c9dcfc8
+    Last-Updated: 2026-11-28T15:00:00Z
+    Synced-Commit: 3b76dec
     Authority-Root: submodules/constitution
 
 
